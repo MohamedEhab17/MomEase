@@ -1,0 +1,68 @@
+//validation methods
+String? validateUsername(String? value) {
+  if (value == null || value.trim().isEmpty) return 'Username is required';
+  final regex = RegExp(r'^[A-Za-z][A-Za-z0-9_]{2,19}$');
+  if (!regex.hasMatch(value.trim())) {
+    return 'Username must start with a letter, be 3-20 characters, and contain only letters, numbers, or underscores';
+  }
+  return null;
+}
+
+String? validatePassword(String? value) {
+  if (value == null || value.isEmpty) return 'Password is required';
+  final regex = RegExp(
+    r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>_\-\\\/]).{8,}$',
+  );
+  if (!regex.hasMatch(value)) {
+    return 'Password must be at least 8 characters long, and include uppercase, lowercase, number, and special character';
+  }
+  return null;
+}
+
+String? validateEmailOrPhone(String? value) {
+  if (value == null || value.trim().isEmpty) return 'This field is required';
+  final emailRegex = RegExp(
+    r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$',
+  );
+  final phoneRegex = RegExp(r'^(?:\+?20)?1[0125]\d{8}$');
+  if (emailRegex.hasMatch(value.trim()) || phoneRegex.hasMatch(value.trim())) {
+    return null;
+  }
+  return 'Please enter a valid email or phone number';
+}
+
+  String? validateConfirmPassword(String? val, String? password) {
+    if (val == null || val.isEmpty) {
+      return 'Password cannot be empty';
+    } else if (val != password) {
+      return 'Confirm password must match the password';
+    } else {
+      return null;
+    }
+  }
+
+String? validateAge(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Age is required';
+  }
+  if (!RegExp(r'^[0-9]+$').hasMatch(value.trim())) {
+    return 'Age must be a number';
+  }
+  return null;
+}
+
+String? validateDescription(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Description is required';
+  }
+  if (value.trim().length < 10) {
+    return 'Description must be at least 10 characters';
+  }
+  return null;
+}
+String? validateRequired(String? value, {String fieldName = "This field"}) {
+  if (value == null || value.trim().isEmpty) {
+    return '$fieldName is required';
+  }
+  return null;
+}
