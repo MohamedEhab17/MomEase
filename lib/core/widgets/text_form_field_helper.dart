@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/utils/app_styles.dart';
 
 class TextFormFieldHelper extends StatefulWidget {
   final TextEditingController? controller;
@@ -129,9 +130,9 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
             fillColor: AppColors.primarySoft2,
             filled: true,
             hintText: widget.hint,
-            // hintStyle:
-            //     widget.hintStyle ??
-            //     AppStyles.styleInter12Grey.copyWith(color: AppColors.grey[2]),
+            hintStyle:
+                widget.hintStyle ??
+                AppStyles.styleRoboto12.copyWith(fontWeight: FontWeight.w400),
             errorMaxLines: 4,
             errorStyle: const TextStyle(color: Colors.red),
             prefixIcon: widget.prefixIcon,
@@ -141,14 +142,14 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
                     onTap: _toggleObscureText,
                     child: Icon(
                       obscureText ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.grey,
+                      color: AppColors.lightTextDisabled,
                       size: 27,
                     ),
                   )
                 : widget.suffixWidget,
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 13,
-              vertical: 10,
+              horizontal: 16,
+              vertical: 19,
             ),
             border: outlineInputBorder(
               color: widget.borderColor ?? AppColors.primarySoft3,

@@ -17,11 +17,24 @@ abstract class AppStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.lightTextSecondary,
   );
+  static TextStyle styleRoboto12 = TextStyle(
+    fontSize: 12.sp,
+    fontFamily: AppFontFamily.roboto,
+    fontWeight: FontWeight.w600,
+    color: AppColors.lightTextDisabled,
+  );
   //! inter
   static TextStyle styleInter20 = TextStyle(
     fontSize: 20.sp,
     fontFamily: AppFontFamily.inter,
     fontWeight: FontWeight.w500,
     color: AppColors.lightTextPrimary,
+  );
+  //! ScriptMT
+  static TextStyle styleScriptMT32 = TextStyle(
+    fontSize: 32.sp,
+    fontFamily: AppFontFamily.scriptMT,
+    fontWeight: FontWeight.w400,
+    color: AppColors.primary,
   );
 }

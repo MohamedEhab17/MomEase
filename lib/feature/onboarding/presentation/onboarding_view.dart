@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_data.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_model.dart';
 import 'package:new_mama/feature/onboarding/widgets/custom_animated_widget.dart';
-import 'package:new_mama/feature/onboarding/widgets/custom_onboarding_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -89,7 +89,7 @@ class _OnboardingViewState extends State<OnboardingView> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 23),
         child: currentPage == onboardingList.length - 1
-            ? CustomOnboardingButton(
+            ? CustomElevatedButton(
                 text: "Start",
                 onPressed: () {},
                 minimumSize: Size(double.infinity, 52.h),
@@ -97,7 +97,7 @@ class _OnboardingViewState extends State<OnboardingView> {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomOnboardingButton(
+                  CustomElevatedButton(
                     text: 'Skip',
                     backgroundColor: AppColors.lightBackground,
                     onPressed: () {
@@ -108,7 +108,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                       );
                     },
                   ),
-                  CustomOnboardingButton(
+                  CustomElevatedButton(
                     text: "Next",
                     onPressed: () {
                       if (currentPage < onboardingList.length - 1) {
