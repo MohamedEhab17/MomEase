@@ -9,9 +9,11 @@ class AppColors {
 
   static const secondary = Color(0xff9E9E9E);
   static const secondarySoft = Color(0xffCECECE);
+  static const secondarySoft2 = Color(0xFFE0E0E0);
 
   // Accent
   static const accent = Color(0xFFA2D2FF);
+  static const accentSoft = Color(0xFFCCE6FF);
 
   // Backgrounds
   static const lightBackground = Color(0xFFFFFFFF);

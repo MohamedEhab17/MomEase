@@ -16,4 +16,9 @@ class AppImages {
   /// Assets for imagesOnboarding4
   /// assets/images/onboarding4.png
   static const String imagesOnboarding4 = "assets/images/onboarding4.png";
+
+  /// Assets for imagesEmailVerification
+  /// assets/images/email_verification.png
+  static const String imagesEmailVerification =
+      "assets/images/email_verification.png";
 }

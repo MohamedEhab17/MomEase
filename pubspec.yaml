@@ -41,6 +41,9 @@ dependencies:
   animate_do: ^4.2.0
   smooth_page_indicator: ^2.0.1
   flutter_svg: ^2.2.3
+  lottie: ^3.3.2
+  pinput: ^6.0.1
+  pin_code_text_field: ^1.8.0
 
 dev_dependencies:
   flutter_test:

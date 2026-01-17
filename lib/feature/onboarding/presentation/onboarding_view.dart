@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_data.dart';
@@ -91,7 +93,9 @@ class _OnboardingViewState extends State<OnboardingView> {
         child: currentPage == onboardingList.length - 1
             ? CustomElevatedButton(
                 text: "Start",
-                onPressed: () {},
+                onPressed: () {
+                  context.go(AppRoutesPaths.login);
+                },
                 minimumSize: Size(double.infinity, 52.h),
               )
             : Row(

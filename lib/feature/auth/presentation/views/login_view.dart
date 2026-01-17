@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/constants/app_font_family.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_styles.dart';

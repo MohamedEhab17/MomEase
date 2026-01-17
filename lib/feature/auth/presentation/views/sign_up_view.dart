@@ -32,7 +32,7 @@ class SignUpView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              168.h.height,
+              76.h.height,
               CustomRichText(
                 firstText: "Create an account, ",
                 secondText: "Mama!",
@@ -97,7 +97,9 @@ class SignUpView extends StatelessWidget {
               CustomElevatedButton(
                 text: "Sign Up",
                 minimumSize: Size(double.infinity, 52),
-                onPressed: () {},
+                onPressed: () {
+                  context.push(AppRoutesPaths.emailVerification);
+                },
               ),
               12.h.height,
               TwoDividerSeparatedWithText(text: "Or"),
