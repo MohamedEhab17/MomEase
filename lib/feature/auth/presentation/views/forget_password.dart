@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/auth/widgets/custom_circle_avatar.dart';
 
-class CreatePassword extends StatelessWidget {
-  const CreatePassword({super.key});
+class ForgetPassword extends StatelessWidget {
+  const ForgetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,48 +16,49 @@ class CreatePassword extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: AppColors.lightBackground,
-        title: Text('Create New Password', style: AppStyles.styleRoboto24),
+        title: Text('Forget Password', style: AppStyles.styleRoboto24),
         leading: Icon(Icons.arrow_back_ios_new_rounded, size: 24.sp),
       ),
+
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 64.h),
+        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 64.h),
         child: Column(
+          spacing: 40.h,
           children: [
-            CustomCircleAvatar(
-              imagePath: AppImages.imagesPassword,
-            ),
-            40.h.height,
+            CustomCircleAvatar(imagePath: AppImages.imagesForgetPassword),
             Text(
-              'Your new password must be different from previously used password',
-              style: AppStyles.styleRoboto16,
+              'Please enter your Email address to receive a verification code',
               maxLines: 2,
               textAlign: TextAlign.center,
+              style: AppStyles.styleRoboto16.copyWith(
+                color: AppColors.lightTextDisabled,
+              ),
             ),
-            32.h.height,
+
             TextFormFieldHelper(
-              isPassword: true,
-              hint: 'New Password',
+              hint: 'Email Address',
               hintStyle: AppStyles.styleRoboto16.copyWith(
                 color: AppColors.lightTextDisabled,
               ),
+              keyboardType: TextInputType.emailAddress,
+              
               borderRadius: BorderRadius.circular(64.r),
             ),
-            24.h.height,
-            TextFormFieldHelper(
-              isPassword: true,
-              hint: 'Confirm New Password',
-              hintStyle: AppStyles.styleRoboto16.copyWith(
-                color: AppColors.lightTextDisabled,
-              ),
-              borderRadius: BorderRadius.circular(64.r),
-            ),
-            40.h.height,
             CustomElevatedButton(
-              text: 'Save',
+              text: 'Send Code',
               onPressed: () {
-                  FocusScope.of(context).unfocus();
+                FocusScope.of(context).unfocus();
               },
               minimumSize: Size(double.infinity, 52.h),
+            ),
+            Text(
+              'Try another way',
+              style: AppStyles.styleRoboto16.copyWith(
+                color: AppColors.primary,
+                decoration: TextDecoration.underline,
+                decorationThickness: 1.h,
+                decorationColor: AppColors.primary,
+              ),
             ),
           ],
         ),
@@ -66,4 +66,3 @@ class CreatePassword extends StatelessWidget {
     );
   }
 }
-

@@ -5,5 +5,6 @@ class AppRoutesPaths {
   static const String emailVerification = '/emailVerificationView';
   static const String emailVerifiedSuccess = '/emailVerifiedSuccessView';
   static const String createPassword = '/createPasswordView';
+  static const String forgotPassword = '/forgotPasswordView';
   
 }

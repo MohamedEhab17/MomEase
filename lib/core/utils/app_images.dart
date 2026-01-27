@@ -25,4 +25,7 @@ class AppImages {
   /// Assets for imagesPassword
   /// assets/images/password.png
   static const String imagesPassword =  "assets/images/password.png";
+  /// Assets for imagesForgetPassword
+  /// assets/images/forget_password.png
+  static const String imagesForgetPassword=  "assets/images/forget_password.png";
 }
