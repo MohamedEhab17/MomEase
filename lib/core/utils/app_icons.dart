@@ -12,4 +12,8 @@ class AppIcons {
   /// Assets for iconsSuccess
   /// assets/icons/Success.json
   static const String iconsSuccess = "assets/icons/Success.json";
+
+  /// Assets for iconsLuna
+  /// assets/icons/luna_icon.svg
+  static const String iconsLuna = "assets/icons/luna_icon.svg";
 }
