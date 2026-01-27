@@ -54,11 +54,14 @@ class CreatePassword extends StatelessWidget {
               borderRadius: BorderRadius.circular(64.r),
             ),
             40.h.height,
-            CustomElevatedButton(text: 'Save', onPressed: () {}),
+            CustomElevatedButton(
+              text: 'Save',
+              onPressed: () {},
+              minimumSize: Size(double.infinity, 52.h),
+            ),
           ],
         ),
       ),
     );
   }
-  
 }
