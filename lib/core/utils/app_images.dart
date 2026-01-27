@@ -21,4 +21,8 @@ class AppImages {
   /// assets/images/email_verification.png
   static const String imagesEmailVerification =
       "assets/images/email_verification.png";
+      
+  /// Assets for imagesPassword
+  /// assets/images/password.png
+  static const String imagesPassword =  "assets/images/password.png";
 }
