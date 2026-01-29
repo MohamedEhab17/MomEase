@@ -28,4 +28,11 @@ class AppImages {
   /// Assets for imagesForgetPassword
   /// assets/images/forget_password.png
   static const String imagesForgetPassword=  "assets/images/forget_password.png";
+
+  /// Assets for imagesArticles
+  /// assets/images/articles.png
+  static const String imagesArticles=  "assets/images/articles.png";
+   /// Assets for imagesDepression
+  /// assets/images/depression.svg
+  static const String imagesDepression=  "assets/images/depression.svg";
 }

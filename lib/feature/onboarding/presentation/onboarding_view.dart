@@ -60,7 +60,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                   dotWidth: 15,
                   dotHeight: 8,
                   dotColor: AppColors.secondarySoft,
-                  activeDotColor: AppColors.primarySoft,
+                  activeDotColor: AppColors.primarySoft2,
                 ),
               ),
               SizedBox(height: 24),

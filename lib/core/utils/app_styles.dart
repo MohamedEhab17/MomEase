@@ -24,12 +24,37 @@ abstract class AppStyles {
     color: AppColors.lightTextDisabled,
   );
   //! inter
+    static TextStyle styleInter10 = TextStyle(
+    fontSize: 10.sp,
+    fontFamily: AppFontFamily.inter,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lightTextPrimary,
+  );
+     static TextStyle styleInter12 = TextStyle(
+    fontSize: 12.sp,
+    fontFamily: AppFontFamily.inter,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lightTextPrimary,
+  );
+    static TextStyle styleInter16 = TextStyle(
+    fontSize: 16.sp,
+    fontFamily: AppFontFamily.inter,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lightTextPrimary,
+  );
   static TextStyle styleInter20 = TextStyle(
     fontSize: 20.sp,
     fontFamily: AppFontFamily.inter,
     fontWeight: FontWeight.w500,
     color: AppColors.lightTextPrimary,
   );
+    static TextStyle styleInter24 = TextStyle(
+    fontSize: 24.sp,
+    fontFamily: AppFontFamily.inter,
+    fontWeight: FontWeight.w600,
+    color: AppColors.lightTextPrimary,
+  );
+  
   //! ScriptMT
   static TextStyle styleScriptMT32 = TextStyle(
     fontSize: 32.sp,

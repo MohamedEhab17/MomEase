@@ -6,6 +6,7 @@ import 'package:new_mama/feature/auth/presentation/views/forget_password.dart';
 import 'package:new_mama/feature/auth/presentation/views/login_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/sign_up_view.dart';
 import 'package:new_mama/feature/auth/widgets/email_verified_success_widget.dart';
+import 'package:new_mama/feature/home/presentation/views/home_view.dart';
 import 'package:new_mama/feature/onboarding/presentation/onboarding_view.dart';
 
 class AppRouter {
@@ -13,7 +14,7 @@ class AppRouter {
 
   static Future<void> initRouter() async {
     router = GoRouter(
-      initialLocation: AppRoutesPaths.forgotPassword,
+      initialLocation: AppRoutesPaths.homeView,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -49,6 +50,11 @@ class AppRouter {
           path: AppRoutesPaths.forgotPassword,
           name: 'forgotPassword',
           builder: (context, state) => const ForgetPassword(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.homeView,
+          name: 'homeView',
+          builder: (context, state) => const HomeView(),
         ),
       ],
     );
