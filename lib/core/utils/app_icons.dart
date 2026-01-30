@@ -28,4 +28,16 @@ class AppIcons {
    /// Assets for iconsLuna
   /// assets/icons/luna.svg
   static const String iconsLuna=  "assets/icons/luna.svg";
+
+   /// Assets for saveFilled
+  /// assets/icons/save_filled.svg"
+  static const String saveFilled =  "assets/icons/save_filled.svg";
+
+   /// Assets for iconsSearch
+  ///assets/icons/search.svg
+  static const String iconsSearch =  "assets/icons/search.svg";
+  
+   ///  Assets for iconsSaveNotFilled 
+   ///assets/icons/save_not_filled.svg
+  static const String iconsSaveNotFilled =  "assets/icons/save_not_filled.svg";
 }

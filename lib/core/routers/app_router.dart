@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
+import 'package:new_mama/feature/articles/presentation/view/article_category_view.dart';
+import 'package:new_mama/feature/articles/presentation/view/articles_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/create_password.dart';
 import 'package:new_mama/feature/auth/presentation/views/email_verification_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/forget_password.dart';
@@ -14,7 +16,7 @@ class AppRouter {
 
   static Future<void> initRouter() async {
     router = GoRouter(
-      initialLocation: AppRoutesPaths.homeView,
+      initialLocation: AppRoutesPaths.login,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -55,6 +57,16 @@ class AppRouter {
           path: AppRoutesPaths.homeView,
           name: 'homeView',
           builder: (context, state) => const HomeView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.articlesView,
+          name: 'articlesView',
+          builder: (context, state) => const ArticlesView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.articleCategoryView,
+          name: 'articleCategoryView',
+          builder: (context, state) => const ArticleCategoryView(),
         ),
       ],
     );

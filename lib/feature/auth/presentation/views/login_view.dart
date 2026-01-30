@@ -75,7 +75,9 @@ class LoginView extends StatelessWidget {
               CustomElevatedButton(
                 text: "Login",
                 minimumSize: Size(double.infinity, 52),
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed('homeView');
+                },
               ),
               12.h.height,
               TwoDividerSeparatedWithText(text: "Or"),
