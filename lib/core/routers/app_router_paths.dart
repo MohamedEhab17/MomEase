@@ -9,4 +9,6 @@ class AppRoutesPaths {
   static const String homeView = '/homeView';
   static const String articlesView = '/articlesView';
   static const String articleCategoryView = '/articleCategoryView';
+  static const String articleDetailsView = '/articleDetailsView';
+
 }
