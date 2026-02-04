@@ -77,7 +77,7 @@ class _DiscussionCard extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             AppColors.primarySoft3,
-            AppColors.primarySoft3.withOpacity(0.7),
+            AppColors.primarySoft3.withAlpha(179),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -85,12 +85,12 @@ class _DiscussionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.12),
+            color: AppColors.primary.withAlpha(31),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
         ],
-        border: Border.all(color: AppColors.primary.withOpacity(0.1), width: 1),
+        border: Border.all(color: AppColors.primary.withAlpha(26), width: 1),
       ),
       child: Material(
         color: Colors.transparent,
@@ -123,7 +123,7 @@ class _DiscussionCard extends StatelessWidget {
               children: [
                 ValueListenableBuilder<String?>(
                   valueListenable: titleNotifier,
-                  builder: (_, titleText, __) => Text(
+                  builder: (_, titleText, _) => Text(
                     titleText ?? '',
                     style: AppStyles.styleRoboto16.copyWith(
                       fontWeight: FontWeight.bold,
@@ -134,7 +134,7 @@ class _DiscussionCard extends StatelessWidget {
                 SizedBox(height: 8.h),
                 ValueListenableBuilder<String?>(
                   valueListenable: contentNotifier,
-                  builder: (_, contentText, __) => Text(
+                  builder: (_, contentText, _) => Text(
                     contentText ?? '',
                     style: AppStyles.styleRoboto16,
                     maxLines: 3,

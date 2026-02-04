@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 
@@ -12,7 +11,6 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: 7.leftPadding,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -29,15 +27,14 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
         leadingWidth: 24.w,
         scrolledUnderElevation: 0,
         elevation: 0,
-
         clipBehavior: Clip.none,
         title: Row(
           mainAxisAlignment: .start,
-          spacing: 12.w,
+          spacing: 12,
           children: [
             Container(
               width: 56.w,
-              height: 56.w,
+              height: 56.h,
               padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 8.h),
               decoration: BoxDecoration(
                 color: AppColors.primarySoft.withAlpha(51),
@@ -53,7 +50,11 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ],
               ),
-              child: SvgPicture.asset(AppIcons.iconsLuna, width: 34.w),
+              child: SvgPicture.asset(
+                AppIcons.iconsLuna,
+                width: 34.w,
+                height: 34.h,
+              ),
             ),
             //icon
             Column(

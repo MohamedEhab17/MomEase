@@ -86,7 +86,7 @@ class _PersonalDashboard extends StatelessWidget {
         children: [
           ValueListenableBuilder<String?>(
             valueListenable: titleNotifier,
-            builder: (_, titleText, __) => Text(
+            builder: (_, titleText, _) => Text(
               titleText ?? 'Your Dashboard',
               style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
             ),
@@ -106,12 +106,12 @@ class _PersonalDashboard extends StatelessWidget {
                   children: [
                     ValueListenableBuilder<String?>(
                       valueListenable: labelNotifier,
-                      builder: (_, label, __) =>
+                      builder: (_, label, _) =>
                           Text(label ?? '', style: AppStyles.styleRoboto16),
                     ),
                     ValueListenableBuilder<String?>(
                       valueListenable: valueNotifier,
-                      builder: (_, value, __) => Text(
+                      builder: (_, value, _) => Text(
                         value ?? '',
                         style: AppStyles.styleRoboto16.copyWith(
                           fontWeight: FontWeight.bold,
@@ -139,7 +139,7 @@ class _PersonalDashboard extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 4.h),
                 child: ValueListenableBuilder<String?>(
                   valueListenable: actionNotifier,
-                  builder: (_, action, __) => Row(
+                  builder: (_, action, _) => Row(
                     children: [
                       Icon(
                         Icons.arrow_forward,

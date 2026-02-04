@@ -15,8 +15,9 @@ final _schema = S.object(
     ),
     'icon': S.string(description: 'Icon name.'),
     'action': S.object(
+      
       description:
-          'Action to perform when tapped. Use {"name": "...", "context": [...]}',
+          'Acperform when tapped. Use {"name": "...", "context": [...]}',
     ),
   },
   required: ['title', 'action'],
@@ -123,7 +124,7 @@ class _ActionCard extends StatelessWidget {
                     children: [
                       ValueListenableBuilder<String?>(
                         valueListenable: titleNotifier,
-                        builder: (_, titleText, __) => Text(
+                        builder: (_, titleText, _) => Text(
                           titleText ?? '',
                           style: AppStyles.styleRoboto16.copyWith(
                             fontWeight: FontWeight.bold,
@@ -135,7 +136,7 @@ class _ActionCard extends StatelessWidget {
                         SizedBox(height: 4.h),
                         ValueListenableBuilder<String?>(
                           valueListenable: descNotifier,
-                          builder: (_, desc, __) =>
+                          builder: (_, desc, _) =>
                               Text(desc ?? '', style: AppStyles.styleRoboto16),
                         ),
                       ],

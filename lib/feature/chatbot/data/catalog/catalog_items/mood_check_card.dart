@@ -83,23 +83,24 @@ class _MoodCheckCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.primarySoft2,
-            AppColors.primarySoft2.withOpacity(0.8),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: AppColors.primarySoft2,
+        // gradient: LinearGradient(
+        //   colors: [
+        //     AppColors.primarySoft2,
+        //     // AppColors.primarySoft2.withOpacity(0.8),
+        //   ],
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        // ),
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withOpacity(0.15),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
+          // BoxShadow(
+          //   color: AppColors.primary.withOpacity(0.15),
+          //   blurRadius: 12,
+          //   offset: const Offset(0, 4),
+          // ),
         ],
-        border: Border.all(color: AppColors.primary.withOpacity(0.1), width: 1),
+        // border: Border.all(color: AppColors.primary.withOpacity(0.1), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,7 +156,7 @@ class _MoodCheckCard extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.r),
                       side: BorderSide(
-                        color: AppColors.primary.withOpacity(0.3),
+                        color: AppColors.primary.withAlpha(77),
                         width: 1.5,
                       ),
                     ),

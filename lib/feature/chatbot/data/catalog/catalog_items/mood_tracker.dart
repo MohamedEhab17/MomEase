@@ -94,7 +94,7 @@ class _MoodTracker extends StatelessWidget {
         children: [
           ValueListenableBuilder<String?>(
             valueListenable: titleNotifier,
-            builder: (_, titleText, __) => Text(
+            builder: (_, titleText, _) => Text(
               titleText ?? 'Mood Tracker',
               style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
             ),
@@ -103,7 +103,7 @@ class _MoodTracker extends StatelessWidget {
             SizedBox(height: 12.h),
             ValueListenableBuilder<String?>(
               valueListenable: moodNotifier,
-              builder: (_, mood, __) => Text(
+              builder: (_, mood, _) => Text(
                 'Current Mood: ${mood ?? "Not set"}',
                 style: AppStyles.styleRoboto16,
               ),

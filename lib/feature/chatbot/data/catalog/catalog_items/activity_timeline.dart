@@ -80,7 +80,7 @@ class _ActivityTimeline extends StatelessWidget {
         children: [
           ValueListenableBuilder<String?>(
             valueListenable: titleNotifier,
-            builder: (_, titleText, __) => Text(
+            builder: (_, titleText, _) => Text(
               titleText ?? 'Recent Activities',
               style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
             ),
@@ -117,7 +117,7 @@ class _ActivityTimeline extends StatelessWidget {
                       children: [
                         ValueListenableBuilder<String?>(
                           valueListenable: timeNotifier,
-                          builder: (_, time, __) => Text(
+                          builder: (_, time, _) => Text(
                             time ?? '',
                             style: AppStyles.styleRoboto12.copyWith(
                               color: AppColors.lightTextSecondary,
@@ -127,7 +127,7 @@ class _ActivityTimeline extends StatelessWidget {
                         SizedBox(height: 4.h),
                         ValueListenableBuilder<String?>(
                           valueListenable: typeNotifier,
-                          builder: (_, type, __) => Text(
+                          builder: (_, type, _) => Text(
                             type ?? '',
                             style: AppStyles.styleRoboto16.copyWith(
                               fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class _ActivityTimeline extends StatelessWidget {
                           SizedBox(height: 4.h),
                           ValueListenableBuilder<String?>(
                             valueListenable: descNotifier,
-                            builder: (_, desc, __) => Text(
+                            builder: (_, desc, _) => Text(
                               desc ?? '',
                               style: AppStyles.styleRoboto16,
                             ),

@@ -89,7 +89,7 @@ class _WellbeingCarousel extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         itemCount: items.length,
-        separatorBuilder: (_, __) => SizedBox(width: 12.w),
+        separatorBuilder: (_, _) => SizedBox(width: 12.w),
         itemBuilder: (context, index) {
           final item = items[index];
           final titleRef = item['title'] as JsonMap;
@@ -135,7 +135,7 @@ class _WellbeingCarousel extends StatelessWidget {
                       SizedBox(height: 8.h),
                       ValueListenableBuilder<String?>(
                         valueListenable: titleNotifier,
-                        builder: (_, title, __) => Text(
+                        builder: (_, title, _) => Text(
                           title ?? '',
                           style: AppStyles.styleRoboto16.copyWith(
                             fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ class _WellbeingCarousel extends StatelessWidget {
                       SizedBox(height: 4.h),
                       ValueListenableBuilder<String?>(
                         valueListenable: descNotifier,
-                        builder: (_, desc, __) => Text(
+                        builder: (_, desc, _) => Text(
                           desc ?? '',
                           style: AppStyles.styleRoboto12,
                           textAlign: TextAlign.center,

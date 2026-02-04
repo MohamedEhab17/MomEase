@@ -77,7 +77,7 @@ class _CommunityFeed extends StatelessWidget {
         children: [
           ValueListenableBuilder<String?>(
             valueListenable: titleNotifier,
-            builder: (_, titleText, __) => Text(
+            builder: (_, titleText, _) => Text(
               titleText ?? 'Community Feed',
               style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
             ),
@@ -107,7 +107,7 @@ class _CommunityFeed extends StatelessWidget {
                   children: [
                     ValueListenableBuilder<String?>(
                       valueListenable: authorNotifier,
-                      builder: (_, author, __) => Text(
+                      builder: (_, author, _) => Text(
                         author ?? '',
                         style: AppStyles.styleRoboto16.copyWith(
                           fontWeight: FontWeight.bold,
@@ -118,7 +118,7 @@ class _CommunityFeed extends StatelessWidget {
                       SizedBox(height: 4.h),
                       ValueListenableBuilder<String?>(
                         valueListenable: timestampNotifier,
-                        builder: (_, timestamp, __) => Text(
+                        builder: (_, timestamp, _) => Text(
                           timestamp ?? '',
                           style: AppStyles.styleRoboto12.copyWith(
                             color: AppColors.lightTextSecondary,
@@ -129,7 +129,7 @@ class _CommunityFeed extends StatelessWidget {
                     SizedBox(height: 8.h),
                     ValueListenableBuilder<String?>(
                       valueListenable: contentNotifier,
-                      builder: (_, content, __) =>
+                      builder: (_, content, _) =>
                           Text(content ?? '', style: AppStyles.styleRoboto16),
                     ),
                   ],

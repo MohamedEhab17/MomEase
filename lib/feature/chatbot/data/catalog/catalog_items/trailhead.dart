@@ -43,7 +43,7 @@ final trailhead = CatalogItem(
           "component": {
             "Trailhead": {
               "topics": [
-                {"literalString": "Log today\'s feeding"},
+                {"literalString": "Log today's feeding"},
                 {"literalString": "Check my mood"},
                 {"literalString": "Postpartum recovery tips"}
               ],
@@ -105,7 +105,11 @@ class _Trailhead extends StatelessWidget {
                   color: AppColors.primary,
                 ),
                 backgroundColor: AppColors.primarySoft3,
-                selectedColor: AppColors.primarySoft,
+                selectedColor: AppColors.primarySoft2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.r),
+                  side: const BorderSide(color: AppColors.primarySoft3),
+                ),
                 onPressed: () {
                   try {
                     final name = action['name'] as String;

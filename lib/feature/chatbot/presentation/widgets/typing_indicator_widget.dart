@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/utils/app_icons.dart';
 
-/// Widget that displays a typing indicator for AI responses
-/// Shows animated dots to indicate the AI is processing
 class TypingIndicatorWidget extends StatefulWidget {
   const TypingIndicatorWidget({super.key});
 
@@ -49,11 +49,7 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.smart_toy_outlined,
-              color: AppColors.primary,
-              size: 20.sp,
-            ),
+            SvgPicture.asset(AppIcons.iconsLunaBlue, height: 20.h),
             SizedBox(width: 12.w),
             _AnimatedDot(controller: _controller, delay: 0),
             SizedBox(width: 4.w),

@@ -75,7 +75,7 @@ class _TopicCarousel extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: ValueListenableBuilder<String?>(
             valueListenable: titleNotifier,
-            builder: (_, titleText, __) => Text(
+            builder: (_, titleText, _) => Text(
               titleText ?? 'Topics',
               style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
             ),
@@ -88,7 +88,7 @@ class _TopicCarousel extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             itemCount: topics.length,
-            separatorBuilder: (_, __) => SizedBox(width: 12.w),
+            separatorBuilder: (_, _) => SizedBox(width: 12.w),
             itemBuilder: (context, index) {
               final topic = topics[index];
               final nameRef = topic['name'] as JsonMap;
@@ -97,7 +97,7 @@ class _TopicCarousel extends StatelessWidget {
 
               return ValueListenableBuilder<String?>(
                 valueListenable: nameNotifier,
-                builder: (_, name, __) {
+                builder: (_, name, _) {
                   if (name == null) return const SizedBox.shrink();
                   return InkWell(
                     onTap: () {

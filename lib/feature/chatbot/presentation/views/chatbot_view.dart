@@ -4,15 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genui/genui.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
-import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/chatbot/presentation/cubit/chatbot_cubit.dart';
+import 'package:new_mama/feature/chatbot/presentation/widgets/chat_input_bar.dart';
+import 'package:new_mama/feature/chatbot/presentation/widgets/chat_message_list.dart';
 import 'package:new_mama/feature/chatbot/presentation/widgets/chatbot_app_bar.dart';
 import 'package:new_mama/feature/chatbot/presentation/widgets/empty_chatbot.dart';
-import 'package:new_mama/feature/chatbot/presentation/widgets/typing_indicator_widget.dart';
 
-/// Main view for the chatbot feature
-/// Displays conversation and handles user input
 class ChatbotView extends StatefulWidget {
   const ChatbotView({super.key});
 
@@ -46,10 +45,11 @@ class _ChatbotViewState extends State<ChatbotView> {
       },
       child: Scaffold(
         backgroundColor: AppColors.lightBackground,
+        resizeToAvoidBottomInset: false,
         appBar: ChatbotAppBar(),
-        body: Column(
+        body: Stack(
           children: [
-            Expanded(
+            Positioned.fill(
               child: ValueListenableBuilder<List<ChatMessage>>(
                 valueListenable: repository.conversation,
                 builder: (context, messages, child) {
@@ -67,107 +67,47 @@ class _ChatbotViewState extends State<ChatbotView> {
                   return ValueListenableBuilder<bool>(
                     valueListenable: repository.isProcessing,
                     builder: (context, isProcessing, _) {
-                      return ListView.builder(
-                        controller: _scrollController,
-                        padding: EdgeInsets.symmetric(vertical: 8.h),
-                        itemCount:
-                            displayMessages.length + (isProcessing ? 1 : 0),
-                        itemBuilder: (context, index) {
-                          // Show typing indicator at the end when processing
-                          if (index == displayMessages.length && isProcessing) {
-                            return const TypingIndicatorWidget();
-                          }
-
-                          final message = displayMessages[index];
-                          if (message is UserMessage) {
-                            final text = message.parts
-                                .whereType<TextPart>()
-                                .map((part) => part.text)
-                                .join('\n');
-                            return ChatMessageWidget(
-                              icon: Icons.person,
-                              alignment: MainAxisAlignment.end,
-                              text: text,
-                            );
-                          } else if (message is AiTextMessage) {
-                            final text = message.parts
-                                .whereType<TextPart>()
-                                .map((part) => part.text)
-                                .join('\n');
-                            if (text.trim().isEmpty) {
-                              return const SizedBox.shrink();
-                            }
-                            return ChatMessageWidget(
-                              text: text,
-                              icon: Icons.smart_toy_outlined,
-                              alignment: MainAxisAlignment.start,
-                            );
-                          } else if (message is AiUiMessage) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8.w,
-                                vertical: 8.h,
-                              ),
-                              child: GenUiSurface(
-                                key: message.uiKey,
-                                host: repository.a2uiMessageProcessor,
-                                surfaceId: message.surfaceId,
-                              ),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
+                      return Padding(
+                        padding: MediaQuery.of(context).viewInsets.bottom == 0
+                            ? (MediaQuery.of(context).viewInsets.bottom +
+                                      kBottomNavigationBarHeight +
+                                      50.h)
+                                  .bottomPadding
+                            : kBottomNavigationBarHeight.bottomPadding,
+                        child: ChatMessagesList(
+                          messages: displayMessages,
+                          isProcessing: isProcessing,
+                          scrollController: _scrollController,
+                          uiMessageProcessor: repository.a2uiMessageProcessor,
+                        ),
                       );
                     },
                   );
                 },
               ),
             ),
-            // Chat input
-            ValueListenableBuilder<bool>(
-              valueListenable: repository.isProcessing,
-              builder: (context, isProcessing, child) {
-                return TextFormFieldHelper(
-                  controller: _textController,
-                  enabled: !isProcessing,
-                  hint: 'Type your message here..',
-                  onFieldSubmitted: (value) => _sendMessage(),
-                  suffixWidget: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: _sendMessage,
-                      borderRadius: BorderRadius.circular(30.r),
-                      child: Container(
-                        width: 48.w,
-                        height: 48.w,
-                        alignment: Alignment.center,
-                        child: isProcessing
-                            ? SizedBox(
-                                width: 24.w,
-                                height: 24.w,
-                                child: const CircularProgressIndicator(
-                                  strokeWidth: 2.0,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.white,
-                                  ),
-                                ),
-                              )
-                            : Icon(
-                                Icons.send,
-                                color: AppColors.primarySoft,
-                                size: 24.sp,
-                              ),
-                      ),
-                    ),
-                  ),
-                );
-                // return ChatInputWidget(
-                //   controller: _textController,
-                //   onSend: _sendMessage,
-                //   isLoading: isProcessing,
-                // );
-              },
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOutCirc,
+              left: 0,
+              right: 0,
+              bottom: MediaQuery.of(context).viewInsets.bottom > 0
+                  ? MediaQuery.of(context).viewInsets.bottom -
+                        kBottomNavigationBarHeight
+                  : 0,
+              child: ValueListenableBuilder<bool>(
+                valueListenable: repository.isProcessing,
+                builder: (context, isProcessing, _) {
+                  return ChatInputBar(
+                    isProcessing: isProcessing,
+                    controller: _textController,
+                    onSend: _sendMessage,
+                  );
+                },
+              ),
             ),
+
+            // Chat input
           ],
         ),
       ),

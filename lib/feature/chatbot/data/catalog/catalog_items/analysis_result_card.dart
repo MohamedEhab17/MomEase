@@ -82,7 +82,7 @@ class _AnalysisResultCard extends StatelessWidget {
         children: [
           ValueListenableBuilder<String?>(
             valueListenable: titleNotifier,
-            builder: (_, titleText, __) => Text(
+            builder: (_, titleText, _) => Text(
               titleText ?? 'Analysis Result',
               style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
             ),
@@ -90,7 +90,7 @@ class _AnalysisResultCard extends StatelessWidget {
           SizedBox(height: 12.h),
           ValueListenableBuilder<String?>(
             valueListenable: resultNotifier,
-            builder: (_, resultText, __) =>
+            builder: (_, resultText, _) =>
                 Text(resultText ?? '', style: AppStyles.styleRoboto16),
           ),
           if (confidence != null) ...[
@@ -113,7 +113,7 @@ class _AnalysisResultCard extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(12.w),
               decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.1),
+                color: Colors.orange.withAlpha(26),
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Row(
@@ -123,7 +123,7 @@ class _AnalysisResultCard extends StatelessWidget {
                   Expanded(
                     child: ValueListenableBuilder<String?>(
                       valueListenable: disclaimerNotifier,
-                      builder: (_, disclaimerText, __) => Text(
+                      builder: (_, disclaimerText, _) => Text(
                         disclaimerText ?? '',
                         style: AppStyles.styleRoboto12.copyWith(
                           color: Colors.orange.shade900,

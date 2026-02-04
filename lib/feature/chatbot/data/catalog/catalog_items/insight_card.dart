@@ -88,7 +88,7 @@ class _InsightCard extends StatelessWidget {
       margin: EdgeInsets.all(16.w),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withAlpha(26),
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: color),
       ),
@@ -103,7 +103,7 @@ class _InsightCard extends StatelessWidget {
               children: [
                 ValueListenableBuilder<String?>(
                   valueListenable: titleNotifier,
-                  builder: (_, titleText, __) => Text(
+                  builder: (_, titleText, _) => Text(
                     titleText ?? '',
                     style: AppStyles.styleRoboto16.copyWith(
                       fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class _InsightCard extends StatelessWidget {
                 SizedBox(height: 4.h),
                 ValueListenableBuilder<String?>(
                   valueListenable: messageNotifier,
-                  builder: (_, messageText, __) =>
+                  builder: (_, messageText, _) =>
                       Text(messageText ?? '', style: AppStyles.styleRoboto16),
                 ),
               ],

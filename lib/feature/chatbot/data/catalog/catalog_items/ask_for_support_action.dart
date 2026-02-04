@@ -113,7 +113,7 @@ class _AskForSupportAction extends StatelessWidget {
                   children: [
                     ValueListenableBuilder<String?>(
                       valueListenable: titleNotifier,
-                      builder: (_, titleText, __) => Text(
+                      builder: (_, titleText, _) => Text(
                         titleText ?? 'Ask for Support',
                         style: AppStyles.styleRoboto16.copyWith(
                           fontWeight: FontWeight.bold,
@@ -125,10 +125,10 @@ class _AskForSupportAction extends StatelessWidget {
                       SizedBox(height: 4.h),
                       ValueListenableBuilder<String?>(
                         valueListenable: descNotifier,
-                        builder: (_, desc, __) => Text(
+                        builder: (_, desc, _) => Text(
                           desc ?? '',
                           style: AppStyles.styleRoboto12.copyWith(
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withAlpha(230),
                           ),
                         ),
                       ),

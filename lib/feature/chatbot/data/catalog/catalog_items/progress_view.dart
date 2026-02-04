@@ -78,7 +78,7 @@ class _ProgressView extends StatelessWidget {
         children: [
           ValueListenableBuilder<String?>(
             valueListenable: titleNotifier,
-            builder: (_, titleText, __) => Text(
+            builder: (_, titleText, _) => Text(
               titleText ?? 'Progress',
               style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
             ),
@@ -101,7 +101,7 @@ class _ProgressView extends StatelessWidget {
                       Expanded(
                         child: ValueListenableBuilder<String?>(
                           valueListenable: labelNotifier,
-                          builder: (_, label, __) =>
+                          builder: (_, label, _) =>
                               Text(label ?? '', style: AppStyles.styleRoboto16),
                         ),
                       ),

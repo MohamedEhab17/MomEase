@@ -90,7 +90,7 @@ class _ReflectionCard extends StatelessWidget {
           SizedBox(height: 12.h),
           ValueListenableBuilder<String?>(
             valueListenable: promptNotifier,
-            builder: (_, promptText, __) =>
+            builder: (_, promptText, _) =>
                 Text(promptText ?? '', style: AppStyles.styleRoboto16),
           ),
           SizedBox(height: 12.h),
