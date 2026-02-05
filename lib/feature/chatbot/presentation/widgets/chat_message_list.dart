@@ -43,10 +43,15 @@ class ChatMessagesList extends StatelessWidget {
         if (message is AiUiMessage) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-            child: GenUiSurface(
-              key: message.uiKey,
-              host: uiMessageProcessor,
-              surfaceId: message.surfaceId,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.75,
+              ),
+              child: GenUiSurface(
+                key: message.uiKey,
+                host: uiMessageProcessor,
+                surfaceId: message.surfaceId,
+              ),
             ),
           );
         }
@@ -89,9 +94,6 @@ class _AiTextMessageBubble extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return ChatbotMessageWidget(
-      alignment: MainAxisAlignment.start,
-      text: text,
-    );
+    return ChatbotMessageWidget(alignment: MainAxisAlignment.start, text: text);
   }
 }

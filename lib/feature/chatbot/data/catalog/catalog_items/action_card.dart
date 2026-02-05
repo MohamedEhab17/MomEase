@@ -15,7 +15,6 @@ final _schema = S.object(
     ),
     'icon': S.string(description: 'Icon name.'),
     'action': S.object(
-      
       description:
           'Acperform when tapped. Use {"name": "...", "context": [...]}',
     ),
@@ -90,6 +89,9 @@ class _ActionCard extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.75,
+      ),
       child: Card(
         color: AppColors.primarySoft,
         child: InkWell(

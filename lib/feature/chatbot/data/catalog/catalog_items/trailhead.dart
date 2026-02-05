@@ -100,14 +100,19 @@ class _Trailhead extends StatelessWidget {
             builder: (context, topic, child) {
               if (topic == null) return const SizedBox.shrink();
               return InputChip(
-                label: Text(topic, style: AppStyles.styleRoboto16),
-                labelStyle: AppStyles.styleRoboto16.copyWith(
-                  color: AppColors.primary,
+                label: Text(
+                  topic,
+                  style: AppStyles.styleRoboto16.copyWith(
+                    color: AppColors.lightTextPrimary.withAlpha(179),
+                  ),
                 ),
-                backgroundColor: AppColors.primarySoft3,
+                labelStyle: AppStyles.styleRoboto16.copyWith(
+                  color: AppColors.primarySoft,
+                ),
+                backgroundColor: AppColors.primarySoft,
                 selectedColor: AppColors.primarySoft2,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.r),
+                  borderRadius: BorderRadius.circular(12.r),
                   side: const BorderSide(color: AppColors.primarySoft3),
                 ),
                 onPressed: () {

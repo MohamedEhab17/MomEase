@@ -108,7 +108,9 @@ class _InformationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-      constraints: BoxConstraints(maxWidth: 400.w),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.75,
+      ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [

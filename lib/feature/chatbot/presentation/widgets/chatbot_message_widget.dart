@@ -19,11 +19,11 @@ class ChatbotMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lines = '\n'.allMatches(text).length + 1;
+    final lines = '\n'.allMatches(text).length + 2;
     double calculateRadius() {
       const maxRadius = 64.0;
       const minRadius = 12.0;
-      final radius = (maxRadius - (lines - 1) * 12).clamp(minRadius, maxRadius);
+      final radius = (maxRadius - (lines) * 12).clamp(minRadius, maxRadius);
       return radius;
     }
 

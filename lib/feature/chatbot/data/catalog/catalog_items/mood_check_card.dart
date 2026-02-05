@@ -81,9 +81,12 @@ class _MoodCheckCard extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.75,
+      ),
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: AppColors.primarySoft2,
+        color: AppColors.primarySoft,
         // gradient: LinearGradient(
         //   colors: [
         //     AppColors.primarySoft2,
@@ -109,7 +112,9 @@ class _MoodCheckCard extends StatelessWidget {
             valueListenable: titleNotifier,
             builder: (context, titleText, _) => Text(
               titleText ?? 'How are you feeling today?',
-              style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
+              style: AppStyles.styleRoboto24.copyWith(
+                color: AppColors.lightTextPrimary,
+              ),
             ),
           ),
           SizedBox(height: 16.h),
@@ -150,16 +155,16 @@ class _MoodCheckCard extends StatelessWidget {
                     backgroundColor: Colors.white,
                     selectedColor: AppColors.primary,
                     labelStyle: AppStyles.styleRoboto16.copyWith(
-                      color: AppColors.primary,
+                      color: AppColors.lightTextPrimary.withAlpha(178),
                       fontWeight: FontWeight.w500,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      side: BorderSide(
-                        color: AppColors.primary.withAlpha(77),
-                        width: 1.5,
-                      ),
+                      borderRadius: BorderRadius.circular(64.r),
+                      side: BorderSide(color: Colors.transparent),
                     ),
+                    shadowColor: AppColors.lightTextPrimary.withAlpha(26),
+                    elevation: 10,
+
                     padding: EdgeInsets.symmetric(
                       horizontal: 16.w,
                       vertical: 10.h,

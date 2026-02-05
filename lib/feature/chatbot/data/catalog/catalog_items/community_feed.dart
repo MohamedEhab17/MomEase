@@ -67,6 +67,9 @@ class _CommunityFeed extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.all(16.w),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.75,
+      ),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: AppColors.primarySoft3,
