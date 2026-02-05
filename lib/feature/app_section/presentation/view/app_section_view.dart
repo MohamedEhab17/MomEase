@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/feature/app_section/data/model/app_tab.dart';
+import 'package:new_mama/feature/app_section/presentation/widgets/app_header.dart';
 import 'package:new_mama/feature/app_section/presentation/widgets/floating_nav_bar.dart';
 import 'package:new_mama/feature/app_section/presentation/widgets/scroll_visibility_wrapper.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
@@ -55,7 +56,6 @@ class _AppSectionViewState extends State<AppSectionView> {
   }
 
   Widget _buildWrappedView(int i) {
-
     return ScrollVisibilityWrapper(child: tabs[i].view);
   }
 
@@ -66,6 +66,8 @@ class _AppSectionViewState extends State<AppSectionView> {
       child: BlocBuilder<BottomNavCubit, BottomNavState>(
         builder: (context, state) {
           return Scaffold(
+            appBar: const AppHeader(),
+            drawer: const Drawer(),
             backgroundColor: AppColors.lightBackground,
             body: Stack(
               children: [

@@ -5,8 +5,8 @@ import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({super.key, this.onMenuPressed});
+class AppHeader extends StatelessWidget implements PreferredSizeWidget {
+  const AppHeader({super.key, this.onMenuPressed});
   final VoidCallback? onMenuPressed;
   @override
   Widget build(BuildContext context) {
