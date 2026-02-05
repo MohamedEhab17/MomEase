@@ -93,6 +93,28 @@ class HomeView extends StatelessWidget {
                 },
               ),
             ),
+            SizedBox(
+              height: 114.h,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                separatorBuilder: (context, index) => 16.width,
+                itemBuilder: (context, index) {
+                  return ArticlesCard();
+                },
+              ),
+            ),
+            SizedBox(
+              height: 114.h,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                separatorBuilder: (context, index) => 16.width,
+                itemBuilder: (context, index) {
+                  return ArticlesCard();
+                },
+              ),
+            ),
           ],
         ),
       ),

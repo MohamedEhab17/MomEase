@@ -7,4 +7,5 @@ class AppRoutesPaths {
   static const String createPassword = '/createPasswordView';
   static const String forgotPassword = '/forgotPasswordView';
   static const String homeView = '/homeView';
+  static const String appSectionView = '/appSectionView';
 }
