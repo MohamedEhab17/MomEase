@@ -40,4 +40,8 @@ class AppIcons {
    ///  Assets for iconsSaveNotFilled 
    ///assets/icons/save_not_filled.svg
   static const String iconsSaveNotFilled =  "assets/icons/save_not_filled.svg";
+
+   ///  Assets for iconsClock 
+   ///assets/icons/clock.svg
+  static const String iconsClock =  "assets/icons/clock.svg";
 }
