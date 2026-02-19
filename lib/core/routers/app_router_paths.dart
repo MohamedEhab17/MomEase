@@ -8,4 +8,9 @@ class AppRoutesPaths {
   static const String forgotPassword = '/forgotPasswordView';
   static const String homeView = '/homeView';
   static const String appSectionView = '/appSectionView';
+  static const String articlesView = '/articlesView';
+  static const String articleCategoryView = '/articleCategoryView';
+  static const String articleDetailsView = '/articleDetailsView';
+
+
 }

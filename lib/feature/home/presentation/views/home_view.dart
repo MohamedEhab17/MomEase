@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
@@ -64,17 +65,22 @@ class HomeView extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'View all',
-                  style: AppStyles.styleInter10.copyWith(
-                    color: AppColors.primaryHard,
+         
+
+                TextButton(
+                  onPressed: () {
+                    context.pushNamed('articlesView');
+                  },
+                  child: Text(
+                    'View all',
+                    style: AppStyles.styleInter10.copyWith(
+                      color: AppColors.primaryHard,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+
 
           SizedBox(
             height: 114.h,

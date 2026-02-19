@@ -36,6 +36,12 @@ abstract class AppStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.lightTextPrimary,
   );
+  static TextStyle styleInter14 = TextStyle(
+    fontSize: 14.sp,
+    fontFamily: AppFontFamily.inter,
+    fontWeight: FontWeight.w500,
+    color: AppColors.lightTextPrimary.withAlpha(178),
+  );
     static TextStyle styleInter16 = TextStyle(
     fontSize: 16.sp,
     fontFamily: AppFontFamily.inter,

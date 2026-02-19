@@ -76,7 +76,9 @@ class LoginView extends StatelessWidget {
                 text: "Login",
                 minimumSize: Size(double.infinity, 52),
                 onPressed: () {
+
                   context.go(AppRoutesPaths.appSectionView);
+
                 },
               ),
               12.h.height,

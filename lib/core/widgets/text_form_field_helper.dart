@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 
@@ -23,7 +24,7 @@ class TextFormFieldHelper extends StatefulWidget {
   final bool? isMobile;
   final TextStyle? hintStyle;
   final Color? borderColor;
-
+  final Color? fillColor;
   const TextFormFieldHelper({
     super.key,
     this.controller,
@@ -55,6 +56,7 @@ class TextFormFieldHelper extends StatefulWidget {
     this.isMobile,
     this.hintStyle,
     this.borderColor,
+    this.fillColor,
   });
 
   @override
@@ -126,8 +128,9 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
               ? TextDirection.ltr
               : _textDirection,
           textAlignVertical: TextAlignVertical.center,
+
           decoration: InputDecoration(
-            fillColor: AppColors.primarySoft2,
+            fillColor: widget.fillColor ?? AppColors.primarySoft2,
             filled: true,
             hintText: widget.hint,
             hintStyle:
@@ -146,7 +149,15 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
                       size: 27,
                     ),
                   )
-                : widget.suffixWidget,
+                : Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: widget.suffixWidget,
+                  ),
+
+            suffixIconConstraints: BoxConstraints(
+              minHeight: 15.h,
+              minWidth: 15.w,
+            ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 19,
