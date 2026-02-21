@@ -44,5 +44,8 @@ class AppImages {
    /// Assets for imagesArticleCategoryItems
   /// assets/images/article_category_items.png
   static const String imagesArticleCategoryItems=  "assets/images/article_category_items.png";
+   /// Assets for meditation
+  /// assets/images/meditation.svg
+  static const String meditation=  "assets/images/meditation.svg";
 
 }

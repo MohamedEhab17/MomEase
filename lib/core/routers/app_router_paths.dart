@@ -11,6 +11,9 @@ class AppRoutesPaths {
   static const String articlesView = '/articlesView';
   static const String articleCategoryView = '/articleCategoryView';
   static const String articleDetailsView = '/articleDetailsView';
+  static const String depressionView = '/depressionView';
+  static const String depressionTestView = '/depressionTestView';
+  static const String depressionResultView = '/depressionResultView';
 
 
 }

@@ -80,5 +80,14 @@ class AppIcons {
    ///  Assets for iconsClock 
    ///assets/icons/clock.svg
   static const String iconsClock =  "assets/icons/clock.svg";
+   ///  Assets for iconsAlarm 
+   ///assets/icons/alarm.svg
+  static const String iconsAlarm =  "assets/icons/alarm.svg";
+   ///  Assets for iconsLock 
+   ///assets/icons/lock.svg
+  static const String iconsLock =  "assets/icons/lock.svg";
+   ///  Assets for iconsPrivate 
+   ///assets/icons/private.svg
+  static const String iconsPrivate =  "assets/icons/private.svg";
 }
 

@@ -10,6 +10,9 @@ import 'package:new_mama/feature/auth/presentation/views/forget_password.dart';
 import 'package:new_mama/feature/auth/presentation/views/login_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/sign_up_view.dart';
 import 'package:new_mama/feature/auth/widgets/email_verified_success_widget.dart';
+import 'package:new_mama/feature/depression/presentation/views/depression_result_view.dart';
+import 'package:new_mama/feature/depression/presentation/views/depression_test_view.dart';
+import 'package:new_mama/feature/depression/presentation/views/depression_view.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
 import 'package:new_mama/feature/onboarding/presentation/onboarding_view.dart';
 
@@ -18,8 +21,7 @@ class AppRouter {
 
   static Future<void> initRouter() async {
     router = GoRouter(
-
-      initialLocation: AppRoutesPaths.appSectionView,
+      initialLocation: AppRoutesPaths.depressionResultView,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -76,10 +78,25 @@ class AppRouter {
           name: 'articleCategoryView',
           builder: (context, state) => const ArticleCategoryView(),
         ),
-           GoRoute(
+        GoRoute(
           path: AppRoutesPaths.articleDetailsView,
           name: 'articleDetailsView',
           builder: (context, state) => const ArticleDetailsView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.depressionView,
+          name: 'depressionView',
+          builder: (context, state) => const DepressionView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.depressionTestView,
+          name: 'depressionTestView',
+          builder: (context, state) => const DepressionTestView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.depressionResultView,
+          name: 'depressionResultView',
+          builder: (context, state) =>  DepressionResultView(),
         ),
       ],
     );

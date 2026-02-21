@@ -10,12 +10,14 @@ class CustomQuickAccessCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.leadingIcon,
-    this.onTap,
+    this.onTap, this.backgroundColor,
   });
   final String title;
   final String subtitle;
   final void Function()? onTap;
   final String leadingIcon;
+  final Color? backgroundColor;
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +41,7 @@ class CustomQuickAccessCard extends StatelessWidget {
         ),
         leading: CircleAvatar(
           radius: 22.r,
-          backgroundColor: AppColors.primarySoft2,
+          backgroundColor: backgroundColor?? AppColors.primarySoft2,
           child: SvgPicture.asset(leadingIcon),
         ),
         title: Text(title, style: AppStyles.styleInter12),
