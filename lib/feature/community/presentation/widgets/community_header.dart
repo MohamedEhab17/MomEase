@@ -10,8 +10,7 @@ import 'package:new_mama/feature/community/presentation/widgets/circle_icon_butt
 
 class CommunityHeader extends StatelessWidget {
   const CommunityHeader({super.key, required this.controller});
-    final AnimateToController controller;
-
+  final AnimateToController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,9 @@ class CommunityHeader extends StatelessWidget {
                 width: 16.w,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              context.push(AppRoutesPaths.savedPostsView);
+            },
           ),
         ],
       ),

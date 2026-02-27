@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,29 +16,30 @@ class CommunityBody extends StatefulWidget {
 class _CommunityBodyState extends State<CommunityBody> {
   @override
   Widget build(BuildContext context) {
-    log("UI Cubit hashCode: ${context.read<CommunityCubit>().hashCode}");
     return BlocListener<CommunityCubit, CommunityState>(
       listener: (context, state) {
-        log("Posts length in UI: ${state.posts.length}");
       },
       child: RefreshIndicator(
         onRefresh: () => context.read<CommunityCubit>().refresh(),
         child: BlocBuilder<CommunityCubit, CommunityState>(
           builder: (context, state) {
-            return CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                SliverToBoxAdapter(
-                  child: CommunityHeader(controller: _animateToController),
-                ),
-
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (_, i) => PostItem(
-                      post: state.posts[i],
-                      controller: _animateToController,
-                    ),
-                    childCount: state.posts.length,
+            return Column(
+              children: [
+                CommunityHeader(controller: _animateToController),
+                Expanded(
+                  child: CustomScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (_, i) => PostItem(
+                            post: state.posts[i],
+                            controller: _animateToController,
+                          ),
+                          childCount: state.posts.length,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

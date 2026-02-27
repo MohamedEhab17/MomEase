@@ -11,6 +11,7 @@ import 'package:new_mama/feature/auth/presentation/views/sign_up_view.dart';
 import 'package:new_mama/feature/auth/widgets/email_verified_success_widget.dart';
 import 'package:new_mama/feature/community/presentation/view/community_view.dart';
 import 'package:new_mama/feature/community/presentation/view/create_post_view.dart';
+import 'package:new_mama/feature/community/presentation/view/saved_posts_view.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
 import 'package:new_mama/feature/onboarding/presentation/onboarding_view.dart';
@@ -30,7 +31,7 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.appSectionView,
           name: 'appSectionView',
-          builder: (context, state) =>  AppSectionView(),
+          builder: (context, state) => AppSectionView(),
         ),
         GoRoute(
           path: AppRoutesPaths.login,
@@ -48,6 +49,14 @@ class AppRouter {
           builder: (context, state) => BlocProvider.value(
             value: sl<CommunityCubit>(),
             child: const CreatePostView(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.savedPostsView,
+          name: 'savedPostsView',
+          builder: (context, state) => BlocProvider.value(
+            value: sl<CommunityCubit>(),
+            child: const SavedPostsView(),
           ),
         ),
         GoRoute(

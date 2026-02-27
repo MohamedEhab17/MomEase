@@ -10,4 +10,5 @@ class AppRoutesPaths {
   static const String appSectionView = '/appSectionView';
   static const String communityView = '/communityView';
   static const String createPostCommunityView = '/createPostCommunityView';
+  static const String savedPostsView = '/savedPostsView';
 }

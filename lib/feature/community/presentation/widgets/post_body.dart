@@ -11,7 +11,7 @@ class PostBody extends StatelessWidget {
   const PostBody({super.key, required this.post});
 
   bool _isArabic(String text) {
-    final arabic = RegExp(r'[\u0600-\u06FF]');
+    final arabic = RegExp(r'^[\u0600-\u06FF]');
     return arabic.hasMatch(text);
   }
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/dummy/dummy_post.dart';
@@ -11,9 +9,7 @@ class CommunityCubit extends Cubit<CommunityState> {
   int _page = 0;
 
   void createPost(PostModel newPost) {
-    log("Before: ${state.posts.length}");
     emit(state.copyWith(posts: [newPost, ...state.posts]));
-    log("After: ${state.posts.length}");
   }
 
   Future<void> loadPosts() async {
@@ -86,6 +82,11 @@ class CommunityCubit extends Cubit<CommunityState> {
       return p;
     }).toList();
 
+    emit(state.copyWith(posts: updated));
+  }
+
+  void deletePost(String id) {
+    final updated = state.posts.where((p) => p.id != id).toList();
     emit(state.copyWith(posts: updated));
   }
 }
