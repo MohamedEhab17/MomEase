@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 
+import 'package:new_mama/feature/community/presentation/widgets/report_post_dialog.dart';
+
 class PostActionHandler {
   static void handleAction(
     BuildContext context,
@@ -12,9 +14,7 @@ class PostActionHandler {
   ) {
     switch (action) {
       case 'Report':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Post reported successfully')),
-        );
+        showDialog(context: context, builder: (_) => const ReportPostDialog());
         break;
       case 'Remove':
         context.read<CommunityCubit>().deletePost(post.id);

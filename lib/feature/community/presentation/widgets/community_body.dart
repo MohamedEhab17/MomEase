@@ -17,8 +17,7 @@ class _CommunityBodyState extends State<CommunityBody> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CommunityCubit, CommunityState>(
-      listener: (context, state) {
-      },
+      listener: (context, state) {},
       child: RefreshIndicator(
         onRefresh: () => context.read<CommunityCubit>().refresh(),
         child: BlocBuilder<CommunityCubit, CommunityState>(
@@ -28,6 +27,7 @@ class _CommunityBodyState extends State<CommunityBody> {
                 CommunityHeader(controller: _animateToController),
                 Expanded(
                   child: CustomScrollView(
+                    clipBehavior: Clip.none,
                     physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [
                       SliverList(

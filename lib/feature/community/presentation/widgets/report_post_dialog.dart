@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/widgets/animated_dialog_container.dart';
+import 'package:new_mama/feature/community/presentation/widgets/report_dialog_action_buttons.dart';
+import 'package:new_mama/feature/community/presentation/widgets/report_dialog_header.dart';
+import 'package:new_mama/feature/community/presentation/widgets/report_dialog_text_field.dart';
+
+class ReportPostDialog extends StatefulWidget {
+  const ReportPostDialog({super.key});
+
+  @override
+  State<ReportPostDialog> createState() => _ReportPostDialogState();
+}
+
+class _ReportPostDialogState extends State<ReportPostDialog> {
+  final TextEditingController _reasonController = TextEditingController();
+
+  @override
+  void dispose() {
+    _reasonController.dispose();
+    super.dispose();
+  }
+
+  void _onSendReport() {
+    context.pop();
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Post reported successfully')));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedDialogContainer(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const ReportDialogHeader(),
+          34.height,
+          ReportDialogTextField(controller: _reasonController),
+          24.height,
+          ReportDialogActionButtons(onSendReport: _onSendReport),
+        ],
+      ),
+    );
+  }
+}
