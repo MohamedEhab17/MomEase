@@ -16,36 +16,33 @@ class CommunityBody extends StatefulWidget {
 class _CommunityBodyState extends State<CommunityBody> {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CommunityCubit, CommunityState>(
-      listener: (context, state) {},
-      child: RefreshIndicator(
-        onRefresh: () => context.read<CommunityCubit>().refresh(),
-        child: BlocBuilder<CommunityCubit, CommunityState>(
-          builder: (context, state) {
-            return Column(
-              children: [
-                CommunityHeader(controller: _animateToController),
-                Expanded(
-                  child: CustomScrollView(
-                    clipBehavior: Clip.none,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: [
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (_, i) => PostItem(
-                            post: state.posts[i],
-                            controller: _animateToController,
-                          ),
-                          childCount: state.posts.length,
+    return RefreshIndicator(
+      onRefresh: () => context.read<CommunityCubit>().refresh(),
+      child: BlocBuilder<CommunityCubit, CommunityState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              CommunityHeader(controller: _animateToController),
+              Expanded(
+                child: CustomScrollView(
+                  clipBehavior: Clip.none,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  slivers: [
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (_, i) => PostItem(
+                          post: state.posts[i],
+                          controller: _animateToController,
                         ),
+                        childCount: state.posts.length,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

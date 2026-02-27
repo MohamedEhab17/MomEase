@@ -5,7 +5,7 @@ List<OnBoardingModel> dataOnboarding() {
   return [
     OnBoardingModel(
       imgPath: 'assets/images/onboarding1.png',
-      title: 'You\’re not alone anymore',
+      title: 'You’re not alone anymore',
       description:
           'Get emotional support and expert guidance throughout your postpartum journey.',
     ),

@@ -9,7 +9,9 @@ import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/feature/community/presentation/widgets/circle_icon_button.dart';
 
 class CommunityHeader extends StatelessWidget {
-  const CommunityHeader({super.key, required this.controller});
+  const CommunityHeader({super.key, 
+  required this.controller
+  });
   final AnimateToController controller;
 
   @override

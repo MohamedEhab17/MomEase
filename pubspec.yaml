@@ -50,6 +50,7 @@ dependencies:
   animate_to: ^0.1.0
   image_picker: ^1.2.1
   get_it: ^9.2.1
+  image_cropper: ^11.0.0
 
 dev_dependencies:
   flutter_test:

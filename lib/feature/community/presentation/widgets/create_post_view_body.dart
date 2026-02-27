@@ -33,8 +33,8 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
           CreatePostHeader(),
           36.height,
           UploadPostImage(
-            onImageChanged: (File? image) {
-              postImage = image;
+            onImagesChanged: (List<File> images) {
+              postImages = images;
             },
           ),
           44.height,
@@ -84,7 +84,7 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
                       userName: "Mohamed",
                       userImage: "https://i.pravatar.cc/150?img=2",
                       text: _postContentController.text,
-                      image: postImage?.path,
+                      images: postImages.map((e) => e.path).toList(),
                       likes: 0,
                       comments: 0,
                       saves: 0,
@@ -112,7 +112,7 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
   }
 
   late TextEditingController _postContentController;
-  File? postImage;
+  List<File> postImages = [];
   @override
   void initState() {
     super.initState();

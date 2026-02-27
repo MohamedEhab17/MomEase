@@ -3,7 +3,7 @@ class PostModel {
   final String userName;
   final String userImage;
   final String text;
-  final String? image;
+  final List<String> images;
   final int likes;
   final int comments;
   final int saves;
@@ -15,15 +15,14 @@ class PostModel {
     required this.userName,
     required this.userImage,
     required this.text,
-    this.image,
+    this.images = const [],
     required this.likes,
     required this.comments,
     required this.saves,
     required this.isLiked,
     required this.isSaved,
   });
-
-  PostModel copyWith({
+    PostModel copyWith({
     int? likes,
     bool? isLiked,
     bool? isSaved,
@@ -35,7 +34,7 @@ class PostModel {
       userName: userName,
       userImage: userImage,
       text: text,
-      image: image,
+      images: images,
       likes: likes ?? this.likes,
       comments: comments ?? this.comments,
       saves: saves ?? this.saves,

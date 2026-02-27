@@ -1,152 +1,101 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/helper/pick_image_helper.dart';
-import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
-import 'package:new_mama/core/widgets/animated_dotted_container.dart';
+import 'package:new_mama/core/widgets/full_screen_local_gallery.dart';
+import 'package:new_mama/feature/community/presentation/widgets/upload_post_image_components/add_more_image_tile.dart';
+import 'package:new_mama/feature/community/presentation/widgets/upload_post_image_components/empty_upload_placeholder.dart';
+import 'package:new_mama/feature/community/presentation/widgets/upload_post_image_components/uploaded_image_tile.dart';
 
 class UploadPostImage extends StatefulWidget {
-  const UploadPostImage({super.key, required this.onImageChanged});
-  final Function(File?) onImageChanged;
+  const UploadPostImage({super.key, required this.onImagesChanged});
+  final Function(List<File>) onImagesChanged;
 
   @override
   State<UploadPostImage> createState() => _UploadPostImageState();
 }
 
 class _UploadPostImageState extends State<UploadPostImage> {
-  File? selectedImage;
+  List<File> selectedImages = [];
 
-  Future<void> _pickImage() async {
-    final image = await ImagePickerHelper.pickFromGallery();
-    if (image != null) {
+  Future<void> _pickImages() async {
+    final images = await ImagePickerHelper.pickMultipleFromGallery();
+    if (images.isNotEmpty) {
       setState(() {
-        selectedImage = image;
+        selectedImages.addAll(images);
       });
-      widget.onImageChanged(image);
+      widget.onImagesChanged(selectedImages);
     }
   }
 
-  void _openPreview() {
-    if (selectedImage == null) return;
+  void _removeImage(int index) {
+    setState(() {
+      selectedImages.removeAt(index);
+    });
+    widget.onImagesChanged(selectedImages);
+  }
 
+  Future<void> _cropImage(File imageFile, int index) async {
+    final croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Edit Image',
+          toolbarColor: AppColors.primary,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false,
+        ),
+        IOSUiSettings(title: 'Edit Image'),
+      ],
+    );
+
+    if (croppedFile != null) {
+      setState(() {
+        selectedImages[index] = File(croppedFile.path);
+      });
+      widget.onImagesChanged(selectedImages);
+    }
+  }
+
+  void _openGallery(int index) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => Scaffold(
-          backgroundColor: Colors.black,
-          body: GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Center(
-              child: Hero(
-                tag: "previewImage",
-                child: Image.file(selectedImage!),
-              ),
-            ),
-          ),
-        ),
+        builder: (_) =>
+            FullScreenLocalGallery(images: selectedImages, initialIndex: index),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: selectedImage == null ? _pickImage : _openPreview,
-      child: selectedImage != null
-          ? Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Hero(
-                  tag: "previewImage",
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 400),
-                    child: ClipRRect(
-                      key: ValueKey(selectedImage!.path),
-                      borderRadius: BorderRadius.circular(16),
-                      child: AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: Image.file(selectedImage!, fit: BoxFit.cover),
-                      ),
-                    ),
-                  ),
-                ),
+    if (selectedImages.isEmpty) {
+      return EmptyUploadPlaceholder(onTap: _pickImages);
+    }
 
-                Positioned(
-                  top: 12,
-                  right: 12,
-                  child: _buildCircleButton(
-                    icon: Icons.close,
-                    onTap: () {
-                      setState(() {
-                        selectedImage = null;
-                        widget.onImageChanged(null);
-                      });
-                    },
-                  ),
-                ),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.none,
+        itemCount: selectedImages.length + 1,
+        separatorBuilder: (_, _) => SizedBox(width: 12.w),
+        itemBuilder: (context, index) {
+          if (index == selectedImages.length) {
+            return AddMoreImageTile(onTap: _pickImages);
+          }
 
-                Positioned(
-                  top: 12,
-                  left: 12,
-                  child: _buildCircleButton(
-                    icon: Icons.edit,
-                    onTap: _pickImage,
-                  ),
-                ),
-              ],
-            )
-          : AnimatedDottedContainer(
-              color: AppColors.primary,
-              dashPattern: [16, 12],
-              borderRadius: BorderRadius.circular(16),
-              strokeWidth: 3.w,
-              child: Container(
-                height: 184.h,
-                width: double.infinity,
-                color: AppColors.lightBackground2,
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: .center,
-                  crossAxisAlignment: .center,
-                  spacing: 20,
-                  children: [
-                    CircleAvatar(
-                      radius: 42.r,
-                      backgroundColor: AppColors.lightBackground,
-                      child: Transform.translate(
-                        offset: const Offset(2, 0),
-                        child: SvgPicture.asset(
-                          AppIcons.iconsAddPhoto,
-                          width: 38.w,
-                        ),
-                      ),
-                    ),
-                    Text("Add a Photo", style: AppStyles.styleInter20),
-                  ],
-                ),
-              ),
-            ),
-    );
-  }
-
-  Widget _buildCircleButton({
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 36,
-        width: 36,
-        decoration: const BoxDecoration(
-          color: AppColors.lightBackground,
-          shape: BoxShape.circle,
-        ),
-        alignment: Alignment.center,
-        child: Icon(icon, size: 20, color: AppColors.primaryHard),
+          final imageFile = selectedImages[index];
+          return UploadedImageTile(
+            imageFile: imageFile,
+            onTapImage: () => _openGallery(index),
+            onTapRemove: () => _removeImage(index),
+            onTapCrop: () => _cropImage(imageFile, index),
+          );
+        },
       ),
     );
   }

@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_image_grid.dart';
 import 'package:readmore/readmore.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 
@@ -26,7 +26,7 @@ class PostBody extends StatelessWidget {
       children: [
         ReadMoreText(
           post.text,
-          trimLines: post.image != null ? 2 : 10,
+          trimLines: post.images.isNotEmpty ? 2 : 10,
           trimMode: TrimMode.Line,
           trimCollapsedText: isArabic ? ' عرض المزيد' : ' See more',
           trimExpandedText: isArabic ? ' عرض أقل' : ' Show less',
@@ -46,21 +46,9 @@ class PostBody extends StatelessWidget {
           textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
         ),
 
-        if (post.image != null) ...[
+        if (post.images.isNotEmpty) ...[
           const SizedBox(height: 14),
-
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: CachedNetworkImage(
-              imageUrl: post.image!,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              placeholder: (_, _) => const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            ),
-          ),
+          PostImageGrid(images: post.images),
         ],
       ],
     );
