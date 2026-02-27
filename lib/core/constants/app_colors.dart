@@ -13,14 +13,17 @@ class AppColors {
   static const secondarySoft = Color(0xffCECECE);
   static const secondarySoft2 = Color(0xFFE0E0E0);
 
+  // Functional
+  static const mentionBlue = Color(0xFF1877F2);
+  
   // Accent
   static const accent = Color(0xFFA2D2FF);
   static const accentSoft = Color(0xFFCCE6FF);
 
   // Backgrounds
   static const lightBackground = Color(0xFFFFFFFF);
+  static const lightBackground2 = Color(0xffFFF4F8);
   static const darkBackground = Color(0xFF121212);
-
   // Text
   static const lightTextPrimary = Color(0xFF000000);
   static const lightTextSecondary = Color(0xFF9E9E9E);

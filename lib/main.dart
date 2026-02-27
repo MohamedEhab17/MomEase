@@ -2,12 +2,15 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/constants/di/injection.dart';
 import 'package:new_mama/core/routers/app_router.dart';
 import 'package:new_mama/core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppRouter.initRouter();
+    await setupDependencies();
+
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,

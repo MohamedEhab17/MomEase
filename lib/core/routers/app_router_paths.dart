@@ -8,4 +8,6 @@ class AppRoutesPaths {
   static const String forgotPassword = '/forgotPasswordView';
   static const String homeView = '/homeView';
   static const String appSectionView = '/appSectionView';
+  static const String communityView = '/communityView';
+  static const String createPostCommunityView = '/createPostCommunityView';
 }

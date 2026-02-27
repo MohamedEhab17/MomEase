@@ -63,4 +63,32 @@ class AppIcons {
   /// Assets for iconsInActiveProfile
   /// assets/icons/inactiveProfile.svg
   static const String iconsInActiveProfile = "assets/icons/inactiveProfile.svg";
+
+  /// Assets for iconsComment
+  /// assets/icons/comment.svg
+  static const String iconsComment = "assets/icons/comment.svg";
+
+  /// Assets for iconsFilledLike
+  /// assets/icons/filled_like.svg
+  static const String iconsFilledLike = "assets/icons/filled_like.svg";
+
+  /// Assets for iconsFilledSave
+  /// assets/icons/filled_save.svg
+  static const String iconsFilledSave = "assets/icons/filled_save.svg";
+
+  /// Assets for iconsUnfilledLike
+  /// assets/icons/unfilled_like.svg
+  static const String iconsUnfilledLike = "assets/icons/unfilled_like.svg";
+
+  /// Assets for iconsUnfilledSave
+  /// assets/icons/unfilled_save.svg
+  static const String iconsUnfilledSave = "assets/icons/unfilled_save.svg";
+
+  /// Assets for iconsSend
+  /// assets/icons/send.svg
+  static const String iconsSend = "assets/icons/send.svg";
+
+  /// Assets for iconsAddPhoto
+  /// assets/icons/add_photo.svg
+  static const String iconsAddPhoto = "assets/icons/add_photo.svg";
 }

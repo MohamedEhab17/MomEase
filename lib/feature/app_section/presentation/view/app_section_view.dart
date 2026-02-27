@@ -6,6 +6,7 @@ import 'package:new_mama/feature/app_section/data/model/app_tab.dart';
 import 'package:new_mama/feature/app_section/presentation/widgets/app_header.dart';
 import 'package:new_mama/feature/app_section/presentation/widgets/floating_nav_bar.dart';
 import 'package:new_mama/feature/app_section/presentation/widgets/scroll_visibility_wrapper.dart';
+import 'package:new_mama/feature/community/presentation/view/community_view.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
 import '../view_model/cubit/bottom_nav_cubit.dart';
 
@@ -34,7 +35,7 @@ class _AppSectionViewState extends State<AppSectionView> {
       AppTab(
         activeIcon: AppIcons.iconsActiveCommunity,
         inactiveIcon: AppIcons.iconsInActiveCommunity,
-        view: const Scaffold(),
+        view: const CommunityView(),
       ),
       AppTab(
         activeIcon: AppIcons.iconsActiveNotification,
