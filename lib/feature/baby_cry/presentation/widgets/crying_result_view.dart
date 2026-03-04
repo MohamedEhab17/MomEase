@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
@@ -10,10 +9,7 @@ import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/custom_instructions_recommendations.dart';
 
 class CryingResultView extends StatelessWidget {
-  const CryingResultView({
-    super.key,
-    required this.advices,
-  });
+  const CryingResultView({super.key, required this.advices});
 
   final List<String> advices;
 
@@ -23,12 +19,7 @@ class CryingResultView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       child: Column(
         children: [
-          SvgPicture.asset(
-            AppIcons.iconsCheck,
-            width: 100.w,
-            height: 100.h,
-            fit: BoxFit.contain,
-          ),
+          Lottie.asset(AppIcons.iconsSuccess, width: 100.w, height: 100.h),
           24.h.height,
           Text('Baby Might Be:', style: AppStyles.styleInter24),
           12.h.height,
@@ -42,7 +33,7 @@ class CryingResultView extends StatelessWidget {
             style: AppStyles.styleInter16.copyWith(
               color: AppColors.lightTextPrimary.withAlpha(178),
             ),
-            //textAlign: .center,
+            textAlign: .center,
             softWrap: true,
           ),
           32.h.height,
