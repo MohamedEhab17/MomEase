@@ -10,6 +10,10 @@ import 'package:new_mama/feature/auth/presentation/views/forget_password.dart';
 import 'package:new_mama/feature/auth/presentation/views/login_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/sign_up_view.dart';
 import 'package:new_mama/feature/auth/widgets/email_verified_success_widget.dart';
+import 'package:new_mama/feature/baby_cry/presentation/views/cry_analyzing_view.dart';
+import 'package:new_mama/feature/baby_cry/presentation/views/crying_insight_view.dart';
+import 'package:new_mama/feature/baby_cry/presentation/views/crying_recording_session_view.dart';
+import 'package:new_mama/feature/baby_cry/presentation/views/crying_result_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_result_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_test_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_view.dart';
@@ -21,7 +25,7 @@ class AppRouter {
 
   static Future<void> initRouter() async {
     router = GoRouter(
-      initialLocation: AppRoutesPaths.depressionResultView,
+      initialLocation: AppRoutesPaths.cryingRecordingSessionView,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -97,6 +101,27 @@ class AppRouter {
           path: AppRoutesPaths.depressionResultView,
           name: 'depressionResultView',
           builder: (context, state) =>  DepressionResultView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.cryingInsightView,
+          name: 'cryingInsightView',
+          builder: (context, state) =>   CryingInsightView(),
+        ),
+      
+        GoRoute(
+          path: AppRoutesPaths.cryingRecordingSessionView,
+          name: 'cryingRecordingSessionView',
+          builder: (context, state) =>   CryingRecordingSessionView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.cryAnalyzingView,
+          name: 'cryAnalyzingView',
+          builder: (context, state) =>   CryAnalyzingView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.cryingResultView,
+          name: 'cryingResultView',
+          builder: (context, state) =>   CryingResultView(),
         ),
       ],
     );

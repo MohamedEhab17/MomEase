@@ -5,7 +5,7 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
-import 'package:new_mama/feature/depression/presentation/widgets/custom_mental_health_recommendations.dart';
+import 'package:new_mama/core/widgets/custom_instructions_recommendations.dart';
 
 class DepressionResultView extends StatelessWidget {
   DepressionResultView({super.key});
@@ -57,7 +57,9 @@ class DepressionResultView extends StatelessWidget {
               softWrap: true,
             ),
             33.h.height,
-            CustomMentalHealthRecommendations(advices: advices),
+            CustomInstructionsRecommendations(
+              title:'Gentle Recommendations' ,
+              advices: advices),
             53.h.height,
 
             CustomElevatedButton(

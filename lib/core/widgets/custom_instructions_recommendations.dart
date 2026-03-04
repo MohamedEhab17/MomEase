@@ -1,18 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
-import 'package:new_mama/feature/depression/presentation/widgets/dotted_list.dart';
+import 'package:new_mama/core/widgets/dotted_list.dart';
 
-class CustomMentalHealthRecommendations extends StatelessWidget {
-  const CustomMentalHealthRecommendations({
-    super.key,
-    required this.advices,
-  });
+class CustomInstructionsRecommendations extends StatelessWidget {
+  const CustomInstructionsRecommendations({super.key, required this.advices, required this.title});
 
   final List<String> advices;
-
+final String title;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,14 +23,12 @@ class CustomMentalHealthRecommendations extends StatelessWidget {
         crossAxisAlignment: .start,
         children: [
           Text(
-            'Gentle Recommendations',
-            style: AppStyles.styleInter16.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
+           title ,
+            style: AppStyles.styleInter16.copyWith(fontWeight: FontWeight.w700),
           ),
           ...advices.map(
             (advice) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: DottedList(text: advice),
             ),
           ),
