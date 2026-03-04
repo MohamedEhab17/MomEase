@@ -17,6 +17,4 @@ class AppRoutesPaths {
   static const String cryingInsightView = '/cryingInsightView';
   static const String cryingRecordingSessionView = '/cryingRecordingSessionView';
   static const String cryAnalyzingView = '/cryAnalyzingView';
-  static const String cryingResultView = '/cryingResultView';
-
 }

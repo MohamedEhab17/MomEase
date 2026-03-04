@@ -13,7 +13,6 @@ import 'package:new_mama/feature/auth/widgets/email_verified_success_widget.dart
 import 'package:new_mama/feature/baby_cry/presentation/views/cry_analyzing_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_insight_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_recording_session_view.dart';
-import 'package:new_mama/feature/baby_cry/presentation/views/crying_result_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_result_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_test_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_view.dart';
@@ -118,11 +117,7 @@ class AppRouter {
           name: 'cryAnalyzingView',
           builder: (context, state) =>   CryAnalyzingView(),
         ),
-        GoRoute(
-          path: AppRoutesPaths.cryingResultView,
-          name: 'cryingResultView',
-          builder: (context, state) =>   CryingResultView(),
-        ),
+       
       ],
     );
   }
