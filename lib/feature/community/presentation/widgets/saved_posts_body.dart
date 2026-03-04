@@ -19,7 +19,7 @@ class SavedPostsBody extends StatelessWidget {
     return Padding(
       padding: 18.hPadding,
       child: CustomScrollView(
-        clipBehavior: Clip.none,
+        clipBehavior: Clip.hardEdge,
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
           SliverList(

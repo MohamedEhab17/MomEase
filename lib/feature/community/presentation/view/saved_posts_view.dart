@@ -27,7 +27,8 @@ class _SavedPostsViewState extends State<SavedPostsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppHeader(), // Assume this works well as a header.
+      appBar: AppHeader(),
+      resizeToAvoidBottomInset: false,
       body: BlocBuilder<CommunityCubit, CommunityState>(
         builder: (context, state) {
           final savedPosts = state.posts.where((p) => p.isSaved).toList();

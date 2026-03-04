@@ -5,6 +5,7 @@ import 'package:new_mama/core/widgets/animated_dialog_container.dart';
 import 'package:new_mama/feature/community/presentation/widgets/report_dialog_action_buttons.dart';
 import 'package:new_mama/feature/community/presentation/widgets/report_dialog_header.dart';
 import 'package:new_mama/feature/community/presentation/widgets/report_dialog_text_field.dart';
+import 'package:new_mama/feature/community/presentation/widgets/report_success_dialog.dart';
 
 class ReportPostDialog extends StatefulWidget {
   const ReportPostDialog({super.key});
@@ -14,7 +15,13 @@ class ReportPostDialog extends StatefulWidget {
 }
 
 class _ReportPostDialogState extends State<ReportPostDialog> {
-  final TextEditingController _reasonController = TextEditingController();
+  late final TextEditingController _reasonController;
+
+  @override
+  void initState() {
+    super.initState();
+    _reasonController = .new();
+  }
 
   @override
   void dispose() {
@@ -24,9 +31,7 @@ class _ReportPostDialogState extends State<ReportPostDialog> {
 
   void _onSendReport() {
     context.pop();
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Post reported successfully')));
+    showDialog(context: context, builder: (_) => const ReportSuccessDialog());
   }
 
   @override

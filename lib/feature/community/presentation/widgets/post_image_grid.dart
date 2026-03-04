@@ -19,7 +19,11 @@ class PostImageGrid extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16.r),
       child: Container(
-        height: count > 1 ? 280.h : null,
+        height: count > 1
+            ? count == 2
+                  ? 220.h
+                  : 280.h
+            : null,
         width: double.infinity,
         color: AppColors.lightBackground2,
         child: _buildGrid(context, count),
@@ -34,9 +38,23 @@ class PostImageGrid extends StatelessWidget {
       case 2:
         return Row(
           children: [
-            Expanded(child: _buildImage(context, images[0], index: 0)),
+            Expanded(
+              child: _buildImage(
+                context,
+                images[0],
+                index: 0,
+                fit: BoxFit.cover,
+              ),
+            ),
             2.horizontalSpace,
-            Expanded(child: _buildImage(context, images[1], index: 1)),
+            Expanded(
+              child: _buildImage(
+                context,
+                images[1],
+                index: 1,
+                fit: BoxFit.cover,
+              ),
+            ),
           ],
         );
       case 3:

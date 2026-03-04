@@ -4,7 +4,7 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_overlay_menu.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
-import 'package:new_mama/feature/community/presentation/utils/post_action_handler.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_action_handler.dart';
 
 class PostHeader extends StatelessWidget {
   final PostModel post;

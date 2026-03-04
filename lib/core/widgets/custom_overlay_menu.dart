@@ -36,7 +36,7 @@ class CustomOverlayMenu<T> extends StatefulWidget {
 
 class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
     with SingleTickerProviderStateMixin {
-  final LayerLink _layerLink = LayerLink();
+  late final LayerLink _layerLink ;
   OverlayEntry? _overlayEntry;
 
   late AnimationController _controller;
@@ -46,7 +46,7 @@ class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
   @override
   void initState() {
     super.initState();
-
+    _layerLink = LayerLink();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 180),
@@ -103,7 +103,7 @@ class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
                   ? Alignment.bottomLeft
                   : Alignment.bottomRight,
               followerAnchor: isRTL ? Alignment.topLeft : Alignment.topRight,
-              offset: const Offset(0, 8),
+              offset: isRTL ? const Offset(2, 2) : const Offset(-2, 2),
               child: FadeTransition(
                 opacity: _fadeAnimation,
                 child: ScaleTransition(

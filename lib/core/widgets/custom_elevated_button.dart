@@ -12,7 +12,8 @@ class CustomElevatedButton extends StatelessWidget {
     this.borderRadius = 64,
     this.borderColor,
     this.textStyle,
-    this.padding, this.maxSize,
+    this.padding,
+    this.maxSize,
   });
   final void Function()? onPressed;
   final String text;
@@ -28,11 +29,11 @@ class CustomElevatedButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
-        padding: padding?? EdgeInsets.symmetric(horizontal: 42, vertical: 14),
+        padding: padding ?? EdgeInsets.symmetric(horizontal: 42, vertical: 14),
         shadowColor: AppColors.lightTextPrimary.withAlpha(64),
-        elevation: 2,
+        elevation: 4,
         minimumSize: minimumSize,
-        maximumSize:maxSize,
+        maximumSize: maxSize,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           side: BorderSide(color: borderColor ?? backgroundColor!),

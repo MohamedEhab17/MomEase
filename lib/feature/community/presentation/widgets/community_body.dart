@@ -25,7 +25,7 @@ class _CommunityBodyState extends State<CommunityBody> {
               CommunityHeader(controller: _animateToController),
               Expanded(
                 child: CustomScrollView(
-                  clipBehavior: Clip.none,
+                  clipBehavior: Clip.hardEdge,
                   physics: const AlwaysScrollableScrollPhysics(),
                   slivers: [
                     SliverList(
