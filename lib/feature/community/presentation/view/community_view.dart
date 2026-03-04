@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/constants/di/injection.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
-import 'package:new_mama/feature/community/presentation/widgets/community_body.dart';
+import 'package:new_mama/feature/community/presentation/widgets/community_components/community_body.dart';
 
 class CommunityView extends StatelessWidget {
   const CommunityView({super.key});

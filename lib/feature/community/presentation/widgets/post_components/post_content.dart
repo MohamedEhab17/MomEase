@@ -2,9 +2,9 @@ import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
-import 'package:new_mama/feature/community/presentation/widgets/post_actions.dart';
-import 'package:new_mama/feature/community/presentation/widgets/post_body.dart';
-import 'package:new_mama/feature/community/presentation/widgets/post_header.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_components/post_actions.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_components/post_body.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_components/post_header.dart';
 
 class PostContent extends StatelessWidget {
   final PostModel post;

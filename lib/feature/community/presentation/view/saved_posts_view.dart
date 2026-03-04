@@ -5,8 +5,8 @@ import 'package:new_mama/feature/community/presentation/view_model/community_cub
 import 'package:new_mama/feature/community/presentation/view_model/community_state.dart';
 import 'package:animate_to/animate_to.dart';
 import 'package:new_mama/feature/app_section/presentation/widgets/app_header.dart';
-import 'package:new_mama/feature/community/presentation/widgets/saved_posts_header.dart';
-import 'package:new_mama/feature/community/presentation/widgets/saved_posts_body.dart';
+import 'package:new_mama/feature/community/presentation/widgets/saved_posts_components/saved_posts_header.dart';
+import 'package:new_mama/feature/community/presentation/widgets/saved_posts_components/saved_posts_body.dart';
 
 class SavedPostsView extends StatefulWidget {
   const SavedPostsView({super.key});

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_state.dart';
-import 'package:new_mama/feature/community/presentation/widgets/community_header.dart';
-import 'package:new_mama/feature/community/presentation/widgets/post_item.dart';
+import 'package:new_mama/feature/community/presentation/widgets/community_components/community_header.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_components/post_item.dart';
 
 class CommunityBody extends StatefulWidget {
   const CommunityBody({super.key});

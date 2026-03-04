@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
-import 'package:new_mama/feature/community/presentation/widgets/post_image_grid.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_components/post_image_grid.dart';
 import 'package:readmore/readmore.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 

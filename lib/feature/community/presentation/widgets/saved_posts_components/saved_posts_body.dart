@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animate_to/animate_to.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
-import 'package:new_mama/feature/community/presentation/widgets/post_item.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_components/post_item.dart';
 
 class SavedPostsBody extends StatelessWidget {
   final List<PostModel> savedPosts;

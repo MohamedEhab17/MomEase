@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
-import 'package:new_mama/feature/community/presentation/widgets/circle_icon_button.dart';
+import 'package:new_mama/feature/community/presentation/widgets/shared_components/circle_icon_button.dart';
 
 class CommunityHeader extends StatelessWidget {
   const CommunityHeader({super.key, 

@@ -6,9 +6,9 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/feature/community/data/models/comment_model.dart';
 import 'package:new_mama/feature/community/dummy/dummy_comment.dart';
-import 'package:new_mama/feature/community/presentation/widgets/chat_input_bar.dart';
-import 'package:new_mama/feature/community/presentation/widgets/comment_item.dart';
-import 'package:new_mama/feature/community/presentation/widgets/mention_text_controller.dart';
+import 'package:new_mama/feature/community/presentation/widgets/comment_components/chat_input_bar.dart';
+import 'package:new_mama/feature/community/presentation/widgets/comment_components/comment_item.dart';
+import 'package:new_mama/feature/community/presentation/widgets/comment_components/mention_text_controller.dart';
 
 /// A modal bottom sheet that displays comments for a post with
 /// reply functionality and mention support.

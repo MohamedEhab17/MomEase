@@ -43,8 +43,9 @@ class _UploadPostImageState extends State<UploadPostImage> {
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Edit Image',
-          toolbarColor: AppColors.primary,
-          toolbarWidgetColor: Colors.white,
+          toolbarColor: AppColors.primaryHard,
+          toolbarWidgetColor: AppColors.darkTextPrimary,
+          activeControlsWidgetColor: AppColors.primaryHard,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
         ),

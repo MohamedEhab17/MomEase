@@ -11,8 +11,8 @@ import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
-import 'package:new_mama/feature/community/presentation/widgets/create_post_header.dart';
-import 'package:new_mama/feature/community/presentation/widgets/upload_post_image.dart';
+import 'package:new_mama/feature/community/presentation/widgets/create_post_components/create_post_header.dart';
+import 'package:new_mama/feature/community/presentation/widgets/create_post_components/upload_post_image.dart';
 
 class CreatePostViewBody extends StatefulWidget {
   const CreatePostViewBody({super.key});
