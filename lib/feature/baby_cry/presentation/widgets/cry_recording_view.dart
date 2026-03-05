@@ -29,7 +29,7 @@ class CryRecordingView extends StatelessWidget {
         24.h.height,
         BlocBuilder<SoundRecordingCubit, SoundRecordingState>(
           builder: (context, state) {
-           if (state is  RecordingInProgress) {
+          if (state is  RecordingInProgress) {
       return Text(
         '${state.seconds}s',
         style: AppStyles.styleInter24,

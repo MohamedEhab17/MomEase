@@ -14,6 +14,7 @@ class ArticleDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
         body: CustomScrollView(
           slivers: [

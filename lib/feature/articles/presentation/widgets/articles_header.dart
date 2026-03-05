@@ -16,7 +16,7 @@ class ArticlesHeader extends StatelessWidget implements PreferredSizeWidget {
       scrolledUnderElevation: 0,
       actionsPadding: EdgeInsets.only(right: 15.w),
       actions: [
-        SvgPicture.asset(AppIcons.saveFilled, width: 12.w, height: 18.h),
+        SvgPicture.asset(AppIcons.iconsFilledSave, width: 25.w, height: 25.h),
       ],
       centerTitle: true,
       backgroundColor: AppColors.lightBackground,
@@ -27,7 +27,7 @@ class ArticlesHeader extends StatelessWidget implements PreferredSizeWidget {
         icon: Icon(
           Icons.arrow_back_ios_new_rounded,
           color: AppColors.primaryHard,
-          size: 20.sp,
+          size: 25.sp,
         ),
       ),
       title: Text(

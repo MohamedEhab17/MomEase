@@ -65,36 +65,55 @@ class AppIcons {
   /// assets/icons/inactiveProfile.svg
   static const String iconsInActiveProfile = "assets/icons/inactiveProfile.svg";
 
-   /// Assets for saveFilled
-  /// assets/icons/save_filled.svg"
-  static const String saveFilled =  "assets/icons/save_filled.svg";
-
-   /// Assets for iconsSearch
+  /// Assets for iconsSearch
   ///assets/icons/search.svg
-  static const String iconsSearch =  "assets/icons/search.svg";
-  
-   ///  Assets for iconsSaveNotFilled 
-   ///assets/icons/save_not_filled.svg
-  static const String iconsSaveNotFilled =  "assets/icons/save_not_filled.svg";
+  static const String iconsSearch = "assets/icons/search.svg";
 
-   ///  Assets for iconsClock 
-   ///assets/icons/clock.svg
-  static const String iconsClock =  "assets/icons/clock.svg";
-   ///  Assets for iconsAlarm 
-   ///assets/icons/alarm.svg
-  static const String iconsAlarm =  "assets/icons/alarm.svg";
-   ///  Assets for iconsLock 
-   ///assets/icons/lock.svg
-  static const String iconsLock =  "assets/icons/lock.svg";
-   ///  Assets for iconsPrivate 
-   ///assets/icons/private.svg
-  static const String iconsPrivate =  "assets/icons/private.svg";
-   ///  Assets for iconsMic 
-   ///assets/icons/mic.svg
-  static const String iconsMic =  "assets/icons/mic.svg"; 
+  ///  Assets for iconsClock
+  ///assets/icons/clock.svg
+  static const String iconsClock = "assets/icons/clock.svg";
 
-   ///  Assets for iconsCheck 
-   ///assets/icons/Check.svg
-  static const String iconsCheck =  "assets/icons/Check.svg";
+  ///  Assets for iconsAlarm
+  ///assets/icons/alarm.svg
+  static const String iconsAlarm = "assets/icons/alarm.svg";
+
+  ///  Assets for iconsLock
+  ///assets/icons/lock.svg
+  static const String iconsLock = "assets/icons/lock.svg";
+
+  ///  Assets for iconsPrivate
+  ///assets/icons/private.svg
+  static const String iconsPrivate = "assets/icons/private.svg";
+
+  ///  Assets for iconsMic
+  ///assets/icons/mic.svg
+  static const String iconsMic = "assets/icons/mic.svg";
+
+  /// Assets for iconsComment
+  /// assets/icons/comment.svg
+  static const String iconsComment = "assets/icons/comment.svg";
+
+  /// Assets for iconsFilledLike
+  /// assets/icons/filled_like.svg
+  static const String iconsFilledLike = "assets/icons/filled_like.svg";
+
+  /// Assets for iconsFilledSave
+  /// assets/icons/filled_save.svg
+  static const String iconsFilledSave = "assets/icons/filled_save.svg";
+
+  /// Assets for iconsUnfilledLike
+  /// assets/icons/unfilled_like.svg
+  static const String iconsUnfilledLike = "assets/icons/unfilled_like.svg";
+
+  /// Assets for iconsUnfilledSave
+  /// assets/icons/unfilled_save.svg
+  static const String iconsUnfilledSave = "assets/icons/unfilled_save.svg";
+
+  /// Assets for iconsSend
+  /// assets/icons/send.svg
+  static const String iconsSend = "assets/icons/send.svg";
+
+  /// Assets for iconsAddPhoto
+  /// assets/icons/add_photo.svg
+  static const String iconsAddPhoto = "assets/icons/add_photo.svg";
 }
-

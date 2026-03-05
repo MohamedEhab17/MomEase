@@ -22,9 +22,9 @@ class _CustomSavedIconState extends State<CustomSavedIcon> {
         });
       },
       child: isSaved
-          ? SvgPicture.asset(AppIcons.saveFilled, width: 12.w, height: 18.h)
+          ? SvgPicture.asset(AppIcons.iconsFilledSave, width: 12.w, height: 18.h)
           : SvgPicture.asset(
-              AppIcons.iconsSaveNotFilled,
+              AppIcons.iconsUnfilledSave,
               width: 12.w,
               height: 18.h,
             ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_circle_avatar_with_icon.dart';
@@ -48,7 +50,9 @@ class CryingInsightView extends StatelessWidget {
             56.h.height,
             CustomElevatedButton(
               text: 'Start Recording',
-              onPressed: () {},
+              onPressed: () {
+                context.push(AppRoutesPaths.cryingRecordingSessionView);
+              },
               backgroundColor: AppColors.primaryHard,
               minimumSize: Size(double.infinity, 52.h),
               textStyle: AppStyles.styleInter20.copyWith(
@@ -61,6 +65,8 @@ class CryingInsightView extends StatelessWidget {
               style: AppStyles.styleInter12.copyWith(
                 color: AppColors.darkBackground.withAlpha(128),
               ),
+              textAlign: TextAlign.center,
+              softWrap: true,
             ),
           ],
         ),
@@ -68,4 +74,3 @@ class CryingInsightView extends StatelessWidget {
     );
   }
 }
-

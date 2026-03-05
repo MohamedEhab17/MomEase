@@ -22,6 +22,8 @@ import '../../feature/baby_cry/data/repository/audio_repository_impl.dart'
     as _i636;
 import '../../feature/baby_cry/presentation/view_model/cubit/sound_recording_cubit.dart'
     as _i589;
+import '../../feature/community/presentation/view_model/community_cubit.dart'
+    as _i1026;
 import 'app_module.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -33,6 +35,7 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final appModule = _$AppModule();
     gh.lazySingleton<_i1039.AudioRecorder>(() => appModule.audioRecorder);
+    gh.lazySingleton<_i1026.CommunityCubit>(() => _i1026.CommunityCubit());
     gh.lazySingleton<_i96.AudioLocalDataSource>(
       () => _i881.AudioLocalDataSourceImpl(gh<_i1039.AudioRecorder>()),
     );

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 
 class FeaturesHeader extends StatelessWidget implements PreferredSizeWidget {
-  const FeaturesHeader({super.key, required this.title});
+  const FeaturesHeader({super.key, required this.title, this.onPressed});
   final String title;
+  final void Function()? onPressed;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -22,7 +25,9 @@ class FeaturesHeader extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       leading: IconButton(
-        onPressed: () {},
+        onPressed: onPressed ?? () {
+          context.pop();
+        },
         icon: Icon(
           Icons.arrow_back_ios_new_rounded,
           size: 24.sp,

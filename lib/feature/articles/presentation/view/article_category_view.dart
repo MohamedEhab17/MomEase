@@ -28,10 +28,16 @@ class ArticleCategoryView extends StatelessWidget {
               hintStyle: AppStyles.styleInter12.copyWith(
                 color: AppColors.lightTextDisabled,
               ),
-              suffixWidget: SvgPicture.asset(
-                AppIcons.iconsSearch,
-                width: 15.w,
-                height: 15.h,
+              suffixWidget: SizedBox(
+                width: 60.w,
+                height: 40.h,
+                child: Center(
+                  child: SvgPicture.asset(
+                    AppIcons.iconsSearch,
+                    width: 20.w,
+                    height: 20.h,
+                  ),
+                ),
               ),
             ),
             20.height,

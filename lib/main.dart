@@ -10,11 +10,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   await AppRouter.initRouter();
+
   runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => NewMama(),
-    ),
+    DevicePreview(enabled: !kReleaseMode, builder: (context) => NewMama()),
   );
 }
 

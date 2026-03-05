@@ -1,4 +1,7 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/feature/depression/presentation/view_model/depression_cubit.dart';
+import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/feature/app_section/presentation/view/app_section_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/article_category_view.dart';
@@ -13,9 +16,14 @@ import 'package:new_mama/feature/auth/widgets/email_verified_success_widget.dart
 import 'package:new_mama/feature/baby_cry/presentation/views/cry_analyzing_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_insight_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_recording_session_view.dart';
+import 'package:new_mama/feature/baby_cry/presentation/views/crying_result_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_result_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_test_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_view.dart';
+import 'package:new_mama/feature/community/presentation/view/community_view.dart';
+import 'package:new_mama/feature/community/presentation/view/create_post_view.dart';
+import 'package:new_mama/feature/community/presentation/view/saved_posts_view.dart';
+import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
 import 'package:new_mama/feature/onboarding/presentation/onboarding_view.dart';
 
@@ -24,7 +32,7 @@ class AppRouter {
 
   static Future<void> initRouter() async {
     router = GoRouter(
-      initialLocation: AppRoutesPaths.cryingRecordingSessionView,
+      initialLocation: AppRoutesPaths.appSectionView,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -34,12 +42,33 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.appSectionView,
           name: 'appSectionView',
-          builder: (context, state) => const AppSectionView(),
+          builder: (context, state) => AppSectionView(),
         ),
         GoRoute(
           path: AppRoutesPaths.login,
           name: 'login',
           builder: (context, state) => const LoginView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.communityView,
+          name: 'communityView',
+          builder: (context, state) => const CommunityView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.createPostCommunityView,
+          name: 'createPostCommunityView',
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<CommunityCubit>(),
+            child: const CreatePostView(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.savedPostsView,
+          name: 'savedPostsView',
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<CommunityCubit>(),
+            child: const SavedPostsView(),
+          ),
         ),
         GoRoute(
           path: AppRoutesPaths.signup,
@@ -94,30 +123,44 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.depressionTestView,
           name: 'depressionTestView',
-          builder: (context, state) => const DepressionTestView(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => DepressionCubit()..startTest(),
+            child: const DepressionTestView(),
+          ),
         ),
         GoRoute(
           path: AppRoutesPaths.depressionResultView,
           name: 'depressionResultView',
-          builder: (context, state) =>  DepressionResultView(),
+          builder: (context, state) {
+            final score = state.extra as int? ?? 0;
+            return DepressionResultView(totalScore: score);
+          },
         ),
         GoRoute(
           path: AppRoutesPaths.cryingInsightView,
           name: 'cryingInsightView',
-          builder: (context, state) =>   CryingInsightView(),
+          builder: (context, state) => CryingInsightView(),
         ),
-      
+
         GoRoute(
           path: AppRoutesPaths.cryingRecordingSessionView,
           name: 'cryingRecordingSessionView',
-          builder: (context, state) =>   CryingRecordingSessionView(),
+          builder: (context, state) => CryingRecordingSessionView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.cryingResultView,
+          name: 'cryingResultView',
+          builder: (context, state) {
+            final advices = state.extra as List<String>;
+
+            return CryingResultView(advices: advices);
+          },
         ),
         GoRoute(
           path: AppRoutesPaths.cryAnalyzingView,
           name: 'cryAnalyzingView',
-          builder: (context, state) =>   CryAnalyzingView(),
+          builder: (context, state) => CryAnalyzingView(),
         ),
-       
       ],
     );
   }
