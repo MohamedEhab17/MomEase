@@ -26,6 +26,11 @@ import 'package:new_mama/feature/community/presentation/view/saved_posts_view.da
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
 import 'package:new_mama/feature/onboarding/presentation/onboarding_view.dart';
+import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_analyzing_view.dart';
+import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_insight_view.dart';
+import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_photo_view.dart';
+import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_result_view.dart';
+import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
 
 class AppRouter {
   static late final GoRouter router;
@@ -160,6 +165,33 @@ class AppRouter {
           path: AppRoutesPaths.cryAnalyzingView,
           name: 'cryAnalyzingView',
           builder: (context, state) => CryAnalyzingView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.skinDiagnosisInsightView,
+          name: 'skinDiagnosisInsightView',
+          builder: (context, state) => const SkinDiagnosisInsightView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.skinDiagnosisAnalyzingView,
+          name: 'skinDiagnosisAnalyzingView',
+          builder: (context, state) => const SkinDiagnosisAnalyzingView(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.skinDiagnosisPhotoView,
+          name: 'skinDiagnosisPhoto',
+          builder: (context, state) => BlocProvider(
+            create: (context) => SkinDiagnosisCubit(),
+            child: const SkinDiagnosisPhotoView(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.skinDiagnosisResultView,
+          name: 'skinDiagnosisResultView',
+          builder: (context, state) {
+            final advices = state.extra as List<String>;
+
+            return SkinDiagnosisResultView(advices: advices);
+          },
         ),
       ],
     );

@@ -14,7 +14,9 @@ class CustomElevatedButton extends StatelessWidget {
     this.textStyle,
     this.padding,
     this.maxSize,
+    this.icon,
   });
+
   final void Function()? onPressed;
   final String text;
   final Color? backgroundColor;
@@ -24,9 +26,11 @@ class CustomElevatedButton extends StatelessWidget {
   final Color? borderColor;
   final TextStyle? textStyle;
   final EdgeInsetsGeometry? padding;
+  final Widget? icon;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return ElevatedButton.icon(
+      icon: icon,
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         padding: padding ?? EdgeInsets.symmetric(horizontal: 42, vertical: 14),
@@ -40,7 +44,7 @@ class CustomElevatedButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(text, style: textStyle ?? AppStyles.styleInter20),
+      label: Text(text, style: textStyle ?? AppStyles.styleInter20),
     );
   }
 }

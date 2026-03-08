@@ -116,4 +116,16 @@ class AppIcons {
   /// Assets for iconsAddPhoto
   /// assets/icons/add_photo.svg
   static const String iconsAddPhoto = "assets/icons/add_photo.svg";
+
+  /// Assets for iconsScan
+  /// assets/icons/scan.svg
+  static const String iconsScan = "assets/icons/scan.svg";
+
+  /// Assets for iconsCamera
+  /// assets/icons/camera.svg
+  static const String iconsCamera = "assets/icons/camera.svg";
+
+  /// Assets for iconsUpload
+  /// assets/icons/upload.svg
+  static const String iconsUpload = "assets/icons/upload.svg";
 }

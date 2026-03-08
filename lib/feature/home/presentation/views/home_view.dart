@@ -50,7 +50,9 @@ class HomeView extends StatelessWidget {
             leadingIcon: AppIcons.iconsSkin,
             title: 'Skin Diagnosis',
             subtitle: 'check your baby’s skin health',
-            onTap: () {},
+            onTap: () {
+              context.push(AppRoutesPaths.skinDiagnosisInsightView);
+            },
           ),
           8.height,
           CustomQuickAccessCard(

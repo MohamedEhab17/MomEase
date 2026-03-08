@@ -22,4 +22,9 @@ class AppRoutesPaths {
   static const String communityView = '/communityView';
   static const String createPostCommunityView = '/createPostCommunityView';
   static const String savedPostsView = '/savedPostsView';
+  static const String skinDiagnosisInsightView = '/skinDiagnosisInsightView';
+  static const String skinDiagnosisPhotoView = '/skinDiagnosisPhotoView';
+  static const String skinDiagnosisAnalyzingView = '/skinDiagnosisAnalyzingView';
+  static const String skinDiagnosisResultView = '/skinDiagnosisResultView';
+
 }
