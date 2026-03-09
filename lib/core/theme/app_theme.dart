@@ -8,8 +8,8 @@ class AppTheme {
 
     colorScheme: const ColorScheme.light(
       primary: AppColors.primary,
-      primaryContainer: AppColors.primarySoft2,
-      surface: AppColors.primarySoft3,
+      primaryContainer: AppColors.primaryTint,
+      surface: AppColors.primaryExtraLight,
       onPrimary: Colors.white,
       onSurface: AppColors.lightTextPrimary,
     ),

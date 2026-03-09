@@ -26,14 +26,14 @@ class ArticlesHeader extends StatelessWidget implements PreferredSizeWidget {
         },
         icon: Icon(
           Icons.arrow_back_ios_new_rounded,
-          color: AppColors.primaryHard,
+          color: AppColors.primaryDark,
           size: 25.sp,
         ),
       ),
       title: Text(
         'Articles',
         style: AppStyles.styleInter20.copyWith(
-          color: AppColors.primaryHard,
+          color: AppColors.primaryDark,
           fontWeight: FontWeight.w600,
         ),
       ),

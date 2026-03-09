@@ -13,7 +13,7 @@ class CustomCircleAvatarWithShadow extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AvatarGlow(
-        glowColor: AppColors.primarySoft,
+        glowColor: AppColors.primaryLighter,
         startDelay: const Duration(milliseconds: 1000),
         duration: Duration(milliseconds: 2000),
         glowShape: BoxShape.circle,
@@ -24,12 +24,12 @@ class CustomCircleAvatarWithShadow extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: AppColors.primarySoft,
+            color: AppColors.primaryLighter,
             shape: BoxShape.circle,
-            border: Border.all(color: AppColors.primarySoft),
+            border: Border.all(color: AppColors.primaryLighter),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primarySoft,
+                color: AppColors.primaryLighter,
                 blurRadius: 12,
                 spreadRadius: 2,
                 offset: Offset(0, 0),

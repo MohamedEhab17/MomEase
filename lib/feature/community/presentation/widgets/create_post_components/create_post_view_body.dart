@@ -53,8 +53,8 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
               // final hasText = value.text.trim().isNotEmpty;
               return CustomElevatedButton(
                 backgroundColor: _postContentController.text.isNotEmpty
-                    ? AppColors.primaryHard
-                    : AppColors.primarySoft,
+                    ? AppColors.primaryDark
+                    : AppColors.primaryLighter,
                 minimumSize: Size(double.infinity, 52.h),
                 textStyle: AppStyles.styleInter20.copyWith(
                   color: AppColors.darkTextPrimary,

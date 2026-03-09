@@ -82,11 +82,11 @@ class _SkinDiagnosisAnalyzingViewState
             Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                color: AppColors.primaryHard.withAlpha(26),
+                color: AppColors.primaryDark.withAlpha(26),
                 shape: BoxShape.circle,
               ),
               child: SpinKitFadingCircle(
-                color: AppColors.primaryHard,
+                color: AppColors.primaryDark,
                 size: 48.w,
               ),
             ),

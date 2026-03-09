@@ -24,7 +24,7 @@ class AnswersOptions extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primarySoft : AppColors.lightBackground,
+          color: isSelected ? AppColors.primaryLighter : AppColors.lightBackground,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
@@ -46,7 +46,7 @@ class AnswersOptions extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isSelected
                       ? AppColors.primary
-                      : AppColors.secondarySoft3,
+                      : AppColors.greyMedium,
                   borderRadius: BorderRadius.circular(16.r),
                 ),
               ),

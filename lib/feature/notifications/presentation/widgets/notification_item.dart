@@ -55,7 +55,7 @@ class NotificationItem extends StatelessWidget {
         ),
         child: Material(
           color: notification.isUnread
-              ? AppColors.primarySoft.withAlpha(153)
+              ? AppColors.primaryLighter.withAlpha(153)
               : Colors.white,
           child: InkWell(
             onTap: onTap,
@@ -66,7 +66,7 @@ class NotificationItem extends StatelessWidget {
                   if (notification.isUnread) ...[
                     CircleAvatar(
                       radius: 4.r,
-                      backgroundColor: AppColors.primaryHard, // Pink
+                      backgroundColor: AppColors.primaryDark, // Pink
                     ),
                     12.w.width,
                   ],
@@ -114,7 +114,7 @@ class NotificationItem extends StatelessWidget {
                           'View Post',
                           style: AppStyles.styleInter12.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: AppColors.primaryHard, // Pink color
+                            color: AppColors.primaryDark, // Pink color
                           ),
                         ),
                       ),

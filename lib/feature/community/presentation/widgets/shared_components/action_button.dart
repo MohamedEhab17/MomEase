@@ -28,7 +28,7 @@ class ActionButton extends StatelessWidget {
         height: 30.h,
         padding: const EdgeInsets.symmetric(vertical: 7),
         decoration: BoxDecoration(
-          color: AppColors.primarySoft.withAlpha(77),
+          color: AppColors.primaryLighter.withAlpha(77),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -45,7 +45,7 @@ class ActionButton extends StatelessWidget {
             Text(
               label,
               style: AppStyles.styleInter12.copyWith(
-                color: AppColors.primaryHard,
+                color: AppColors.primaryDark,
                 fontWeight: FontWeight.w600,
               ),
             ),

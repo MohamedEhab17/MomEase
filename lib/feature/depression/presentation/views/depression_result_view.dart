@@ -36,7 +36,7 @@ class DepressionResultView extends StatelessWidget {
   }
 
   Color get _severityBackgroundColor {
-    if (totalScore <= 9) return AppColors.lightGreenBackground.withAlpha(77);
+    if (totalScore <= 9) return AppColors.backgroundGreen.withAlpha(77);
     if (totalScore <= 14) return Colors.orange.withAlpha(77);
     return Colors.red.withAlpha(77);
   }
@@ -123,7 +123,7 @@ class DepressionResultView extends StatelessWidget {
                 }
                 context.push('/depressionTestView');
               },
-              backgroundColor: AppColors.primaryHard,
+              backgroundColor: AppColors.primaryDark,
               minimumSize: Size(double.infinity, 52.h),
             ),
 
@@ -131,14 +131,14 @@ class DepressionResultView extends StatelessWidget {
             CustomElevatedButton(
               text: 'Back to Home',
               textStyle: AppStyles.styleInter20.copyWith(
-                color: AppColors.primaryHard,
+                color: AppColors.primaryDark,
               ),
               onPressed: () {
                 while (context.canPop()) {
                   context.pop();
                 }
               },
-              borderColor: AppColors.primaryHard,
+              borderColor: AppColors.primaryDark,
               backgroundColor: AppColors.lightBackground,
               minimumSize: Size(double.infinity, 52.h),
             ),

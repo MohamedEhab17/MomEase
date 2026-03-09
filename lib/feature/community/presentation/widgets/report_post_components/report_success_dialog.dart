@@ -53,7 +53,7 @@ class _ReportSuccessDialogState extends State<ReportSuccessDialog> {
             textStyle: AppStyles.styleInter12.copyWith(
               fontWeight: FontWeight.w600,
             ),
-            borderColor: AppColors.primaryHard,
+            borderColor: AppColors.primaryDark,
             onPressed: _onPressedContinue,
           ),
         ],

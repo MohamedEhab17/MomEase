@@ -53,7 +53,7 @@ class SkinDiagnosisInsightView extends StatelessWidget {
               onPressed: () {
                 context.push(AppRoutesPaths.skinDiagnosisPhotoView);
               },
-              backgroundColor: AppColors.primaryHard,
+              backgroundColor: AppColors.primaryDark,
               minimumSize: Size(double.infinity, 52.h),
               textStyle: AppStyles.styleInter20.copyWith(
                 color: AppColors.lightBackground,

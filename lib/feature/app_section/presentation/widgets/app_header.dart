@@ -17,7 +17,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.lightBackground,
       centerTitle: true,
       leading: IconButton(
-        icon: Icon(Icons.menu, color: AppColors.primaryHard),
+        icon: Icon(Icons.menu, color: AppColors.primaryDark),
         onPressed: () => Scaffold.of(context).openDrawer(),
       ),
       actions: [
@@ -26,11 +26,11 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           icon: Container(
             padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
             decoration: BoxDecoration(
-              color: AppColors.primarySoft2.withAlpha(128),
+              color: AppColors.primaryTint.withAlpha(128),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primarySoft2,
+                  color: AppColors.primaryTint,
                   blurRadius: 4,
                   spreadRadius: 0,
                   offset: const Offset(0, 0),
@@ -46,7 +46,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
         'MomEase',
         style: AppStyles.styleScriptMT32.copyWith(
           fontSize: 24.sp,
-          color: AppColors.primaryHard,
+          color: AppColors.primaryDark,
           fontWeight: FontWeight.w700,
         ),
       ),

@@ -14,7 +14,7 @@ class CustomCircleAvatarWithIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: AppColors.primarySoft,
+      backgroundColor: AppColors.primaryLighter,
       radius: radius.r,
       child: SvgPicture.asset(image, height: height.h, width:width.w),
     );

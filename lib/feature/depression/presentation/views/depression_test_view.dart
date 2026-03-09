@@ -54,8 +54,8 @@ class DepressionTestView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       LinearProgressIndicator(
-                        backgroundColor: AppColors.secondarySoft3,
-                        color: AppColors.primaryHard,
+                        backgroundColor: AppColors.greyMedium,
+                        color: AppColors.primaryDark,
                         value: progress,
                         borderRadius: BorderRadius.circular(24.r),
                         minHeight: 6.h,
@@ -102,8 +102,8 @@ class DepressionTestView extends StatelessWidget {
                           },
                     minimumSize: Size(double.infinity, 52.h),
                     backgroundColor: selectedAnswerIndex == null
-                        ? AppColors.primarySoft
-                        : AppColors.primaryHard,
+                        ? AppColors.primaryLighter
+                        : AppColors.primaryDark,
                     textStyle: AppStyles.styleInter20.copyWith(
                       color: AppColors.lightBackground,
                     ),

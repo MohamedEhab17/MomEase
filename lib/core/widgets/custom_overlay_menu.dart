@@ -127,7 +127,7 @@ class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
         decoration: BoxDecoration(
           color: AppColors.lightBackground,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.primarySoft5),
+          border: Border.all(color: AppColors.primaryLight),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(20),

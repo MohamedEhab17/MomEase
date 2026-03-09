@@ -22,9 +22,9 @@ class CircleIconButton extends StatelessWidget {
         padding: EdgeInsets.zero,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: AppColors.primaryHard, width: 3),
+          border: Border.all(color: AppColors.primaryDark, width: 3),
         ),
-        child: Icon(icon, size: size, color: AppColors.primaryHard),
+        child: Icon(icon, size: size, color: AppColors.primaryDark),
       ),
     );
   }

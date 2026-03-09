@@ -103,8 +103,8 @@ class _LoveActionButtonState extends State<LoveActionButton>
               padding: const EdgeInsets.symmetric(vertical: 7),
               decoration: BoxDecoration(
                 color: _isLiked
-                    ? AppColors.primaryHard.withAlpha(77)
-                    : AppColors.primarySoft.withAlpha(77),
+                    ? AppColors.primaryDark.withAlpha(77)
+                    : AppColors.primaryLighter.withAlpha(77),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
@@ -119,7 +119,7 @@ class _LoveActionButtonState extends State<LoveActionButton>
                   Text(
                     widget.label,
                     style: AppStyles.styleInter12.copyWith(
-                      color: AppColors.primaryHard,
+                      color: AppColors.primaryDark,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

@@ -24,14 +24,14 @@ class ReportDialogActionButtons extends StatelessWidget {
             textStyle: AppStyles.styleInter12.copyWith(
               fontWeight: FontWeight.w600,
             ),
-            borderColor: AppColors.primaryHard,
+            borderColor: AppColors.primaryDark,
           ),
         ),
         16.width,
         Expanded(
           child: CustomElevatedButton(
             text: "Send",
-            backgroundColor: AppColors.primaryHard,
+            backgroundColor: AppColors.primaryDark,
             padding: 14.vPadding,
             textStyle: AppStyles.styleInter12.copyWith(
               color: AppColors.darkTextPrimary,

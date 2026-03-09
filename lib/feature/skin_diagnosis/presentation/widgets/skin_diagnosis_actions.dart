@@ -32,7 +32,7 @@ class SkinDiagnosisActions extends StatelessWidget {
             onPressed: () {
               context.push(AppRoutesPaths.skinDiagnosisAnalyzingView);
             },
-            backgroundColor: AppColors.primaryHard,
+            backgroundColor: AppColors.primaryDark,
             minimumSize: Size(double.infinity, 52.h),
             textStyle: AppStyles.styleInter20.copyWith(
               color: AppColors.lightBackground,
@@ -47,7 +47,7 @@ class SkinDiagnosisActions extends StatelessWidget {
                 width: 24.w,
                 height: 24.h,
                 colorFilter: const ColorFilter.mode(
-                  AppColors.primaryHard,
+                  AppColors.primaryDark,
                   BlendMode.srcIn,
                 ),
               ),
@@ -58,11 +58,11 @@ class SkinDiagnosisActions extends StatelessWidget {
                         ImageSource.camera,
                       );
                     },
-              borderColor: AppColors.primaryHard,
+              borderColor: AppColors.primaryDark,
               backgroundColor: AppColors.lightBackground,
               minimumSize: Size(double.infinity, 52.h),
               textStyle: AppStyles.styleInter20.copyWith(
-                color: AppColors.primaryHard,
+                color: AppColors.primaryDark,
               ),
             ),
           ],
@@ -75,7 +75,7 @@ class SkinDiagnosisActions extends StatelessWidget {
                 width: 24.w,
                 height: 24.h,
                 colorFilter: const ColorFilter.mode(
-                  AppColors.primaryHard,
+                  AppColors.primaryDark,
                   BlendMode.srcIn,
                 ),
               ),
@@ -86,11 +86,11 @@ class SkinDiagnosisActions extends StatelessWidget {
                         ImageSource.gallery,
                       );
                     },
-              borderColor: AppColors.primaryHard,
+              borderColor: AppColors.primaryDark,
               backgroundColor: AppColors.lightBackground,
               minimumSize: Size(double.infinity, 52.h),
               textStyle: AppStyles.styleInter20.copyWith(
-                color: AppColors.primaryHard,
+                color: AppColors.primaryDark,
               ),
             ),
           ],
@@ -119,7 +119,7 @@ class SkinDiagnosisActions extends StatelessWidget {
                     ImageSource.camera,
                   );
                 },
-          backgroundColor: AppColors.primaryHard,
+          backgroundColor: AppColors.primaryDark,
           minimumSize: Size(double.infinity, 52.h),
           textStyle: AppStyles.styleInter20.copyWith(
             color: AppColors.lightBackground,
@@ -133,7 +133,7 @@ class SkinDiagnosisActions extends StatelessWidget {
             width: 24.w,
             height: 24.h,
             colorFilter: const ColorFilter.mode(
-              AppColors.primaryHard,
+              AppColors.primaryDark,
               BlendMode.srcIn,
             ),
           ),
@@ -144,11 +144,11 @@ class SkinDiagnosisActions extends StatelessWidget {
                     ImageSource.gallery,
                   );
                 },
-          borderColor: AppColors.primaryHard,
+          borderColor: AppColors.primaryDark,
           backgroundColor: AppColors.lightBackground,
           minimumSize: Size(double.infinity, 52.h),
           textStyle: AppStyles.styleInter20.copyWith(
-            color: AppColors.primaryHard,
+            color: AppColors.primaryDark,
           ),
         ),
       ],

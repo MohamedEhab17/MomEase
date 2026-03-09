@@ -16,7 +16,7 @@ class DottedList extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 6.0),
           child: CircleAvatar(
-            backgroundColor: AppColors.primaryHard,
+            backgroundColor: AppColors.primaryDark,
             radius: 4.r,
           ),
         ),

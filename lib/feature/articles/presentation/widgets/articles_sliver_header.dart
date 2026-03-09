@@ -26,7 +26,7 @@ class ArticlesSliverHeader extends StatelessWidget {
               },
               icon: Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: AppColors.primaryHard,
+                color: AppColors.primaryDark,
                 size: 20.sp,
               ),
             ),

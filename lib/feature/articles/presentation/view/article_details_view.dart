@@ -152,7 +152,7 @@ You deserve support. You don't have to do this alone. Building your village take
                           text: "Save Article",
                           minimumSize: Size(double.infinity, 52.h),
                           onPressed: () {},
-                          backgroundColor: AppColors.primaryHard,
+                          backgroundColor: AppColors.primaryDark,
                         ),
                       ],
                     ),

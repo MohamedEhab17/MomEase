@@ -22,7 +22,7 @@ class AddMoreImageTile extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.3,
           width: MediaQuery.of(context).size.width * 0.6,
 
-          color: AppColors.lightBackground2,
+          color: AppColors.backgroundPink,
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -181,7 +181,7 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
           width: 124.w,
           height: 4.h,
           decoration: BoxDecoration(
-            color: AppColors.primaryHard,
+            color: AppColors.primaryDark,
             borderRadius: BorderRadius.circular(2),
           ),
         ),
@@ -256,18 +256,18 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       decoration: const BoxDecoration(
-        color: AppColors.primarySoft4,
-        border: Border(top: BorderSide(color: AppColors.primarySoft, width: 1)),
+        color: AppColors.primaryBackground,
+        border: Border(top: BorderSide(color: AppColors.primaryLighter, width: 1)),
       ),
       child: Row(
         children: [
-          const Icon(Icons.reply, size: 16, color: AppColors.primaryHard),
+          const Icon(Icons.reply, size: 16, color: AppColors.primaryDark),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               'Replying to ${_replyingTo!.name}',
               style: AppStyles.styleInter12.copyWith(
-                color: AppColors.primaryHard,
+                color: AppColors.primaryDark,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -277,7 +277,7 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
             child: const Icon(
               Icons.close,
               size: 18,
-              color: AppColors.primaryHard,
+              color: AppColors.primaryDark,
             ),
           ),
         ],

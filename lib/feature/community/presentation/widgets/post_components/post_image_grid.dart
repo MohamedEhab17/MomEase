@@ -25,7 +25,7 @@ class PostImageGrid extends StatelessWidget {
                   : 280.h
             : null,
         width: double.infinity,
-        color: AppColors.lightBackground2,
+        color: AppColors.backgroundPink,
         child: _buildGrid(context, count),
       ),
     );

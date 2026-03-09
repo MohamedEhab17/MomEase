@@ -46,14 +46,14 @@ class DepressionView extends StatelessWidget {
               leadingIcon: AppIcons.iconsPrivate,
               title: 'Completely Private',
               subtitle: 'Your responses are confidential and never shared',
-              backgroundColor: AppColors.primarySoft,
+              backgroundColor: AppColors.primaryLighter,
             ),
             8.height,
             CustomQuickAccessCard(
               leadingIcon: AppIcons.iconsLock,
               title: 'No Judgment',
               subtitle: 'This is guidance, not diagnosis. You\'re safe here',
-              backgroundColor: AppColors.primarySoft,
+              backgroundColor: AppColors.primaryLighter,
             ),
             8.height,
             CustomQuickAccessCard(
@@ -61,7 +61,7 @@ class DepressionView extends StatelessWidget {
               title: 'Quick',
               subtitle:
                   'It takes about 2 minutes and includes 5 gentle questions',
-              backgroundColor: AppColors.primarySoft,
+              backgroundColor: AppColors.primaryLighter,
             ),
             54.height,
             CustomElevatedButton(
@@ -69,7 +69,7 @@ class DepressionView extends StatelessWidget {
               onPressed: () {
                 context.push(AppRoutesPaths.depressionTestView);
               },
-              backgroundColor: AppColors.primaryHard,
+              backgroundColor: AppColors.primaryDark,
               minimumSize: Size(double.infinity, 52),
               textStyle: AppStyles.styleInter20.copyWith(
                 color: AppColors.lightBackground,

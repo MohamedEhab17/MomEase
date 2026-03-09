@@ -41,7 +41,7 @@ class CustomQuickAccessCard extends StatelessWidget {
         ),
         leading: CircleAvatar(
           radius: 22.r,
-          backgroundColor: backgroundColor?? AppColors.primarySoft2,
+          backgroundColor: backgroundColor?? AppColors.primaryTint,
           child: SvgPicture.asset(leadingIcon),
         ),
         title: Text(title, style: AppStyles.styleInter12),

@@ -79,7 +79,7 @@ class HomeView extends StatelessWidget {
                 child: Text(
                   'View all',
                   style: AppStyles.styleInter10.copyWith(
-                    color: AppColors.primaryHard,
+                    color: AppColors.primaryDark,
                   ),
                 ),
               ),

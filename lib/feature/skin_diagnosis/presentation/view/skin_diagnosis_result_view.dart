@@ -57,7 +57,7 @@ class SkinDiagnosisResultView extends StatelessWidget {
             44.h.height,
             CustomElevatedButton(
               text: 'Analyze another Photo',
-              backgroundColor: AppColors.primaryHard,
+              backgroundColor: AppColors.primaryDark,
               minimumSize: Size(double.infinity, 52.h),
               onPressed: () {
                 while (context.canPop()) {

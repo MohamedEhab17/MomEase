@@ -47,7 +47,7 @@ class ChatInputBar extends StatelessWidget {
                   child: const CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.primarySoft2,
+                      AppColors.primaryTint,
                     ),
                   ),
                 )

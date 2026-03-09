@@ -28,7 +28,7 @@ class PostContent extends StatelessWidget {
           PostHeader(post: post),
           PostBody(post: post),
           PostActions(post: post, controller: controller),
-          Divider(color: AppColors.primarySoft, height: 1),
+          Divider(color: AppColors.primaryLighter, height: 1),
         ],
       ),
     );

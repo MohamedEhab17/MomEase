@@ -23,7 +23,7 @@ class EmptyUploadPlaceholder extends StatelessWidget {
         child: Container(
           height: 184.h,
           width: double.infinity,
-          color: AppColors.lightBackground2,
+          color: AppColors.backgroundPink,
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -29,8 +29,8 @@ class NotificationHeader extends StatelessWidget {
                   style: AppStyles.styleInter16.copyWith(
                     fontWeight: FontWeight.w600,
                     color: state.notifications.isEmpty
-                        ? AppColors.lightTextDisabled2
-                        : AppColors.primaryHard,
+                        ? AppColors.textDisabledLighter
+                        : AppColors.primaryDark,
                   ),
                 ),
               ),

@@ -35,7 +35,7 @@ class AnimatedDialogContainer extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.lightBackground,
                   borderRadius: borderRadius ?? BorderRadius.circular(40.r),
-                  border: Border.all(color: AppColors.primarySoft5, width: 1),
+                  border: Border.all(color: AppColors.primaryLight, width: 1),
                 ),
                 child: SingleChildScrollView(
                   clipBehavior: Clip.none,

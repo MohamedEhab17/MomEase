@@ -17,7 +17,7 @@ final String title;
       decoration: BoxDecoration(
         color: AppColors.lightBackground,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.primarySoft5),
+        border: Border.all(color: AppColors.primaryLight),
       ),
       child: Column(
         crossAxisAlignment: .start,

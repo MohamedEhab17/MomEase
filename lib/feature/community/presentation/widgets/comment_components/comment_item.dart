@@ -150,7 +150,7 @@ class _CommentItemState extends State<CommentItem> {
             height: 16.h,
             width: 16.w,
             colorFilter: _isLiked
-                ? const ColorFilter.mode(AppColors.primaryHard, BlendMode.srcIn)
+                ? const ColorFilter.mode(AppColors.primaryDark, BlendMode.srcIn)
                 : null,
           ),
           const SizedBox(width: 4),
@@ -171,7 +171,7 @@ class _CommentItemState extends State<CommentItem> {
       child: Text(
         'Reply',
         style: AppStyles.styleInter8.copyWith(
-          color: AppColors.primaryHard,
+          color: AppColors.primaryDark,
           fontWeight: FontWeight.bold,
         ),
       ),

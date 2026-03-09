@@ -59,9 +59,9 @@ class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Crop Photo',
-            toolbarColor: AppColors.primaryHard,
+            toolbarColor: AppColors.primaryDark,
             toolbarWidgetColor: AppColors.lightBackground,
-            activeControlsWidgetColor: AppColors.primaryHard,
+            activeControlsWidgetColor: AppColors.primaryDark,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
           ),

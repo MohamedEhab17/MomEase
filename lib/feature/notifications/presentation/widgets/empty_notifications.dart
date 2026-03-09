@@ -19,7 +19,7 @@ class EmptyNotifications extends StatelessWidget {
             width: 80.r,
             height: 80.r,
             colorFilter: const ColorFilter.mode(
-              AppColors.lightTextDisabled2,
+              AppColors.textDisabledLighter,
               BlendMode.srcIn,
             ),
           ),

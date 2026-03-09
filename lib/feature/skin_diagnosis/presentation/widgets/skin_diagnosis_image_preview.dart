@@ -67,7 +67,7 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
                         ),
                         child: Icon(
                           Icons.crop,
-                          color: AppColors.primaryHard,
+                          color: AppColors.primaryDark,
                           size: 24.w,
                         ),
                       ),
@@ -81,20 +81,20 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(20.w),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryHard.withAlpha(26),
+                      color: AppColors.primaryDark.withAlpha(26),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Icons.camera_alt_outlined,
                       size: 48.w,
-                      color: AppColors.primaryHard,
+                      color: AppColors.primaryDark,
                     ),
                   ),
                   24.height,
                   Text(
                     'No Photo Selected',
                     style: AppStyles.styleInter20.copyWith(
-                      color: AppColors.primaryHard,
+                      color: AppColors.primaryDark,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -103,7 +103,7 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
                     'Please take a clear photo or upload\none from your gallery.',
                     textAlign: TextAlign.center,
                     style: AppStyles.styleInter16.copyWith(
-                      color: AppColors.primaryHard.withAlpha(128),
+                      color: AppColors.primaryDark.withAlpha(128),
                     ),
                   ),
                 ],

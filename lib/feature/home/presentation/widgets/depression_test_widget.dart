@@ -20,7 +20,7 @@ class DepressionTestWidget extends StatelessWidget {
           width: double.infinity,
           height: 164.h,
           decoration: BoxDecoration(
-            color: AppColors.primarySoft2,
+            color: AppColors.primaryTint,
             borderRadius: BorderRadius.circular(20.r),
           ),
         ),

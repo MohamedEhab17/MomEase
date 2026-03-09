@@ -58,7 +58,7 @@ class TextFormFieldHelper extends StatefulWidget {
     this.isMobile,
     this.hintStyle,
     this.borderColor,
-    this.fillColor = AppColors.primarySoft2,
+    this.fillColor = AppColors.primaryTint,
     this.blurShadowRadius,
   });
 
@@ -172,15 +172,15 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
                 vertical: 19,
               ),
               border: outlineInputBorder(
-                color: widget.borderColor ?? AppColors.primarySoft3,
+                color: widget.borderColor ?? AppColors.primaryExtraLight,
                 width: 1,
               ),
               enabledBorder: outlineInputBorder(
-                color: widget.borderColor ?? AppColors.primarySoft3,
+                color: widget.borderColor ?? AppColors.primaryExtraLight,
                 width: 1,
               ),
               focusedBorder: outlineInputBorder(
-                color: widget.borderColor ?? AppColors.primaryHard,
+                color: widget.borderColor ?? AppColors.primaryDark,
                 width: 1,
               ),
               errorBorder: outlineInputBorder(color: Colors.red, width: 1),

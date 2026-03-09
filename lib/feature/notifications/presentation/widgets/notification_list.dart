@@ -62,7 +62,7 @@ class _NotificationListState extends State<NotificationList> {
         return RefreshIndicator(
           onRefresh: () =>
               context.read<NotificationCubit>().loadNotifications(),
-          color: AppColors.primaryHard,
+          color: AppColors.primaryDark,
           child: ListView.separated(
             controller: _scrollController,
             padding: EdgeInsets.only(bottom: 20.h, top: 4.h),
@@ -75,7 +75,7 @@ class _NotificationListState extends State<NotificationList> {
                   child: Padding(
                     padding: 16.hPadding,
                     child: CircularProgressIndicator(
-                      color: AppColors.primaryHard,
+                      color: AppColors.primaryDark,
                       strokeWidth: 3,
                     ),
                   ),

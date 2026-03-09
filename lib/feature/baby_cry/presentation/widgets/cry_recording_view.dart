@@ -18,7 +18,7 @@ class CryRecordingView extends StatelessWidget {
         Spacer(),
         CircleAvatar(
           radius: 50.r,
-          backgroundColor: AppColors.primarySoft,
+          backgroundColor: AppColors.primaryLighter,
           child: Image.asset(
             AppImages.imagesRecord,
             height: 64.h,
@@ -56,11 +56,11 @@ class CryRecordingView extends StatelessWidget {
           onPressed: () {
             context.read<SoundRecordingCubit>().stopRecording();
           },
-          borderColor: AppColors.primaryHard,
+          borderColor: AppColors.primaryDark,
           backgroundColor: AppColors.lightBackground,
           minimumSize: Size(double.infinity, 52.h),
           textStyle: AppStyles.styleInter20.copyWith(
-            color: AppColors.primaryHard,
+            color: AppColors.primaryDark,
           ),
         ),
         Spacer(),

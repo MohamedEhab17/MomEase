@@ -32,7 +32,7 @@ class FloatingNavBar extends StatelessWidget {
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
               padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
               decoration: BoxDecoration(
-                color: AppColors.primarySoft4,
+                color: AppColors.primaryBackground,
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Row(

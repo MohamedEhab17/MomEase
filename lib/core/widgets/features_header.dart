@@ -20,7 +20,7 @@ class FeaturesHeader extends StatelessWidget implements PreferredSizeWidget {
         title,
         style: AppStyles.styleInter20.copyWith(
           fontWeight: FontWeight.w600,
-          color: AppColors.primaryHard,
+          color: AppColors.primaryDark,
         ),
       ),
       centerTitle: true,
@@ -31,7 +31,7 @@ class FeaturesHeader extends StatelessWidget implements PreferredSizeWidget {
         icon: Icon(
           Icons.arrow_back_ios_new_rounded,
           size: 24.sp,
-          color: AppColors.primaryHard,
+          color: AppColors.primaryDark,
         ),
       ),
 
@@ -41,11 +41,11 @@ class FeaturesHeader extends StatelessWidget implements PreferredSizeWidget {
           icon: Container(
             padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
             decoration: BoxDecoration(
-              color: AppColors.primarySoft2.withAlpha(128),
+              color: AppColors.primaryTint.withAlpha(128),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primarySoft2,
+                  color: AppColors.primaryTint,
                   blurRadius: 4,
                   spreadRadius: 0,
                   offset: const Offset(0, 0),

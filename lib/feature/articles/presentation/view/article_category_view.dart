@@ -22,7 +22,7 @@ class ArticleCategoryView extends StatelessWidget {
           children: [
             TextFormFieldHelper(
               fillColor: AppColors.lightBackground,
-              borderColor: AppColors.primarySoft,
+              borderColor: AppColors.primaryLighter,
               borderRadius: BorderRadius.circular(64.r),
               hint: 'Search articles...',
               hintStyle: AppStyles.styleInter12.copyWith(

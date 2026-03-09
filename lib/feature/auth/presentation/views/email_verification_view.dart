@@ -63,7 +63,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                   height: 56,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.secondarySoft2),
+                    border: Border.all(color: AppColors.greyExtraLight),
                     color: Colors.transparent,
                   ),
                 ),
