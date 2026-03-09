@@ -8,6 +8,7 @@ import 'package:new_mama/feature/app_section/presentation/widgets/floating_nav_b
 import 'package:new_mama/feature/app_section/presentation/widgets/scroll_visibility_wrapper.dart';
 import 'package:new_mama/feature/community/presentation/view/community_view.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
+import 'package:new_mama/feature/notifications/presentation/view/notification_view.dart';
 import '../view_model/cubit/bottom_nav_cubit.dart';
 
 class AppSectionView extends StatefulWidget {
@@ -40,7 +41,7 @@ class _AppSectionViewState extends State<AppSectionView> {
       AppTab(
         activeIcon: AppIcons.iconsActiveNotification,
         inactiveIcon: AppIcons.iconsInActiveNotification,
-        view: const Scaffold(),
+        view: const NotificationView(),
       ),
       AppTab(
         activeIcon: AppIcons.iconsActiveProfile,

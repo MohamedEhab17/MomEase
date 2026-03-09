@@ -31,8 +31,10 @@ class AppColors {
   static const lightTextPrimary = Color(0xFF000000);
   static const lightTextSecondary = Color(0xFF9E9E9E);
   static const lightTextDisabled = Color(0xFF999999);
+  static const lightTextDisabled2 = Color(0xffB2B2B2);
   static const greenText = Color(0xFF31B042);
 
   static const darkTextPrimary = Color(0xFFFFFFFF);
   static const darkTextSecondary = Color(0xFFCECECE);
+
 }
