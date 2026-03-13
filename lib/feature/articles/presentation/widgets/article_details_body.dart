@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
@@ -16,34 +15,24 @@ class ArticleDetailsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColors.lightBackground,
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 132,
-            offset: const Offset(0, -72),
-            color: AppColors.lightTextPrimary.withAlpha(63),
-            spreadRadius: 0,
-            blurStyle: BlurStyle.outer,
-          ),
-        ],
-      ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(),
           16.height,
-          Text(article.overview, style: AppStyles.styleInter14),
+          Text(
+            article.overview,
+            style: AppStyles.styleInter14.copyWith(height: 1.5),
+          ),
           24.height,
           ...article.sections.map(
             (section) => ArticleContentSectionWidget(section: section),
           ),
-          76.height,
+          40.height,
           ArticleSaveButtonAnimated(articleId: article.id),
+          40.height,
         ],
       ),
     );
@@ -51,16 +40,16 @@ class ArticleDetailsBody extends StatelessWidget {
 
   Widget _buildHeader() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Text(
-            article.title,
-            style: AppStyles.styleInter16.copyWith(fontWeight: FontWeight.w600),
+            article.category,
+            style: AppStyles.styleInter16.copyWith(fontWeight: FontWeight.w700),
           ),
         ),
         8.width,
-        SvgPicture.asset(AppIcons.iconsClock, width: 22.w, height: 22.h),
+        SvgPicture.asset(AppIcons.iconsClock, width: 14.w, height: 14.h),
         4.width,
         Text(
           article.readTime,
