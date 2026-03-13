@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 
 class ArticlesSliverHeader extends StatelessWidget {
-  const ArticlesSliverHeader({super.key});
+  final ArticleModel article;
+
+  const ArticlesSliverHeader({super.key, required this.article});
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +41,18 @@ class ArticlesSliverHeader extends StatelessWidget {
         clipBehavior: Clip.none,
 
         children: [
-          Image.asset(
-            AppImages.imagesArticleCategoryItems,
+          Image.network(
+            article.imageUrl,
             width: double.infinity,
             height: 250.h,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
           Positioned(
             bottom: 16,
             left: 30,
             right: 28,
             child: Text(
-              'Your Healing Journey After Birth: A Gentle Guide for New Mothers',
+              article.title,
               style: AppStyles.styleInter20.copyWith(
                 color: AppColors.darkTextPrimary,
                 fontWeight: FontWeight.w700,

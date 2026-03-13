@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
+import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_images.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 
 class ArticleCategoryCard extends StatelessWidget {
-  const ArticleCategoryCard({super.key});
+  final ArticleModel article;
+  const ArticleCategoryCard({super.key, required this.article});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pushNamed('articleCategoryView'),
+      onTap: () => context.push(AppRoutesPaths.articlesView, extra: article),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
+        margin: 20.hPadding,
         width: double.infinity,
         height: 128.h,
         decoration: BoxDecoration(
@@ -34,9 +38,9 @@ class ArticleCategoryCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
-              child: Image.asset(
-                AppImages.imagesArticleCategory,
-                fit: BoxFit.contain,
+              child: Image.network(
+                article.imageUrl,
+                fit: BoxFit.cover,
                 width: 100.w,
                 height: 100.h,
               ),
@@ -49,13 +53,13 @@ class ArticleCategoryCard extends StatelessWidget {
                 crossAxisAlignment: .start,
                 children: [
                   Text(
-                    'Postpartum Recovery',
+                    article.title,
                     style: AppStyles.styleInter12,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                   Text(
-                    'Guides and tips to help mothers recover physically and emotionally after childbirth, including healing, rest, and self-care.',
+                    article.overview,
                     style: AppStyles.styleInter10.copyWith(
                       color: AppColors.lightTextPrimary.withAlpha(179),
                     ),

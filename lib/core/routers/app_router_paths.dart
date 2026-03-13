@@ -11,6 +11,7 @@ class AppRoutesPaths {
   static const String articlesView = '/articlesView';
   static const String articleCategoryView = '/articleCategoryView';
   static const String articleDetailsView = '/articleDetailsView';
+  static const String savedArticlesView = '/savedArticlesView';
   static const String depressionView = '/depressionView';
   static const String depressionTestView = '/depressionTestView';
   static const String depressionResultView = '/depressionResultView';
@@ -24,7 +25,7 @@ class AppRoutesPaths {
   static const String savedPostsView = '/savedPostsView';
   static const String skinDiagnosisInsightView = '/skinDiagnosisInsightView';
   static const String skinDiagnosisPhotoView = '/skinDiagnosisPhotoView';
-  static const String skinDiagnosisAnalyzingView = '/skinDiagnosisAnalyzingView';
+  static const String skinDiagnosisAnalyzingView =
+      '/skinDiagnosisAnalyzingView';
   static const String skinDiagnosisResultView = '/skinDiagnosisResultView';
-
 }

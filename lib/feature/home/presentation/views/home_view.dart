@@ -74,7 +74,7 @@ class HomeView extends StatelessWidget {
 
               TextButton(
                 onPressed: () {
-                  context.pushNamed('articlesView');
+                  context.push(AppRoutesPaths.articleCategoryView);
                 },
                 child: Text(
                   'View all',
