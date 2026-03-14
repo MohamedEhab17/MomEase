@@ -31,7 +31,7 @@ class ArticleDetailsBody extends StatelessWidget {
             (section) => ArticleContentSectionWidget(section: section),
           ),
           40.height,
-          ArticleSaveButtonAnimated(articleId: article.id),
+          ArticleSaveButtonAnimated(article: article),
           40.height,
         ],
       ),
