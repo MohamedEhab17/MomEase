@@ -23,6 +23,12 @@ abstract class AppStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.lightTextDisabled,
   );
+  static TextStyle styleRoboto20 = TextStyle(
+    fontSize: 20.sp,
+    fontFamily: AppFontFamily.roboto,
+    fontWeight: FontWeight.w600,
+    color: AppColors.lightTextDisabled,
+  );
   //! inter
   static TextStyle styleInter8 = TextStyle(
     fontSize: 8.sp,
@@ -64,6 +70,12 @@ abstract class AppStyles {
     fontSize: 24.sp,
     fontFamily: AppFontFamily.inter,
     fontWeight: FontWeight.w600,
+    color: AppColors.lightTextPrimary,
+  );
+  static TextStyle styleInter32 = TextStyle(
+    fontSize: 32.sp,
+    fontFamily: AppFontFamily.inter,
+    fontWeight: FontWeight.w500,
     color: AppColors.lightTextPrimary,
   );
 

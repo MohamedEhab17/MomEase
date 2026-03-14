@@ -27,4 +27,14 @@ class AppRoutesPaths {
   static const String skinDiagnosisAnalyzingView = '/skinDiagnosisAnalyzingView';
   static const String skinDiagnosisResultView = '/skinDiagnosisResultView';
 
+  // Baby Profile Setup Paths
+  static const String babyProfileOnboardingView = '/babyProfileOnboardingView';
+  static const String firstTimeMama = '/firstTimeMama';
+  static const String babyCount = '/babyCount';
+  static const String babyName = '/babyName';
+  static const String babyGender = '/babyGender';
+  static const String dateOfBirth = '/dateOfBirth';
+  static const String feedingType = '/feedingType';
+  static const String birthExperience = '/birthExperience';
+  static const String allSetUp = '/allSetUp';
 }

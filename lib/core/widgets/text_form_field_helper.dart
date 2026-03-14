@@ -22,6 +22,7 @@ class TextFormFieldHelper extends StatefulWidget {
 
   final BorderRadius? borderRadius;
   final bool? isMobile;
+  final bool? isReadOnly;
   final TextStyle? hintStyle;
   final Color? borderColor;
   final Color? fillColor;
@@ -59,7 +60,7 @@ class TextFormFieldHelper extends StatefulWidget {
     this.hintStyle,
     this.borderColor,
     this.fillColor = AppColors.primaryTint,
-    this.blurShadowRadius,
+    this.blurShadowRadius, this.isReadOnly,
   });
 
   @override
@@ -146,6 +147,7 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
             textDirection: widget.isMobile != null
                 ? TextDirection.ltr
                 : _textDirection,
+                readOnly: widget.isReadOnly ?? false,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               fillColor: widget.fillColor,

@@ -52,4 +52,8 @@ class AppImages {
    /// Assets for imagesRecord
   /// assets/images/record.gif
   static const String imagesRecord=  "assets/images/record.gif";
+  
+   /// Assets for imagesMama
+  /// assets/images/mama.svg
+  static const String imagesMama=  "assets/images/mama.svg";
 }

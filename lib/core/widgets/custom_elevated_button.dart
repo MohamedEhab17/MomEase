@@ -15,6 +15,9 @@ class CustomElevatedButton extends StatelessWidget {
     this.padding,
     this.maxSize,
     this.icon,
+    this.elevation = 4,
+    this.disabledBackgroundColor,
+    this.disabledForegroundColor,
   });
 
   final void Function()? onPressed;
@@ -27,20 +30,39 @@ class CustomElevatedButton extends StatelessWidget {
   final TextStyle? textStyle;
   final EdgeInsetsGeometry? padding;
   final Widget? icon;
+  final double elevation;
+  final Color? disabledBackgroundColor;
+  final Color? disabledForegroundColor;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-      icon: icon,
+      icon: icon ?? const SizedBox.shrink(),
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
-        padding: padding ?? EdgeInsets.symmetric(horizontal: 42, vertical: 14),
+        disabledBackgroundColor: disabledBackgroundColor ?? backgroundColor,
+        disabledForegroundColor: disabledForegroundColor,
+        padding: padding ?? const EdgeInsets.symmetric(horizontal: 42, vertical: 14),
         shadowColor: AppColors.lightTextPrimary.withAlpha(64),
-        elevation: 4,
+        elevation: elevation,
         minimumSize: minimumSize,
         maximumSize: maxSize,
+        splashFactory: NoSplash.splashFactory,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          side: BorderSide(color: borderColor ?? backgroundColor!),
+          side: BorderSide(color: borderColor ?? backgroundColor ?? Colors.transparent),
+        ),
+      ).copyWith(
+        overlayColor: WidgetStateProperty.resolveWith<Color?>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.pressed)) {
+              return Colors.transparent;
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return Colors.transparent;
+            }
+            return null; // Defer to the widget's default.
+          },
         ),
       ),
       onPressed: onPressed,

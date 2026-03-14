@@ -128,4 +128,8 @@ class AppIcons {
   /// Assets for iconsUpload
   /// assets/icons/upload.svg
   static const String iconsUpload = "assets/icons/upload.svg";
+
+  /// Assets for iconsArrowDropDown
+  /// assets/icons/arrow_drop_down.svg
+  static const String iconsArrowDropDown = "assets/icons/arrow_drop_down.svg";
 }

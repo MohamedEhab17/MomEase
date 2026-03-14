@@ -1,5 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/views/baby_profile_onboarding_layout.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/views/baby_profile_onboarding_view.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/all_set_up.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/baby_count.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/baby_gender.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/baby_name.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/birth_experience.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/date_of_birth.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/feeding_type.dart';
+import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/first_time_mama.dart';
 import 'package:new_mama/feature/depression/presentation/view_model/depression_cubit.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
@@ -37,7 +48,7 @@ class AppRouter {
 
   static Future<void> initRouter() async {
     router = GoRouter(
-      initialLocation: AppRoutesPaths.appSectionView,
+      initialLocation: AppRoutesPaths.babyProfileOnboardingView,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -192,6 +203,87 @@ class AppRouter {
 
             return SkinDiagnosisResultView(advices: advices);
           },
+        ),
+        ShellRoute(
+          builder: (context, state, child) {
+            return BlocProvider(
+              create: (context) => OnboardingCubit(totalSteps: 9),
+              child: BabyProfileOnboardingLayout(child: child),
+            );
+          },
+          routes: [
+            GoRoute(
+              path: AppRoutesPaths.babyProfileOnboardingView,
+              name: 'babyProfileOnboardingView',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: BabyProfileOnboardingView());
+              },
+             // builder: (context, state) => const BabyProfileOnboardingView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.firstTimeMama,
+              name: 'firstTimeMama',
+             // builder: (context, state) => const FirstTimeMama(),
+             pageBuilder: (context, state) {
+                return const NoTransitionPage(child: FirstTimeMama());
+              },
+            ),
+            GoRoute(
+              path: AppRoutesPaths.babyCount,
+              name: 'babyCount',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: BabyCount());
+              },
+             // builder: (context, state) => const BabyCount(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.babyName,
+              name: 'babyName',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: BabyName());
+              },
+            ),
+            GoRoute(
+              path: AppRoutesPaths.babyGender,
+              name: 'babyGender',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: BabyGender());
+              },
+              // builder: (context, state) => const BabyGender(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.dateOfBirth,
+              name: 'dateOfBirth',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: DateOfBirth());
+              },
+              // builder: (context, state) => const DateOfBirth(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.feedingType,
+              name: 'feedingType',
+               pageBuilder: (context, state) {
+                return const NoTransitionPage(child: FeedingType());
+              },
+             // builder: (context, state) => const FeedingType(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.birthExperience,
+              name: 'birthExperience',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: BirthExperience());
+              },
+             // builder: (context, state) => const BirthExperience(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.allSetUp,
+              name: 'allSetUp',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(child: AllSetUp());
+              },
+             // builder: (context, state) => const AllSetUp(),
+            ),
+          ],
         ),
       ],
     );
