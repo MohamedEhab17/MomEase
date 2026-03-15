@@ -9,6 +9,7 @@ import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/feature/home/presentation/widgets/articles_card.dart';
 import 'package:new_mama/feature/home/presentation/widgets/custom_quick_access_card.dart';
 import 'package:new_mama/feature/home/presentation/widgets/depression_test_widget.dart';
+import 'package:new_mama/feature/articles/dummy/article_dummy_data.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -74,7 +75,7 @@ class HomeView extends StatelessWidget {
 
               TextButton(
                 onPressed: () {
-                  context.pushNamed('articlesView');
+                  context.push(AppRoutesPaths.articleCategoryView);
                 },
                 child: Text(
                   'View all',
@@ -91,13 +92,14 @@ class HomeView extends StatelessWidget {
             child: ListView.separated(
               clipBehavior: Clip.none,
               scrollDirection: Axis.horizontal,
-              itemCount: 10,
+              itemCount: dummyArticles.length,
               separatorBuilder: (context, index) => 16.width,
               itemBuilder: (context, index) {
-                return ArticlesCard();
+                return ArticlesCard(article: dummyArticles[index]);
               },
             ),
           ),
+          32.height,
         ],
       ),
     );

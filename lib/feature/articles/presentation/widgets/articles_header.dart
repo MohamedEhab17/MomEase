@@ -1,13 +1,18 @@
+import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 
 class ArticlesHeader extends StatelessWidget implements PreferredSizeWidget {
-  const ArticlesHeader({super.key});
+  final AnimateToController? controller;
+  final bool showSaveIcon;
+
+  const ArticlesHeader({super.key, this.controller, this.showSaveIcon = true});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,26 @@ class ArticlesHeader extends StatelessWidget implements PreferredSizeWidget {
       scrolledUnderElevation: 0,
       actionsPadding: EdgeInsets.only(right: 15.w),
       actions: [
-        SvgPicture.asset(AppIcons.iconsFilledSave, width: 25.w, height: 25.h),
+        if (showSaveIcon)
+          GestureDetector(
+            onTap: () {
+              context.push(AppRoutesPaths.savedArticlesView);
+            },
+            child: controller != null
+                ? AnimateTo(
+                    controller: controller!,
+                    child: SvgPicture.asset(
+                      AppIcons.iconsFilledSave,
+                      width: 25.w,
+                      height: 25.h,
+                    ),
+                  )
+                : SvgPicture.asset(
+                    AppIcons.iconsFilledSave,
+                    width: 25.w,
+                    height: 25.h,
+                  ),
+          ),
       ],
       centerTitle: true,
       backgroundColor: AppColors.lightBackground,

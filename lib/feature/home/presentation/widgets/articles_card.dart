@@ -7,15 +7,18 @@ import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
+import 'package:new_mama/feature/articles/data/models/article_model.dart';
 
 class ArticlesCard extends StatelessWidget {
-  const ArticlesCard({super.key});
+  const ArticlesCard({super.key, required this.article});
+
+  final ArticleModel article;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(AppRoutesPaths.articlesView);
+        context.push(AppRoutesPaths.articleDetailsView, extra: article);
       },
       child: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r)),
@@ -26,7 +29,12 @@ class ArticlesCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
-              child: Image.asset(AppImages.imagesArticles, fit: BoxFit.cover),
+              child: Image.network(
+                article.imageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    Image.asset(AppImages.imagesArticles, fit: BoxFit.cover),
+              ),
             ),
             Container(
               decoration: BoxDecoration(
@@ -50,7 +58,7 @@ class ArticlesCard extends StatelessWidget {
                     Text(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      '7 useful meals for postpartum to...',
+                      article.title,
                       style: AppStyles.styleInter10.copyWith(
                         color: AppColors.lightBackground,
                         fontWeight: FontWeight.w700,
@@ -68,7 +76,12 @@ class ArticlesCard extends StatelessWidget {
                           vertical: 4.5.h,
                         ),
                         backgroundColor: AppColors.lightBackground,
-                        onPressed: () {},
+                        onPressed: () {
+                          context.push(
+                            AppRoutesPaths.articleDetailsView,
+                            extra: article,
+                          );
+                        },
                         minimumSize: Size(69.w, 16.h),
                       ),
                     ),

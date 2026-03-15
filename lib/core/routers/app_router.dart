@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/views/baby_profile_onboarding_layout.dart';
@@ -18,6 +19,8 @@ import 'package:new_mama/feature/app_section/presentation/view/app_section_view.
 import 'package:new_mama/feature/articles/presentation/view/article_category_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/article_details_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/articles_view.dart';
+import 'package:new_mama/feature/articles/presentation/view/saved_articles_view.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/views/create_password.dart';
 import 'package:new_mama/feature/auth/presentation/views/email_verification_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/forget_password.dart';
@@ -119,17 +122,37 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.articlesView,
           name: 'articlesView',
-          builder: (context, state) => const ArticlesView(),
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<ArticleCubit>(),
+            child: const ArticlesView(),
+          ),
         ),
         GoRoute(
           path: AppRoutesPaths.articleCategoryView,
           name: 'articleCategoryView',
-          builder: (context, state) => const ArticleCategoryView(),
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<ArticleCubit>(),
+            child: const ArticleCategoryView(),
+          ),
         ),
         GoRoute(
           path: AppRoutesPaths.articleDetailsView,
           name: 'articleDetailsView',
-          builder: (context, state) => const ArticleDetailsView(),
+          builder: (context, state) {
+            final article = state.extra as ArticleModel;
+            return BlocProvider.value(
+              value: getIt<ArticleCubit>(),
+              child: ArticleDetailsView(article: article),
+            );
+          },
+        ),
+        GoRoute(
+          path: AppRoutesPaths.savedArticlesView,
+          name: 'savedArticlesView',
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<ArticleCubit>(),
+            child: const SavedArticlesView(),
+          ),
         ),
         GoRoute(
           path: AppRoutesPaths.depressionView,

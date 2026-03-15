@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:animate_to/animate_to.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:new_mama/core/utils/app_icons.dart';
+import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
-import 'package:new_mama/feature/articles/presentation/widgets/custom_saved_icon.dart';
 
 class CustomArticleCategoryItem extends StatelessWidget {
-  const CustomArticleCategoryItem({super.key});
+  final ArticleModel article;
+  final AnimateToController controller;
+
+  const CustomArticleCategoryItem({
+    super.key,
+    required this.article,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(AppRoutesPaths.articleDetailsView);
+        context.push(AppRoutesPaths.articleDetailsView, extra: article);
       },
       child: Container(
         width: double.infinity,
+        margin: 20.hPadding,
         decoration: BoxDecoration(
           color: AppColors.lightBackground,
           borderRadius: BorderRadius.circular(16.r),
@@ -39,9 +52,9 @@ class CustomArticleCategoryItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
-              child: Image.asset(
-                AppImages.imagesArticleCategoryItems,
-                fit: BoxFit.fill,
+              child: Image.network(
+                article.imageUrl,
+                fit: BoxFit.cover,
                 width: double.infinity,
                 height: 200.h,
               ),
@@ -50,7 +63,7 @@ class CustomArticleCategoryItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Your Healing Journey After Birth: A Gentle Guide for New Mothers',
+                article.title,
                 style: AppStyles.styleInter12.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
@@ -66,14 +79,32 @@ class CustomArticleCategoryItem extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'This article gently guides new mothers through the postpartum recovery phase, helping them understand their bodies, emotions...',
+                      article.overview,
                       style: AppStyles.styleInter10,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
 
-                  CustomSavedIcon(),
+                  GestureDetector(
+                    onTap: () {
+                      context.read<ArticleCubit>().toggleSaveArticle(
+                        article.id,
+                      );
+                      if (!article.isSaved) {
+                        controller.animateTag('save_${article.id}');
+                      }
+                    },
+                    child: AnimateFrom(
+                      key: controller.tag('save_${article.id}'),
+                      child: SvgPicture.asset(
+                        article.isSaved
+                            ? AppIcons.iconsFilledSave
+                            : AppIcons.iconsUnfilledSave,
+                        width: 15.w,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

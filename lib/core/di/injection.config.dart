@@ -13,6 +13,8 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:record/record.dart' as _i1039;
 
+import '../../feature/articles/presentation/view_model/article_cubit.dart'
+    as _i490;
 import '../../feature/baby_cry/data/data_source/audio_local_data_source.dart'
     as _i96;
 import '../../feature/baby_cry/data/data_source/audio_local_data_source_impl.dart'
@@ -35,6 +37,7 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final appModule = _$AppModule();
     gh.lazySingleton<_i1039.AudioRecorder>(() => appModule.audioRecorder);
+    gh.lazySingleton<_i490.ArticleCubit>(() => _i490.ArticleCubit());
     gh.lazySingleton<_i1026.CommunityCubit>(() => _i1026.CommunityCubit());
     gh.lazySingleton<_i96.AudioLocalDataSource>(
       () => _i881.AudioLocalDataSourceImpl(gh<_i1039.AudioRecorder>()),
