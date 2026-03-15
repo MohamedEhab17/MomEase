@@ -33,7 +33,7 @@ class CustomDropdown extends StatelessWidget {
           child: Text(label ?? "", style: AppStyles.styleInter14),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(64.r),
             border: Border.all(color: AppColors.primaryDark),
@@ -42,7 +42,9 @@ class CustomDropdown extends StatelessWidget {
             child: DropdownButton<String>(
               focusColor: Colors.transparent,
               dropdownColor: AppColors.lightBackground,
+              borderRadius: BorderRadius.circular(8.r),
               value: value,
+              elevation: 3,
               hint: Text(hintText, style: AppStyles.styleInter12),
               isExpanded: true,
               icon: SvgPicture.asset(

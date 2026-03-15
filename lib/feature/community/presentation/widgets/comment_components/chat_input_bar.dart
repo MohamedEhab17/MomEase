@@ -24,7 +24,6 @@ class ChatInputBar extends StatelessWidget {
       controller: controller,
       enabled: !isProcessing,
       borderRadius: BorderRadius.circular(64),
-      blurShadowRadius: 6,
       fillColor: AppColors.darkTextPrimary,
       hint: 'Write a comment',
       hintStyle: AppStyles.styleInter10.copyWith(

@@ -26,7 +26,8 @@ class TextFormFieldHelper extends StatefulWidget {
   final TextStyle? hintStyle;
   final Color? borderColor;
   final Color? fillColor;
-  final double? blurShadowRadius;
+
+  final bool enableShadow;
 
   const TextFormFieldHelper({
     super.key,
@@ -60,7 +61,8 @@ class TextFormFieldHelper extends StatefulWidget {
     this.hintStyle,
     this.borderColor,
     this.fillColor = AppColors.primaryTint,
-    this.blurShadowRadius, this.isReadOnly,
+    this.isReadOnly,
+    this.enableShadow = true,
   });
 
   @override
@@ -70,6 +72,8 @@ class TextFormFieldHelper extends StatefulWidget {
 class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
   late bool obscureText;
   TextDirection _textDirection = TextDirection.ltr;
+
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -89,35 +93,39 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
     });
   }
 
+  String? _validator(String? value) {
+    final result = widget.onValidate?.call(value);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _hasError != (result != null)) {
+        setState(() {
+          _hasError = result != null;
+        });
+      }
+    });
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: .start,
-      children: [
-        Visibility(
-          visible: widget.isVisible,
-          child: Text(
-            widget.label ?? "",
-            // style: AppStyles.styleInter14Grey
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: widget.borderRadius ?? BorderRadius.circular(8.r),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.lightTextPrimary.withAlpha(38),
-                blurRadius: widget.blurShadowRadius ?? 0,
-                offset: const Offset(0, 0),
-                spreadRadius: 0,
-                blurStyle: BlurStyle.outer,
-              ),
-            ],
-          ),
+    final borderRadius = widget.borderRadius ?? BorderRadius.circular(8.r);
 
+    final showShadow = widget.enableShadow && !_hasError;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Visibility(visible: widget.isVisible, child: Text(widget.label ?? "")),
+
+        Material(
+          color: Colors.transparent,
+          borderRadius: borderRadius,
+          elevation: showShadow ? 6 : 0,
+          shadowColor: AppColors.lightTextPrimary.withAlpha(26),
           child: TextFormField(
             controller: widget.controller,
-            validator: widget.onValidate,
+            validator: _validator,
             onChanged: (text) {
               widget.onChanged?.call(text);
               _updateTextDirection(text);
@@ -133,21 +141,17 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
             obscuringCharacter: widget.obscuringCharacter ?? '*',
             cursorColor: AppColors.primary,
             keyboardType: widget.keyboardType,
-            // inputFormatters: widget.inputFormatters,
             enabled: widget.enabled,
             textInputAction: widget.action ?? TextInputAction.next,
             focusNode: widget.focusNode,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-
-            // style: AppStyles.styleInter12Grey,
             textAlign: widget.isMobile != null
                 ? TextAlign.left
                 : TextAlign.start,
-
             textDirection: widget.isMobile != null
                 ? TextDirection.ltr
                 : _textDirection,
-                readOnly: widget.isReadOnly ?? false,
+            readOnly: widget.isReadOnly ?? false,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               fillColor: widget.fillColor,

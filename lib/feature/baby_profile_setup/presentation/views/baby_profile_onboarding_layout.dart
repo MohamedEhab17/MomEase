@@ -11,7 +11,7 @@ import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubi
 
 class BabyProfileOnboardingLayout extends StatelessWidget {
   final Widget child;
-  
+
   const BabyProfileOnboardingLayout({super.key, required this.child});
 
   static const List<String> _stepRoutes = [
@@ -29,9 +29,11 @@ class BabyProfileOnboardingLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: Scaffold(
+        backgroundColor: AppColors.lightBackground,
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 42),
+          padding: EdgeInsets.only(left: 20.w, right: 20, top: 42.h),
           child: BlocBuilder<OnboardingCubit, OnboardingState>(
             builder: (context, state) {
               return Column(
@@ -65,9 +67,7 @@ class BabyProfileOnboardingLayout extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Expanded(
-                    child: child,
-                  ),
+                  Expanded(child: child),
                 ],
               );
             },

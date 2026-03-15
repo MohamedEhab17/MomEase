@@ -37,6 +37,9 @@ class _BabyNameState extends State<BabyName> {
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
+        padding: MediaQuery.of(context).viewInsets.bottom > 0
+            ? EdgeInsets.zero
+            : EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           children: [
             Text(
