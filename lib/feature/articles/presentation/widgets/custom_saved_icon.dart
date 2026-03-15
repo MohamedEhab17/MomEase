@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,7 +21,11 @@ class _CustomSavedIconState extends State<CustomSavedIcon> {
         });
       },
       child: isSaved
-          ? SvgPicture.asset(AppIcons.iconsFilledSave, width: 12.w, height: 18.h)
+          ? SvgPicture.asset(
+              AppIcons.iconsFilledSave,
+              width: 12.w,
+              height: 18.h,
+            )
           : SvgPicture.asset(
               AppIcons.iconsUnfilledSave,
               width: 12.w,

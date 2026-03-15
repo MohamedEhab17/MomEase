@@ -33,7 +33,7 @@ class ArticleContentSectionWidget extends StatelessWidget {
               styleSheet: MarkdownStyleSheet(
                 p: AppStyles.styleInter14.copyWith(
                   height: 1.5,
-                  color: AppColors.lightTextPrimary.withOpacity(0.9),
+                  color: AppColors.lightTextPrimary.withAlpha(230),
                 ),
                 strong: AppStyles.styleInter14.copyWith(
                   fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class ArticleContentSectionWidget extends StatelessWidget {
                         point,
                         style: AppStyles.styleInter14.copyWith(
                           height: 1.4,
-                          color: AppColors.lightTextPrimary.withOpacity(0.9),
+                          color: AppColors.lightTextPrimary.withAlpha(230),
                         ),
                       ),
                     ),
