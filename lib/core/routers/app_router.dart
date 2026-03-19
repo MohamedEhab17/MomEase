@@ -51,7 +51,7 @@ class AppRouter {
 
   static Future<void> initRouter() async {
     router = GoRouter(
-      initialLocation: AppRoutesPaths.babyProfileOnboardingView,
+      initialLocation: AppRoutesPaths.appSectionView,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -239,15 +239,17 @@ class AppRouter {
               path: AppRoutesPaths.babyProfileOnboardingView,
               name: 'babyProfileOnboardingView',
               pageBuilder: (context, state) {
-                return const NoTransitionPage(child: BabyProfileOnboardingView());
+                return const NoTransitionPage(
+                  child: BabyProfileOnboardingView(),
+                );
               },
-             // builder: (context, state) => const BabyProfileOnboardingView(),
+              // builder: (context, state) => const BabyProfileOnboardingView(),
             ),
             GoRoute(
               path: AppRoutesPaths.firstTimeMama,
               name: 'firstTimeMama',
-             // builder: (context, state) => const FirstTimeMama(),
-             pageBuilder: (context, state) {
+              // builder: (context, state) => const FirstTimeMama(),
+              pageBuilder: (context, state) {
                 return const NoTransitionPage(child: FirstTimeMama());
               },
             ),
@@ -257,7 +259,7 @@ class AppRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: BabyCount());
               },
-             // builder: (context, state) => const BabyCount(),
+              // builder: (context, state) => const BabyCount(),
             ),
             GoRoute(
               path: AppRoutesPaths.babyName,
@@ -285,10 +287,10 @@ class AppRouter {
             GoRoute(
               path: AppRoutesPaths.feedingType,
               name: 'feedingType',
-               pageBuilder: (context, state) {
+              pageBuilder: (context, state) {
                 return const NoTransitionPage(child: FeedingType());
               },
-             // builder: (context, state) => const FeedingType(),
+              // builder: (context, state) => const FeedingType(),
             ),
             GoRoute(
               path: AppRoutesPaths.birthExperience,
@@ -296,7 +298,7 @@ class AppRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: BirthExperience());
               },
-             // builder: (context, state) => const BirthExperience(),
+              // builder: (context, state) => const BirthExperience(),
             ),
             GoRoute(
               path: AppRoutesPaths.allSetUp,
@@ -304,7 +306,7 @@ class AppRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: AllSetUp());
               },
-             // builder: (context, state) => const AllSetUp(),
+              // builder: (context, state) => const AllSetUp(),
             ),
           ],
         ),

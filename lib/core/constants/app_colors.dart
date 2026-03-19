@@ -5,6 +5,7 @@ class AppColors {
   static const primaryDark = Color(0xFFFF3381);
   static const primary = Color(0xFFFF66A1);
   static const primaryLighter = Color(0xffFFC8DD);
+  static const primaryAccent = Color(0xffFF8CB8);
   static const primaryTint = Color(0xFFFFF0F6);
   static const primaryExtraLight = Color(0xFFFFE5EF);
   static const primaryBackground = Color(0xFFFFEFF5);
@@ -16,6 +17,7 @@ class AppColors {
 
   // Functional
   static const mentionBlue = Color(0xFF1877F2);
+  static const lighterBorder = Color(0xFFFDF2F8);
 
   // Accent
   static const accent = Color(0xFFA2D2FF);
@@ -38,5 +40,4 @@ class AppColors {
 
   static const darkTextPrimary = Color(0xFFFFFFFF);
   static const darkTextSecondary = Color(0xFFCECECE);
-
 }

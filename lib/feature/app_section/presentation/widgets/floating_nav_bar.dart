@@ -51,12 +51,7 @@ class FloatingNavBar extends StatelessWidget {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       padding: const EdgeInsets.all(8),
-                      // height: 50.h,
-                      // width: 50.h,
                       decoration: BoxDecoration(
-                        // color: isActive
-                        //     ? AppColors.pink[2]
-                        //     : Colors.transparent,
                         borderRadius: BorderRadius.circular(100.r),
                       ),
                       child: SvgPicture.asset(
@@ -64,8 +59,6 @@ class FloatingNavBar extends StatelessWidget {
                         fit: BoxFit.contain,
                         height: 24.h,
                         width: 24.w,
-
-                        // color: isActive ? AppColors.grey : AppColors.pink[2],
                       ),
                     ),
                   );

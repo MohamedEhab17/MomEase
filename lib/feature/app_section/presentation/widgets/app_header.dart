@@ -18,7 +18,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       leading: IconButton(
         icon: Icon(Icons.menu, color: AppColors.primaryDark),
-        onPressed: () => Scaffold.of(context).openDrawer(),
+        onPressed: onMenuPressed ?? () => Scaffold.of(context).openDrawer(),
       ),
       actions: [
         IconButton(

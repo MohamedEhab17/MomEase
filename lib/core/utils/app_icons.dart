@@ -132,4 +132,40 @@ class AppIcons {
   /// Assets for iconsArrowDropDown
   /// assets/icons/arrow_drop_down.svg
   static const String iconsArrowDropDown = "assets/icons/arrow_drop_down.svg";
+
+  /// Assets for iconsShare
+  /// assets/icons/share.svg
+  static const String iconsShare = "assets/icons/share.svg";
+
+  /// Assets for iconsRate
+  /// assets/icons/rate.svg
+  static const String iconsRate = "assets/icons/rate.svg";
+
+  /// Assets for iconsFeedback
+  /// assets/icons/feedback.svg
+  static const String iconsFeedback = "assets/icons/feedback.svg";
+
+  /// Assets for iconsAbout
+  /// assets/icons/about.svg
+  static const String iconsAbout = "assets/icons/about.svg";
+
+  /// Assets for iconsLanguage
+  /// assets/icons/language.svg
+  static const String iconsLanguage = "assets/icons/language.svg";
+
+  /// Assets for iconsHelp
+  /// assets/icons/help.svg
+  static const String iconsHelp = "assets/icons/help.svg";
+
+  /// Assets for iconsTheme
+  /// assets/icons/theme.svg
+  static const String iconsTheme = "assets/icons/theme.svg";
+
+  /// Assets for iconsContact
+  /// assets/icons/contact.svg
+  static const String iconsContact = "assets/icons/contact.svg";
+
+  /// Assets for iconsForwardArrow
+  /// assets/icons/forward_arrow.svg
+  static const String iconsForwardArrow = "assets/icons/forward_arrow.svg";
 }
