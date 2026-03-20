@@ -60,7 +60,9 @@ class HomeView extends StatelessWidget {
             leadingIcon: AppIcons.iconsBabyTracing,
             title: 'Baby Tracking',
             subtitle: 'Log feeding, sleep, and diapers',
-            onTap: () {},
+            onTap: () {
+              context.push(AppRoutesPaths.babyTrackView);
+            },
           ),
           24.height,
           Row(

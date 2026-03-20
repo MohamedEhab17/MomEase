@@ -168,4 +168,16 @@ class AppIcons {
   /// Assets for iconsForwardArrow
   /// assets/icons/forward_arrow.svg
   static const String iconsForwardArrow = "assets/icons/forward_arrow.svg";
+
+  /// Assets for iconsRestart
+  /// assets/icons/restart.svg
+  static const String iconsRestart = "assets/icons/restart.svg";
+
+  /// Assets for iconsInsightReport
+  /// assets/icons/insight_report.svg
+  static const String iconsInsightReport = "assets/icons/insight_report.svg";
+
+  /// Assets for iconsCalender
+  /// assets/icons/calender.svg
+  static const String iconsCalender = "assets/icons/calender.svg";
 }

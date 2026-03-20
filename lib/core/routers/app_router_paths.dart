@@ -37,4 +37,6 @@ class AppRoutesPaths {
   static const String feedingType = '/feedingType';
   static const String birthExperience = '/birthExperience';
   static const String allSetUp = '/allSetUp';
+  static const String babyTrackView = '/babyTrackView';
+  static const String babyTrackInsightsView = '/babyTrackInsightsView';
 }

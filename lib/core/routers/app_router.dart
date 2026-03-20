@@ -45,6 +45,9 @@ import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_photo_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_result_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
+import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
+import 'package:new_mama/feature/baby_track/presentation/views/baby_track_view.dart';
+import 'package:new_mama/feature/baby_track/presentation/views/insights_view.dart';
 
 class AppRouter {
   static late final GoRouter router;
@@ -226,6 +229,19 @@ class AppRouter {
 
             return SkinDiagnosisResultView(advices: advices);
           },
+        ),
+        GoRoute(
+          path: AppRoutesPaths.babyTrackView,
+          name: 'babyTrackView',
+          builder: (context, state) => BlocProvider(
+            create: (_) => BabyTrackCubit(),
+            child: const BabyTrackView(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.babyTrackInsightsView,
+          name: 'babyTrackInsightsView',
+          builder: (context, state) => const InsightsView(),
         ),
         ShellRoute(
           builder: (context, state, child) {
