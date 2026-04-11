@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
 import 'package:new_mama/feature/depression/data/dummy/dummy_questions.dart';
@@ -46,7 +46,7 @@ class DepressionTestView extends StatelessWidget {
         return Scaffold(
           appBar: FeaturesHeader(title: 'Healthy check-In'),
           body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 32.h),
+            padding: EdgeInsets.only(right: 20.w, left: 20.w, top: 32.h),
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
@@ -54,8 +54,8 @@ class DepressionTestView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       LinearProgressIndicator(
-                        backgroundColor: AppColors.greyMedium,
-                        color: AppColors.primaryDark,
+                        backgroundColor: context.ext.colors.greyMedium,
+                        color: context.ext.colors.primaryDark,
                         value: progress,
                         borderRadius: BorderRadius.circular(24.r),
                         minHeight: 6.h,
@@ -63,12 +63,17 @@ class DepressionTestView extends StatelessWidget {
                       8.h.height,
                       Text(
                         'Question ${currentIndex + 1} of $totalQuestions',
-                        style: AppStyles.styleInter12,
+                        style: context.text.bodyMedium!,
                       ),
                       48.h.height,
-                      Text(
-                        currentQuestion.query,
-                        style: AppStyles.styleInter20,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          currentQuestion.query,
+                          style: context.text.headlineSmall!.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                       32.h.height,
                     ],
@@ -77,7 +82,7 @@ class DepressionTestView extends StatelessWidget {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => Padding(
-                      padding: EdgeInsets.only(bottom: 16.h),
+                      padding: 16.h.bottomPadding,
                       child: AnswersOptions(
                         answer: currentQuestion.answers[index],
                         isSelected: selectedAnswerIndex == index,
@@ -102,11 +107,13 @@ class DepressionTestView extends StatelessWidget {
                           },
                     minimumSize: Size(double.infinity, 52.h),
                     backgroundColor: selectedAnswerIndex == null
-                        ? AppColors.primaryLighter
-                        : AppColors.primaryDark,
-                    textStyle: AppStyles.styleInter20.copyWith(
-                      color: AppColors.lightBackground,
-                    ),
+                        ? context.theme.buttonTheme.colorScheme!.tertiary
+                              .withAlpha(100)
+                        : context.theme.buttonTheme.colorScheme!.primary,
+                    borderColor: selectedAnswerIndex == null
+                        ? context.theme.buttonTheme.colorScheme!.tertiary
+                              .withAlpha(100)
+                        : context.theme.buttonTheme.colorScheme!.primary,
                   ),
                 ),
               ],

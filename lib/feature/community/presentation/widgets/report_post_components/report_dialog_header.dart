@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class ReportDialogHeader extends StatelessWidget {
   const ReportDialogHeader({super.key});
@@ -13,11 +12,11 @@ class ReportDialogHeader extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(Icons.report, size: 80.r, color: AppColors.lightTextPrimary),
+        Icon(Icons.report, size: 80.r, color: context.colors.onSurface),
         24.height,
         Text(
           "Why are you reporting this?",
-          style: AppStyles.styleInter20.copyWith(fontWeight: FontWeight.w600),
+          style: context.text.headlineMedium!.copyWith(fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,
         ),
       ],

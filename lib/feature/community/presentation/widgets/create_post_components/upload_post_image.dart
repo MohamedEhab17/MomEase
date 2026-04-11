@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/helper/pick_image_helper.dart';
 import 'package:new_mama/core/widgets/full_screen_local_gallery.dart';
 import 'package:new_mama/feature/community/presentation/widgets/upload_post_image_components/add_more_image_tile.dart';
@@ -43,9 +43,9 @@ class _UploadPostImageState extends State<UploadPostImage> {
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Edit Image',
-          toolbarColor: AppColors.primaryDark,
-          toolbarWidgetColor: AppColors.darkTextPrimary,
-          activeControlsWidgetColor: AppColors.primaryDark,
+          toolbarColor: context.ext.colors.primaryDark,
+          toolbarWidgetColor: context.colors.onSurface,
+          activeControlsWidgetColor: context.ext.colors.primaryDark,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class VaccineProgressHeader extends StatelessWidget {
   final int completed;
@@ -23,51 +24,48 @@ class VaccineProgressHeader extends StatelessWidget {
     final percentage = (progress * 100).round();
 
     return Container(
-      padding: EdgeInsets.all(16.r),
+      padding: 16.allPadding,
       decoration: BoxDecoration(
-        color: AppColors.primaryTint,
+        color: context.ext.colors.primaryTint,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.primaryExtraLight),
+        border: Border.all(color: context.ext.colors.primaryExtraLight),
       ),
       child: Row(
+        crossAxisAlignment: .center,
+        mainAxisAlignment: .start,
+
         children: [
           // Completed stats
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
-                Text(
-                  'Completed:',
-                  style: AppStyles.styleInter12.copyWith(
-                    color: AppColors.lightTextSecondary,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                SizedBox(height: 4.h),
+                Text('Completed:', style: context.text.bodyMedium!),
+                4.h.height,
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  crossAxisAlignment: .baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
                     Text(
                       '$completed/$total',
-                      style: AppStyles.styleInter24.copyWith(
-                        color: AppColors.primaryDark,
+                      style: context.text.displaySmall!.copyWith(
+                        color: context.colors.primary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(width: 6.w),
+                    10.width,
                     Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: 6.w,
                         vertical: 2.h,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryDark,
+                        color: context.ext.colors.primaryDark,
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Text(
                         '$percentage%',
-                        style: AppStyles.styleInter10.copyWith(
+                        style: context.text.bodySmall!.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
@@ -75,49 +73,56 @@ class VaccineProgressHeader extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 8.h),
+                8.h.height,
                 ClipRRect(
                   borderRadius: BorderRadius.circular(6.r),
                   child: LinearProgressIndicator(
                     value: progress,
                     minHeight: 6.h,
-                    backgroundColor: AppColors.primaryExtraLight,
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                      AppColors.primaryDark,
+                    backgroundColor: context.theme.cardColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      context.ext.colors.primaryDark,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(width: 20.w),
+          20.w.width,
           // Divider
-          Container(width: 1, height: 60.h, color: AppColors.primaryExtraLight),
+          SizedBox(
+            height: 60.h,
+            child: VerticalDivider(
+              color: context.ext.colors.primaryLight,
+              thickness: 1.w,
+            ),
+          ),
+
           SizedBox(width: 20.w),
           // Next due
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: .start,
             children: [
               Text(
                 'Next Due',
-                style: AppStyles.styleInter12.copyWith(
-                  color: AppColors.lightTextSecondary,
+                style: context.text.bodyLarge!.copyWith(
+                  color: context.colors.onSurfaceVariant,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               SizedBox(height: 4.h),
               Text(
                 nextDueDate,
-                style: AppStyles.styleInter24.copyWith(
-                  color: AppColors.lightTextPrimary,
+                style: context.text.displaySmall!.copyWith(
+                  color: context.colors.onSurface,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               SizedBox(height: 2.h),
               Text(
                 'In $daysUntilDue days',
-                style: AppStyles.styleInter12.copyWith(
-                  color: AppColors.lightTextSecondary,
+                style: context.text.bodyLarge!.copyWith(
+                  color: context.colors.onSurfaceVariant,
                   fontWeight: FontWeight.w400,
                 ),
               ),

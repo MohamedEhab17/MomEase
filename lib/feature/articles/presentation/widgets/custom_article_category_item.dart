@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 
 class CustomArticleCategoryItem extends StatelessWidget {
   final ArticleModel article;
@@ -33,13 +33,13 @@ class CustomArticleCategoryItem extends StatelessWidget {
         width: double.infinity,
         margin: 20.hPadding,
         decoration: BoxDecoration(
-          color: AppColors.lightBackground,
+          color: context.theme.cardColor,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               blurRadius: 8,
               offset: Offset(0, 2),
-              color: AppColors.lightTextPrimary.withAlpha(38),
+              color: context.theme.colorScheme.onSurface.withAlpha(38),
               spreadRadius: 0,
               blurStyle: BlurStyle.outer,
             ),
@@ -64,7 +64,8 @@ class CustomArticleCategoryItem extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 article.title,
-                style: AppStyles.styleInter12.copyWith(
+                style: context.text.titleSmall!.copyWith(
+                  color: context.colors.onSurface,
                   fontWeight: FontWeight.w700,
                 ),
                 maxLines: 3,
@@ -80,7 +81,7 @@ class CustomArticleCategoryItem extends StatelessWidget {
                   Expanded(
                     child: Text(
                       article.overview,
-                      style: AppStyles.styleInter10,
+                      style: context.text.bodySmall!,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -102,6 +103,10 @@ class CustomArticleCategoryItem extends StatelessWidget {
                             ? AppIcons.iconsFilledSave
                             : AppIcons.iconsUnfilledSave,
                         width: 15.w,
+                        colorMapper: AppSvgColorMapper(
+                          from: Color(0xffFF3381),
+                          to: context.ext.colors.primaryDark,
+                        ),
                       ),
                     ),
                   ),

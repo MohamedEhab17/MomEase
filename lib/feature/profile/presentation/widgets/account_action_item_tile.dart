@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class AccountActionItemTile extends StatelessWidget {
   final String title;
@@ -31,9 +30,9 @@ class AccountActionItemTile extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
         padding: 16.w.allPadding,
         decoration: BoxDecoration(
-          color: AppColors.lightBackground,
+          color: context.colors.surface,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: AppColors.lighterBorder, width: 1),
+          border: Border.all(color: context.ext.colors.lighterBorder, width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(13),
@@ -56,17 +55,17 @@ class AccountActionItemTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: AppStyles.styleInter14.copyWith(
+                style: context.text.titleSmall!.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: AppColors.lightTextPrimary.withAlpha(200),
+                  color: context.colors.onSurface.withAlpha(200),
                 ),
               ),
             ),
             if (trailingText != null) ...[
               Text(
                 trailingText!,
-                style: AppStyles.styleInter12.copyWith(
-                  color: AppColors.lightTextSecondary,
+                style: context.text.bodyLarge!.copyWith(
+                  color: context.colors.onSurfaceVariant,
                 ),
               ),
               8.width,
@@ -74,7 +73,7 @@ class AccountActionItemTile extends StatelessWidget {
             Icon(
               Icons.arrow_forward_ios,
               size: 14,
-              color: AppColors.lightTextSecondary.withAlpha(150),
+              color: context.colors.onSurfaceVariant.withAlpha(150),
             ),
           ],
         ),

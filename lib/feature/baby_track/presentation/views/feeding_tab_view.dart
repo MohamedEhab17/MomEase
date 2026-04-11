@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
@@ -39,7 +38,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Please select a feeding date'),
-          backgroundColor: AppColors.primaryDark,
+          backgroundColor: context.ext.colors.primaryDark,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -62,7 +61,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Feeding session saved! 🍼'),
-        backgroundColor: AppColors.greenText,
+        backgroundColor: context.ext.colors.greenText,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -87,11 +86,11 @@ class _FeedingTabViewState extends State<FeedingTabView> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 14.h),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryLighter.withAlpha(51),
+                  color: context.ext.colors.primaryLighter.withAlpha(51),
                   borderRadius: BorderRadius.circular(16.r),
 
                   border: Border.all(
-                    color: AppColors.primaryLighter.withAlpha(77),
+                    color: context.ext.colors.primaryLighter.withAlpha(77),
                   ),
                 ),
                 child: Column(
@@ -103,7 +102,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
                     // Start/Stop button with spinner
                     Center(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: .spaceBetween,
                         spacing: 12.w,
                         children: [
                           Expanded(
@@ -119,22 +118,42 @@ class _FeedingTabViewState extends State<FeedingTabView> {
                                 }
                               },
                               backgroundColor: isRunning
-                                  ? AppColors.primaryAccent
-                                  : AppColors.primaryDark,
+                                  ? context
+                                        .theme
+                                        .buttonTheme
+                                        .colorScheme!
+                                        .tertiary
+                                  : context
+                                        .theme
+                                        .buttonTheme
+                                        .colorScheme!
+                                        .primary,
                               // minimumSize: Size(220.w, 48.h),
-                              textStyle: AppStyles.styleInter16.copyWith(
-                                color: AppColors.lightBackground,
+                              textStyle: context.text.titleLarge!.copyWith(
+                                color: context
+                                    .theme
+                                    .buttonTheme
+                                    .colorScheme!
+                                    .onPrimary,
                                 fontWeight: FontWeight.w600,
                               ),
                               icon: isRunning
                                   ? Icon(
                                       Icons.stop_rounded,
-                                      color: Colors.white,
+                                      color: context
+                                          .theme
+                                          .buttonTheme
+                                          .colorScheme!
+                                          .onPrimary,
                                       size: 20.sp,
                                     )
                                   : Icon(
                                       Icons.play_arrow_rounded,
-                                      color: Colors.white,
+                                      color: context
+                                          .theme
+                                          .buttonTheme
+                                          .colorScheme!
+                                          .onPrimary,
                                       size: 20.sp,
                                     ),
                             ),
@@ -145,16 +164,21 @@ class _FeedingTabViewState extends State<FeedingTabView> {
                             child: Container(
                               padding: 10.allPadding,
                               decoration: BoxDecoration(
-                                color: AppColors.lightBackground,
+                                color: context.theme.cardColor,
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: AppColors.textDisabledLighter,
+                                  color: context.ext.colors.textDisabledLighter
+                                      .withAlpha(77),
                                 ),
                               ),
                               child: SvgPicture.asset(
                                 AppIcons.iconsRestart,
                                 width: 24.w,
                                 height: 24.h,
+                                colorFilter: ColorFilter.mode(
+                                  context.colors.onSurface,
+                                  BlendMode.srcIn,
+                                ),
                               ),
                             ),
                           ),
@@ -170,7 +194,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
               // Feeding Type
               Text(
                 'Feeding Type',
-                style: AppStyles.styleInter16.copyWith(
+                style: context.text.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -184,7 +208,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
               // Feeding Date
               Text(
                 'Feeding Date',
-                style: AppStyles.styleInter16.copyWith(
+                style: context.text.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -192,13 +216,14 @@ class _FeedingTabViewState extends State<FeedingTabView> {
               DatePickerField(
                 selectedDate: _selectedDate,
                 onDateSelected: (d) => setState(() => _selectedDate = d),
+                fillColor: context.theme.cardColor,
               ),
               20.h.height,
 
               // Notes
               Text(
                 'Notes',
-                style: AppStyles.styleInter16.copyWith(
+                style: context.text.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -210,8 +235,8 @@ class _FeedingTabViewState extends State<FeedingTabView> {
                 minLines: 3,
                 enableShadow: false,
                 borderRadius: BorderRadius.circular(16.r),
-                fillColor: Colors.transparent,
-                borderColor: AppColors.primaryDark,
+                fillColor: context.theme.cardColor,
+                borderColor: context.ext.colors.primaryDark,
               ),
               28.h.height,
 
@@ -219,10 +244,11 @@ class _FeedingTabViewState extends State<FeedingTabView> {
               CustomElevatedButton(
                 text: 'Save Feeding Session',
                 onPressed: () => _save(cubit),
-                backgroundColor: AppColors.primaryDark,
+                backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
+                // context.ext.colors.primaryDark,
                 minimumSize: Size(double.infinity, 52.h),
-                textStyle: AppStyles.styleInter16.copyWith(
-                  color: AppColors.lightBackground,
+                textStyle: context.text.titleLarge!.copyWith(
+                  color: context.theme.buttonTheme.colorScheme!.onPrimary,
                   fontWeight: FontWeight.w600,
                 ),
               ),

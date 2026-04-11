@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class AnimatedDialogContainer extends StatelessWidget {
   final Widget child;
@@ -33,9 +33,9 @@ class AnimatedDialogContainer extends StatelessWidget {
                 ),
                 margin: margin ?? EdgeInsets.symmetric(horizontal: 20.w),
                 decoration: BoxDecoration(
-                  color: AppColors.lightBackground,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: borderRadius ?? BorderRadius.circular(40.r),
-                  border: Border.all(color: AppColors.primaryLight, width: 1),
+                  border: Border.all(color: context.ext.colors.primaryLight, width: 1),
                 ),
                 child: SingleChildScrollView(
                   clipBehavior: Clip.none,

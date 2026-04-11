@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 
 class CustomDropdown extends StatelessWidget {
   final String? value;
@@ -26,38 +25,42 @@ class CustomDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Visibility(
           visible: isVisible,
-          child: Text(label ?? "", style: AppStyles.styleInter14),
+          child: Text(label ?? "", style: context.text.titleSmall!),
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(64.r),
-            border: Border.all(color: AppColors.primaryDark),
+            border: Border.all(color: context.ext.colors.primaryDark),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               focusColor: Colors.transparent,
-              dropdownColor: AppColors.lightBackground,
+              dropdownColor: context.theme.cardColor,
               borderRadius: BorderRadius.circular(8.r),
               value: value,
               elevation: 3,
-              hint: Text(hintText, style: AppStyles.styleInter12),
+              hint: Text(hintText, style: context.text.bodyLarge!),
               isExpanded: true,
               icon: SvgPicture.asset(
                 AppIcons.iconsArrowDropDown,
                 height: 7.h,
                 width: 11.w,
+                colorFilter: ColorFilter.mode(
+                  context.ext.colors.primaryDark,
+                  BlendMode.srcIn,
+                ),
               ),
               menuMaxHeight: MediaQuery.sizeOf(context).height * 0.3,
               items: items
                   .map(
                     (item) => DropdownMenuItem<String>(
                       value: item,
-                      child: Text(item, style: AppStyles.styleInter14),
+                      child: Text(item, style: context.text.titleSmall!),
                     ),
                   )
                   .toList(),

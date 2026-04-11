@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:new_mama/feature/articles/presentation/widgets/article_content_section_widget.dart';
 import 'package:new_mama/feature/articles/presentation/widgets/article_save_button_animated.dart';
@@ -20,11 +20,13 @@ class ArticleDetailsBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(),
+          _buildHeader(context),
           16.height,
           Text(
             article.overview,
-            style: AppStyles.styleInter14.copyWith(height: 1.5),
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall!.copyWith(height: 1.5),
           ),
           24.height,
           ...article.sections.map(
@@ -38,23 +40,33 @@ class ArticleDetailsBody extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Text(
             article.category,
-            style: AppStyles.styleInter16.copyWith(fontWeight: FontWeight.w700),
+            style: context.text.titleMedium!.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
         8.width,
-        SvgPicture.asset(AppIcons.iconsClock, width: 14.w, height: 14.h),
+        SvgPicture.asset(
+          AppIcons.iconsClock,
+          width: 14.w,
+          height: 14.h,
+          colorFilter: ColorFilter.mode(
+            context.ext.colors.greyPrimary,
+            BlendMode.srcIn,
+          ),
+        ),
         4.width,
         Text(
           article.readTime,
-          style: AppStyles.styleInter12.copyWith(
-            color: const Color(0xff808080),
+          style: context.text.bodyLarge!.copyWith(
+            color: context.ext.colors.greyPrimary,
           ),
         ),
       ],

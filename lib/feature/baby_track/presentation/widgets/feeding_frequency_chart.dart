@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class FeedingFrequencyChart extends StatelessWidget {
   final List<double> data; // 7 values, one per day
@@ -23,38 +23,40 @@ class FeedingFrequencyChart extends StatelessWidget {
           children: [
             Text(
               'Feeding Frequency',
-              style: AppStyles.styleInter14.copyWith(
+              style: context.text.titleLarge!.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.lightTextPrimary,
+                color: context.ext.colors.lightTextPrimary,
               ),
             ),
             Text(
               'Last 7 Days',
-              style: AppStyles.styleInter10.copyWith(
-                color: AppColors.lightTextSecondary,
+              style: context.text.bodyMedium!.copyWith(
+                color: context.ext.colors.lightTextSecondary,
               ),
             ),
           ],
         ),
-        SizedBox(height: 12.h),
+        12.h.height,
         SizedBox(
           height: 120.h,
           child: CustomPaint(
-            painter: _BarChartPainter(data: data),
+            painter: _BarChartPainter(
+              context: context,
+              data: data,
+              primaryDark: context.ext.colors.primaryDark,
+              primaryLighter: context.ext.colors.primaryLighter,
+            ),
             size: Size(double.infinity, 120.h),
           ),
         ),
-        SizedBox(height: 6.h),
+        6.h.height,
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: .spaceAround,
           children: dayLabels
               .map(
                 (d) => Text(
                   d,
-                  style: AppStyles.styleInter10.copyWith(
-                    color: AppColors.lightTextSecondary,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: context.text.bodyMedium!
                 ),
               )
               .toList(),
@@ -67,7 +69,16 @@ class FeedingFrequencyChart extends StatelessWidget {
 class _BarChartPainter extends CustomPainter {
   final List<double> data;
 
-  _BarChartPainter({required this.data});
+  final Color primaryDark;
+  final Color primaryLighter;
+  final BuildContext context;
+
+  _BarChartPainter({
+    required this.context,
+    required this.data,
+    required this.primaryDark,
+    required this.primaryLighter,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -90,8 +101,8 @@ class _BarChartPainter extends CustomPainter {
       final isHighlighted = i == highlightIndex;
       final paint = Paint()
         ..color = isHighlighted
-            ? AppColors.primaryDark
-            : AppColors.primaryLighter.withAlpha(180)
+            ? context.ext.colors.primaryDark
+            : context.ext.colors.primaryLighter.withAlpha(180)
         ..style = PaintingStyle.fill;
 
       canvas.drawRRect(rect, paint);

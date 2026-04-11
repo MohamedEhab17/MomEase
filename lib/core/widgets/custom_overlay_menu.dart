@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class OverlayMenuItem<T> {
   final IconData icon;
@@ -36,7 +35,7 @@ class CustomOverlayMenu<T> extends StatefulWidget {
 
 class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
     with SingleTickerProviderStateMixin {
-  late final LayerLink _layerLink ;
+  late final LayerLink _layerLink;
   OverlayEntry? _overlayEntry;
 
   late AnimationController _controller;
@@ -125,9 +124,9 @@ class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
       child: Container(
         padding: 20.vPadding,
         decoration: BoxDecoration(
-          color: AppColors.lightBackground,
+          color: context.colors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.primaryLight),
+          border: Border.all(color: context.ext.colors.primaryLight),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(20),
@@ -161,12 +160,14 @@ class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 12,
           children: [
-            Icon(item.icon, size: 20, color: AppColors.lightTextPrimary),
+            Icon(
+              item.icon,
+              size: 20,
+              color: context.colors.onSurface,
+            ),
             Text(
               item.text,
-              style: AppStyles.styleInter16.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: context.text.titleLarge!.copyWith(fontWeight: FontWeight.w600),
               softWrap: false,
             ),
           ],

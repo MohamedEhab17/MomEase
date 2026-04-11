@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 
 class DrawerLogoutSection extends StatelessWidget {
@@ -33,17 +32,17 @@ class DrawerLogoutSection extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: CustomElevatedButton(
-                    backgroundColor: AppColors.backgroundPink,
-                    borderColor: AppColors.primaryDark,
-
+                    backgroundColor:
+                        context.theme.buttonTheme.colorScheme!.secondary,
+                    borderColor: context.ext.colors.primaryDark,
                     icon: Icon(
                       Icons.logout,
-                      color: AppColors.primaryDark,
+                      color: context.ext.colors.primaryDark,
                       size: 20.sp,
                     ),
                     text: "Logout",
-                    textStyle: AppStyles.styleInter16.copyWith(
-                      color: AppColors.primaryDark,
+                    textStyle: context.theme.textTheme.titleLarge!.copyWith(
+                      color: context.ext.colors.primaryDark,
                       fontWeight: FontWeight.w600,
                     ),
                     onPressed: onLogout ?? () {},
@@ -52,7 +51,9 @@ class DrawerLogoutSection extends StatelessWidget {
                 SizedBox(height: 16.h),
                 Text(
                   'MomEase Version 1.0.0',
-                  style: AppStyles.styleInter12.copyWith(color: Colors.grey),
+                  style: context.text.bodyLarge!.copyWith(
+                    color: context.ext.colors.lightTextSecondary,
+                  ),
                 ),
               ],
             ),

@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/core/enums/verification_type.dart'
+    show VerificationType;
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
@@ -100,7 +102,10 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.emailVerification,
           name: 'emailVerification',
-          builder: (context, state) => const EmailVerificationView(),
+          builder: (context, state) {
+            final type = state.extra as VerificationType;
+            return EmailVerificationView(type: type);
+          },
         ),
         GoRoute(
           path: AppRoutesPaths.emailVerifiedSuccess,

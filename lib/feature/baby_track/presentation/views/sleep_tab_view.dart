@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
@@ -35,7 +34,7 @@ class _SleepTabViewState extends State<SleepTabView> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Please fill all required fields'),
-          backgroundColor: AppColors.primaryDark,
+          backgroundColor: context.ext.colors.primaryDark,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -62,7 +61,7 @@ class _SleepTabViewState extends State<SleepTabView> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Sleep record saved! 😴'),
-        backgroundColor: AppColors.greenText,
+        backgroundColor: context.ext.colors.greenText,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -75,17 +74,20 @@ class _SleepTabViewState extends State<SleepTabView> {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         children: [
           // Sleeping Date
           Text(
             'Sleeping Date',
-            style: AppStyles.styleInter16.copyWith(fontWeight: FontWeight.w600),
+            style: context.text.titleMedium!.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
           8.h.height,
           DatePickerField(
             selectedDate: _selectedDate,
             onDateSelected: (d) => setState(() => _selectedDate = d),
+            fillColor: context.theme.cardColor,
           ),
           20.h.height,
 
@@ -94,11 +96,11 @@ class _SleepTabViewState extends State<SleepTabView> {
             children: [
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     Text(
                       'Start Time',
-                      style: AppStyles.styleInter16.copyWith(
+                      style: context.text.titleMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -107,6 +109,7 @@ class _SleepTabViewState extends State<SleepTabView> {
                       selectedTime: _startTime,
                       hint: '7:12 am',
                       onTimeSelected: (t) => setState(() => _startTime = t),
+                      fillColor: context.theme.cardColor,
                     ),
                   ],
                 ),
@@ -114,11 +117,11 @@ class _SleepTabViewState extends State<SleepTabView> {
               16.w.width,
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     Text(
                       'End Time',
-                      style: AppStyles.styleInter16.copyWith(
+                      style: context.text.titleMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -127,6 +130,7 @@ class _SleepTabViewState extends State<SleepTabView> {
                       selectedTime: _endTime,
                       hint: '10:52 am',
                       onTimeSelected: (t) => setState(() => _endTime = t),
+                      fillColor: context.theme.cardColor,
                     ),
                   ],
                 ),
@@ -138,7 +142,9 @@ class _SleepTabViewState extends State<SleepTabView> {
           // Notes
           Text(
             'Notes',
-            style: AppStyles.styleInter16.copyWith(fontWeight: FontWeight.w600),
+            style: context.text.titleMedium!.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
           8.h.height,
           TextFormFieldHelper(
@@ -147,9 +153,9 @@ class _SleepTabViewState extends State<SleepTabView> {
             maxLines: 10,
             minLines: 3,
             enableShadow: false,
-            fillColor: AppColors.lightBackground,
+            fillColor: context.theme.cardColor,
             borderRadius: BorderRadius.circular(16.r),
-            borderColor: AppColors.primaryDark,
+            borderColor: context.ext.colors.primaryDark,
           ),
           28.h.height,
 
@@ -157,10 +163,11 @@ class _SleepTabViewState extends State<SleepTabView> {
           CustomElevatedButton(
             text: 'Save Sleeping record',
             onPressed: () => _save(cubit),
-            backgroundColor: AppColors.primaryDark,
+            backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
+
             minimumSize: Size(double.infinity, 52.h),
-            textStyle: AppStyles.styleInter16.copyWith(
-              color: AppColors.lightBackground,
+            textStyle: context.text.titleMedium!.copyWith(
+              color: context.theme.buttonTheme.colorScheme!.onPrimary,
               fontWeight: FontWeight.w600,
             ),
           ),

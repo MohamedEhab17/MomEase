@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart';
 import 'package:new_mama/feature/profile/presentation/view_model/profile_state.dart';
@@ -19,9 +19,10 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ProfileCubit()..loadProfile()),
+        BlocProvider(create: (context) => ProfileCubit()..loadProfile(context)),
         BlocProvider.value(value: getIt<CommunityCubit>()..loadPosts()),
       ],
       child: const _ProfileBody(),
@@ -35,13 +36,12 @@ class _ProfileBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.lightBackground,
-      // No app bar, the design shows the ProfileHeader at the very top.
+      color: context.theme.scaffoldBackgroundColor,
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           if (state is ProfileLoading) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.primary),
+            return Center(
+              child: CircularProgressIndicator(color: context.colors.primary),
             );
           } else if (state is ProfileError) {
             return Center(child: Text(state.message));
@@ -50,7 +50,7 @@ class _ProfileBody extends StatelessWidget {
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: .start,
                 children: [
                   ProfileHeader(
                     avatarUrl: profile.avatarUrl,

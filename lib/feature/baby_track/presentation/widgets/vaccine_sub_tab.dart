@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 /// Animated sub-tab button used inside the Vaccine tab
 /// to switch between "Baby's Log" and "Official Schedule".
@@ -24,19 +24,19 @@ class VaccineSubTab extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 220),
-          margin: EdgeInsets.all(4.r),
+          margin: 4.r.allPadding,
           padding: EdgeInsets.symmetric(vertical: 10.h),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.lightBackground : Colors.transparent,
+            color: isSelected ? context.theme.cardColor : Colors.transparent,
             borderRadius: BorderRadius.circular(64.r),
           ),
           alignment: Alignment.center,
           child: Text(
             label,
-            style: AppStyles.styleInter14.copyWith(
+            style: context.text.titleSmall!.copyWith(
               color: isSelected
-                  ? AppColors.primaryDark
-                  : AppColors.lightTextSecondary,
+                  ? context.ext.colors.primaryDark
+                  : context.colors.onSurface,
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
             ),
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'drawer_helpers.dart';
 import 'drawer_list_tile.dart';
@@ -9,32 +8,32 @@ class DrawerStandaloneActionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final onSurfaceVariant = colorScheme.onSurfaceVariant;
+
     return Column(
       children: [
         DrawerListTile(
           title: 'Rate MomEase',
-          titleColor: AppColors.lightTextSecondary,
-          leading: buildDrawerIcon(
-            AppIcons.iconsRate,
-            color: AppColors.lightTextSecondary,
-          ),
+          titleColor: onSurfaceVariant,
+          leading: buildDrawerIcon(AppIcons.iconsRate, color: onSurfaceVariant),
           onTap: () {},
         ),
         DrawerListTile(
           title: 'Share with Friends',
-          titleColor: AppColors.lightTextSecondary,
+          titleColor: onSurfaceVariant,
           leading: buildDrawerIcon(
             AppIcons.iconsShare,
-            color: AppColors.lightTextSecondary,
+            color: onSurfaceVariant,
           ),
           onTap: () {},
         ),
         DrawerListTile(
           title: 'Send Feedback',
-          titleColor: AppColors.lightTextSecondary,
+          titleColor: onSurfaceVariant,
           leading: buildDrawerIcon(
             AppIcons.iconsFeedback,
-            color: AppColors.lightTextSecondary,
+            color: onSurfaceVariant,
           ),
           onTap: () {},
         ),

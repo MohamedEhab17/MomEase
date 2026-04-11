@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String avatarUrl;
@@ -21,7 +20,10 @@ class ProfileHeader extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColors.primaryLighter, AppColors.primaryTint],
+          colors: [
+            context.ext.colors.primaryLighter,
+            context.ext.colors.primaryTint,
+          ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -64,10 +66,10 @@ class ProfileHeader extends StatelessWidget {
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.camera_alt,
                     size: 16,
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                   ),
                 ),
               ),
@@ -76,16 +78,16 @@ class ProfileHeader extends StatelessWidget {
           16.verticalSpace,
           Text(
             name,
-            style: AppStyles.styleInter20.copyWith(
+            style: context.text.headlineMedium!.copyWith(
               fontWeight: FontWeight.w700,
-              color: AppColors.lightTextPrimary.withAlpha(200),
+              color: context.colors.onSurface.withAlpha(200),
             ),
           ),
           4.verticalSpace,
           Text(
             subtitle,
-            style: AppStyles.styleInter12.copyWith(
-              color: AppColors.lightTextSecondary,
+            style: context.text.bodyLarge!.copyWith(
+              color: context.colors.onSurfaceVariant,
               fontWeight: FontWeight.w500,
             ),
           ),

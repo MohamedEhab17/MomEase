@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 
 class ReportDialogTextField extends StatelessWidget {
@@ -14,14 +13,14 @@ class ReportDialogTextField extends StatelessWidget {
     return TextFormFieldHelper(
       controller: controller,
       hint: "Write your reason here...",
-      hintStyle: AppStyles.styleInter16.copyWith(
+      hintStyle: context.text.titleLarge!.copyWith(
         fontSize: 14.sp,
-        color: AppColors.lightTextPrimary.withAlpha(128),
+        color: context.colors.onSurface.withAlpha(128),
       ),
       maxLines: 4,
       minLines: 2,
       fillColor: Colors.white,
-      borderColor: AppColors.primary,
+      borderColor: context.colors.primary,
       borderRadius: BorderRadius.circular(16.r),
     );
   }

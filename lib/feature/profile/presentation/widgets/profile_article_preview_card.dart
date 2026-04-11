@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 
 class ProfileArticlePreviewCard extends StatelessWidget {
@@ -22,13 +21,13 @@ class ProfileArticlePreviewCard extends StatelessWidget {
       child: Container(
         width: 220.w,
         decoration: BoxDecoration(
-          color: AppColors.lightBackground,
+          color: context.theme.cardColor,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(10),
+              color: Colors.black.withAlpha(20),
               blurRadius: 10,
-              offset: const Offset(0, 4),
+              offset: const Offset(0, 8),
             ),
           ],
         ),
@@ -42,7 +41,7 @@ class ProfileArticlePreviewCard extends StatelessWidget {
               ),
               child: Image.network(
                 article.imageUrl,
-                height: 100.h,
+                height: 150.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -50,13 +49,13 @@ class ProfileArticlePreviewCard extends StatelessWidget {
             Padding(
               padding: 12.w.allPadding,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: .start,
                 children: [
                   Text(
                     article.title,
-                    style: AppStyles.styleInter12.copyWith(
+                    style: context.text.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w700,
-                      color: AppColors.lightTextPrimary.withAlpha(200),
+                      color: context.colors.onSurface.withAlpha(200),
                       height: 1.3,
                     ),
                     maxLines: 2,
@@ -65,10 +64,12 @@ class ProfileArticlePreviewCard extends StatelessWidget {
                   8.height,
                   Text(
                     article.category,
-                    style: AppStyles.styleInter10.copyWith(
+                    style: context.text.bodySmall!.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: AppColors.lightTextSecondary,
+                      color: context.colors.onSurfaceVariant,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

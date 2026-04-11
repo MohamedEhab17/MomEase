@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_state.dart';
@@ -57,14 +55,10 @@ class StepNextButton extends StatelessWidget {
                     }
                   }
                 : null,
-           backgroundColor: isEnabled 
-                    ? AppColors.primaryDark
-                    : AppColors.primaryLighter,
-            disabledBackgroundColor: AppColors.primaryLighter,
-            disabledForegroundColor: AppColors.darkTextPrimary.withAlpha(150),
-            textStyle: AppStyles.styleInter20.copyWith(
-              color: AppColors.darkTextPrimary,
-            ),
+
+            // backgroundColor: isEnabled
+            //     ? context.ext.colors.primaryDark
+            //     : context.ext.colors.primaryLighter,
             minimumSize: Size(double.infinity, 56.h),
             elevation: isEnabled ? 4 : 0,
           ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 
 class ArticlesSliverHeader extends StatelessWidget {
   final ArticleModel article;
@@ -19,7 +18,7 @@ class ArticlesSliverHeader extends StatelessWidget {
       leading: Padding(
         padding: const EdgeInsets.only(left: 20, top: 24),
         child: CircleAvatar(
-          backgroundColor: AppColors.darkTextPrimary,
+          backgroundColor: context.colors.onSurface,
           child: Transform.translate(
             offset: const Offset(-4, -1),
             child: IconButton(
@@ -28,7 +27,7 @@ class ArticlesSliverHeader extends StatelessWidget {
               },
               icon: Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: AppColors.primaryDark,
+                color: context.ext.colors.primaryDark,
                 size: 20.sp,
               ),
             ),
@@ -53,8 +52,8 @@ class ArticlesSliverHeader extends StatelessWidget {
             right: 28,
             child: Text(
               article.title,
-              style: AppStyles.styleInter20.copyWith(
-                color: AppColors.darkTextPrimary,
+              style: context.text.headlineMedium!.copyWith(
+                color: context.colors.onSurface,
                 fontWeight: FontWeight.w700,
               ),
               maxLines: 2,

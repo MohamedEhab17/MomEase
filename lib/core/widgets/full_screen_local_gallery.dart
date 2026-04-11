@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 
 class FullScreenLocalGallery extends StatefulWidget {
   final List<File> images;
@@ -50,7 +48,7 @@ class _FullScreenLocalGalleryState extends State<FullScreenLocalGallery> {
         ),
         title: Text(
           '${_currentIndex + 1} / ${widget.images.length}',
-          style: AppStyles.styleInter16.copyWith(
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
@@ -77,8 +75,8 @@ class _FullScreenLocalGalleryState extends State<FullScreenLocalGallery> {
               fit: BoxFit.contain,
               width: double.infinity,
               height: double.infinity,
-              errorBuilder: (_, _, _) => const Center(
-                child: Icon(Icons.error, color: AppColors.primary, size: 48),
+              errorBuilder: (_, _, _) => Center(
+                child: Icon(Icons.error, color: Theme.of(context).colorScheme.primary, size: 48),
               ),
             ),
           );

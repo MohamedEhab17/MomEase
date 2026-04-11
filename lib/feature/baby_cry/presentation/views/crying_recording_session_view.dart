@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/di/injection.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
 import 'package:new_mama/feature/baby_cry/presentation/view_model/cubit/sound_recording_cubit.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/cry_analyzing_view.dart';
@@ -20,7 +20,7 @@ class CryingRecordingSessionView extends StatelessWidget {
       child: Scaffold(
         appBar: FeaturesHeader(title: 'Crying Sound analysis'),
         body: Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 22.w),
+          padding: 22.hPadding,
           child: BlocConsumer<SoundRecordingCubit, SoundRecordingState>(
             listener: (context, state) async {
               if (state is RecordingStopped && state.path != null) {

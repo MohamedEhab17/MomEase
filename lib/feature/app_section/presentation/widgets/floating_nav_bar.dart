@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/app_section/data/model/app_tab.dart';
 import '../view_model/cubit/bottom_nav_cubit.dart';
 
@@ -32,7 +32,7 @@ class FloatingNavBar extends StatelessWidget {
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
               padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
               decoration: BoxDecoration(
-                color: AppColors.primaryBackground,
+                color: context.ext.colors.primaryBackground,
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Row(
@@ -59,6 +59,11 @@ class FloatingNavBar extends StatelessWidget {
                         fit: BoxFit.contain,
                         height: 24.h,
                         width: 24.w,
+                        colorFilter: ColorFilter.mode(
+                          context.ext.colors.primaryDark,
+
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
                   );

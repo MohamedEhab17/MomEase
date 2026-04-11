@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class DottedList extends StatelessWidget {
   const DottedList({super.key, required this.text});
@@ -14,9 +13,9 @@ class DottedList extends StatelessWidget {
       crossAxisAlignment: .start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 6.0),
+          padding: 10.topPadding,
           child: CircleAvatar(
-            backgroundColor: AppColors.primaryDark,
+            backgroundColor: context.ext.colors.primaryDark,
             radius: 4.r,
           ),
         ),
@@ -24,7 +23,10 @@ class DottedList extends StatelessWidget {
           child: Text(
             text,
             maxLines: 4,
-            style: AppStyles.styleInter16,
+            style: context.text.titleMedium!.copyWith(
+              fontWeight: FontWeight.w400,
+              color: context.ext.colors.lightTextDisabled.withAlpha(178),
+            ),
             overflow: TextOverflow.ellipsis,
           ),
         ),

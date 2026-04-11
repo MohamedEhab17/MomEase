@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class CreatePostHeader extends StatelessWidget {
   const CreatePostHeader({super.key});
@@ -17,11 +16,11 @@ class CreatePostHeader extends StatelessWidget {
           },
           icon: Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: AppColors.lightTextPrimary,
+            color: context.colors.onSurface,
             size: 24.sp,
           ),
         ),
-        Text('Create Post', style: AppStyles.styleInter24),
+        Text('Create Post', style: context.text.displaySmall!),
       ],
     );
   }

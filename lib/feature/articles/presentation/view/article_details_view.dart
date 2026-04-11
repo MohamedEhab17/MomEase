@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:new_mama/feature/articles/presentation/widgets/article_details_body.dart';
 
@@ -33,7 +32,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           // Parallax Header Image
@@ -65,9 +64,9 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withAlpha(100),
+                        context.colors.onSurface.withAlpha(100),
                         Colors.transparent,
-                        Colors.black.withAlpha(200),
+                        context.colors.onSurface.withAlpha(200),
                       ],
                     ),
                   ),
@@ -78,8 +77,8 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                   right: 20.w,
                   child: Text(
                     widget.article.title,
-                    style: AppStyles.styleInter24.copyWith(
-                      color: Colors.white,
+                    style: context.text.displaySmall!.copyWith(
+                      color: context.theme.cardColor,
                       fontWeight: FontWeight.w700,
                     ),
                     maxLines: 3,
@@ -101,7 +100,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.lightBackground,
+                      color: context.theme.cardColor,
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(30.r),
                       ),
@@ -125,7 +124,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                   onPressed: () => context.pop(),
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
-                    color: AppColors.primaryDark,
+                    color: context.ext.colors.primaryDark,
                     size: 20.sp,
                   ),
                 ),

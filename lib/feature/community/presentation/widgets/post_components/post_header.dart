@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/custom_overlay_menu.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_action_handler.dart';
@@ -24,15 +23,16 @@ class PostHeader extends StatelessWidget {
             children: [
               Text(
                 post.userName,
-                style: AppStyles.styleInter12.copyWith(
+                style: context.text.titleSmall!.copyWith(
                   fontWeight: FontWeight.w700,
+                  color: context.colors.onSurface,
                 ),
               ),
               Text(
                 "1 day ago",
-                style: AppStyles.styleInter10.copyWith(
+                style: context.text.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w400,
-                  color: AppColors.lightTextPrimary.withAlpha(128),
+                  color: context.ext.colors.lightTextDisabled,
                 ),
               ),
             ],
@@ -60,10 +60,10 @@ class PostHeader extends StatelessWidget {
             ),
           ],
           builder: (context, showMenu) => IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.more_vert,
               size: 24,
-              color: AppColors.lightTextPrimary,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: showMenu,
           ),

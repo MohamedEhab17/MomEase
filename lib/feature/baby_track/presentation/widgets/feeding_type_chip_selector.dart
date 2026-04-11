@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
 
 class FeedingTypeChipSelector extends StatelessWidget {
@@ -41,20 +40,22 @@ class FeedingTypeChipSelector extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.backgroundPink : Colors.transparent,
+              color: isSelected
+                  ? context.ext.colors.backgroundPink
+                  : Colors.transparent,
               borderRadius: BorderRadius.circular(64.r),
               border: Border.all(
                 color: isSelected
-                    ? AppColors.primaryDark
-                    : AppColors.lightTextDisabled,
+                    ? context.ext.colors.primaryDark
+                    : context.ext.colors.lightTextDisabled,
               ),
             ),
             child: Text(
               label,
-              style: AppStyles.styleInter12.copyWith(
+              style: context.text.bodyLarge!.copyWith(
                 color: isSelected
-                    ? AppColors.primaryDark
-                    : AppColors.lightTextDisabled,
+                    ? context.ext.colors.primaryDark
+                    : context.ext.colors.lightTextDisabled,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
               ),
             ),

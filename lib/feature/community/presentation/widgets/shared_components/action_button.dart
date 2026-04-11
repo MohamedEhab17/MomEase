@@ -2,8 +2,10 @@ import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
 class ActionButton extends StatelessWidget {
   final String icon;
@@ -26,9 +28,9 @@ class ActionButton extends StatelessWidget {
       child: Container(
         width: 113.w,
         height: 30.h,
-        padding: const EdgeInsets.symmetric(vertical: 7),
+        padding: 7.vPadding,
         decoration: BoxDecoration(
-          color: AppColors.primaryLighter.withAlpha(77),
+          color: context.ext.colors.primaryLighter.withAlpha(77),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -37,15 +39,31 @@ class ActionButton extends StatelessWidget {
             animateKey != null
                 ? AnimateFrom(
                     key: animateKey!,
-                    child: SvgPicture.asset(icon, width: 16, height: 16),
+                    child: SvgPicture.asset(
+                      icon,
+                      width: 16,
+                      height: 16,
+                      colorMapper: AppSvgColorMapper(
+                        from: Color(0xffFF3381),
+                        to: context.ext.colors.primaryDark,
+                      ),
+                    ),
                   )
-                : SvgPicture.asset(icon, width: 16, height: 16),
+                : SvgPicture.asset(
+                    icon,
+                    width: 16,
+                    height: 16,
+                    colorMapper: AppSvgColorMapper(
+                      from: Color(0xffFF3381),
+                      to: context.ext.colors.primaryDark,
+                    ),
+                  ),
 
-            const SizedBox(width: 4),
+            6.h.width,
             Text(
               label,
-              style: AppStyles.styleInter12.copyWith(
-                color: AppColors.primaryDark,
+              style: context.text.bodyLarge!.copyWith(
+                color: context.ext.colors.primaryDark,
                 fontWeight: FontWeight.w600,
               ),
             ),

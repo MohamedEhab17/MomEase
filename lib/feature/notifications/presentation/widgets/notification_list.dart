@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 import '../view_model/notification_cubit.dart';
 import '../view_model/notification_state.dart';
@@ -62,7 +62,7 @@ class _NotificationListState extends State<NotificationList> {
         return RefreshIndicator(
           onRefresh: () =>
               context.read<NotificationCubit>().loadNotifications(),
-          color: AppColors.primaryDark,
+          color: context.ext.colors.primaryDark,
           child: ListView.separated(
             controller: _scrollController,
             padding: EdgeInsets.only(bottom: 20.h, top: 4.h),
@@ -75,7 +75,7 @@ class _NotificationListState extends State<NotificationList> {
                   child: Padding(
                     padding: 16.hPadding,
                     child: CircularProgressIndicator(
-                      color: AppColors.primaryDark,
+                      color: context.ext.colors.primaryDark,
                       strokeWidth: 3,
                     ),
                   ),

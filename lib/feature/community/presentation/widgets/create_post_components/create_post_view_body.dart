@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
@@ -41,7 +40,7 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
           TextFormFieldHelper(
             controller: _postContentController,
             borderRadius: BorderRadius.circular(16.r),
-            fillColor: AppColors.lightBackground,
+            fillColor: context.colors.surface,
             hint: "Share your store or your thoughts...",
             maxLines: 8,
             minLines: 8,
@@ -53,11 +52,11 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
               // final hasText = value.text.trim().isNotEmpty;
               return CustomElevatedButton(
                 backgroundColor: _postContentController.text.isNotEmpty
-                    ? AppColors.primaryDark
-                    : AppColors.primaryLighter,
+                    ? context.ext.colors.primaryDark
+                    : context.ext.colors.primaryLighter,
                 minimumSize: Size(double.infinity, 52.h),
-                textStyle: AppStyles.styleInter20.copyWith(
-                  color: AppColors.darkTextPrimary,
+                textStyle: context.text.headlineMedium!.copyWith(
+                  color: context.theme.buttonTheme.colorScheme!.onPrimary,
                 ),
                 text: "Post",
                 onPressed: () {
@@ -101,9 +100,9 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
           12.height,
           Text(
             "Share your moment with community",
-            style: AppStyles.styleInter12.copyWith(
+            style: context.text.bodyMedium!.copyWith(
               fontWeight: FontWeight.normal,
-              color: AppColors.lightTextPrimary.withAlpha(128),
+              color: context.colors.onSurface.withAlpha(128),
             ),
           ),
         ],

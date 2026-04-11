@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_image_grid.dart';
 import 'package:readmore/readmore.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
@@ -21,8 +20,8 @@ class PostBody extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: isArabic
-          ? CrossAxisAlignment.end
-          : CrossAxisAlignment.start,
+          ? .end
+          : .start,
       children: [
         ReadMoreText(
           post.text,
@@ -31,16 +30,16 @@ class PostBody extends StatelessWidget {
           trimCollapsedText: isArabic ? ' عرض المزيد' : ' See more',
           trimExpandedText: isArabic ? ' عرض أقل' : ' Show less',
 
-          style: AppStyles.styleInter16.copyWith(
+          style: context.text.titleLarge!.copyWith(
             fontWeight: FontWeight.w400,
-            color: AppColors.lightTextPrimary.withAlpha(179),
+            color: context.colors.onSurface.withAlpha(179),
           ),
 
           moreStyle: TextStyle(
             fontWeight: FontWeight.bold,
-            color: AppColors.primary,
+            color: context.colors.primary,
           ),
-          colorClickableText: AppColors.primary,
+          colorClickableText: Theme.of(context).colorScheme.primary,
 
           textAlign: isArabic ? TextAlign.right : TextAlign.left,
           textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,

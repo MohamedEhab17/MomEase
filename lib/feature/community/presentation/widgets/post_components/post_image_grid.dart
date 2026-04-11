@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/full_screen_image_gallery.dart';
 
 class PostImageGrid extends StatelessWidget {
@@ -25,7 +24,7 @@ class PostImageGrid extends StatelessWidget {
                   : 280.h
             : null,
         width: double.infinity,
-        color: AppColors.backgroundPink,
+        color: context.ext.colors.backgroundPink,
         child: _buildGrid(context, count),
       ),
     );
@@ -134,7 +133,7 @@ class PostImageGrid extends StatelessWidget {
                             alignment: Alignment.center,
                             child: Text(
                               '+${count - 4}',
-                              style: AppStyles.styleInter24.copyWith(
+                              style: context.text.displaySmall!.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -175,7 +174,7 @@ class PostImageGrid extends StatelessWidget {
       width: double.infinity,
       placeholder: (_, _) => const Center(child: CircularProgressIndicator()),
       errorWidget: (_, _, _) =>
-          const Center(child: Icon(Icons.error, color: AppColors.primary)),
+          Center(child: Icon(Icons.error, color: context.colors.primary)),
     );
 
     if (!interactive) return imageWidget;

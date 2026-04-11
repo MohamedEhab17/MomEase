@@ -13,7 +13,7 @@ class SavedArticlesSection extends StatelessWidget {
     if (articles.isEmpty) return const SizedBox.shrink();
 
     return SizedBox(
-      height: 200.h,
+      height: 240.h,
       child: ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         clipBehavior: Clip.none,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class TextFormFieldHelper extends StatefulWidget {
   final TextEditingController? controller;
@@ -60,7 +59,7 @@ class TextFormFieldHelper extends StatefulWidget {
     this.isMobile,
     this.hintStyle,
     this.borderColor,
-    this.fillColor = AppColors.primaryTint,
+    this.fillColor,
     this.isReadOnly,
     this.enableShadow = true,
   });
@@ -122,7 +121,7 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
           color: Colors.transparent,
           borderRadius: borderRadius,
           elevation: showShadow ? 6 : 0,
-          shadowColor: AppColors.lightTextPrimary.withAlpha(26),
+          shadowColor: context.ext.colors.lightTextPrimary.withAlpha(26),
           child: TextFormField(
             controller: widget.controller,
             validator: _validator,
@@ -139,7 +138,7 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
             maxLength: widget.maxLength,
             obscureText: obscureText,
             obscuringCharacter: widget.obscuringCharacter ?? '*',
-            cursorColor: AppColors.primary,
+            cursorColor: context.ext.colors.primaryDark,
             keyboardType: widget.keyboardType,
             enabled: widget.enabled,
             textInputAction: widget.action ?? TextInputAction.next,
@@ -153,13 +152,15 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
                 : _textDirection,
             readOnly: widget.isReadOnly ?? false,
             textAlignVertical: TextAlignVertical.center,
+            style: context.text.titleSmall!,
             decoration: InputDecoration(
-              fillColor: widget.fillColor,
+              fillColor: widget.fillColor ?? context.ext.colors.primaryTint,
               filled: true,
               hintText: widget.hint,
+
               hintStyle:
                   widget.hintStyle ??
-                  AppStyles.styleRoboto12.copyWith(fontWeight: FontWeight.w400),
+                  context.text.bodyLarge!.copyWith(fontWeight: FontWeight.w400),
               errorMaxLines: 4,
               errorStyle: const TextStyle(color: Colors.red),
               prefixIcon: widget.prefixIcon,
@@ -169,7 +170,7 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
                       onPressed: _toggleObscureText,
                       icon: Icon(
                         obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: AppColors.lightTextDisabled,
+                        color: context.ext.colors.lightTextDisabled,
                       ),
                     )
                   : widget.suffixWidget,
@@ -178,15 +179,15 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
                 vertical: 19,
               ),
               border: outlineInputBorder(
-                color: widget.borderColor ?? AppColors.primaryExtraLight,
+                color: widget.borderColor ?? context.ext.colors.primaryLighter,
                 width: 1,
               ),
               enabledBorder: outlineInputBorder(
-                color: widget.borderColor ?? AppColors.primaryExtraLight,
+                color: widget.borderColor ?? context.ext.colors.primaryLighter,
                 width: 1,
               ),
               focusedBorder: outlineInputBorder(
-                color: widget.borderColor ?? AppColors.primaryDark,
+                color: widget.borderColor ?? context.ext.colors.primaryDark,
                 width: 1,
               ),
               errorBorder: outlineInputBorder(color: Colors.red, width: 1),

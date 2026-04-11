@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/health_insight_item.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_section_card.dart';
 
@@ -18,9 +17,9 @@ class InsightsHealthSection extends StatelessWidget {
       children: [
         Text(
           'Health Insights',
-          style: AppStyles.styleInter16.copyWith(
+          style: context.text.titleLarge!.copyWith(
             fontWeight: FontWeight.w700,
-            color: AppColors.lightTextPrimary,
+            color: context.colors.onSurface,
           ),
         ),
         16.h.height,
@@ -43,8 +42,10 @@ class InsightsHealthSection extends StatelessWidget {
               ),
               HealthInsightItem(
                 icon: Icons.vaccines_rounded,
-                iconColor: AppColors.greenText,
-                iconBackground: AppColors.backgroundGreen.withAlpha(40),
+                iconColor: context.ext.colors.greenText,
+                iconBackground: context.ext.colors.backgroundGreen.withAlpha(
+                  40,
+                ),
                 label: 'VACCINES',
                 value: 'Up to date',
               ),

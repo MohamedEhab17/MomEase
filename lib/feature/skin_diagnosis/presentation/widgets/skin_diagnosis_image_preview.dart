@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/animated_dotted_container.dart';
 import 'package:new_mama/core/widgets/full_screen_local_gallery.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
@@ -16,7 +16,7 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedDottedContainer(
-      color: AppColors.primary,
+      color: context.colors.primary,
       dashPattern: const [8, 6],
       borderRadius: BorderRadius.circular(16),
       strokeWidth: 3.w,
@@ -57,17 +57,20 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
                     right: 12.w,
                     child: InkWell(
                       onTap: () {
-                        context.read<SkinDiagnosisCubit>().cropImage();
+                        context.read<SkinDiagnosisCubit>().cropImage(
+                          primaryColor: context.ext.colors.primaryDark,
+                          surfaceColor: context.colors.surface,
+                        );
                       },
                       child: Container(
-                        padding: EdgeInsets.all(8.w),
+                        padding: 8.w.allPadding,
                         decoration: BoxDecoration(
-                          color: AppColors.lightBackground.withAlpha(200),
+                          color: context.colors.surface.withAlpha(200),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.crop,
-                          color: AppColors.primaryDark,
+                          color: context.ext.colors.primaryDark,
                           size: 24.w,
                         ),
                       ),
@@ -81,20 +84,20 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(20.w),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryDark.withAlpha(26),
+                      color: context.ext.colors.primaryDark.withAlpha(26),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Icons.camera_alt_outlined,
                       size: 48.w,
-                      color: AppColors.primaryDark,
+                      color: context.ext.colors.primaryDark,
                     ),
                   ),
                   24.height,
                   Text(
                     'No Photo Selected',
-                    style: AppStyles.styleInter20.copyWith(
-                      color: AppColors.primaryDark,
+                    style: context.text.headlineMedium!.copyWith(
+                      color: context.ext.colors.primaryDark,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -102,8 +105,8 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
                   Text(
                     'Please take a clear photo or upload\none from your gallery.',
                     textAlign: TextAlign.center,
-                    style: AppStyles.styleInter16.copyWith(
-                      color: AppColors.primaryDark.withAlpha(128),
+                    style: context.text.titleLarge!.copyWith(
+                      color: context.ext.colors.primaryDark.withAlpha(128),
                     ),
                   ),
                 ],

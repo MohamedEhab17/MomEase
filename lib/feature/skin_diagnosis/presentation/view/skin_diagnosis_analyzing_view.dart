@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_circle_avatar_with_icon.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
 
@@ -42,6 +42,7 @@ class _SkinDiagnosisAnalyzingViewState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: FeaturesHeader(
         title: 'Skin Diagnosis',
         onPressed: () {
@@ -63,7 +64,7 @@ class _SkinDiagnosisAnalyzingViewState
             32.h.height,
             Text(
               'Analyzing Skin Condition',
-              style: AppStyles.styleInter24.copyWith(
+              style: context.text.displayMedium!.copyWith(
                 fontWeight: FontWeight.w600,
               ),
               softWrap: true,
@@ -72,21 +73,21 @@ class _SkinDiagnosisAnalyzingViewState
             12.h.height,
             Text(
               'Our AI is carefully examining the image...',
-              style: AppStyles.styleInter14.copyWith(
-                color: AppColors.lightTextPrimary.withAlpha(128),
+              style: context.text.titleSmall!.copyWith(
+                color: context.colors.onSurface.withAlpha(128),
               ),
               softWrap: true,
               textAlign: TextAlign.center,
             ),
             48.h.height,
             Container(
-              padding: EdgeInsets.all(16.w),
+              padding: 16.w.allPadding,
               decoration: BoxDecoration(
-                color: AppColors.primaryDark.withAlpha(26),
+                color: context.ext.colors.primaryDark.withAlpha(26),
                 shape: BoxShape.circle,
               ),
               child: SpinKitFadingCircle(
-                color: AppColors.primaryDark,
+                color: context.ext.colors.primaryDark,
                 size: 48.w,
               ),
             ),

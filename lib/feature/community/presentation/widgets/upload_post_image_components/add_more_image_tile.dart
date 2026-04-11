@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/animated_dotted_container.dart';
 
 class AddMoreImageTile extends StatelessWidget {
@@ -14,7 +13,7 @@ class AddMoreImageTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedDottedContainer(
-        color: AppColors.primary,
+        color: context.colors.primary,
         dashPattern: const [8, 6],
         borderRadius: BorderRadius.circular(16),
         strokeWidth: 2.w,
@@ -22,25 +21,25 @@ class AddMoreImageTile extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.3,
           width: MediaQuery.of(context).size.width * 0.6,
 
-          color: AppColors.backgroundPink,
-          alignment: Alignment.center,
+          color: context.ext.colors.backgroundPink,
+          alignment: .center,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: .center,
             children: [
               CircleAvatar(
                 radius: 30.r,
-                backgroundColor: AppColors.lightBackground,
+                backgroundColor: context.colors.surface,
                 child: Transform.translate(
                   offset: const Offset(2, 0),
                   child: Icon(
                     Icons.add_photo_alternate,
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                     size: 32.r,
                   ),
                 ),
               ),
               SizedBox(height: 8.h),
-              Text("Add More", style: AppStyles.styleInter16),
+              Text("Add More", style: context.text.titleLarge!),
             ],
           ),
         ),

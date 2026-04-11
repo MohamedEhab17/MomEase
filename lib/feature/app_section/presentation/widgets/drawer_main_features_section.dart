@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'drawer_helpers.dart';
@@ -17,8 +18,11 @@ class DrawerMainFeaturesSection extends StatelessWidget {
       children: [
         DrawerListTile(
           title: 'Baby Tracking',
-          leading: buildDrawerIcon(AppIcons.iconsBabyTracing),
-          trailing: buildDrawerChevron(),
+          leading: buildDrawerIcon(
+            color: context.ext.colors.primaryDark,
+            AppIcons.iconsBabyTracing,
+          ),
+          trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
           onTap: () {
             onClose();
             context.push(AppRoutesPaths.babyTrackView);
@@ -26,20 +30,23 @@ class DrawerMainFeaturesSection extends StatelessWidget {
         ),
         DrawerListTile(
           title: 'Depression Test',
-          leading: buildDrawerIcon(AppIcons.iconsActiveProfile),
-          trailing: buildDrawerChevron(),
+          leading: buildDrawerIcon(
+            color: context.ext.colors.primaryDark,
+            AppIcons.iconsActiveProfile,
+          ),
+          trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
           onTap: () {},
         ),
         DrawerListTile(
           title: 'Baby Cry',
-          leading: buildDrawerIcon(AppIcons.iconsSound),
-          trailing: buildDrawerChevron(),
+          leading: buildDrawerIcon(color: context.ext.colors.primaryDark, AppIcons.iconsSound),
+          trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
           onTap: () {},
         ),
         DrawerListTile(
           title: 'Skin Diagnosis',
-          leading: buildDrawerIcon(AppIcons.iconsSkin),
-          trailing: buildDrawerChevron(),
+          leading: buildDrawerIcon(color: context.ext.colors.primaryDark, AppIcons.iconsSkin),
+          trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
           onTap: () {},
         ),
       ],

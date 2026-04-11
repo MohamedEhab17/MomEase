@@ -1,10 +1,11 @@
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:flutter/widgets.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/profile/data/models/profile_model.dart';
 
 class ProfileDummyData {
-  static ProfileModel getDummyProfile() {
+  static ProfileModel getDummyProfile(BuildContext context) {
     return ProfileModel(
       id: "u123",
       name: "Ana Soso",
@@ -13,11 +14,11 @@ class ProfileDummyData {
       journey: ParentingJourney(
         lastMoodEmoji: "😌",
         lastMoodStatus: "Calm",
-        lastMoodColor: AppColors.greenText,
+        lastMoodColor: context.ext.colors.greenText,
         depressionTestStatus: "Completed",
-        depressionTestColor: AppColors.mentionBlue,
+        depressionTestColor: context.ext.colors.mentionBlue,
         babyTrackingStatus: "Updated today",
-        babyTrackingColor: AppColors.primaryDark,
+        babyTrackingColor: context.ext.colors.primaryDark,
       ),
       babyProfile: BabyProfile(
         name: "Adam",
@@ -82,40 +83,40 @@ class ProfileDummyData {
         AccountSupportItem(
           title: "Manage Profile",
           iconPath: "person_outline",
-          iconBackgroundColor: AppColors.primaryExtraLight,
-          iconColor: AppColors.primaryDark,
+          iconBackgroundColor: context.ext.colors.primaryExtraLight,
+          iconColor: context.ext.colors.primaryDark,
         ),
         AccountSupportItem(
           title: "Security",
           iconPath: "lock_outline",
-          iconBackgroundColor: AppColors.primaryExtraLight,
-          iconColor: AppColors.primaryDark,
+          iconBackgroundColor: context.ext.colors.primaryExtraLight,
+          iconColor: context.ext.colors.primaryDark,
         ),
         AccountSupportItem(
           title: "Notifications",
           iconPath: "notifications_none",
-          iconBackgroundColor: AppColors.primaryExtraLight,
-          iconColor: AppColors.primaryDark,
+          iconBackgroundColor: context.ext.colors.primaryExtraLight,
+          iconColor: context.ext.colors.primaryDark,
         ),
         AccountSupportItem(
           title: "Language",
           iconPath: "translate",
-          iconBackgroundColor: AppColors.primaryExtraLight,
-          iconColor: AppColors.primaryDark,
+          iconBackgroundColor: context.ext.colors.primaryExtraLight,
+          iconColor: context.ext.colors.primaryDark,
           trailingText: "English (US)",
         ),
         AccountSupportItem(
           title: "Theme",
           iconPath: "palette_outlined",
-          iconBackgroundColor: AppColors.primaryExtraLight,
-          iconColor: AppColors.primaryDark,
+          iconBackgroundColor: context.ext.colors.primaryExtraLight,
+          iconColor: context.ext.colors.primaryDark,
           trailingText: "Pastel Pink",
         ),
         AccountSupportItem(
           title: "Help Center",
           iconPath: "help_outline",
-          iconBackgroundColor: AppColors.primaryExtraLight,
-          iconColor: AppColors.primaryDark,
+          iconBackgroundColor: context.ext.colors.primaryExtraLight,
+          iconColor: context.ext.colors.primaryDark,
         ),
       ],
     );

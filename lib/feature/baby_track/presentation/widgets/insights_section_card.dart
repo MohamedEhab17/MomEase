@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 /// A white card with rounded corners and a subtle shadow,
 /// used to wrap each section in the Insights tab.
@@ -13,14 +14,14 @@ class InsightsSectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16.r),
+      padding: 16.r.allPadding,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.primaryExtraLight),
+        border: Border.all(color: context.ext.colors.primaryExtraLight),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryLighter.withAlpha(30),
+            color: context.ext.colors.primaryLighter.withAlpha(30),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class UploadedImageTile extends StatelessWidget {
   const UploadedImageTile({
@@ -44,7 +45,7 @@ class UploadedImageTile extends StatelessWidget {
                 color: Colors.black.withAlpha(150),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.close, size: 16.r, color: Colors.white),
+              child: Icon(Icons.close, size: 16.r, color: context.theme.cardColor),
             ),
           ),
         ),
@@ -59,7 +60,7 @@ class UploadedImageTile extends StatelessWidget {
                 color: Colors.black.withAlpha(150),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.crop, size: 16.r, color: Colors.white),
+              child: Icon(Icons.crop, size: 16.r, color: context.theme.cardColor),
             ),
           ),
         ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_data.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_model.dart';
@@ -21,7 +20,7 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: context.colors.surface,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 38.w, vertical: 80.h),
@@ -59,8 +58,8 @@ class _OnboardingViewState extends State<OnboardingView> {
                   radius: 64,
                   dotWidth: 15,
                   dotHeight: 8,
-                  dotColor: AppColors.greyLight,
-                  activeDotColor: AppColors.primaryTint,
+                  dotColor: context.ext.colors.greyLight,
+                  activeDotColor: context.ext.colors.primaryTint,
                 ),
               ),
               SizedBox(height: 24),
@@ -73,12 +72,12 @@ class _OnboardingViewState extends State<OnboardingView> {
                     Text(
                       onboardingList[currentPage].title,
                       textAlign: TextAlign.center,
-                      style: AppStyles.styleRoboto24,
+                      style: context.text.headlineLarge!,
                     ),
                     Text(
                       onboardingList[currentPage].description,
                       textAlign: TextAlign.center,
-                      style: AppStyles.styleRoboto16,
+                      style: context.text.titleMedium!,
                     ),
                   ],
                 ),
@@ -103,7 +102,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                 children: [
                   CustomElevatedButton(
                     text: 'Skip',
-                    backgroundColor: AppColors.lightBackground,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     onPressed: () {
                       pageViewController.animateToPage(
                         onboardingList.length - 1,

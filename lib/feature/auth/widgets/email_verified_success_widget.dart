@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 
 class EmailVerifiedSuccessWidget extends StatelessWidget {
@@ -19,7 +20,7 @@ class EmailVerifiedSuccessWidget extends StatelessWidget {
           children: [
             Text(
               'You’re all set',
-              style: AppStyles.styleRoboto24.copyWith(
+              style: context.text.displaySmall!.copyWith(
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,
@@ -27,8 +28,8 @@ class EmailVerifiedSuccessWidget extends StatelessWidget {
             16.h.height,
             Text(
               'Thanks for confirming your email',
-              style: AppStyles.styleRoboto16.copyWith(
-                color: AppColors.lightTextDisabled,
+              style: context.text.titleMedium!.copyWith(
+                color: context.ext.colors.lightTextDisabled,
                 fontWeight: FontWeight.w400,
                 fontSize: 20.sp,
               ),
@@ -39,7 +40,9 @@ class EmailVerifiedSuccessWidget extends StatelessWidget {
             CustomElevatedButton(
               text: "Continue",
               minimumSize: Size(double.infinity, 52.h),
-              onPressed: () {},
+              onPressed: () {
+                context.pushReplacement(AppRoutesPaths.login);
+              },
             ),
           ],
         ),

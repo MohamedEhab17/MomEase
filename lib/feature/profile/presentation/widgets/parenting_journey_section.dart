@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/feature/profile/data/models/profile_model.dart';
@@ -19,11 +19,11 @@ class ParentingJourneySection extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: AppColors.primaryBackground,
+        color: context.ext.colors.primaryBackground,
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withAlpha(21),
+            color: context.colors.primary.withAlpha(21),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -43,10 +43,10 @@ class ParentingJourneySection extends StatelessWidget {
           ),
 
           ParentingJourneyItemTile(
-            leadingIcon: const Icon(
+            leadingIcon: Icon(
               Icons.bar_chart_rounded,
               size: 20,
-              color: AppColors.greyPrimary,
+              color: context.ext.colors.greyPrimary,
             ),
             title: "Depression Test",
             statusText: journey.depressionTestStatus,
@@ -60,8 +60,8 @@ class ParentingJourneySection extends StatelessWidget {
             leadingIcon: SvgPicture.asset(
               AppIcons.iconsBabyTracing,
               width: 20.w,
-              colorFilter: const ColorFilter.mode(
-                AppColors.greyPrimary,
+              colorFilter: ColorFilter.mode(
+                context.ext.colors.greyPrimary,
                 BlendMode.srcIn,
               ),
             ),

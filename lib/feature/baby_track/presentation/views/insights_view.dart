@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_baby_activity_section.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_health_section.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_helpful_suggestions_section.dart';
@@ -16,23 +15,23 @@ class InsightsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.lightBackground,
+        backgroundColor: context.theme.appBarTheme.backgroundColor,
         scrolledUnderElevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new_rounded,
             size: 22.sp,
-            color: AppColors.primaryDark,
+            color: context.ext.colors.primaryDark,
           ),
           onPressed: () => context.pop(),
         ),
         title: Text(
           'Baby Activity Insights',
-          style: AppStyles.styleInter20.copyWith(
+          style: context.text.headlineMedium!.copyWith(
             fontWeight: FontWeight.w600,
-            color: AppColors.primaryDark,
+            color: context.ext.colors.primaryDark,
           ),
         ),
         centerTitle: true,
@@ -40,17 +39,17 @@ class InsightsView extends StatelessWidget {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             // ── Top stat cards ──
             Row(
               children: [
                 InsightsStatCard(
                   icon: Icons.favorite_rounded,
-                  iconColor: AppColors.primaryDark,
+                  iconColor: context.ext.colors.primaryDark,
                   label: 'Health Score',
                   value: 'Feeding',
-                  background: AppColors.primaryExtraLight,
+                  background: context.ext.colors.primaryDark,
                 ),
                 SizedBox(width: 10.w),
                 InsightsStatCard(
@@ -58,15 +57,15 @@ class InsightsView extends StatelessWidget {
                   iconColor: Colors.orange,
                   label: 'Mom Mood',
                   value: 'Calm / Tired',
-                  background: Colors.orange.withAlpha(25),
+                  background: Colors.orange,
                 ),
                 SizedBox(width: 10.w),
                 InsightsStatCard(
                   icon: Icons.check_circle_rounded,
-                  iconColor: AppColors.greenText,
+                  iconColor: context.ext.colors.greenText,
                   label: 'Coping Rate',
                   value: 'Good',
-                  background: AppColors.backgroundGreen.withAlpha(40),
+                  background: context.ext.colors.backgroundGreen,
                 ),
               ],
             ),

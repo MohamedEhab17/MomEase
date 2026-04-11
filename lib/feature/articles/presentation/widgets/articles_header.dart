@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
 class ArticlesHeader extends StatelessWidget implements PreferredSizeWidget {
   final AnimateToController? controller;
@@ -33,31 +33,39 @@ class ArticlesHeader extends StatelessWidget implements PreferredSizeWidget {
                       AppIcons.iconsFilledSave,
                       width: 25.w,
                       height: 25.h,
+                      colorMapper: AppSvgColorMapper(
+                        from: Color(0xffFF3381),
+                        to: context.ext.colors.primaryDark,
+                      ),
                     ),
                   )
                 : SvgPicture.asset(
                     AppIcons.iconsFilledSave,
                     width: 25.w,
                     height: 25.h,
+                    colorMapper: AppSvgColorMapper(
+                      from: Color(0xffFF3381),
+                      to: context.ext.colors.primaryDark,
+                    ),
                   ),
           ),
       ],
       centerTitle: true,
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: context.theme.appBarTheme.backgroundColor,
       leading: IconButton(
         onPressed: () {
           context.pop();
         },
         icon: Icon(
           Icons.arrow_back_ios_new_rounded,
-          color: AppColors.primaryDark,
+          color: context.ext.colors.primaryDark,
           size: 25.sp,
         ),
       ),
       title: Text(
         'Articles',
-        style: AppStyles.styleInter20.copyWith(
-          color: AppColors.primaryDark,
+        style: context.text.headlineMedium!.copyWith(
+          color: context.ext.colors.primaryDark,
           fontWeight: FontWeight.w600,
         ),
       ),

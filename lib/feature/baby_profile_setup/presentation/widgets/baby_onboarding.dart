@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_images.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/step_next_button.dart';
 
 class BabyOnboarding extends StatelessWidget {
@@ -22,24 +21,18 @@ class BabyOnboarding extends StatelessWidget {
               children: [
                 TextSpan(
                   text: 'Hello,',
-                  style: AppStyles.styleInter24.copyWith(
+                  style: context.text.displaySmall!.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                TextSpan(
-                  text: ' Mama!',
-                  style: AppStyles.styleInter24.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primaryDark,
-                  ),
-                ),
+                TextSpan(text: ' Mama!', style: context.text.headlineLarge!),
               ],
             ),
           ),
           6.height,
           Text(
             ' Let’s Get to know you and your journey',
-            style: AppStyles.styleInter14,
+            style: context.text.titleSmall!,
           ),
           75.height,
           const StepNextButton(stepKey: null),

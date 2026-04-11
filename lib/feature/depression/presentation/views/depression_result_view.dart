@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
 import 'package:new_mama/core/widgets/custom_instructions_recommendations.dart';
@@ -27,16 +26,20 @@ class DepressionResultView extends StatelessWidget {
     return 'Severe';
   }
 
-  Color get _severityColor {
-    if (totalScore <= 4) return AppColors.greenText;
+  Color _severityColor(BuildContext context) {
+    if (totalScore <= 4) {
+      return context.ext.colors.greenText;
+    }
     if (totalScore <= 9) return Colors.blue;
     if (totalScore <= 14) return Colors.orange;
     if (totalScore <= 19) return Colors.deepOrange;
     return Colors.red;
   }
 
-  Color get _severityBackgroundColor {
-    if (totalScore <= 9) return AppColors.backgroundGreen.withAlpha(77);
+  Color _severityBackgroundColor(BuildContext context) {
+    if (totalScore <= 9) {
+      return context.ext.colors.backgroundGreen.withAlpha(77);
+    }
     if (totalScore <= 14) return Colors.orange.withAlpha(77);
     return Colors.red.withAlpha(77);
   }
@@ -75,17 +78,23 @@ class DepressionResultView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 33, vertical: 24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.r),
-                color: _severityBackgroundColor,
+                color: _severityBackgroundColor(context),
               ),
 
               child: Column(
                 spacing: 12.h,
                 children: [
-                  Text('Emotional Well-being', style: AppStyles.styleInter12),
+                  Text('Emotional Well-being', style: context.text.bodyMedium!),
                   Text(
                     _severityResult,
-                    style: AppStyles.styleInter24.copyWith(
-                      color: _severityColor,
+                    style: context.text.displayMedium!.copyWith(
+                      color: _severityColor(context),
+                    ),
+                  ),
+                  Text(
+                    'Score: $totalScore / 27',
+                    style: context.text.bodyMedium!.copyWith(
+                      color: context.text.bodyMedium!.color!.withAlpha(178),
                     ),
                   ),
                 ],
@@ -94,15 +103,15 @@ class DepressionResultView extends StatelessWidget {
             41.h.height,
             Text(
               'You\'re doing well emotionally',
-              style: AppStyles.styleInter24,
-              textAlign: TextAlign.center,
+              style: context.text.displayMedium!,
+              textAlign: .center,
               softWrap: true,
             ),
             30.h.height,
             Text(
               _description,
-              style: AppStyles.styleInter14,
-              textAlign: TextAlign.center,
+              style: context.text.titleSmall!,
+              textAlign: .center,
               softWrap: true,
             ),
             33.h.height,
@@ -114,8 +123,8 @@ class DepressionResultView extends StatelessWidget {
 
             CustomElevatedButton(
               text: 'Retake Check-In',
-              textStyle: AppStyles.styleInter20.copyWith(
-                color: AppColors.lightBackground,
+              textStyle: context.text.headlineMedium!.copyWith(
+                color: context.theme.buttonTheme.colorScheme!.onPrimary,
               ),
               onPressed: () {
                 while (context.canPop()) {
@@ -123,23 +132,23 @@ class DepressionResultView extends StatelessWidget {
                 }
                 context.push('/depressionTestView');
               },
-              backgroundColor: AppColors.primaryDark,
+              backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
               minimumSize: Size(double.infinity, 52.h),
             ),
 
             24.h.height,
             CustomElevatedButton(
               text: 'Back to Home',
-              textStyle: AppStyles.styleInter20.copyWith(
-                color: AppColors.primaryDark,
+              textStyle: context.text.headlineMedium!.copyWith(
+                color: context.theme.buttonTheme.colorScheme!.primary,
               ),
               onPressed: () {
                 while (context.canPop()) {
                   context.pop();
                 }
               },
-              borderColor: AppColors.primaryDark,
-              backgroundColor: AppColors.lightBackground,
+              borderColor: context.ext.colors.primaryDark,
+              backgroundColor: context.theme.buttonTheme.colorScheme!.secondary,
               minimumSize: Size(double.infinity, 52.h),
             ),
           ],

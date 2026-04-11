@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
@@ -41,7 +40,7 @@ class _DateOfBirthState extends State<DateOfBirth> {
           children: [
             Text(
               'When were they born?',
-              style: AppStyles.styleInter32,
+              style: context.text.displayMedium!,
               textAlign: TextAlign.center,
               softWrap: true,
             ),
@@ -50,21 +49,22 @@ class _DateOfBirthState extends State<DateOfBirth> {
               'Or their expected due date if not yet arrived',
               textAlign: TextAlign.center,
               softWrap: true,
-              style: AppStyles.styleInter14,
+              style: context.text.titleSmall!,
             ),
             87.height,
             TextFormFieldHelper(
               controller: _dateController,
-              borderColor: AppColors.primaryDark,
-              fillColor: AppColors.lightBackground,
+              borderColor: context.ext.colors.primaryDark,
+              fillColor: context.theme.cardColor,
               borderRadius: BorderRadius.circular(64.r),
               hint: 'mm/dd/yyyy',
-              hintStyle: AppStyles.styleInter12.copyWith(
-                color: AppColors.lightTextDisabled,
+              hintStyle: context.text.bodyLarge!.copyWith(
+                color: context.ext.colors.lightTextDisabled,
               ),
               suffixWidget: Icon(
                 Icons.calendar_today_outlined,
-                color: AppColors.primaryDark,
+                color: context.ext.colors.primaryDark,
+
               ),
               isReadOnly: true,
               onTap: _pickDate,
@@ -84,9 +84,9 @@ class _DateOfBirthState extends State<DateOfBirth> {
       lastDate: DateTime.now().add(const Duration(days: 270)),
       builder: (context, child) {
         return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppColors.primaryDark,
+          data: context.theme.copyWith(
+            colorScheme: ColorScheme.light(
+              primary: context.ext.colors.primaryDark,
               onPrimary: Colors.white,
               onSurface: Colors.black,
             ),

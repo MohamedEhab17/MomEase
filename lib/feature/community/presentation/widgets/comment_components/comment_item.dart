@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 import 'package:new_mama/feature/community/data/models/comment_model.dart';
 
 /// A widget that displays a single comment with interactive features
@@ -95,14 +95,14 @@ class _CommentItemState extends State<CommentItem> {
             children: [
               Text(
                 widget.comment.name,
-                style: AppStyles.styleInter10.copyWith(
+                style: context.text.bodySmall!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 widget.comment.timeAgo,
-                style: AppStyles.styleInter8.copyWith(
-                  color: AppColors.lightTextPrimary.withAlpha(128),
+                style: context.text.labelLarge!.copyWith(
+                  color: context.colors.onSurface.withAlpha(128),
                 ),
               ),
             ],
@@ -118,9 +118,9 @@ class _CommentItemState extends State<CommentItem> {
       child: Text(
         widget.comment.comment,
         textAlign: TextAlign.start,
-        style: AppStyles.styleInter12.copyWith(
+        style: context.text.bodyLarge!.copyWith(
           fontWeight: FontWeight.w400,
-          color: AppColors.lightTextPrimary.withAlpha(179),
+          color: context.colors.onSurface.withAlpha(179),
         ),
       ),
     );
@@ -149,15 +149,16 @@ class _CommentItemState extends State<CommentItem> {
             _isLiked ? AppIcons.iconsFilledLike : AppIcons.iconsUnfilledLike,
             height: 16.h,
             width: 16.w,
-            colorFilter: _isLiked
-                ? const ColorFilter.mode(AppColors.primaryDark, BlendMode.srcIn)
-                : null,
+            colorMapper: AppSvgColorMapper(
+              from: context.ext.colors.primaryDark,
+              to: context.ext.colors.primaryDark,
+            ),
           ),
           const SizedBox(width: 4),
           Text(
-            '$_likeCount Likes',
-            style: AppStyles.styleInter8.copyWith(
-              color: AppColors.lightTextPrimary.withAlpha(179),
+            '$_likeCount Likes ',
+            style: context.text.labelLarge!.copyWith(
+              color: context.colors.onSurface.withAlpha(179),
             ),
           ),
         ],
@@ -170,8 +171,8 @@ class _CommentItemState extends State<CommentItem> {
       onTap: _handleReply,
       child: Text(
         'Reply',
-        style: AppStyles.styleInter8.copyWith(
-          color: AppColors.primaryDark,
+        style: context.text.labelLarge!.copyWith(
+          color: context.ext.colors.primaryDark,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -190,7 +191,7 @@ class _CommentItemState extends State<CommentItem> {
             child: Divider(
               height: 1,
               thickness: 1,
-              color: AppColors.lightTextPrimary.withAlpha(179),
+              color: context.colors.onSurface.withAlpha(179),
             ),
           ),
           const SizedBox(width: 6),
@@ -198,9 +199,9 @@ class _CommentItemState extends State<CommentItem> {
             isHiding
                 ? 'Hide Replies (${widget.comment.replies})'
                 : 'View Replies (${widget.comment.replies})',
-            style: AppStyles.styleInter8.copyWith(
+            style: context.text.labelLarge!.copyWith(
               fontWeight: FontWeight.w700,
-              color: AppColors.lightTextPrimary.withAlpha(179),
+              color: context.colors.onSurface.withAlpha(179),
             ),
           ),
         ],

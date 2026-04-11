@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class InsightSuggestionCard extends StatelessWidget {
   final IconData icon;
@@ -20,9 +19,9 @@ class InsightSuggestionCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
-        color: AppColors.primaryTint,
+        color: context.ext.colors.primaryTint,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: AppColors.primaryExtraLight),
+        border: Border.all(color: context.ext.colors.primaryExtraLight),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,10 +30,14 @@ class InsightSuggestionCard extends StatelessWidget {
             width: 36.w,
             height: 36.w,
             decoration: BoxDecoration(
-              color: AppColors.primaryDark.withAlpha(20),
+              color: context.ext.colors.primaryDark.withAlpha(20),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: AppColors.primaryDark, size: 18.sp),
+            child: Icon(
+              icon,
+              color: context.ext.colors.primaryDark,
+              size: 18.sp,
+            ),
           ),
           SizedBox(width: 12.w),
           Expanded(
@@ -43,16 +46,16 @@ class InsightSuggestionCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: AppStyles.styleInter14.copyWith(
+                  style: context.text.titleSmall!.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.lightTextPrimary,
+                    color: context.colors.onSurface,
                   ),
                 ),
                 SizedBox(height: 4.h),
                 Text(
                   body,
-                  style: AppStyles.styleInter12.copyWith(
-                    color: AppColors.lightTextSecondary,
+                  style: context.text.bodyLarge!.copyWith(
+                    color: context.colors.onSurfaceVariant,
                     fontWeight: FontWeight.w400,
                   ),
                   maxLines: 3,
@@ -62,8 +65,8 @@ class InsightSuggestionCard extends StatelessWidget {
                 GestureDetector(
                   child: Text(
                     'Read more ›',
-                    style: AppStyles.styleInter12.copyWith(
-                      color: AppColors.primaryDark,
+                    style: context.text.bodyLarge!.copyWith(
+                      color: context.ext.colors.primaryDark,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

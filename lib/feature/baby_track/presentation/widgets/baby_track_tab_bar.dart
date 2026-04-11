@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class BabyTrackTabBar extends StatelessWidget {
   final List<String> tabs;
@@ -20,9 +19,9 @@ class BabyTrackTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.primaryTint,
+        color: context.ext.colors.primaryTint,
         borderRadius: BorderRadius.circular(64.r),
-        border: Border.all(color: AppColors.primaryExtraLight),
+        border: Border.all(color: context.ext.colors.primaryExtraLight),
       ),
       padding: 10.allPadding,
       child: Row(
@@ -36,13 +35,13 @@ class BabyTrackTabBar extends StatelessWidget {
                 curve: Curves.easeInOut,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? AppColors.lightBackground
+                      ? context.theme.cardColor
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(28.r),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: AppColors.lightTextPrimary.withAlpha(50),
+                            color: context.colors.onSurface.withAlpha(50),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -53,10 +52,10 @@ class BabyTrackTabBar extends StatelessWidget {
                 child: Center(
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 200),
-                    style: AppStyles.styleInter14.copyWith(
+                    style: context.text.titleSmall!.copyWith(
                       color: isSelected
-                          ? AppColors.primaryDark
-                          : AppColors.lightTextSecondary,
+                          ? context.ext.colors.primaryDark
+                          : context.colors.onSurface,
                       fontWeight: isSelected
                           ? FontWeight.w600
                           : FontWeight.w500,

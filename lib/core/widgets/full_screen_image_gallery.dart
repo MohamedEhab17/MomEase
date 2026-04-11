@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 
 class FullScreenImageGallery extends StatefulWidget {
   final List<String> images;
@@ -48,7 +46,7 @@ class _FullScreenImageGalleryState extends State<FullScreenImageGallery> {
         ),
         title: Text(
           '${_currentIndex + 1} / ${widget.images.length}',
-          style: AppStyles.styleInter16.copyWith(
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
@@ -78,8 +76,8 @@ class _FullScreenImageGalleryState extends State<FullScreenImageGallery> {
               placeholder: (_, _) => const Center(
                 child: CircularProgressIndicator(color: Colors.white),
               ),
-              errorWidget: (_, _, _) => const Center(
-                child: Icon(Icons.error, color: AppColors.primary, size: 48),
+              errorWidget: (_, _, _) => Center(
+                child: Icon(Icons.error, color: Theme.of(context).colorScheme.primary, size: 48),
               ),
             ),
           );

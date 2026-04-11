@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_state.dart';
 import 'package:new_mama/feature/articles/presentation/widgets/articles_header.dart';
@@ -28,10 +28,8 @@ class _SavedArticlesViewState extends State<SavedArticlesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ArticlesHeader(
-        controller: _controller,
-        showSaveIcon: false, // We are already in Saved view
-      ),
+      backgroundColor: context.theme.scaffoldBackgroundColor,
+      appBar: ArticlesHeader(controller: _controller, showSaveIcon: false),
       body: BlocBuilder<ArticleCubit, ArticleState>(
         builder: (context, state) {
           final savedArticles = state.articles.where((a) => a.isSaved).toList();
@@ -40,7 +38,10 @@ class _SavedArticlesViewState extends State<SavedArticlesView> {
             return Center(
               child: Text(
                 'No saved articles yet.',
-                style: AppStyles.styleInter16,
+                style: context.text.headlineMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: context.colors.onSurface,
+                ),
               ),
             );
           }
@@ -52,8 +53,9 @@ class _SavedArticlesViewState extends State<SavedArticlesView> {
                 padding: 20.hPadding,
                 child: Text(
                   'Saved Articles',
-                  style: AppStyles.styleInter20.copyWith(
+                  style: context.text.headlineMedium!.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: context.colors.onSurface,
                   ),
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 
 class SleepDurationChart extends StatelessWidget {
@@ -25,13 +25,13 @@ class SleepDurationChart extends StatelessWidget {
               'Sleep Duration (hrs)',
               style: AppStyles.styleInter14.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.lightTextPrimary,
+                color: context.ext.colors.lightTextPrimary,
               ),
             ),
             Text(
               'Daily Avg',
               style: AppStyles.styleInter10.copyWith(
-                color: AppColors.lightTextSecondary,
+                color: context.ext.colors.lightTextSecondary,
               ),
             ),
           ],
@@ -40,7 +40,11 @@ class SleepDurationChart extends StatelessWidget {
         SizedBox(
           height: 80.h,
           child: CustomPaint(
-            painter: _LineChartPainter(points: points),
+            painter: _LineChartPainter(
+              context: context,
+              points: points,
+              primaryDark: context.ext.colors.primaryDark,
+            ),
             size: Size(double.infinity, 80.h),
           ),
         ),
@@ -52,7 +56,7 @@ class SleepDurationChart extends StatelessWidget {
                 (t) => Text(
                   t,
                   style: AppStyles.styleInter10.copyWith(
-                    color: AppColors.lightTextSecondary,
+                    color: context.ext.colors.lightTextSecondary,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -65,9 +69,16 @@ class SleepDurationChart extends StatelessWidget {
 }
 
 class _LineChartPainter extends CustomPainter {
+  final BuildContext context;
   final List<double> points;
 
-  _LineChartPainter({required this.points});
+  final Color primaryDark;
+
+  _LineChartPainter({
+    required this.context,
+    required this.points,
+    required this.primaryDark,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -105,8 +116,8 @@ class _LineChartPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          AppColors.primaryDark.withAlpha(50),
-          AppColors.primaryDark.withAlpha(0),
+          context.ext.colors.primaryDark.withAlpha(50),
+          context.ext.colors.primaryDark.withAlpha(0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
       ..style = PaintingStyle.fill;
@@ -115,7 +126,7 @@ class _LineChartPainter extends CustomPainter {
 
     // Draw line
     final linePaint = Paint()
-      ..color = AppColors.primaryDark
+      ..color = context.ext.colors.primaryDark
       ..strokeWidth = 2.5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;

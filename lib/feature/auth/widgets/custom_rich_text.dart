@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class CustomRichText extends StatelessWidget {
   const CustomRichText({
@@ -9,8 +8,8 @@ class CustomRichText extends StatelessWidget {
     this.onTap,
     required this.firstText,
     required this.secondText,
-    this.firstTextColor = AppColors.lightTextPrimary,
-    this.secondTextColor = AppColors.primary,
+    this.firstTextColor,
+    this.secondTextColor,
     this.firstTextStyle,
     this.secondTextStyle,
     this.center = true,
@@ -18,8 +17,8 @@ class CustomRichText extends StatelessWidget {
   final void Function()? onTap;
   final String firstText;
   final String secondText;
-  final Color firstTextColor;
-  final Color secondTextColor;
+  final Color? firstTextColor;
+  final Color? secondTextColor;
   final TextStyle? firstTextStyle;
   final TextStyle? secondTextStyle;
   final bool center;
@@ -35,7 +34,9 @@ class CustomRichText extends StatelessWidget {
                     text: firstText,
                     style:
                         firstTextStyle ??
-                        AppStyles.styleRoboto24.copyWith(color: firstTextColor),
+                        context.text.displaySmall!.copyWith(
+                          color: firstTextColor ?? context.colors.onSurface,
+                        ),
                   ),
                   TextSpan(
                     recognizer: TapGestureRecognizer()..onTap = onTap,
@@ -43,8 +44,9 @@ class CustomRichText extends StatelessWidget {
                     text: secondText,
                     style:
                         secondTextStyle ??
-                        AppStyles.styleRoboto24.copyWith(
-                          color: secondTextColor,
+                        context.text.headlineLarge!.copyWith(
+                          color:
+                              secondTextColor ?? context.ext.colors.primaryDark,
                           fontWeight: FontWeight.w400,
                         ),
                   ),
@@ -59,7 +61,9 @@ class CustomRichText extends StatelessWidget {
                   text: firstText,
                   style:
                       firstTextStyle ??
-                      AppStyles.styleRoboto24.copyWith(color: firstTextColor),
+                      context.text.displaySmall!.copyWith(
+                        color: firstTextColor ?? context.colors.onSurface,
+                      ),
                 ),
                 TextSpan(
                   recognizer: TapGestureRecognizer()..onTap = onTap,
@@ -67,8 +71,9 @@ class CustomRichText extends StatelessWidget {
                   text: secondText,
                   style:
                       secondTextStyle ??
-                      AppStyles.styleRoboto24.copyWith(
-                        color: secondTextColor,
+                      context.text.headlineLarge!.copyWith(
+                        color:
+                            secondTextColor ?? context.ext.colors.primaryDark,
                         fontWeight: FontWeight.w400,
                       ),
                 ),

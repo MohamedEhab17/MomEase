@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class CircleIconButton extends StatelessWidget {
   final IconData icon;
@@ -22,9 +22,9 @@ class CircleIconButton extends StatelessWidget {
         padding: EdgeInsets.zero,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: AppColors.primaryDark, width: 3),
+          border: Border.all(color: context.ext.colors.primaryDark, width: 3),
         ),
-        child: Icon(icon, size: size, color: AppColors.primaryDark),
+        child: Icon(icon, size: size, color: context.ext.colors.primaryDark),
       ),
     );
   }

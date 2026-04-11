@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 
 class DrawerListTile extends StatelessWidget {
   final String title;
@@ -34,9 +33,8 @@ class DrawerListTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: AppStyles.styleInter16.copyWith(
-                  color:
-                      titleColor ?? const Color(0xff455A64), // Dark grey text
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: titleColor ?? Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w500,
                   fontSize: fontSize ?? 16.sp,
                 ),

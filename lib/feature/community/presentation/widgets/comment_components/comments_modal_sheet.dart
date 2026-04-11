@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/community/data/models/comment_model.dart';
 import 'package:new_mama/feature/community/dummy/dummy_comment.dart';
 import 'package:new_mama/feature/community/presentation/widgets/comment_components/chat_input_bar.dart';
@@ -147,13 +146,13 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
 
     return AnimatedPadding(
       duration: const Duration(milliseconds: 150),
-      padding: EdgeInsets.only(bottom: viewInsets.bottom),
+      padding: viewInsets.bottom.bottomPadding,
       child: Container(
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.7,
         ),
-        decoration: const BoxDecoration(
-          color: AppColors.lightBackground,
+        decoration: BoxDecoration(
+          color: context.ext.colors.primaryExtraLight,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40),
             topRight: Radius.circular(40),
@@ -181,7 +180,7 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
           width: 124.w,
           height: 4.h,
           decoration: BoxDecoration(
-            color: AppColors.primaryDark,
+            color: context.ext.colors.primaryDark,
             borderRadius: BorderRadius.circular(2),
           ),
         ),
@@ -195,13 +194,13 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
       padding: 20.hPadding,
       child: Row(
         children: [
-          Text('Comments', style: AppStyles.styleInter24),
+          Text('Comments', style: context.text.displaySmall!),
           const Spacer(),
           Text(
             '${_comments.length}',
-            style: AppStyles.styleInter16.copyWith(
+            style: context.text.titleLarge!.copyWith(
               fontWeight: FontWeight.w600,
-              color: AppColors.lightTextPrimary.withAlpha(179),
+              color: context.colors.onSurface.withAlpha(179),
             ),
           ),
         ],
@@ -239,13 +238,16 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: Colors.grey[600],
+              color: context.ext.colors.greyMedium,
             ),
           ),
-          const SizedBox(height: 8),
+          8.height,
           Text(
             'Be the first to comment!',
-            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+            style: TextStyle(
+              fontSize: 14,
+              color: context.ext.colors.greyMedium,
+            ),
           ),
         ],
       ),
@@ -255,29 +257,31 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
   Widget _buildReplyIndicator() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      decoration: const BoxDecoration(
-        color: AppColors.primaryBackground,
-        border: Border(top: BorderSide(color: AppColors.primaryLighter, width: 1)),
+      decoration: BoxDecoration(
+        color: context.ext.colors.primaryBackground,
+        border: Border(
+          top: BorderSide(color: context.ext.colors.primaryLighter, width: 1),
+        ),
       ),
       child: Row(
         children: [
-          const Icon(Icons.reply, size: 16, color: AppColors.primaryDark),
+          Icon(Icons.reply, size: 16, color: context.ext.colors.primaryDark),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               'Replying to ${_replyingTo!.name}',
-              style: AppStyles.styleInter12.copyWith(
-                color: AppColors.primaryDark,
+              style: context.text.bodyLarge!.copyWith(
+                color: context.ext.colors.primaryDark,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           GestureDetector(
             onTap: _cancelReply,
-            child: const Icon(
+            child: Icon(
               Icons.close,
               size: 18,
-              color: AppColors.primaryDark,
+              color: context.ext.colors.primaryDark,
             ),
           ),
         ],

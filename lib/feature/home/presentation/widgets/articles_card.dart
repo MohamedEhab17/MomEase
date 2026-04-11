@@ -1,13 +1,12 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_images.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:flutter/material.dart';
 
 class ArticlesCard extends StatelessWidget {
   const ArticlesCard({super.key, required this.article});
@@ -43,8 +42,8 @@ class ArticlesCard extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    AppColors.primary.withAlpha(80),
-                    AppColors.lightTextPrimary.withAlpha(80),
+                    context.colors.primary.withAlpha(80),
+                    context.colors.onSurface.withAlpha(80),
                   ],
                 ),
               ),
@@ -56,34 +55,33 @@ class ArticlesCard extends StatelessWidget {
                   children: [
                     const Spacer(),
                     Text(
+                      article.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      article.title,
-                      style: AppStyles.styleInter10.copyWith(
-                        color: AppColors.lightBackground,
+                      style: context.text.bodySmall!.copyWith(
+                        color: context.theme.buttonTheme.colorScheme!.onPrimary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(
-                      height: 22.h,
-                      child: CustomElevatedButton(
-                        text: 'View full article',
-                        textStyle: AppStyles.styleInter10.copyWith(
-                          fontSize: 9.sp,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 4.5.h,
-                        ),
-                        backgroundColor: AppColors.lightBackground,
-                        onPressed: () {
-                          context.push(
-                            AppRoutesPaths.articleDetailsView,
-                            extra: article,
-                          );
-                        },
-                        minimumSize: Size(69.w, 16.h),
+                    CustomElevatedButton(
+                      text: 'View full article',
+                      textStyle: context.text.labelSmall!.copyWith(
+                        color:
+                            context.theme.buttonTheme.colorScheme!.onSecondary,
                       ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 4.5.h,
+                      ),
+                      backgroundColor:
+                          context.theme.buttonTheme.colorScheme!.secondary,
+                      onPressed: () {
+                        context.push(
+                          AppRoutesPaths.articleDetailsView,
+                          extra: article,
+                        );
+                      },
+                      minimumSize: Size(double.infinity, 16.h),
                     ),
                   ],
                 ),

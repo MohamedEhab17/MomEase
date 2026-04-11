@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 
-class ChatInputBar extends StatelessWidget {
+class ChatInputBar extends StatefulWidget {
   const ChatInputBar({
     super.key,
     required this.isProcessing,
@@ -19,47 +19,66 @@ class ChatInputBar extends StatelessWidget {
   final VoidCallback onSend;
 
   @override
+  State<ChatInputBar> createState() => _ChatInputBarState();
+}
+
+class _ChatInputBarState extends State<ChatInputBar> {
+  final isEmptyNotifier = ValueNotifier<bool>(true);
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(() {
+      isEmptyNotifier.value = widget.controller.text.isEmpty;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormFieldHelper(
-      controller: controller,
-      enabled: !isProcessing,
+      controller: widget.controller,
+      enabled: !widget.isProcessing,
       borderRadius: BorderRadius.circular(64),
-      fillColor: AppColors.darkTextPrimary,
+      fillColor: context.theme.colorScheme.surface,
       hint: 'Write a comment',
-      hintStyle: AppStyles.styleInter10.copyWith(
+      hintStyle: context.text.bodySmall!.copyWith(
         fontSize: 14.sp,
         fontWeight: FontWeight.w500,
-        color: AppColors.lightTextDisabled,
+        color: context.ext.colors.lightTextDisabled,
       ),
-      onFieldSubmitted: (_) => onSend(),
+      onFieldSubmitted: (_) => widget.onSend(),
       suffixWidget: InkWell(
-        onTap: onSend,
+        onTap: widget.onSend,
         borderRadius: BorderRadius.circular(30.r),
         child: Container(
           width: 48.w,
           height: 48.w,
           alignment: Alignment.center,
-          child: isProcessing
+          child: widget.isProcessing
               ? SizedBox(
                   width: 24.w,
                   height: 24.w,
-                  child: const CircularProgressIndicator(
+                  child: CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.primaryTint,
+                      context.ext.colors.primaryTint,
                     ),
                   ),
                 )
-              : SvgPicture.asset(
-                  AppIcons.iconsSend,
-                  width: 40.w,
-                  height: 40.h,
-                  colorFilter: controller.text.isEmpty
-                      ? null
-                      : const ColorFilter.mode(
-                          AppColors.primary,
-                          BlendMode.srcIn,
-                        ),
+              : ValueListenableBuilder(
+                  valueListenable: isEmptyNotifier,
+                  builder: (context, value, child) {
+                    return SvgPicture.asset(
+                      AppIcons.iconsSend,
+                      width: 40.w,
+                      height: 40.h,
+                      colorMapper: AppSvgColorMapper(
+                        from: Color(0xffFFC8DD),
+                        to: value
+                            ? context.ext.colors.primaryLighter
+                            : context.ext.colors.primaryDark,
+                      ),
+                    );
+                  },
                 ),
         ),
       ),

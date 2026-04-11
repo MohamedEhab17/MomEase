@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/baby_track/data/dummy/baby_track_dummy_data.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_section_card.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/mood_trend_chart.dart';
@@ -19,9 +19,9 @@ class InsightsMotherWellnessSection extends StatelessWidget {
       children: [
         Text(
           'Mother Wellness',
-          style: AppStyles.styleInter16.copyWith(
+          style: context.text.titleLarge!.copyWith(
             fontWeight: FontWeight.w700,
-            color: AppColors.lightTextPrimary,
+            color: context.colors.onSurface,
           ),
         ),
         16.h.height,
@@ -37,16 +37,17 @@ class InsightsMotherWellnessSection extends StatelessWidget {
                 label: 'Current Mood',
                 trailing: Text(
                   'Calm',
-                  style: AppStyles.styleInter14.copyWith(
-                    color: AppColors.primaryDark,
-                    fontWeight: FontWeight.w600,
+                  style: context.text.titleSmall!.copyWith(
+                    color: context.ext.colors.primaryDark,
+                    fontWeight: .w600,
                   ),
+                  textAlign: .center,
                 ),
               ),
               12.h.height,
               _WellnessRow(
                 icon: Icons.assignment_rounded,
-                iconColor: AppColors.greenText,
+                iconColor: context.ext.colors.greenText,
                 label: 'Depression Test',
                 trailing: Container(
                   padding: EdgeInsets.symmetric(
@@ -54,13 +55,13 @@ class InsightsMotherWellnessSection extends StatelessWidget {
                     vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.backgroundGreen.withAlpha(50),
+                    color: context.ext.colors.backgroundGreen.withAlpha(50),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(
                     'COMPLETED',
-                    style: AppStyles.styleInter10.copyWith(
-                      color: AppColors.greenText,
+                    style: context.text.bodySmall!.copyWith(
+                      color: context.ext.colors.greenText,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 0.5,
                     ),
@@ -98,15 +99,10 @@ class _WellnessRow extends StatelessWidget {
           children: [
             Icon(icon, size: 18.sp, color: iconColor),
             SizedBox(width: 8.w),
-            Text(
-              label,
-              style: AppStyles.styleInter14.copyWith(
-                color: AppColors.lightTextSecondary,
-              ),
-            ),
+            Text(label, style: context.text.titleSmall!),
           ],
         ),
-        trailing,
+        Padding(padding: 6.hPadding, child: trailing),
       ],
     );
   }

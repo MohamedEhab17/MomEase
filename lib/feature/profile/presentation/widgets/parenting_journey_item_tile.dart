@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class ParentingJourneyItemTile extends StatelessWidget {
   final Widget leadingIcon;
@@ -33,9 +32,9 @@ class ParentingJourneyItemTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: AppStyles.styleInter14.copyWith(
+                style: context.text.titleSmall!.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: AppColors.lightTextPrimary.withAlpha(200),
+                  color: context.colors.onSurface.withAlpha(200),
                 ),
               ),
             ),
@@ -47,7 +46,7 @@ class ParentingJourneyItemTile extends StatelessWidget {
               ),
               child: Text(
                 statusText,
-                style: AppStyles.styleInter12.copyWith(
+                style: context.text.bodyLarge!.copyWith(
                   color: statusColor,
                   fontWeight: FontWeight.w600,
                 ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/feature/baby_track/data/dummy/baby_track_dummy_data.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_frequency_chart.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_section_card.dart';
@@ -20,9 +18,9 @@ class InsightsBabyActivitySection extends StatelessWidget {
       children: [
         Text(
           'Baby Activity Overview',
-          style: AppStyles.styleInter16.copyWith(
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
             fontWeight: FontWeight.w700,
-            color: AppColors.lightTextPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         20.h.height,

@@ -1,0 +1,178 @@
+﻿Analyzing lib...
+
+  error - core\theme\app_theme.dart:9:16 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - core\theme\app_theme.dart:9:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:11:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:13:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:14:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:15:34 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:22:41 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:25:18 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:33:16 - Invalid constant value. - invalid_constant
+  error - core\theme\app_theme.dart:33:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:35:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:37:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:38:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:39:34 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:46:41 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:49:18 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:57:16 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - core\theme\app_theme.dart:57:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:59:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:61:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:62:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:63:34 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:70:41 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:73:18 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:80:18 - Const variables must be initialized with a constant value. Try changing the initializer to be a constant expression. - const_initialized_with_non_constant_value
+  error - core\theme\app_theme.dart:80:18 - Invalid constant value. - invalid_constant
+  error - core\theme\app_theme.dart:80:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:81:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:82:29 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:83:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:84:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:85:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:86:28 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:87:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:88:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:89:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:90:26 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:91:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:92:29 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:93:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:94:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:95:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:96:36 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:97:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:98:35 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:99:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:103:18 - Const variables must be initialized with a constant value. Try changing the initializer to be a constant expression. - const_initialized_with_non_constant_value
+  error - core\theme\app_theme.dart:103:18 - Invalid constant value. - invalid_constant
+  error - core\theme\app_theme.dart:103:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:104:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:105:29 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:106:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:107:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:108:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:109:28 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:110:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:111:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:112:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:113:26 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:114:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:115:29 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:116:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:117:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:118:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:119:36 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:120:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:121:35 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:122:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:126:18 - Const variables must be initialized with a constant value. Try changing the initializer to be a constant expression. - const_initialized_with_non_constant_value
+  error - core\theme\app_theme.dart:126:18 - Invalid constant value. - invalid_constant
+  error - core\theme\app_theme.dart:126:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:127:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:128:29 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:129:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:130:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:131:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:132:28 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:133:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:134:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:135:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:136:26 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:137:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:138:29 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:139:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:140:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:141:30 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:142:36 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:143:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:144:35 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\theme\app_theme.dart:145:25 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:13:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:19:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:25:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:31:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:38:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:44:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:50:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:56:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:62:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:68:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:74:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:80:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\utils\app_styles.dart:88:21 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\widgets\custom_elevated_button.dart:11:28 - The default value of an optional parameter must be constant. - non_constant_default_value
+  error - core\widgets\custom_elevated_button.dart:11:37 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\widgets\full_screen_image_gallery.dart:80:49 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - core\widgets\full_screen_local_gallery.dart:79:49 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - core\widgets\text_form_field_helper.dart:64:22 - The default value of an optional parameter must be constant. - non_constant_default_value
+  error - core\widgets\text_form_field_helper.dart:64:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - core\widgets\time_picker_field.dart:34:22 - Invalid constant value. - invalid_constant
+  error - feature\articles\presentation\widgets\article_details_body.dart:48:29 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\articles\presentation\widgets\article_details_body.dart:56:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\auth\widgets\custom_rich_text.dart:12:27 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\auth\widgets\custom_rich_text.dart:12:36 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\auth\widgets\custom_rich_text.dart:13:28 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\auth\widgets\custom_rich_text.dart:13:37 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\auth\widgets\two_divider_separated_with_text.dart:12:18 - The default value of an optional parameter must be constant. - non_constant_default_value
+  error - feature\auth\widgets\two_divider_separated_with_text.dart:12:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\baby_profile_setup\presentation\widgets\baby_count.dart:77:18 - Invalid constant value. - invalid_constant
+  error - feature\baby_profile_setup\presentation\widgets\date_of_birth.dart:88:24 - Invalid constant value. - invalid_constant
+  error - feature\baby_track\presentation\widgets\date_picker_field.dart:33:22 - Invalid constant value. - invalid_constant
+  error - feature\baby_track\presentation\widgets\feeding_frequency_chart.dart:94:24 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\baby_track\presentation\widgets\feeding_frequency_chart.dart:95:24 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\baby_track\presentation\widgets\mood_trend_chart.dart:71:27 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\baby_track\presentation\widgets\mood_trend_chart.dart:76:26 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\baby_track\presentation\widgets\sleep_duration_chart.dart:109:20 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\baby_track\presentation\widgets\sleep_duration_chart.dart:110:20 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\baby_track\presentation\widgets\sleep_duration_chart.dart:119:26 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\baby_track\presentation\widgets\vaccine_progress_header.dart:85:23 - Invalid constant value. - invalid_constant
+  error - feature\community\presentation\widgets\comment_components\chat_input_bar.dart:48:23 - Invalid constant value. - invalid_constant
+  error - feature\community\presentation\widgets\comment_components\chat_input_bar.dart:59:27 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\community\presentation\widgets\comment_components\comment_item.dart:152:42 - Invalid constant value. - invalid_constant
+  error - feature\community\presentation\widgets\comment_components\comments_modal_sheet.dart:155:18 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\community\presentation\widgets\comment_components\comments_modal_sheet.dart:258:16 - Invalid constant value. - invalid_constant
+  error - feature\community\presentation\widgets\comment_components\comments_modal_sheet.dart:263:52 - Invalid constant value. - invalid_constant
+  error - feature\community\presentation\widgets\comment_components\comments_modal_sheet.dart:279:22 - Invalid constant value. - invalid_constant
+  error - feature\community\presentation\widgets\comment_components\mention_input_bar.dart:104:25 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\community\presentation\widgets\post_components\post_header.dart:64:22 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\community\presentation\widgets\post_components\post_image_grid.dart:177:56 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\depression\presentation\views\depression_result_view.dart:32:42 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\depression\presentation\views\depression_result_view.dart:40:42 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\notifications\presentation\widgets\empty_notifications.dart:21:15 - Invalid constant value. - invalid_constant
+  error - feature\profile\dummy\profile_dummy_data.dart:18:33 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:20:39 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:22:37 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:87:41 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:88:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:93:41 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:94:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:99:41 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:100:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:105:41 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:106:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:112:41 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:113:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:119:41 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\dummy\profile_dummy_data.dart:120:31 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\profile\presentation\view\profile_view.dart:43:55 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\profile\presentation\widgets\parenting_journey_section.dart:49:22 - Invalid constant value. - invalid_constant
+  error - feature\profile\presentation\widgets\parenting_journey_section.dart:64:17 - Invalid constant value. - invalid_constant
+  error - feature\profile\presentation\widgets\profile_header.dart:69:28 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\profile\presentation\widgets\profile_post_preview_card.dart:92:19 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\profile\presentation\widgets\profile_post_preview_card.dart:108:19 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\profile\presentation\widgets\profile_post_preview_card.dart:124:19 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\skin_diagnosis\presentation\view_model\skin_diagnosis_cubit.dart:64:36 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\skin_diagnosis\presentation\view_model\skin_diagnosis_cubit.dart:65:42 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\skin_diagnosis\presentation\view_model\skin_diagnosis_cubit.dart:66:49 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - feature\skin_diagnosis\presentation\widgets\skin_diagnosis_actions.dart:49:19 - Invalid constant value. - invalid_constant
+  error - feature\skin_diagnosis\presentation\widgets\skin_diagnosis_actions.dart:77:19 - Invalid constant value. - invalid_constant
+  error - feature\skin_diagnosis\presentation\widgets\skin_diagnosis_actions.dart:110:15 - Methods can't be invoked in constant expressions. - const_eval_method_invocation
+  error - feature\skin_diagnosis\presentation\widgets\skin_diagnosis_actions.dart:135:15 - Invalid constant value. - invalid_constant
+   info - feature\baby_cry\presentation\view_model\cubit\sound_recording_cubit.dart:5:8 - The imported package 'bloc' isn't a dependency of the importing package. Try adding a dependency for 'bloc' in the 'pubspec.yaml' file. - depend_on_referenced_packages
+   info - feature\baby_cry\presentation\view_model\cubit\sound_recording_cubit.dart:7:8 - The imported package 'meta' isn't a dependency of the importing package. Try adding a dependency for 'meta' in the 'pubspec.yaml' file. - depend_on_referenced_packages
+   info - feature\baby_cry\presentation\views\cry_analyzing_view.dart:27:7 - Don't use 'BuildContext's across async gaps. Try rewriting the code to not use the 'BuildContext', or guard the use with a 'mounted' check. - use_build_context_synchronously
+
+174 issues found.

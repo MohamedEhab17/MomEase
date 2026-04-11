@@ -1,6 +1,6 @@
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_actions.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_body.dart';
@@ -18,11 +18,11 @@ class PostContent extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.primaryBackground,
+        color: context.ext.colors.primaryBackground,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withAlpha(21),
+            color: context.colors.primary.withAlpha(21),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -30,7 +30,7 @@ class PostContent extends StatelessWidget {
       ),
 
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         spacing: 12,
         children: [
           PostHeader(post: post),

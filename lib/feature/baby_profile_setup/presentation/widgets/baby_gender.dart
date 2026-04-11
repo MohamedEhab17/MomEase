@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
@@ -16,16 +15,15 @@ class BabyGender extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OnboardingCubit, OnboardingState>(
       builder: (context, state) {
-        final gender = state.answers['babyGender'];
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Is Your Baby a', style: AppStyles.styleInter32),
+            Text('Is Your Baby a', style: context.text.displayMedium!),
             16.height,
             Text(
               'This helps us personalize your experience',
-              style: AppStyles.styleInter14,
+              style: context.text.titleSmall!,
             ),
             83.height,
             Row(
@@ -40,14 +38,10 @@ class BabyGender extends StatelessWidget {
                       'Boy',
                     );
                   },
-                  backgroundColor: gender == 'Boy'
-                      ? AppColors.backgroundBlueDarker
-                      : AppColors.backgroundBlue,
-                  borderColor: gender == 'Boy'
-                      ? AppColors.backgroundBlueDarker
-                      : AppColors.backgroundBlue,
-                  textStyle: AppStyles.styleInter20.copyWith(
-                    color: gender == 'Boy' ? AppColors.darkTextPrimary : null,
+                  backgroundColor: context.ext.colors.backgroundBlue,
+
+                  textStyle: context.text.headlineMedium!.copyWith(
+                    color: context.ext.colors.lightTextPrimary,
                   ),
                   minimumSize: Size(158.w, 56.h),
                 ),
@@ -59,14 +53,10 @@ class BabyGender extends StatelessWidget {
                       'Girl',
                     );
                   },
-                  backgroundColor: gender == 'Girl'
-                      ? AppColors.primaryDark
-                      : AppColors.primaryLighter,
-                  borderColor: gender == 'Girl'
-                      ? AppColors.primaryDark
-                      : AppColors.primaryLighter,
-                  textStyle: AppStyles.styleInter20.copyWith(
-                    color: gender == 'Girl' ? AppColors.darkTextPrimary : null,
+                  backgroundColor: context.ext.colors.primaryLight,
+
+                  textStyle: context.text.headlineMedium!.copyWith(
+                    color: context.ext.colors.lightTextPrimary,
                   ),
                   minimumSize: Size(158.w, 56.h),
                 ),

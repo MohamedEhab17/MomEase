@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class HealthInsightItem extends StatelessWidget {
   final IconData icon;
@@ -41,16 +40,16 @@ class HealthInsightItem extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: AppStyles.styleInter12.copyWith(
-                    color: AppColors.lightTextSecondary,
-                    fontWeight: FontWeight.w400,
+                  style: context.text.titleSmall!.copyWith(
+                    color: context.colors.onSurface,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
                   value,
-                  style: AppStyles.styleInter14.copyWith(
-                    color: AppColors.lightTextPrimary,
-                    fontWeight: FontWeight.w600,
+                  style: context.text.bodyLarge!.copyWith(
+                    color: context.colors.onSurfaceVariant,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ],

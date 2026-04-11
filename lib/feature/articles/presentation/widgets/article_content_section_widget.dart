@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -21,9 +20,7 @@ class ArticleContentSectionWidget extends StatelessWidget {
           if (section.heading != null) ...[
             Text(
               section.heading!,
-              style: AppStyles.styleInter16.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: context.text.titleMedium!.copyWith(fontWeight: .w600),
             ),
             12.height,
           ],
@@ -31,13 +28,13 @@ class ArticleContentSectionWidget extends StatelessWidget {
             MarkdownBody(
               data: section.content!,
               styleSheet: MarkdownStyleSheet(
-                p: AppStyles.styleInter14.copyWith(
+                p: context.text.titleSmall!.copyWith(
                   height: 1.5,
-                  color: AppColors.lightTextPrimary.withAlpha(230),
+                  color: context.colors.onSurface.withAlpha(230),
                 ),
-                strong: AppStyles.styleInter14.copyWith(
+                strong: context.text.titleSmall!.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.lightTextPrimary,
+                  color: context.colors.onSurface,
                 ),
               ),
             ),
@@ -50,20 +47,20 @@ class ArticleContentSectionWidget extends StatelessWidget {
               (point) => Padding(
                 padding: EdgeInsets.only(bottom: 8.h),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     Text(
                       '• ',
-                      style: AppStyles.styleInter14.copyWith(
-                        fontWeight: FontWeight.bold,
+                      style: context.text.titleSmall!.copyWith(
+                        fontWeight: .bold,
                       ),
                     ),
                     Expanded(
                       child: Text(
                         point,
-                        style: AppStyles.styleInter14.copyWith(
+                        style: context.text.titleSmall!.copyWith(
                           height: 1.4,
-                          color: AppColors.lightTextPrimary.withAlpha(230),
+                          color: context.colors.onSurface.withAlpha(230),
                         ),
                       ),
                     ),

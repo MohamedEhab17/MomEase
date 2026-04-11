@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
 
 class VaccineRecordCard extends StatelessWidget {
@@ -23,13 +22,13 @@ class VaccineRecordCard extends StatelessWidget {
       margin: 16.bottomPadding,
       padding: 16.allPadding,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(24.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.lightTextPrimary.withAlpha(38),
-            blurRadius: 24,
-            offset: const Offset(0, 0),
+            color: context.colors.onSurface.withAlpha(38),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -42,8 +41,8 @@ class VaccineRecordCard extends StatelessWidget {
             height: 36.w,
             decoration: BoxDecoration(
               color: isCompleted
-                  ? AppColors.backgroundGreen.withAlpha(40)
-                  : AppColors.primaryExtraLight,
+                  ? context.ext.colors.backgroundGreen.withAlpha(40)
+                  : context.ext.colors.primaryExtraLight,
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -51,7 +50,9 @@ class VaccineRecordCard extends StatelessWidget {
                   ? Icons.medical_services_rounded
                   : Icons.vaccines_rounded,
               size: 18.sp,
-              color: isCompleted ? AppColors.greenText : AppColors.primaryDark,
+              color: isCompleted
+                  ? context.ext.colors.greenText
+                  : context.ext.colors.primaryDark,
             ),
           ),
           SizedBox(width: 12.w),
@@ -62,16 +63,16 @@ class VaccineRecordCard extends StatelessWidget {
               children: [
                 Text(
                   record.name,
-                  style: AppStyles.styleInter14.copyWith(
+                  style: context.text.titleSmall!.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.lightTextPrimary,
+                    color: context.colors.onSurface,
                   ),
                 ),
                 SizedBox(height: 2.h),
                 Text(
                   record.doseInfo,
-                  style: AppStyles.styleInter12.copyWith(
-                    color: AppColors.lightTextSecondary,
+                  style: context.text.bodyLarge!.copyWith(
+                    color: context.colors.onSurfaceVariant,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -84,16 +85,16 @@ class VaccineRecordCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
             decoration: BoxDecoration(
               color: isCompleted
-                  ? AppColors.backgroundGreen.withAlpha(40)
-                  : AppColors.primaryExtraLight,
+                  ? context.ext.colors.backgroundGreen.withAlpha(40)
+                  : context.ext.colors.primaryExtraLight,
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Text(
               isCompleted ? 'Completed' : 'Upcoming',
-              style: AppStyles.styleInter10.copyWith(
+              style: context.text.bodySmall!.copyWith(
                 color: isCompleted
-                    ? AppColors.greenText
-                    : AppColors.primaryDark,
+                    ? context.ext.colors.greenText
+                    : context.ext.colors.primaryDark,
                 fontWeight: FontWeight.w600,
               ),
             ),

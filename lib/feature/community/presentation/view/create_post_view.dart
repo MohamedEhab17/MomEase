@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_mama/feature/app_section/presentation/widgets/app_header.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/community/presentation/widgets/create_post_components/create_post_view_body.dart';
 
 class CreatePostView extends StatelessWidget {
@@ -7,9 +7,11 @@ class CreatePostView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppHeader(),
-      body: const CreatePostViewBody(),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: context.theme.scaffoldBackgroundColor,
+        body: const CreatePostViewBody(),
+      ),
     );
   }
 }

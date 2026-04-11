@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 
 class DatePickerField extends StatelessWidget {
   final DateTime? selectedDate;
   final ValueChanged<DateTime> onDateSelected;
   final String hint;
   final String? label;
-
+  final Color ? fillColor;
   const DatePickerField({
     super.key,
     this.selectedDate,
     required this.onDateSelected,
     this.hint = 'mm/dd/yyyy',
     this.label,
+    this.fillColor,
   });
 
   Future<void> _pickDate(BuildContext context) async {
@@ -29,11 +29,11 @@ class DatePickerField extends StatelessWidget {
       firstDate: DateTime(now.year - 2),
       lastDate: now.add(const Duration(days: 365 * 2)),
       builder: (context, child) => Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.light(
-            primary: AppColors.primaryDark,
+        data: context.theme.copyWith(
+          colorScheme: ColorScheme.light(
+            primary: context.ext.colors.primaryDark,
             onPrimary: Colors.white,
-            onSurface: AppColors.lightTextPrimary,
+            onSurface: context.colors.onSurface,
           ),
         ),
         child: child!,
@@ -50,8 +50,8 @@ class DatePickerField extends StatelessWidget {
         if (label != null) ...[
           Text(
             label!,
-            style: AppStyles.styleInter12.copyWith(
-              color: AppColors.lightTextSecondary,
+            style: context.text.bodyLarge!.copyWith(
+              color: context.colors.onSurfaceVariant,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -63,9 +63,9 @@ class DatePickerField extends StatelessWidget {
             height: 50.h,
             padding: 20.w.hPadding,
             decoration: BoxDecoration(
-              color: AppColors.lightBackground,
+              color: fillColor ?? context.colors.surface,
               borderRadius: BorderRadius.circular(64.r),
-              border: Border.all(color: AppColors.primaryDark),
+              border: Border.all(color: context.ext.colors.primaryDark),
             ),
             child: Row(
               children: [
@@ -74,14 +74,20 @@ class DatePickerField extends StatelessWidget {
                     selectedDate != null
                         ? '${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}/${selectedDate!.year}'
                         : hint,
-                    style: AppStyles.styleInter14.copyWith(
+                    style: context.text.titleSmall!.copyWith(
                       color: selectedDate != null
-                          ? AppColors.lightTextPrimary
-                          : AppColors.lightTextSecondary,
+                          ? context.colors.onSurface
+                          : context.colors.onSurfaceVariant,
                     ),
                   ),
                 ),
-                SvgPicture.asset(AppIcons.iconsCalender),
+                SvgPicture.asset(
+                  AppIcons.iconsCalender,
+                  colorFilter: ColorFilter.mode(
+                    context.colors.primary,
+                    BlendMode.srcIn,
+                  ),
+                ),
               ],
             ),
           ),

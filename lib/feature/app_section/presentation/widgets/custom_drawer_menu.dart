@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'drawer_account_settings_section.dart';
 import 'drawer_animated_item.dart';
 import 'drawer_logout_section.dart';
@@ -24,7 +24,7 @@ class CustomDrawerMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: AppColors.backgroundPink,
+      color: context.theme.drawerTheme.backgroundColor,
       child: Column(
         children: [
           // User Info Header

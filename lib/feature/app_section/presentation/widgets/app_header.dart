@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/constants/app_font_family.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   const AppHeader({super.key, this.onMenuPressed});
   final VoidCallback? onMenuPressed;
   @override
   Widget build(BuildContext context) {
+    
+
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
       scrolledUnderElevation: 0,
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: context.theme.appBarTheme.backgroundColor,
       centerTitle: true,
       leading: IconButton(
-        icon: Icon(Icons.menu, color: AppColors.primaryDark),
+        icon: Icon(Icons.menu, color: context.ext.colors.primaryDark),
         onPressed: onMenuPressed ?? () => Scaffold.of(context).openDrawer(),
       ),
       actions: [
@@ -26,11 +29,11 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           icon: Container(
             padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
             decoration: BoxDecoration(
-              color: AppColors.primaryTint.withAlpha(128),
+              color: context.ext.colors.primaryTint.withAlpha(128),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primaryTint,
+                  color: context.ext.colors.primaryTint,
                   blurRadius: 4,
                   spreadRadius: 0,
                   offset: const Offset(0, 0),
@@ -38,16 +41,23 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             ),
-            child: SvgPicture.asset(AppIcons.iconsLuna),
+            child: SvgPicture.asset(
+              AppIcons.iconsLuna,
+              colorMapper: AppSvgColorMapper(
+                from: Color(0xffFF9BBC),
+                to: context.ext.colors.primaryLight,
+              ),
+            ),
           ),
         ),
       ],
       title: Text(
         'MomEase',
-        style: AppStyles.styleScriptMT32.copyWith(
+        style: context.theme.textTheme.displayLarge!.copyWith(
           fontSize: 24.sp,
-          color: AppColors.primaryDark,
+          color: context.ext.colors.primaryDark,
           fontWeight: FontWeight.w700,
+          fontFamily: AppFontFamily.scriptMT,
         ),
       ),
     );

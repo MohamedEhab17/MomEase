@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:flutter/material.dart';
 import 'skin_diagnosis_state.dart';
 
 class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
@@ -51,7 +51,10 @@ class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
     }
   }
 
-  Future<void> cropImage() async {
+  Future<void> cropImage({
+    required Color primaryColor,
+    required Color surfaceColor,
+  }) async {
     if (state.selectedImage == null) return;
     try {
       final croppedFile = await ImageCropper().cropImage(
@@ -59,9 +62,9 @@ class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Crop Photo',
-            toolbarColor: AppColors.primaryDark,
-            toolbarWidgetColor: AppColors.lightBackground,
-            activeControlsWidgetColor: AppColors.primaryDark,
+            toolbarColor: primaryColor,
+            toolbarWidgetColor: surfaceColor,
+            activeControlsWidgetColor: primaryColor,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
           ),

@@ -4,16 +4,16 @@ import 'dart:io';
 void main() async {
   final Map<String, String> renames = {
     'primaryHard': 'primaryDark',
-    'primarySoft': 'primaryLighter', // FFC8DD
-    'primarySoft5': 'primaryLight', // FF9BBC
-    'primarySoft3': 'primaryExtraLight', // FFE5EF
-    'primarySoft2': 'primaryTint', // FFF0F6
-    'primarySoft4': 'primaryBackground', // FFEFF5
+    'primarySoft': 'primaryLighter', 
+    'primarySoft5': 'primaryLight',
+    'primarySoft3': 'primaryExtraLight', 
+    'primarySoft2': 'primaryTint', 
+    'primarySoft4': 'primaryBackground',
 
-    'secondary': 'greyPrimary', // 9E9E9E
-    'secondarySoft3': 'greyMedium', // C7C7C7
-    'secondarySoft': 'greyLight', // CECECE
-    'secondarySoft2': 'greyExtraLight', // E0E0E0
+    'secondary': 'greyPrimary', 
+    'secondarySoft3': 'greyMedium',
+    'secondarySoft': 'greyLight', 
+    'secondarySoft2': 'greyExtraLight', 
 
     'lightBackground2': 'backgroundPink',
     'lightGreenBackground': 'backgroundGreen',

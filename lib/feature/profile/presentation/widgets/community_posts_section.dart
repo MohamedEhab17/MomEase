@@ -1,9 +1,8 @@
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/post_item.dart';
@@ -37,13 +36,11 @@ class _CommunityPostsSectionState extends State<CommunityPostsSection> {
           ),
           16.height,
           CustomElevatedButton(
-            backgroundColor: AppColors.lightBackground,
-            textStyle: AppStyles.styleInter14.copyWith(
-              color: AppColors.primary,
+            textStyle: context.text.titleSmall!.copyWith(
+              color: context.ext.colors.darkTextPrimary,
               fontWeight: FontWeight.w600,
             ),
             minimumSize: Size(double.infinity, 52.h),
-            borderColor: AppColors.primaryLight,
             text: "View All My Posts",
             onPressed: () {
               // show all posts in a new screen

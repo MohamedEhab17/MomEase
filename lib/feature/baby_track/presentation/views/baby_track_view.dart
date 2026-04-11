@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/feeding_tab_view.dart';
@@ -59,15 +59,15 @@ class _BabyTrackViewState extends State<BabyTrackView>
               : cubit.mainTabIndex;
 
           return Scaffold(
-            backgroundColor: AppColors.lightBackground,
+            backgroundColor: context.theme.scaffoldBackgroundColor,
             appBar: AppBar(
               scrolledUnderElevation: 0,
-              backgroundColor: AppColors.lightBackground,
+              backgroundColor: context.theme.appBarTheme.backgroundColor,
               title: Text(
                 'Baby Tracking',
-                style: AppStyles.styleInter20.copyWith(
+                style: context.text.headlineMedium!.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primaryDark,
+                  color: context.ext.colors.primaryDark,
                 ),
               ),
               centerTitle: true,
@@ -76,23 +76,29 @@ class _BabyTrackViewState extends State<BabyTrackView>
                 icon: Icon(
                   Icons.arrow_back_ios_new_rounded,
                   size: 22.sp,
-                  color: AppColors.primaryDark,
+                  color: context.ext.colors.primaryDark,
                 ),
               ),
+
               actions: [
                 GestureDetector(
                   onTap: () =>
                       context.push(AppRoutesPaths.babyTrackInsightsView),
                   child: CircleAvatar(
-                    backgroundColor: AppColors.primaryDark,
+                    backgroundColor:
+                        context.theme.buttonTheme.colorScheme!.primary,
                     radius: 22.r,
                     child: SvgPicture.asset(
                       AppIcons.iconsInsightReport,
                       width: 24.w,
+                      colorFilter: ColorFilter.mode(
+                        context.theme.buttonTheme.colorScheme!.onPrimary,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(width: 16.w),
+                16.w.width,
               ],
             ),
             body: Column(

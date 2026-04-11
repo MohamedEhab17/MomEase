@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/app_lists.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/shared/popup_form/view/custom_drop_down.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_state.dart';
@@ -18,14 +17,14 @@ class FeedingType extends StatelessWidget {
       children: [
         Text(
           'Feeding Type',
-          style: AppStyles.styleInter32,
+          style: Theme.of(context).textTheme.displayMedium!,
           textAlign: TextAlign.center,
           softWrap: true,
         ),
         16.height,
         Text(
           'Every choice is the right choice for your family',
-          style: AppStyles.styleInter14,
+          style: Theme.of(context).textTheme.titleSmall!,
           textAlign: TextAlign.center,
           softWrap: true,
         ),

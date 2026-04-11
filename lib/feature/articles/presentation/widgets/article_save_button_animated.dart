@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/custom_animated_button.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
@@ -28,15 +27,15 @@ class ArticleSaveButtonAnimated extends StatelessWidget {
           onPressed: () {
             context.read<ArticleCubit>().toggleSaveArticle(article.id);
           },
-          textStyle: AppStyles.styleInter16.copyWith(
+          textStyle: context.text.titleLarge!.copyWith(
             color: currentArticle.isSaved
-                ? AppColors.lightTextPrimary
-                : AppColors.darkTextPrimary,
+                ? context.theme.buttonTheme.colorScheme!.onPrimary
+                : context.theme.buttonTheme.colorScheme!.onPrimary,
             fontWeight: FontWeight.w600,
           ),
           backgroundColor: currentArticle.isSaved
-              ? AppColors.lightTextDisabled
-              : AppColors.primaryDark,
+              ? context.ext.colors.primaryLighter
+              : context.theme.buttonTheme.colorScheme!.primary,
         );
       },
     );

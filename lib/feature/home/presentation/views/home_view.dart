@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/feature/home/presentation/widgets/articles_card.dart';
 import 'package:new_mama/feature/home/presentation/widgets/custom_quick_access_card.dart';
 import 'package:new_mama/feature/home/presentation/widgets/depression_test_widget.dart';
@@ -22,12 +21,12 @@ class HomeView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          Text('Welcome again, Rana!', style: AppStyles.styleInter24),
+          Text('Welcome again, Rana!', style: context.text.displayMedium!),
           4.height,
           Text(
             'How can we help you today?',
-            style: AppStyles.styleInter16.copyWith(
-              color: AppColors.lightTextPrimary.withAlpha(178),
+            style: context.text.titleMedium!.copyWith(
+              color: context.ext.colors.lightTextPrimary.withAlpha(178),
             ),
           ),
           20.height,
@@ -35,13 +34,17 @@ class HomeView extends StatelessWidget {
           32.height,
           Text(
             'Quick access',
-            style: AppStyles.styleInter16.copyWith(fontWeight: FontWeight.w600),
+            style: context.text.titleMedium!.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
           12.height,
           CustomQuickAccessCard(
             leadingIcon: AppIcons.iconsSound,
             title: 'Crying Sound Analysis',
             subtitle: 'Understand why your baby is crying',
+            showTrailing: true,
+
             onTap: () {
               context.push(AppRoutesPaths.cryingInsightView);
             },
@@ -51,6 +54,8 @@ class HomeView extends StatelessWidget {
             leadingIcon: AppIcons.iconsSkin,
             title: 'Skin Diagnosis',
             subtitle: 'check your baby’s skin health',
+            showTrailing: true,
+
             onTap: () {
               context.push(AppRoutesPaths.skinDiagnosisInsightView);
             },
@@ -60,6 +65,7 @@ class HomeView extends StatelessWidget {
             leadingIcon: AppIcons.iconsBabyTracing,
             title: 'Baby Tracking',
             subtitle: 'Log feeding, sleep, and diapers',
+            showTrailing: true,
             onTap: () {
               context.push(AppRoutesPaths.babyTrackView);
             },
@@ -70,7 +76,7 @@ class HomeView extends StatelessWidget {
             children: [
               Text(
                 'Useful articles',
-                style: AppStyles.styleInter16.copyWith(
+                style: context.text.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -81,8 +87,8 @@ class HomeView extends StatelessWidget {
                 },
                 child: Text(
                   'View all',
-                  style: AppStyles.styleInter10.copyWith(
-                    color: AppColors.primaryDark,
+                  style: context.text.bodyMedium!.copyWith(
+                    color: context.ext.colors.primaryDark,
                   ),
                 ),
               ),

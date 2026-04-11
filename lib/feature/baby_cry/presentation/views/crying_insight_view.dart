@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_circle_avatar_with_icon.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/custom_instructions_recommendations.dart';
@@ -25,6 +25,7 @@ class CryingInsightView extends StatelessWidget {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 32.h),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomCircleAvatarWithIcon(
               height: 56,
@@ -33,14 +34,17 @@ class CryingInsightView extends StatelessWidget {
               image: AppIcons.iconsSound,
             ),
             32.h.height,
-            Text('Understanding Baby\'s Cry', style: AppStyles.styleInter24),
+            Text(
+              'Understanding Baby\'s Cry',
+              style: context.text.displayMedium!,
+            ),
             30.h.height,
             Text(
               'Let our AI help you understand what your baby might be trying to communicate through their cry.',
-              style: AppStyles.styleInter14,
+              style: context.text.titleSmall!,
               maxLines: 3,
               textAlign: .center,
-              overflow: TextOverflow.ellipsis,
+              overflow: .ellipsis,
             ),
             32.h.height,
             CustomInstructionsRecommendations(
@@ -53,20 +57,19 @@ class CryingInsightView extends StatelessWidget {
               onPressed: () {
                 context.push(AppRoutesPaths.cryingRecordingSessionView);
               },
-              backgroundColor: AppColors.primaryDark,
               minimumSize: Size(double.infinity, 52.h),
-              textStyle: AppStyles.styleInter20.copyWith(
-                color: AppColors.lightBackground,
-              ),
             ),
             16.h.height,
-            Text(
-              'This is guidance, not medical advice. Trust your instincts – you know your baby best',
-              style: AppStyles.styleInter12.copyWith(
-                color: AppColors.darkBackground.withAlpha(128),
+            Padding(
+              padding: 12.w.hPadding,
+              child: Text(
+                'This is guidance, not medical advice. Trust your instincts – you know your baby best',
+                style: context.text.bodyMedium!.copyWith(
+                  color: context.ext.colors.lightTextPrimary.withAlpha(127),
+                ),
+                textAlign: .center,
+                softWrap: true,
               ),
-              textAlign: TextAlign.center,
-              softWrap: true,
             ),
           ],
         ),

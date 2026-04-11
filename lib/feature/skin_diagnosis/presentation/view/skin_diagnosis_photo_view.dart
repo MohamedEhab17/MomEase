@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_state.dart';
@@ -14,6 +15,7 @@ class SkinDiagnosisPhotoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: const FeaturesHeader(title: 'Skin Diagnosis'),
       body: BlocConsumer<SkinDiagnosisCubit, SkinDiagnosisState>(
         listener: (context, state) {

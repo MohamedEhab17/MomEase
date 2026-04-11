@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/baby_track/data/dummy/baby_track_dummy_data.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/vaccine_progress_header.dart';
@@ -41,7 +41,7 @@ class VaccineTabView extends StatelessWidget {
               // Sub-tab switcher: Baby's Log / Official Schedule
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.primaryTint,
+                  color: context.ext.colors.primaryTint,
                   borderRadius: BorderRadius.circular(64.r),
                 ),
                 child: Row(

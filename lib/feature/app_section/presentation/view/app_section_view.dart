@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/feature/app_section/data/model/app_tab.dart';
 import 'package:new_mama/feature/app_section/presentation/widgets/app_header.dart';
@@ -84,7 +84,7 @@ class _AppSectionViewState extends State<AppSectionView>
       child: BlocBuilder<BottomNavCubit, BottomNavState>(
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: AppColors.lightBackground,
+            backgroundColor: context.theme.scaffoldBackgroundColor,
             // No appBar here — it lives inside the Stack so the drawer covers it
             body: Stack(
               children: [

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class DurationTimerDisplay extends StatelessWidget {
   final int elapsedSeconds;
@@ -18,8 +17,8 @@ class DurationTimerDisplay extends StatelessWidget {
       children: [
         Text(
           'Duration',
-          style: AppStyles.styleInter12.copyWith(
-            color: AppColors.lightTextPrimary.withAlpha(179),
+          style: context.text.bodyLarge!.copyWith(
+            color: context.colors.onSurface.withAlpha(179),
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -33,8 +32,8 @@ class DurationTimerDisplay extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 2.w),
               child: Text(
                 ':',
-                style: AppStyles.styleInter32.copyWith(
-                  color: AppColors.lightTextPrimary,
+                style: context.text.displayMedium!.copyWith(
+                  color: context.colors.onSurface,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -84,7 +83,7 @@ class _AnimatedDigit extends StatelessWidget {
         style: TextStyle(
           fontSize: 44.sp,
           fontWeight: FontWeight.w700,
-          color: AppColors.lightTextPrimary,
+          color: context.colors.onSurface,
           fontFamily: 'Inter',
         ),
       ),

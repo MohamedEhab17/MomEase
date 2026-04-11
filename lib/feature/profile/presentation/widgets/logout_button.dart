@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 
 class LogoutButton extends StatelessWidget {
@@ -19,11 +18,11 @@ class LogoutButton extends StatelessWidget {
         spacing: 24,
         children: [
           CustomElevatedButton(
-            backgroundColor: AppColors.lightBackground,
-            borderColor: AppColors.primary,
+            backgroundColor: context.theme.buttonTheme.colorScheme!.secondary,
+            borderColor: context.ext.colors.primaryDark,
             text: "Logout Account",
-            textStyle: AppStyles.styleInter16.copyWith(
-              color: AppColors.primary,
+            textStyle: context.text.titleLarge!.copyWith(
+              color: context.colors.primary,
               fontWeight: FontWeight.w600,
             ),
             minimumSize: Size(double.infinity, 52.h),
@@ -33,8 +32,8 @@ class LogoutButton extends StatelessWidget {
           ),
           Text(
             "MomEase V1.0.0",
-            style: AppStyles.styleInter12.copyWith(
-              color: AppColors.darkTextSecondary,
+            style: context.text.bodyLarge!.copyWith(
+              color: context.colors.onSurfaceVariant,
             ),
           ),
         ],

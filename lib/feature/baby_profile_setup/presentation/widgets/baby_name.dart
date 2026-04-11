@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/validation_methods.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,20 +44,20 @@ class _BabyNameState extends State<BabyName> {
             Text(
               'What’s Your Current Baby’s Name?',
               softWrap: true,
-              style: AppStyles.styleInter32,
+              style: context.text.displayMedium!,
               textAlign: TextAlign.center,
             ),
             81.height,
             TextFormFieldHelper(
               controller: _nameController,
               hint: 'We’d love to know his/her name..',
-              hintStyle: AppStyles.styleInter12.copyWith(
-                color: AppColors.lightTextDisabled,
+              hintStyle: context.text.bodyLarge!.copyWith(
+                color: context.ext.colors.lightTextDisabled,
               ),
               onValidate: validateRequired,
-              fillColor: AppColors.lightBackground,
+              fillColor: context.theme.cardColor,
               borderRadius: BorderRadius.circular(64.r),
-              borderColor: AppColors.primaryDark,
+              borderColor: context.ext.colors.primaryDark,
               onChanged: (value) {
                 context.read<OnboardingCubit>().setAnswer(
                   'babyName',

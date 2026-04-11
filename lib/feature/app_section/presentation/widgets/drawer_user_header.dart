@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class DrawerUserHeader extends StatelessWidget {
   final Animation<double> animation;
@@ -30,19 +29,22 @@ class DrawerUserHeader extends StatelessWidget {
                 right: 24.w,
               ),
               decoration: BoxDecoration(
-                color: AppColors.primary,
+                color: context.colors.primary,
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(30.r),
                   bottomLeft: Radius.circular(30.r),
                 ),
-                gradient: const LinearGradient(
-                  colors: [AppColors.primary, AppColors.primaryAccent],
+                gradient: LinearGradient(
+                  colors: [
+                    context.colors.primary,
+                    context.ext.colors.primaryLight,
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withAlpha(63),
+                    color: context.theme.shadowColor.withAlpha(63),
                     blurRadius: 4,
                     spreadRadius: 0,
                     offset: const Offset(0, 4),
@@ -59,18 +61,18 @@ class DrawerUserHeader extends StatelessWidget {
                         backgroundImage: const NetworkImage(
                           'https://i.pravatar.cc/150?img=11',
                         ),
-                        backgroundColor: Colors.white,
+                        backgroundColor: context.theme.cardColor,
                       ),
                       Container(
                         padding: EdgeInsets.all(4.w),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+                        decoration: BoxDecoration(
+                          color: context.theme.cardColor,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.edit,
                           size: 12.sp,
-                          color: AppColors.primary,
+                          color: context.colors.primary,
                         ),
                       ),
                     ],
@@ -82,8 +84,8 @@ class DrawerUserHeader extends StatelessWidget {
                       children: [
                         Text(
                           'Ana Soso',
-                          style: AppStyles.styleInter24.copyWith(
-                            color: Colors.white,
+                          style: context.text.displaySmall!.copyWith(
+                            color: context.ext.colors.lightTextPrimary,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w700,
                           ),
@@ -91,8 +93,8 @@ class DrawerUserHeader extends StatelessWidget {
                         SizedBox(height: 4.h),
                         Text(
                           'ana.soso@example.com',
-                          style: AppStyles.styleInter14.copyWith(
-                            color: Colors.white70,
+                          style: context.text.titleSmall!.copyWith(
+                            color: context.ext.colors.lightTextPrimary,
                             fontSize: 12.sp,
                           ),
                         ),

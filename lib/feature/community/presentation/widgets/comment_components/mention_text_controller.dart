@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class MentionTextEditingController extends TextEditingController {
   final String? mentionedName;
@@ -32,10 +31,10 @@ class MentionTextEditingController extends TextEditingController {
         children: [
           TextSpan(
             text: mention,
-            style: AppStyles.styleInter10.copyWith(
+            style: context.text.bodySmall!.copyWith(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.mentionBlue,
+              color: context.ext.colors.mentionBlue,
             ),
           ),
           if (remainingText.isNotEmpty)

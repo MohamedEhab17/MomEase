@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 
 class ProfilePostPreviewCard extends StatelessWidget {
@@ -23,11 +22,11 @@ class ProfilePostPreviewCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.primaryTint.withAlpha(150),
+        color: context.ext.colors.primaryTint.withAlpha(150),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         children: [
           Row(
             children: [
@@ -38,21 +37,21 @@ class ProfilePostPreviewCard extends StatelessWidget {
               8.width,
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: [
                     Text(
                       post.userName,
-                      style: AppStyles.styleInter12.copyWith(
+                      style: context.text.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: AppColors.lightTextPrimary.withAlpha(200),
+                        color: context.colors.onSurface.withAlpha(200),
                       ),
                     ),
                     2.height,
                     Text(
                       timeText,
-                      style: AppStyles.styleInter10.copyWith(
+                      style: context.text.bodySmall!.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: AppColors.lightTextSecondary,
+                        color: context.colors.onSurfaceVariant,
                       ),
                     ),
                   ],
@@ -63,8 +62,8 @@ class ProfilePostPreviewCard extends StatelessWidget {
           12.height,
           Text(
             post.text,
-            style: AppStyles.styleInter12.copyWith(
-              color: AppColors.lightTextPrimary.withAlpha(200),
+            style: context.text.bodyLarge!.copyWith(
+              color: context.colors.onSurface.withAlpha(200),
               height: 1.5,
             ),
           ),
@@ -74,7 +73,7 @@ class ProfilePostPreviewCard extends StatelessWidget {
               height: 120.h,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: AppColors.greyExtraLight.withAlpha(100),
+                color: context.ext.colors.greyExtraLight.withAlpha(100),
                 borderRadius: BorderRadius.circular(16.r),
                 image: DecorationImage(
                   image: NetworkImage(post.images.first),
@@ -89,40 +88,40 @@ class ProfilePostPreviewCard extends StatelessWidget {
               SvgPicture.asset(
                 AppIcons.iconsUnfilledLike,
                 width: 14.w,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.primary,
+                colorFilter: ColorFilter.mode(
+                  context.colors.primary,
                   BlendMode.srcIn,
                 ),
               ),
               6.width,
               Text(
                 post.likes.toString(),
-                style: AppStyles.styleInter10.copyWith(
-                  color: AppColors.lightTextSecondary,
+                style: context.text.bodySmall!.copyWith(
+                  color: context.colors.onSurfaceVariant,
                 ),
               ),
               16.width,
               SvgPicture.asset(
                 AppIcons.iconsComment,
                 width: 14.w,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.primary,
+                colorFilter: ColorFilter.mode(
+                  context.colors.primary,
                   BlendMode.srcIn,
                 ),
               ),
               6.width,
               Text(
                 post.comments.toString(),
-                style: AppStyles.styleInter10.copyWith(
-                  color: AppColors.lightTextSecondary,
+                style: context.text.bodySmall!.copyWith(
+                  color: context.colors.onSurfaceVariant,
                 ),
               ),
               const Spacer(),
               SvgPicture.asset(
                 AppIcons.iconsUnfilledSave,
                 width: 14.w,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.primary,
+                colorFilter: ColorFilter.mode(
+                  context.colors.primary,
                   BlendMode.srcIn,
                 ),
               ),

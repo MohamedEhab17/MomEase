@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
 class LoveActionButton extends StatefulWidget {
   final String icon;
@@ -68,7 +68,6 @@ class _LoveActionButtonState extends State<LoveActionButton>
       clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
-
         /// Floating Heart
         AnimatedBuilder(
           animation: _floatingController,
@@ -92,10 +91,7 @@ class _LoveActionButtonState extends State<LoveActionButton>
           onTap: _handleTap,
           child: ScaleTransition(
             scale: Tween<double>(begin: 1.0, end: 1.08).animate(
-              CurvedAnimation(
-                parent: _popController,
-                curve: Curves.easeOut,
-              ),
+              CurvedAnimation(parent: _popController, curve: Curves.easeOut),
             ),
             child: Container(
               width: 113.w,
@@ -103,8 +99,8 @@ class _LoveActionButtonState extends State<LoveActionButton>
               padding: const EdgeInsets.symmetric(vertical: 7),
               decoration: BoxDecoration(
                 color: _isLiked
-                    ? AppColors.primaryDark.withAlpha(77)
-                    : AppColors.primaryLighter.withAlpha(77),
+                    ? context.ext.colors.primaryDark.withAlpha(77)
+                    : context.ext.colors.primaryLighter.withAlpha(77),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
@@ -114,12 +110,16 @@ class _LoveActionButtonState extends State<LoveActionButton>
                     _isLiked ? widget.icon : widget.icon,
                     width: 16,
                     height: 16,
+                    colorMapper: AppSvgColorMapper(
+                      from: Color(0xffFF3381),
+                      to: context.ext.colors.primaryDark,
+                    ),
                   ),
                   const SizedBox(width: 4),
                   Text(
                     widget.label,
-                    style: AppStyles.styleInter12.copyWith(
-                      color: AppColors.primaryDark,
+                    style: context.text.bodyLarge!.copyWith(
+                      color: context.ext.colors.primaryDark,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

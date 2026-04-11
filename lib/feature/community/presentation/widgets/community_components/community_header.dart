@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 import 'package:new_mama/feature/community/presentation/widgets/shared_components/circle_icon_button.dart';
 
 class CommunityHeader extends StatelessWidget {
-  const CommunityHeader({super.key, 
-  required this.controller
-  });
+  const CommunityHeader({super.key, required this.controller});
   final AnimateToController controller;
 
   @override
@@ -20,7 +19,7 @@ class CommunityHeader extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: Row(
         children: [
-          Text('Community', style: AppStyles.styleInter24),
+          Text('Community', style: context.text.displaySmall!),
 
           const Spacer(),
 
@@ -40,6 +39,10 @@ class CommunityHeader extends StatelessWidget {
                 AppIcons.iconsFilledSave,
                 height: 24.h,
                 width: 16.w,
+                colorMapper: AppSvgColorMapper(
+                  from: Color(0xffFF3381),
+                  to: context.ext.colors.primaryDark,
+                ),
               ),
             ),
             onTap: () {
