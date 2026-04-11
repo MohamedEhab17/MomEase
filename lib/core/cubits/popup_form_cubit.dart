@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_mama/shared/popup_form/view_model/cubit/popup_form_state.dart';
+import 'package:new_mama/core/cubits/popup_form_state.dart';
 
 class PopupFormCubit extends Cubit<PopupFormState> {
   PopupFormCubit() : super(PopupFormState(values: {}));

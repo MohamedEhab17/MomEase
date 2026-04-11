@@ -5,7 +5,7 @@ import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/widgets/love_action_button.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
-import 'package:new_mama/feature/community/presentation/widgets/shared_components/action_button.dart';
+import 'package:new_mama/core/widgets/action_button.dart';
 import 'package:new_mama/feature/community/presentation/widgets/comment_components/comments_modal_sheet.dart';
 
 class PostActions extends StatelessWidget {

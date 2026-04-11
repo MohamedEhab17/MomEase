@@ -1,75 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/extensions/padding_ex.dart';
-import 'package:new_mama/core/extensions/sized_box_ex.dart';
-import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/widgets/custom_circle_avatar_with_icon.dart';
-import 'package:new_mama/core/widgets/custom_elevated_button.dart';
-import 'package:new_mama/core/widgets/custom_instructions_recommendations.dart';
-import 'package:new_mama/core/widgets/features_header.dart';
+import 'package:new_mama/core/widgets/insight_view_scaffold.dart';
 
 class SkinDiagnosisInsightView extends StatelessWidget {
   const SkinDiagnosisInsightView({super.key});
-  static const List<String> instructions = [
+
+  static const List<String> _instructions = [
     'Take a clear photo of the affected skin area',
     'AI analyzes the image for common conditions',
     'Receive gentle care tips and recommendations',
   ];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: FeaturesHeader(title: 'Skin Diagnosis'),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 32.h),
-        child: Column(
-          children: [
-            CustomCircleAvatarWithIcon(
-              height: 56,
-              width: 56,
-              radius: 52,
-              image: AppIcons.iconsScan,
-            ),
-            32.h.height,
-            Text('Gentle Skin Guidance', style: context.text.displayMedium!),
-            15.h.height,
-            Text(
-              'Get AI-powered insights about common baby skin conditions and gentle care tips.',
-              style: context.text.titleSmall!,
-              maxLines: 3,
-              textAlign: .center,
-              overflow: .ellipsis,
-            ),
-            32.h.height,
-            CustomInstructionsRecommendations(
-              title: 'How It Works',
-              advices: instructions,
-            ),
-            56.h.height,
-            CustomElevatedButton(
-              text: 'Take or upload photo',
-              onPressed: () {
-                context.push(AppRoutesPaths.skinDiagnosisPhotoView);
-              },
-              minimumSize: Size(double.infinity, 52.h),
-            ),
-            16.h.height,
-            Padding(
-              padding: 10.w.hPadding,
-              child: Text(
-                'This is guidance, not medical advice.Trust your instincts – you know your baby best',
-                style: context.text.bodyMedium!.copyWith(
-                  color: context.ext.colors.lightTextPrimary.withAlpha(128),
-                ),
-                textAlign: TextAlign.center,
-                softWrap: true,
-              ),
-            ),
-          ],
-        ),
-      ),
+    return InsightViewScaffold(
+      appBarTitle: 'Skin Diagnosis',
+      icon: AppIcons.iconsScan,
+      headline: 'Gentle Skin Guidance',
+      subtitle:
+          'Get AI-powered insights about common baby skin conditions and gentle care tips.',
+      instructions: _instructions,
+      instructionsTitle: 'How It Works',
+      ctaText: 'Take or upload photo',
+      onCtaPressed: () {
+        context.push(AppRoutesPaths.skinDiagnosisPhotoView);
+      },
     );
   }
 }

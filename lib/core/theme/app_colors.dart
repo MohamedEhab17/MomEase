@@ -151,48 +151,8 @@ class AppColors {
     darkTextSecondary: Color(0xFFCECECE),
   );
 
+
   /// 🌙 Dark Colors
-  // static const AppColors dark = AppColors(
-  //   primaryDark: Color(0xFF454B58),
-  //   primary: Color(0xFF555D6D),
-  //   primaryLighter: Color(0xFF6A7385),
-  //   primaryAccent: Color(0xFF7F8AA0),
-
-  //   primaryTint: Color(0xFF1A1F2A),
-  //   primaryExtraLight: Color(0xFF232A36),
-  //   primaryBackground: Color(0xFF0F1115),
-  //   primaryLight: Color(0xFF9AA6BA),
-
-  //   greyPrimary: Color(0xFFC2C8D4),
-  //   greyLight: Color(0xFFADB6C6),
-  //   greyExtraLight: Color(0xFF353C4A),
-  //   greyMedium: Color(0xFF7E8899),
-
-  //   mentionBlue: Color(0xFF4C8DFF),
-
-  //   lighterBorder: Color(0xFF343C4C),
-
-  //   accent: Color(0xFF4C8DFF),
-  //   accentSoft: Color(0xFF222B3A),
-
-  //   lightBackground: Color(0xFF0F1115),
-  //   backgroundPink: Color(0xFF161B24),
-  //   darkBackground: Color(0xFF0A0C10),
-
-  //   backgroundGreen: Color(0xFF1F3D2B),
-  //   backgroundBlue: Color(0xFF1C2A3A),
-  //   backgroundBlueDarker: Color(0xFF111827),
-
-  //   lightTextPrimary: Color(0xFFE8ECF5),
-  //   lightTextSecondary: Color(0xFFB8C1D1),
-  //   lightTextDisabled: Color(0xFF7A8495),
-  //   textDisabledLighter: Color(0xFF5A6475),
-
-  //   greenText: Color(0xFF4CAF50),
-
-  //   darkTextPrimary: Color(0xFFFFFFFF),
-  //   darkTextSecondary: Color(0xFFCECECE),
-  // );
   static const AppColors dark = AppColors(
     // 1. Primary Colors
     primaryDark: Color(0xFF6B7A99),

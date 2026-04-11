@@ -9,16 +9,28 @@ import 'package:new_mama/feature/community/presentation/widgets/post_components/
 class PostContent extends StatelessWidget {
   final PostModel post;
   final AnimateToController controller;
+  final Color? backgroundColor;
+  final List<BoxShadow>? boxShadow;
+  final bool showDivider;
 
-  const PostContent({super.key, required this.post, required this.controller});
+  const PostContent({
+    super.key,
+    required this.post,
+    required this.controller,
+    this.backgroundColor,
+    this.boxShadow,
+    this.showDivider = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
+      padding: boxShadow != null ? const EdgeInsets.all(12) : null,
       decoration: BoxDecoration(
-        color: context.theme.scaffoldBackgroundColor,
+        color: backgroundColor ?? context.theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(16),
+        boxShadow: boxShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +39,8 @@ class PostContent extends StatelessWidget {
           PostHeader(post: post),
           PostBody(post: post),
           PostActions(post: post, controller: controller),
-          Divider(color: context.ext.colors.primaryLighter, height: 1),
+          if (showDivider)
+            Divider(color: context.ext.colors.primaryLighter, height: 1),
         ],
       ),
     );

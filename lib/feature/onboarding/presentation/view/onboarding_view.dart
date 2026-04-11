@@ -6,7 +6,7 @@ import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_data.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_model.dart';
-import 'package:new_mama/feature/onboarding/widgets/custom_animated_widget.dart';
+import 'package:new_mama/feature/onboarding/presentation/widgets/custom_animated_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingView extends StatefulWidget {

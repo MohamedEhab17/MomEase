@@ -9,8 +9,8 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
-import 'package:new_mama/feature/auth/widgets/custom_circle_avatar.dart';
-import 'package:new_mama/feature/auth/widgets/custom_rich_text.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/custom_circle_avatar.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/custom_rich_text.dart';
 import 'package:pinput/pinput.dart';
 import 'package:url_launcher/url_launcher.dart';
 

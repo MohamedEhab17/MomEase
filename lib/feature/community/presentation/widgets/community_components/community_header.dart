@@ -7,7 +7,7 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
-import 'package:new_mama/feature/community/presentation/widgets/shared_components/circle_icon_button.dart';
+import 'package:new_mama/core/widgets/circle_icon_button.dart';
 
 class CommunityHeader extends StatelessWidget {
   const CommunityHeader({super.key, required this.controller});

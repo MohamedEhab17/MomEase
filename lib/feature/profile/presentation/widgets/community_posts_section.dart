@@ -5,7 +5,7 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
-import 'package:new_mama/feature/profile/presentation/widgets/post_item.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_components/post_item.dart';
 
 class CommunityPostsSection extends StatefulWidget {
   final List<PostModel> posts;

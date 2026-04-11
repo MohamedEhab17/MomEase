@@ -8,7 +8,7 @@ import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/utils/validation_methods.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
-import 'package:new_mama/feature/auth/widgets/custom_circle_avatar.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/custom_circle_avatar.dart';
 
 class CreatePassword extends StatefulWidget {
   const CreatePassword({super.key});

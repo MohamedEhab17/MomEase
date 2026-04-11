@@ -28,7 +28,7 @@ import 'package:new_mama/feature/auth/presentation/views/email_verification_view
 import 'package:new_mama/feature/auth/presentation/views/forget_password.dart';
 import 'package:new_mama/feature/auth/presentation/views/login_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/sign_up_view.dart';
-import 'package:new_mama/feature/auth/widgets/email_verified_success_widget.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/email_verified_success_widget.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/cry_analyzing_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_insight_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_recording_session_view.dart';
@@ -41,7 +41,7 @@ import 'package:new_mama/feature/community/presentation/view/create_post_view.da
 import 'package:new_mama/feature/community/presentation/view/saved_posts_view.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
-import 'package:new_mama/feature/onboarding/presentation/onboarding_view.dart';
+import 'package:new_mama/feature/onboarding/presentation/view/onboarding_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_analyzing_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_insight_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_photo_view.dart';
@@ -264,12 +264,10 @@ class AppRouter {
                   child: BabyProfileOnboardingView(),
                 );
               },
-              // builder: (context, state) => const BabyProfileOnboardingView(),
             ),
             GoRoute(
               path: AppRoutesPaths.firstTimeMama,
               name: 'firstTimeMama',
-              // builder: (context, state) => const FirstTimeMama(),
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: FirstTimeMama());
               },
@@ -280,7 +278,6 @@ class AppRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: BabyCount());
               },
-              // builder: (context, state) => const BabyCount(),
             ),
             GoRoute(
               path: AppRoutesPaths.babyName,
@@ -295,7 +292,6 @@ class AppRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: BabyGender());
               },
-              // builder: (context, state) => const BabyGender(),
             ),
             GoRoute(
               path: AppRoutesPaths.dateOfBirth,
@@ -303,7 +299,6 @@ class AppRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: DateOfBirth());
               },
-              // builder: (context, state) => const DateOfBirth(),
             ),
             GoRoute(
               path: AppRoutesPaths.feedingType,
@@ -311,7 +306,6 @@ class AppRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: FeedingType());
               },
-              // builder: (context, state) => const FeedingType(),
             ),
             GoRoute(
               path: AppRoutesPaths.birthExperience,
@@ -319,7 +313,6 @@ class AppRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: BirthExperience());
               },
-              // builder: (context, state) => const BirthExperience(),
             ),
             GoRoute(
               path: AppRoutesPaths.allSetUp,
@@ -327,7 +320,6 @@ class AppRouter {
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: AllSetUp());
               },
-              // builder: (context, state) => const AllSetUp(),
             ),
           ],
         ),
