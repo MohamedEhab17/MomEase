@@ -10,8 +10,8 @@ class CommunityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: getIt<CommunityCubit>()..loadPosts(),
+    return BlocProvider(
+      create: (_) => getIt<CommunityCubit>()..loadPosts(),
       child: Padding(padding: 20.hPadding, child: const CommunityBody()),
     );
   }

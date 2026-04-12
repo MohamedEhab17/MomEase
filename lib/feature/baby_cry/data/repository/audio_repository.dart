@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'failure.dart';
+import 'package:new_mama/core/error/failure.dart';
 
 abstract class AudioRepository {
   Future<Either<Failure, String>> startRecording();

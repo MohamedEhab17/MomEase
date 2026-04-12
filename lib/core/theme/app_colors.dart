@@ -151,7 +151,6 @@ class AppColors {
     darkTextSecondary: Color(0xFFCECECE),
   );
 
-
   /// 🌙 Dark Colors
   static const AppColors dark = AppColors(
     // 1. Primary Colors

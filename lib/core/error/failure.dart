@@ -3,6 +3,14 @@ abstract class Failure {
   const Failure(this.message);
 }
 
+class ServerFailure extends Failure {
+  const ServerFailure([super.message = 'A server error occurred']);
+}
+
+class CacheFailure extends Failure {
+  const CacheFailure([super.message = 'A cache error occurred']);
+}
+
 class PermissionFailure extends Failure {
   const PermissionFailure([super.message = 'Microphone permission denied']);
 }

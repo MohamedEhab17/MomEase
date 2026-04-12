@@ -1,8 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../data/dummy/dummy_questions.dart';
+import 'package:new_mama/core/base/safe_cubit.dart';
 import 'depression_state.dart';
 
-class DepressionCubit extends Cubit<DepressionState> {
+class DepressionCubit extends SafeCubit<DepressionState> {
   DepressionCubit() : super(DepressionInitial());
 
   int _currentIndex = 0;
@@ -13,7 +14,7 @@ class DepressionCubit extends Cubit<DepressionState> {
     _currentIndex = 0;
     _totalScore = 0;
     _selectedAnswerIndex = null;
-    emit(
+    safeEmit(
       DepressionAnswering(
         currentIndex: _currentIndex,
         totalScore: _totalScore,
@@ -24,7 +25,7 @@ class DepressionCubit extends Cubit<DepressionState> {
 
   void selectAnswer(int index) {
     _selectedAnswerIndex = index;
-    emit(
+    safeEmit(
       DepressionAnswering(
         currentIndex: _currentIndex,
         totalScore: _totalScore,
@@ -40,7 +41,7 @@ class DepressionCubit extends Cubit<DepressionState> {
       if (_currentIndex < dummyDepressionQuestions.length - 1) {
         _currentIndex++;
         _selectedAnswerIndex = null;
-        emit(
+        safeEmit(
           DepressionAnswering(
             currentIndex: _currentIndex,
             totalScore: _totalScore,
@@ -48,7 +49,7 @@ class DepressionCubit extends Cubit<DepressionState> {
           ),
         );
       } else {
-        emit(DepressionFinished(totalScore: _totalScore));
+        safeEmit(DepressionFinished(totalScore: _totalScore));
       }
     }
   }

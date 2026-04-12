@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
-import 'package:new_mama/core/extensions/theme_ex.dart';
+
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/profile/data/models/profile_model.dart';
 
 class ProfileDummyData {
-  static ProfileModel getDummyProfile(BuildContext context) {
+  static ProfileModel getDummyProfile() {
     return ProfileModel(
       id: "u123",
       name: "Ana Soso",
@@ -14,11 +14,11 @@ class ProfileDummyData {
       journey: ParentingJourney(
         lastMoodEmoji: "😌",
         lastMoodStatus: "Calm",
-        lastMoodColor: context.ext.colors.greenText,
+        lastMoodColor: const Color(0xFF2E7D32),
         depressionTestStatus: "Completed",
-        depressionTestColor: context.ext.colors.mentionBlue,
+        depressionTestColor: const Color(0xFF1976D2),
         babyTrackingStatus: "Updated today",
-        babyTrackingColor: context.ext.colors.primaryDark,
+        babyTrackingColor: const Color(0xFFC2185B),
       ),
       babyProfile: BabyProfile(
         name: "Adam",
@@ -83,40 +83,40 @@ class ProfileDummyData {
         AccountSupportItem(
           title: "Manage Profile",
           iconPath: "person_outline",
-          iconBackgroundColor: context.ext.colors.primaryExtraLight,
-          iconColor: context.ext.colors.primaryDark,
+          iconBackgroundColor: const Color(0xFFFCE4EC),
+          iconColor: const Color(0xFFC2185B),
         ),
         AccountSupportItem(
           title: "Security",
           iconPath: "lock_outline",
-          iconBackgroundColor: context.ext.colors.primaryExtraLight,
-          iconColor: context.ext.colors.primaryDark,
+          iconBackgroundColor: const Color(0xFFFCE4EC),
+          iconColor: const Color(0xFFC2185B),
         ),
         AccountSupportItem(
           title: "Notifications",
           iconPath: "notifications_none",
-          iconBackgroundColor: context.ext.colors.primaryExtraLight,
-          iconColor: context.ext.colors.primaryDark,
+          iconBackgroundColor: const Color(0xFFFCE4EC),
+          iconColor: const Color(0xFFC2185B),
         ),
         AccountSupportItem(
           title: "Language",
           iconPath: "translate",
-          iconBackgroundColor: context.ext.colors.primaryExtraLight,
-          iconColor: context.ext.colors.primaryDark,
+          iconBackgroundColor: const Color(0xFFFCE4EC),
+          iconColor: const Color(0xFFC2185B),
           trailingText: "English (US)",
         ),
         AccountSupportItem(
           title: "Theme",
           iconPath: "palette_outlined",
-          iconBackgroundColor: context.ext.colors.primaryExtraLight,
-          iconColor: context.ext.colors.primaryDark,
+          iconBackgroundColor: const Color(0xFFFCE4EC),
+          iconColor: const Color(0xFFC2185B),
           trailingText: "Pastel Pink",
         ),
         AccountSupportItem(
           title: "Help Center",
           iconPath: "help_outline",
-          iconBackgroundColor: context.ext.colors.primaryExtraLight,
-          iconColor: context.ext.colors.primaryDark,
+          iconBackgroundColor: const Color(0xFFFCE4EC),
+          iconColor: const Color(0xFFC2185B),
         ),
       ],
     );

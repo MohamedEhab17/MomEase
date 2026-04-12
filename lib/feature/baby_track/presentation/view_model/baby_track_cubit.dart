@@ -1,10 +1,12 @@
 import 'dart:async';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
+
+import 'package:new_mama/core/base/safe_cubit.dart';
 
 part 'baby_track_state.dart';
 
-class BabyTrackCubit extends Cubit<BabyTrackState> {
+class BabyTrackCubit extends SafeCubit<BabyTrackState> {
   BabyTrackCubit() : super(BabyTrackInitial());
 
   // ─────── Main tab ───────
@@ -12,7 +14,7 @@ class BabyTrackCubit extends Cubit<BabyTrackState> {
 
   void switchMainTab(int index) {
     mainTabIndex = index;
-    emit(MainTabChanged(tabIndex: index));
+    safeEmit(MainTabChanged(tabIndex: index));
   }
 
   // ─────── Feeding Timer ───────
@@ -28,14 +30,14 @@ class BabyTrackCubit extends Cubit<BabyTrackState> {
     _isRunning = true;
     _feedingTimer = Timer.periodic(const Duration(seconds: 1), (_) {
       _elapsedSeconds++;
-      emit(
+      safeEmit(
         FeedingTimerState(
           elapsedSeconds: _elapsedSeconds,
           isRunning: _isRunning,
         ),
       );
     });
-    emit(
+    safeEmit(
       FeedingTimerState(elapsedSeconds: _elapsedSeconds, isRunning: _isRunning),
     );
   }
@@ -44,7 +46,7 @@ class BabyTrackCubit extends Cubit<BabyTrackState> {
     _feedingTimer?.cancel();
     _feedingTimer = null;
     _isRunning = false;
-    emit(
+    safeEmit(
       FeedingTimerState(elapsedSeconds: _elapsedSeconds, isRunning: _isRunning),
     );
   }
@@ -52,17 +54,17 @@ class BabyTrackCubit extends Cubit<BabyTrackState> {
   void resetFeedingTimer() {
     stopFeedingTimer();
     _elapsedSeconds = 0;
-    emit(FeedingTimerState(elapsedSeconds: _elapsedSeconds, isRunning: false));
+    safeEmit(FeedingTimerState(elapsedSeconds: _elapsedSeconds, isRunning: false));
   }
 
   void saveFeedingSession(FeedingSession session) {
     resetFeedingTimer();
-    emit(FeedingSessionSaved());
+    safeEmit(FeedingSessionSaved());
   }
 
   // ─────── Sleep ───────
   void saveSleepRecord(SleepSession session) {
-    emit(SleepRecordSaved());
+    safeEmit(SleepRecordSaved());
   }
 
   // ─────── Vaccine Tab ───────
@@ -70,7 +72,7 @@ class BabyTrackCubit extends Cubit<BabyTrackState> {
 
   void switchVaccineTab(int index) {
     vaccineTabIndex = index;
-    emit(VaccineTabState(tabIndex: index));
+    safeEmit(VaccineTabState(tabIndex: index));
   }
 
   @override

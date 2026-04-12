@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:new_mama/core/base/safe_cubit.dart';
 import 'skin_diagnosis_state.dart';
 
-class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
+class SkinDiagnosisCubit extends SafeCubit<SkinDiagnosisState> {
   SkinDiagnosisCubit() : super(const SkinDiagnosisState());
 
   final ImagePicker _picker = ImagePicker();
@@ -13,7 +14,7 @@ class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
   Future<void> pickImage(ImageSource source) async {
     try {
       // Show loading to prevent UI freeze and give feedback during pick/crop
-      emit(
+      safeEmit(
         state.copyWith(status: SkinDiagnosisStatus.loading, errorMessage: null),
       );
 
@@ -23,7 +24,7 @@ class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
       );
 
       if (image != null) {
-        emit(
+        safeEmit(
           state.copyWith(
             status: SkinDiagnosisStatus.imageSelected,
             selectedImage: File(image.path),
@@ -33,7 +34,7 @@ class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
         );
       } else {
         // User cancelled image picker
-        emit(
+        safeEmit(
           state.copyWith(
             status: state.selectedImage != null
                 ? SkinDiagnosisStatus.imageSelected
@@ -42,7 +43,7 @@ class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
         );
       }
     } catch (e) {
-      emit(
+      safeEmit(
         state.copyWith(
           status: SkinDiagnosisStatus.error,
           errorMessage: 'Failed to pick image: ${e.toString()}',
@@ -73,10 +74,10 @@ class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
       );
 
       if (croppedFile != null) {
-        emit(state.copyWith(selectedImage: File(croppedFile.path)));
+        safeEmit(state.copyWith(selectedImage: File(croppedFile.path)));
       }
     } catch (e) {
-      emit(
+      safeEmit(
         state.copyWith(
           status: SkinDiagnosisStatus.error,
           errorMessage: 'Failed to crop image: ${e.toString()}',
@@ -86,6 +87,6 @@ class SkinDiagnosisCubit extends Cubit<SkinDiagnosisState> {
   }
 
   void clearImage() {
-    emit(const SkinDiagnosisState());
+    safeEmit(const SkinDiagnosisState());
   }
 }

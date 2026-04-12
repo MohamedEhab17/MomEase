@@ -4,7 +4,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../data_source/audio_local_data_source.dart';
 import 'audio_repository.dart';
-import 'failure.dart';
+import 'package:new_mama/core/error/failure.dart';
 
 @LazySingleton(as: AudioRepository)
 class AudioRepositoryImpl implements AudioRepository {

@@ -5,6 +5,7 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 
 import '../view_model/notification_cubit.dart';
 import '../widgets/notification_header.dart';
+import 'package:new_mama/core/di/injection.dart';
 import '../widgets/notification_list.dart';
 
 class NotificationView extends StatelessWidget {
@@ -13,7 +14,7 @@ class NotificationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NotificationCubit()..loadNotifications(),
+      create: (context) => getIt<NotificationCubit>()..loadNotifications(),
       child: Column(
         crossAxisAlignment: .start,
         children: [

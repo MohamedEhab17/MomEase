@@ -62,6 +62,7 @@ dependencies:
   equatable: ^2.0.8
   url_launcher: ^6.3.2
   bloc: ^9.2.0
+  async: ^2.13.1
 
 dev_dependencies:
   build_runner: ^2.11.1

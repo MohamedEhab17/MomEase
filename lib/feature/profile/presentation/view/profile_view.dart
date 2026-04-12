@@ -22,8 +22,8 @@ class ProfileView extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ProfileCubit()..loadProfile(context)),
-        BlocProvider.value(value: getIt<CommunityCubit>()..loadPosts()),
+        BlocProvider(create: (_) => getIt<ProfileCubit>()..loadProfile()),
+        BlocProvider(create: (_) => getIt<CommunityCubit>()..loadPosts()),
       ],
       child: const _ProfileBody(),
     );

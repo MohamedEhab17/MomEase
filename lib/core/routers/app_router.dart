@@ -81,16 +81,16 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.createPostCommunityView,
           name: 'createPostCommunityView',
-          builder: (context, state) => BlocProvider.value(
-            value: getIt<CommunityCubit>(),
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<CommunityCubit>(),
             child: const CreatePostView(),
           ),
         ),
         GoRoute(
           path: AppRoutesPaths.savedPostsView,
           name: 'savedPostsView',
-          builder: (context, state) => BlocProvider.value(
-            value: getIt<CommunityCubit>(),
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<CommunityCubit>(),
             child: const SavedPostsView(),
           ),
         ),
@@ -130,16 +130,16 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.articlesView,
           name: 'articlesView',
-          builder: (context, state) => BlocProvider.value(
-            value: getIt<ArticleCubit>(),
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<ArticleCubit>(),
             child: const ArticlesView(),
           ),
         ),
         GoRoute(
           path: AppRoutesPaths.articleCategoryView,
           name: 'articleCategoryView',
-          builder: (context, state) => BlocProvider.value(
-            value: getIt<ArticleCubit>(),
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<ArticleCubit>(),
             child: const ArticleCategoryView(),
           ),
         ),
@@ -148,8 +148,8 @@ class AppRouter {
           name: 'articleDetailsView',
           builder: (context, state) {
             final article = state.extra as ArticleModel;
-            return BlocProvider.value(
-              value: getIt<ArticleCubit>(),
+            return BlocProvider(
+              create: (_) => getIt<ArticleCubit>(),
               child: ArticleDetailsView(article: article),
             );
           },
@@ -157,8 +157,8 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.savedArticlesView,
           name: 'savedArticlesView',
-          builder: (context, state) => BlocProvider.value(
-            value: getIt<ArticleCubit>(),
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<ArticleCubit>(),
             child: const SavedArticlesView(),
           ),
         ),
