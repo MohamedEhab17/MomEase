@@ -17,7 +17,10 @@ class PostHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        CircleAvatar(radius: 25, backgroundImage: NetworkImage(post.userImage)),
+        CircleAvatar(
+          radius: 25, 
+          backgroundImage: post.userImage.isNotEmpty ? NetworkImage(post.userImage) : null,
+        ),
         7.width,
         Expanded(
           child: Column(
