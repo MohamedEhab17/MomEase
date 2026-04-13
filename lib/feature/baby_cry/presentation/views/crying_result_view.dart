@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
@@ -20,7 +22,7 @@ class CryingResultView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: FeaturesHeader(
-        title: 'Crying sound analysis',
+        title: context.trContext(TK.babyCryResultTitle),
         onPressed: () {
           while (context.canPop()) {
             context.pop();
@@ -33,31 +35,31 @@ class CryingResultView extends StatelessWidget {
           children: [
             Lottie.asset(AppIcons.iconsSuccess, width: 100.w, height: 100.h),
             24.h.height,
-            Text('Baby Might Be:', style: context.text.displayMedium!),
+            Text(context.trContext(TK.babyCryBabyMightBe), style: context.text.displayMedium!),
             12.h.height,
             Text(
-              'Discomfort',
+              context.trContext(TK.babyCryDiscomfort),
               style: context.text.displayMedium!.copyWith(
                 color: Color(0xffFFC107),
               ),
             ),
             40.h.height,
             Text(
-              'The cry sounds suggest your baby might be uncomfortable. This could be due to a wet diaper, temperature, or clothing.',
+              context.trContext(TK.babyCryDiscomfortDesc),
               style: context.text.titleMedium!.copyWith(
                 color: context.text.titleMedium!.color!.withAlpha(178),
               ),
-              textAlign: .center,
+              textAlign: TextAlign.center,
               softWrap: true,
             ),
             32.h.height,
             CustomInstructionsRecommendations(
               advices: advices,
-              title: 'Recommend Steps',
+              title: context.trContext(TK.babyCryRecommendSteps),
             ),
             44.h.height,
             CustomElevatedButton(
-              text: 'Analyze another cry',
+              text: context.trContext(TK.babyCryAnalyzeAnother),
               backgroundColor: context.ext.colors.primaryDark,
               minimumSize: Size(double.infinity, 52.h),
               onPressed: () {

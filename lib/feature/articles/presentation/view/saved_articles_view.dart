@@ -1,9 +1,11 @@
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_state.dart';
 import 'package:new_mama/feature/articles/presentation/widgets/articles_header.dart';
@@ -37,7 +39,7 @@ class _SavedArticlesViewState extends State<SavedArticlesView> {
           if (savedArticles.isEmpty) {
             return Center(
               child: Text(
-                'No saved articles yet.',
+                context.trContext(TK.articlesNoSaved),
                 style: context.text.headlineMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                   color: context.colors.onSurface,
@@ -52,7 +54,7 @@ class _SavedArticlesViewState extends State<SavedArticlesView> {
               Padding(
                 padding: 20.hPadding,
                 child: Text(
-                  'Saved Articles',
+                  context.trContext(TK.articlesSaved),
                   style: context.text.headlineMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: context.colors.onSurface,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
 import 'package:new_mama/core/widgets/custom_instructions_recommendations.dart';
@@ -11,19 +13,18 @@ class DepressionResultView extends StatelessWidget {
   final int totalScore;
 
   DepressionResultView({super.key, required this.totalScore});
-  final List<String> advices = [
-    'Take small moments for yourself, even 5 minutes of quiet time.',
-    'Connect with loved ones or join a mother\'s support group.',
-    'If you\'re concerned, reach out to your healthcare provider.',
-    'Remember: asking for help is a sign of strength, not weakness.',
+  final List<String> _adviceKeys = [
+    TK.babyCryTip1,
+    TK.babyCryTip2,
+    TK.babyCryTip3,
+    TK.babyCryTip4,
   ];
-
-  String get _severityResult {
-    if (totalScore <= 4) return 'Minimal';
-    if (totalScore <= 9) return 'Mild';
-    if (totalScore <= 14) return 'Moderate';
-    if (totalScore <= 19) return 'Moderately Severe';
-    return 'Severe';
+  String _severityResult(BuildContext context) {
+    if (totalScore <= 4) return context.trContext(TK.depressionSeverityMinimal);
+    if (totalScore <= 9) return context.trContext(TK.depressionSeverityMild);
+    if (totalScore <= 14) return context.trContext(TK.depressionSeverityModerate);
+    if (totalScore <= 19) return context.trContext(TK.depressionSeverityModSevere);
+    return context.trContext(TK.depressionSeveritySevere);
   }
 
   Color _severityColor(BuildContext context) {
@@ -44,25 +45,27 @@ class DepressionResultView extends StatelessWidget {
     return Colors.red.withAlpha(77);
   }
 
-  String get _description {
+  String _description(BuildContext context) {
     if (totalScore <= 4) {
-      return 'Your responses suggest minimal signs of depression. It\'s wonderful that you\'re taking time to check in with yourself.';
+      return context.trContext(TK.depressionResultMinimal);
     } else if (totalScore <= 9) {
-      return 'Your responses suggest mild signs of depression. Try applying some self-care techniques or reflecting on what triggers these feelings.';
+      return context.trContext(TK.depressionResultMild);
     } else if (totalScore <= 14) {
-      return 'Your responses suggest moderate signs of depression. Taking proactive steps, like talking to someone you trust, can be a great help.';
+      return context.trContext(TK.depressionResultModerate);
     } else if (totalScore <= 19) {
-      return 'Your responses suggest moderately severe signs of depression. We strongly encourage reaching out to a healthcare professional for support.';
+      return context.trContext(TK.depressionResultModSevere);
     } else {
-      return 'Your responses suggest severe signs of depression. Please immediately contact a professional or call a helpline. You do not have to go through this alone.';
+      return context.trContext(TK.depressionResultSevere);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final advices = _adviceKeys.map((k) => context.trContext(k)).toList();
+
     return Scaffold(
       appBar: FeaturesHeader(
-        title: 'Healthy check-In',
+        title: context.trContext(TK.depressionAppBarTitle),
         onPressed: () {
           while (context.canPop()) {
             context.pop();
@@ -84,15 +87,18 @@ class DepressionResultView extends StatelessWidget {
               child: Column(
                 spacing: 12.h,
                 children: [
-                  Text('Emotional Well-being', style: context.text.bodyMedium!),
+                  Text(context.trContext(TK.depressionWellbeing), style: context.text.bodyMedium!),
                   Text(
-                    _severityResult,
+                    _severityResult(context),
                     style: context.text.displayMedium!.copyWith(
                       color: _severityColor(context),
                     ),
                   ),
                   Text(
-                    'Score: $totalScore / 27',
+                    context.trContext(
+                      TK.depressionScoreDisplay,
+                      namedArgs: {'score': '$totalScore'},
+                    ),
                     style: context.text.bodyMedium!.copyWith(
                       color: context.text.bodyMedium!.color!.withAlpha(178),
                     ),
@@ -102,27 +108,27 @@ class DepressionResultView extends StatelessWidget {
             ),
             41.h.height,
             Text(
-              'You\'re doing well emotionally',
+              context.trContext(TK.depressionDoingWell),
               style: context.text.displayMedium!,
-              textAlign: .center,
+              textAlign: TextAlign.center,
               softWrap: true,
             ),
             30.h.height,
             Text(
-              _description,
+              _description(context),
               style: context.text.titleSmall!,
-              textAlign: .center,
+              textAlign: TextAlign.center,
               softWrap: true,
             ),
             33.h.height,
             CustomInstructionsRecommendations(
-              title: 'Gentle Recommendations',
+              title: context.trContext(TK.depressionRecommendations),
               advices: advices,
             ),
             53.h.height,
 
             CustomElevatedButton(
-              text: 'Retake Check-In',
+              text: context.trContext(TK.depressionRetake),
               textStyle: context.text.headlineMedium!.copyWith(
                 color: context.theme.buttonTheme.colorScheme!.onPrimary,
               ),
@@ -138,7 +144,7 @@ class DepressionResultView extends StatelessWidget {
 
             24.h.height,
             CustomElevatedButton(
-              text: 'Back to Home',
+              text: context.trContext(TK.depressionBackHome),
               textStyle: context.text.headlineMedium!.copyWith(
                 color: context.theme.buttonTheme.colorScheme!.primary,
               ),

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/theme/cubit/theme_cubit.dart';
+import 'package:new_mama/core/localization/cubit/language_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'drawer_helpers.dart';
 import 'drawer_item_group.dart';
@@ -12,13 +16,11 @@ class DrawerAccountSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-
     return DrawerItemGroup(
-      title: 'Account Settings',
+      title: context.trContext(TK.drawerAccSettings),
       children: [
         DrawerListTile(
-          title: 'Manage Profile',
+          title: context.trContext(TK.drawerManageProfile),
           leading: buildDrawerIcon(
             AppIcons.iconsInActiveProfile,
             color: context.ext.colors.primaryDark,
@@ -27,13 +29,16 @@ class DrawerAccountSettingsSection extends StatelessWidget {
           onTap: () {},
         ),
         DrawerListTile(
-          title: 'Security',
-          leading: buildDrawerIcon(AppIcons.iconsLock, color: context.ext.colors.primaryDark),
+          title: context.trContext(TK.drawerSecurity),
+          leading: buildDrawerIcon(
+            AppIcons.iconsLock,
+            color: context.ext.colors.primaryDark,
+          ),
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
           onTap: () {},
         ),
         DrawerListTile(
-          title: 'Notifications',
+          title: context.trContext(TK.drawerNotifications),
           leading: buildDrawerIcon(
             AppIcons.iconsInActiveNotification,
             color: context.ext.colors.primaryDark,
@@ -41,39 +46,46 @@ class DrawerAccountSettingsSection extends StatelessWidget {
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
           onTap: () {},
         ),
-        DrawerListTile(
-          title: 'Language',
-          leading: buildDrawerIcon(
-            AppIcons.iconsLanguage,
-            color: context.ext.colors.primaryDark,
-          ),
-          trailing: Text(
-            'English',
-            style: context.theme.textTheme.titleSmall!.copyWith(
-              color: context.colors.primary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          onTap: () {},
+        BlocBuilder<LanguageCubit, Locale>(
+          builder: (context, locale) {
+            final isEnglish = locale.languageCode == 'en';
+            return DrawerListTile(
+              title: context.trContext(TK.commonLanguage),
+              leading: buildDrawerIcon(
+                AppIcons.iconsLanguage,
+                color: context.ext.colors.primaryDark,
+              ),
+              flipX: false,
+              trailing: Text(
+                isEnglish
+                    ? context.trContext(TK.drawerEnglish)
+                    : context.trContext(TK.drawerArabic),
+                style: context.theme.textTheme.titleSmall!.copyWith(
+                  color: context.colors.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onTap: () async {
+                final newLocaleCode = isEnglish ? 'ar' : 'en';
+                final newLocale = Locale(newLocaleCode);
+                await context.setLocale(newLocale);
+                if (!context.mounted) return;
+                context.read<LanguageCubit>().changeLanguage(newLocaleCode);
+              },
+            );
+          },
         ),
         BlocBuilder<ThemeCubit, AppThemeMode>(
           builder: (context, themeMode) {
-            String themeTitle = 'Theme Action';
-            if (themeMode == AppThemeMode.pink) {
-              themeTitle = 'Blue Mode';
-            } else if (themeMode == AppThemeMode.blue) {
-              themeTitle = 'Dark Mode';
-            } else {
-              themeTitle = 'Pink Mode';
-            }
-
             return DrawerListTile(
-              title: themeTitle,
+              title: context.trContext(TK.commonThemeMode),
               leading: buildDrawerIcon(
                 AppIcons.iconsTheme,
                 color: context.ext.colors.primaryDark,
               ),
-              trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
+              trailing: buildDrawerChevron(
+                color: context.ext.colors.primaryDark,
+              ),
               onTap: () {
                 context.read<ThemeCubit>().toggleTheme();
               },

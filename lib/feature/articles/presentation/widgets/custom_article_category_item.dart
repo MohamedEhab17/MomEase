@@ -47,7 +47,7 @@ class CustomArticleCategoryItem extends StatelessWidget {
         ),
 
         child: Column(
-          crossAxisAlignment: .start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 4,
           children: [
             ClipRRect(
@@ -73,10 +73,10 @@ class CustomArticleCategoryItem extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              padding: const EdgeInsetsDirectional.only(start: 20, end: 20, bottom: 10),
               child: Row(
                 spacing: 6.w,
-                crossAxisAlignment: .center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Text(

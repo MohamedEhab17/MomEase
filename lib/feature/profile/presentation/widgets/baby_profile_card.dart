@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/feature/profile/data/models/profile_model.dart';
 
@@ -37,7 +39,7 @@ class BabyProfileCard extends StatelessWidget {
           16.width,
           Expanded(
             child: Column(
-              crossAxisAlignment: .start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   baby.name,
@@ -69,7 +71,7 @@ class BabyProfileCard extends StatelessWidget {
                 color: context.theme.cardColor,
               ),
               child: Text(
-                "View Baby Data",
+                context.trContext(TK.profileViewBabyData),
                 style: context.text.bodyLarge!.copyWith(
                   color: context.colors.primary,
                   fontWeight: FontWeight.w600,

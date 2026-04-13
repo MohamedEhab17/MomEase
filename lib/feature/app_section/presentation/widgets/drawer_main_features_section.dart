@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'drawer_helpers.dart';
@@ -17,7 +19,7 @@ class DrawerMainFeaturesSection extends StatelessWidget {
     return DrawerItemGroup(
       children: [
         DrawerListTile(
-          title: 'Baby Tracking',
+          title: context.trContext(TK.drawerBabyTracking),
           leading: buildDrawerIcon(
             color: context.ext.colors.primaryDark,
             AppIcons.iconsBabyTracing,
@@ -29,7 +31,7 @@ class DrawerMainFeaturesSection extends StatelessWidget {
           },
         ),
         DrawerListTile(
-          title: 'Depression Test',
+          title: context.trContext(TK.drawerDepression),
           leading: buildDrawerIcon(
             color: context.ext.colors.primaryDark,
             AppIcons.iconsActiveProfile,
@@ -38,13 +40,13 @@ class DrawerMainFeaturesSection extends StatelessWidget {
           onTap: () {},
         ),
         DrawerListTile(
-          title: 'Baby Cry',
+          title: context.trContext(TK.drawerBabyCry),
           leading: buildDrawerIcon(color: context.ext.colors.primaryDark, AppIcons.iconsSound),
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
           onTap: () {},
         ),
         DrawerListTile(
-          title: 'Skin Diagnosis',
+          title: context.trContext(TK.drawerSkinDiagnosis),
           leading: buildDrawerIcon(color: context.ext.colors.primaryDark, AppIcons.iconsSkin),
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
           onTap: () {},

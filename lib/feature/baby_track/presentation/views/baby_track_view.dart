@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
@@ -24,7 +26,12 @@ class _BabyTrackViewState extends State<BabyTrackView>
     with SingleTickerProviderStateMixin {
   late final PageController _pageController;
 
-  static const _tabs = ['Feeding', 'Sleep', 'Vaccine'];
+  // Localized tabs will be calculated in build
+  static const _tabsKeys = [
+    TK.babyFeedingTitle,
+    TK.babySleepTitle,
+    TK.babyVaccineTitle
+  ];
 
   @override
   void initState() {
@@ -57,6 +64,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
           final currentTab = state is MainTabChanged
               ? state.tabIndex
               : cubit.mainTabIndex;
+          final tabs = _tabsKeys.map((key) => context.trContext(key)).toList();
 
           return Scaffold(
             backgroundColor: context.theme.scaffoldBackgroundColor,
@@ -64,7 +72,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
               scrolledUnderElevation: 0,
               backgroundColor: context.theme.appBarTheme.backgroundColor,
               title: Text(
-                'Baby Tracking',
+                context.trContext(TK.babyTracking),
                 style: context.text.headlineMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                   color: context.ext.colors.primaryDark,
@@ -110,7 +118,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
                     vertical: 12.h,
                   ),
                   child: BabyTrackTabBar(
-                    tabs: _tabs,
+                    tabs: tabs,
                     selectedIndex: currentTab,
                     onTabSelected: (i) => _onTabSelected(i, cubit),
                   ),

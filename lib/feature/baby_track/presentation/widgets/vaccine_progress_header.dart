@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 
 class VaccineProgressHeader extends StatelessWidget {
   final int completed;
@@ -31,19 +33,19 @@ class VaccineProgressHeader extends StatelessWidget {
         border: Border.all(color: context.ext.colors.primaryExtraLight),
       ),
       child: Row(
-        crossAxisAlignment: .center,
-        mainAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
 
         children: [
           // Completed stats
           Expanded(
             child: Column(
-              crossAxisAlignment: .start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Completed:', style: context.text.bodyMedium!),
+                Text(context.trContext(TK.babyVaccineCompletedLabel), style: context.text.bodyMedium!),
                 4.h.height,
                 Row(
-                  crossAxisAlignment: .baseline,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
                     Text(
@@ -101,10 +103,10 @@ class VaccineProgressHeader extends StatelessWidget {
           SizedBox(width: 20.w),
           // Next due
           Column(
-            crossAxisAlignment: .start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Next Due',
+                context.trContext(TK.babyVaccineNext),
                 style: context.text.bodyLarge!.copyWith(
                   color: context.colors.onSurfaceVariant,
                   fontWeight: FontWeight.w400,
@@ -120,7 +122,7 @@ class VaccineProgressHeader extends StatelessWidget {
               ),
               SizedBox(height: 2.h),
               Text(
-                'In $daysUntilDue days',
+                context.trContext(TK.babyVaccineInDays, namedArgs: {'days': daysUntilDue.toString()}),
                 style: context.text.bodyLarge!.copyWith(
                   color: context.colors.onSurfaceVariant,
                   fontWeight: FontWeight.w400,

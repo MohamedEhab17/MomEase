@@ -20,12 +20,20 @@ class DrawerAnimatedItem extends StatelessWidget {
       parent: animation,
       curve: Interval(start, end, curve: Curves.easeOutBack),
     );
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+
     return AnimatedBuilder(
       animation: curved,
-      builder: (ctx, snapshot) => Transform.translate(
-        offset: Offset(-40 * (1 - curved.value), 0),
-        child: Opacity(opacity: curved.value.clamp(0.0, 1.0), child: child),
-      ),
+      builder: (ctx, snapshot) {
+        final offsetX = isRTL
+            ? 40 * (1 - curved.value)
+            : -40 * (1 - curved.value);
+
+        return Transform.translate(
+          offset: Offset(offsetX, 0),
+          child: Opacity(opacity: curved.value.clamp(0.0, 1.0), child: child),
+        );
+      },
     );
   }
 }

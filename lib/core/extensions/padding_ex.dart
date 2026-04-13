@@ -10,13 +10,13 @@
 import 'package:flutter/material.dart';
 
 extension PaddingExtensions on num {
-  EdgeInsets get hPadding => EdgeInsets.symmetric(horizontal: toDouble());
-  EdgeInsets get vPadding => EdgeInsets.symmetric(vertical: toDouble());
-  EdgeInsets get vhPadding =>
-      EdgeInsets.symmetric(vertical: toDouble(), horizontal: toDouble());
-  EdgeInsets get allPadding => EdgeInsets.all(toDouble());
-  EdgeInsets get topPadding => EdgeInsets.only(top: toDouble());
-  EdgeInsets get bottomPadding => EdgeInsets.only(bottom: toDouble());
-  EdgeInsets get leftPadding => EdgeInsets.only(left: toDouble());
-  EdgeInsets get rightPadding => EdgeInsets.only(right: toDouble());
+  EdgeInsetsDirectional get hPadding => EdgeInsetsDirectional.symmetric(horizontal: toDouble());
+  EdgeInsetsDirectional get vPadding => EdgeInsetsDirectional.symmetric(vertical: toDouble());
+  EdgeInsetsDirectional get vhPadding =>
+      EdgeInsetsDirectional.symmetric(vertical: toDouble(), horizontal: toDouble());
+  EdgeInsetsDirectional get allPadding => EdgeInsetsDirectional.all(toDouble());
+  EdgeInsetsDirectional get topPadding => EdgeInsetsDirectional.only(top: toDouble());
+  EdgeInsetsDirectional get bottomPadding => EdgeInsetsDirectional.only(bottom: toDouble());
+  EdgeInsetsDirectional get leftPadding => EdgeInsetsDirectional.only(start: toDouble());
+  EdgeInsetsDirectional get rightPadding => EdgeInsetsDirectional.only(end: toDouble());
 }

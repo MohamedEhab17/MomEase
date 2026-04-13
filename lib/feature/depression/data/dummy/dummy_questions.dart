@@ -1,79 +1,77 @@
+import 'package:new_mama/core/localization/translation_keys.dart';
 import '../models/depression_question.dart';
 
 final List<DepressionQuestion> dummyDepressionQuestions = [
   DepressionQuestion(
-    query: 'Little interest or pleasure in doing things?',
+    query: TK.depressionQ1Query,
     answers: [
-      'Not at all',
-      'Several days',
-      'More than half the days',
-      'Nearly everyday',
+      TK.depressionAnsNotAtAll,
+      TK.depressionAnsSeveralDays,
+      TK.depressionAnsHalfDays,
+      TK.depressionAnsEveryday,
     ],
   ),
   DepressionQuestion(
-    query: 'Feeling down, depressed, or hopeless?',
+    query: TK.depressionQ2Query,
     answers: [
-      'Not at all',
-      'Several days',
-      'More than half the days',
-      'Nearly everyday',
+      TK.depressionAnsNotAtAll,
+      TK.depressionAnsSeveralDays,
+      TK.depressionAnsHalfDays,
+      TK.depressionAnsEveryday,
     ],
   ),
   DepressionQuestion(
-    query: 'Trouble falling or staying asleep, or sleeping too much?',
+    query: TK.depressionQ3Query,
     answers: [
-      'Not at all',
-      'Several days',
-      'More than half the days',
-      'Nearly everyday',
+      TK.depressionAnsNotAtAll,
+      TK.depressionAnsSeveralDays,
+      TK.depressionAnsHalfDays,
+      TK.depressionAnsEveryday,
     ],
   ),
   DepressionQuestion(
-    query: 'Feeling tired or having little energy?',
+    query: TK.depressionQ4Query,
     answers: [
-      'Not at all',
-      'Several days',
-      'More than half the days',
-      'Nearly everyday',
+      TK.depressionAnsNotAtAll,
+      TK.depressionAnsSeveralDays,
+      TK.depressionAnsHalfDays,
+      TK.depressionAnsEveryday,
     ],
   ),
   DepressionQuestion(
-    query: 'Poor appetite or overeating?',
+    query: TK.depressionQ5Query,
     answers: [
-      'Not at all',
-      'Several days',
-      'More than half the days',
-      'Nearly everyday',
+      TK.depressionAnsNotAtAll,
+      TK.depressionAnsSeveralDays,
+      TK.depressionAnsHalfDays,
+      TK.depressionAnsEveryday,
     ],
   ),
   DepressionQuestion(
-    query:
-        'Feeling bad about yourself — or that you are a failure or have let yourself or your family down?',
+    query: TK.depressionQ6Query,
     answers: [
-      'Not at all',
-      'Several days',
-      'More than half the days',
-      'Nearly everyday',
+      TK.depressionAnsNotAtAll,
+      TK.depressionAnsSeveralDays,
+      TK.depressionAnsHalfDays,
+      TK.depressionAnsEveryday,
     ],
   ),
   DepressionQuestion(
-    query:
-        'Trouble concentrating on things, such as reading the newspaper or watching television?',
+    query: TK.depressionQ7Query,
     answers: [
-      'Not at all',
-      'Several days',
-      'More than half the days',
-      'Nearly everyday',
+      TK.depressionAnsNotAtAll,
+      TK.depressionAnsSeveralDays,
+      TK.depressionAnsHalfDays,
+      TK.depressionAnsEveryday,
     ],
   ),
   DepressionQuestion(
-    query:
-        'Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual?',
+    query: TK.depressionQ8Query,
     answers: [
-      'Not at all',
-      'Several days',
-      'More than half the days',
-      'Nearly everyday',
+      TK.depressionAnsNotAtAll,
+      TK.depressionAnsSeveralDays,
+      TK.depressionAnsHalfDays,
+      TK.depressionAnsEveryday,
     ],
   ),
 ];

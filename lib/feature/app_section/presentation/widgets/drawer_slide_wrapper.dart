@@ -14,11 +14,17 @@ class DrawerSlideWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width * 0.82;
 
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+
     return AnimatedBuilder(
       animation: animation,
       builder: (context, _) {
+        final offsetX = isRTL
+            ? width - (width * animation.value)
+            : -width + (width * animation.value);
+
         return Transform.translate(
-          offset: Offset(-width + (width * animation.value), 0),
+          offset: Offset(offsetX, 0),
           child: Container(
             width: width,
             decoration: BoxDecoration(
@@ -29,7 +35,7 @@ class DrawerSlideWrapper extends StatelessWidget {
                     color: Colors.black.withAlpha(38),
                     blurRadius: 20,
                     spreadRadius: 5,
-                    offset: const Offset(5, 0),
+                    offset: Offset(isRTL ? -5 : 5, 0),
                   ),
               ],
             ),

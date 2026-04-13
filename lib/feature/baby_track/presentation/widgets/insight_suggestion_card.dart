@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 
 class InsightSuggestionCard extends StatelessWidget {
   final IconData icon;
@@ -64,7 +66,7 @@ class InsightSuggestionCard extends StatelessWidget {
                 SizedBox(height: 8.h),
                 GestureDetector(
                   child: Text(
-                    'Read more ›',
+                    context.trContext(TK.commonReadMore),
                     style: context.text.bodyLarge!.copyWith(
                       color: context.ext.colors.primaryDark,
                       fontWeight: FontWeight.w600,

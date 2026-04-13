@@ -47,14 +47,14 @@ class ArticleCategoryCard extends StatelessWidget {
 
             Expanded(
               child: Column(
-                mainAxisAlignment: .center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 6.h,
-                crossAxisAlignment: .start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     article.title,
                     style: context.text.bodyMedium!,
-                    overflow: .ellipsis,
+                    overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                   Text(
@@ -62,7 +62,7 @@ class ArticleCategoryCard extends StatelessWidget {
                     style: context.text.bodySmall!.copyWith(
                       color: context.colors.onSurface.withAlpha(179),
                     ),
-                    overflow: .ellipsis,
+                    overflow: TextOverflow.ellipsis,
                     maxLines: 4,
                   ),
                 ],

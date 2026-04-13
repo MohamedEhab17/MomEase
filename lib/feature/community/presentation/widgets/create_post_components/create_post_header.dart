@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 
 class CreatePostHeader extends StatelessWidget {
   const CreatePostHeader({super.key});
@@ -20,7 +22,7 @@ class CreatePostHeader extends StatelessWidget {
             size: 24.sp,
           ),
         ),
-        Text('Create Post', style: context.text.displaySmall!),
+        Text(context.trContext(TK.communityCreatePost), style: context.text.displaySmall!),
       ],
     );
   }

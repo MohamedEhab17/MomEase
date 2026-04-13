@@ -20,16 +20,16 @@ class FloatingNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavCubit, BottomNavState>(
       builder: (context, state) {
-        return AnimatedPositioned(
+        return AnimatedPositionedDirectional(
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeOut,
-          left: 0,
-          right: 0,
+          start: 0,
+          end: 0,
           bottom: state.visible ? 0 : -MediaQuery.sizeOf(context).height * 0.2,
           child: SafeArea(
             bottom: false,
             child: Container(
-              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              margin: const EdgeInsetsDirectional.only(start: 20, end: 20, bottom: 20),
               padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
               decoration: BoxDecoration(
                 color: context.ext.colors.primaryBackground,

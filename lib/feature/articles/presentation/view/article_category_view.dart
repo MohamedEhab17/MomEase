@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_state.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,7 +30,7 @@ class ArticleCategoryView extends StatelessWidget {
               fillColor: context.theme.cardColor,
               borderColor: context.theme.buttonTheme.colorScheme!.primary,
               borderRadius: BorderRadius.circular(64.r),
-              hint: 'Search articles...',
+              hint: context.trContext(TK.articlesSearchHint),
               hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: context.ext.colors.lightTextDisabled,
               ),
@@ -57,7 +59,7 @@ class ArticleCategoryView extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (state.articles.isEmpty) {
-                  return const Center(child: Text('No articles found.'));
+                  return Center(child: Text(context.trContext(TK.articlesEmpty)));
                 }
                 return ListView.separated(
                   clipBehavior: Clip.hardEdge,

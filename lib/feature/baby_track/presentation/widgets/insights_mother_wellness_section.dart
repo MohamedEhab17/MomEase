@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_track/data/dummy/baby_track_dummy_data.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_section_card.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/mood_trend_chart.dart';
@@ -18,7 +20,7 @@ class InsightsMotherWellnessSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Mother Wellness',
+          context.trContext(TK.babyMotherWellness),
           style: context.text.titleLarge!.copyWith(
             fontWeight: FontWeight.w700,
             color: context.colors.onSurface,
@@ -34,21 +36,21 @@ class InsightsMotherWellnessSection extends StatelessWidget {
               _WellnessRow(
                 icon: Icons.emoji_emotions_rounded,
                 iconColor: Colors.amber,
-                label: 'Current Mood',
+                label: context.trContext(TK.babyCurrentMood),
                 trailing: Text(
-                  'Calm',
+                  context.trContext(TK.babyCalm),
                   style: context.text.titleSmall!.copyWith(
                     color: context.ext.colors.primaryDark,
-                    fontWeight: .w600,
+                    fontWeight: FontWeight.w600,
                   ),
-                  textAlign: .center,
+                  textAlign: TextAlign.center,
                 ),
               ),
               12.h.height,
               _WellnessRow(
                 icon: Icons.assignment_rounded,
                 iconColor: context.ext.colors.greenText,
-                label: 'Depression Test',
+                label: context.trContext(TK.babyDepressionTest),
                 trailing: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 10.w,
@@ -59,7 +61,7 @@ class InsightsMotherWellnessSection extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(
-                    'COMPLETED',
+                    context.trContext(TK.babyCompletedStatus),
                     style: context.text.bodySmall!.copyWith(
                       color: context.ext.colors.greenText,
                       fontWeight: FontWeight.w700,

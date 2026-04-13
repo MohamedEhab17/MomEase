@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class AnswersOptions extends StatelessWidget {
@@ -41,7 +42,7 @@ class AnswersOptions extends StatelessWidget {
           child: IntrinsicHeight(
             child: Row(
               spacing: 12.w,
-              crossAxisAlignment: .stretch,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
                   width: 4.w,
@@ -55,7 +56,7 @@ class AnswersOptions extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    answer,
+                    context.trContext(answer),
                     style: context.text.titleLarge!.copyWith(
                       color: context.theme.buttonTheme.colorScheme!.onSecondary,
                     ),

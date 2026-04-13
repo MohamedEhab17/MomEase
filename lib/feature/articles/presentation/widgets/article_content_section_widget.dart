@@ -13,14 +13,14 @@ class ArticleContentSectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 24.h),
+      padding: EdgeInsetsDirectional.only(bottom: 24.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (section.heading != null) ...[
             Text(
               section.heading!,
-              style: context.text.titleMedium!.copyWith(fontWeight: .w600),
+              style: context.text.titleMedium!.copyWith(fontWeight: FontWeight.w600),
             ),
             12.height,
           ],
@@ -45,14 +45,14 @@ class ArticleContentSectionWidget extends StatelessWidget {
           if (section.bulletPoints != null) ...[
             ...section.bulletPoints!.map(
               (point) => Padding(
-                padding: EdgeInsets.only(bottom: 8.h),
+                padding: EdgeInsetsDirectional.only(bottom: 8.h),
                 child: Row(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '• ',
                       style: context.text.titleSmall!.copyWith(
-                        fontWeight: .bold,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Expanded(

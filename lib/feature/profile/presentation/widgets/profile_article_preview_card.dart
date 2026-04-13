@@ -49,7 +49,7 @@ class ProfileArticlePreviewCard extends StatelessWidget {
             Padding(
               padding: 12.w.allPadding,
               child: Column(
-                crossAxisAlignment: .start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     article.title,

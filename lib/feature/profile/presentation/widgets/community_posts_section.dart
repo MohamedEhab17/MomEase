@@ -1,5 +1,7 @@
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
@@ -41,7 +43,7 @@ class _CommunityPostsSectionState extends State<CommunityPostsSection> {
               fontWeight: FontWeight.w600,
             ),
             minimumSize: Size(double.infinity, 52.h),
-            text: "View All My Posts",
+            text: context.trContext(TK.communityViewAllPosts),
             onPressed: () {
               // show all posts in a new screen
             },

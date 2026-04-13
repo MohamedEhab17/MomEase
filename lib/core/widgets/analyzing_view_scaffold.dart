@@ -6,7 +6,7 @@ import 'package:new_mama/core/widgets/custom_circle_avatar_with_icon.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
 
 class AnalyzingViewScaffold extends StatelessWidget {
-  final String appBarTitle;
+  final String ? appBarTitle;
   final String icon;
   final String headline;
   final String subtitle;
@@ -15,10 +15,10 @@ class AnalyzingViewScaffold extends StatelessWidget {
 
   const AnalyzingViewScaffold({
     super.key,
-    required this.appBarTitle,
     required this.icon,
     required this.headline,
     required this.subtitle,
+    this.appBarTitle,
     this.indicator,
     this.onBackPressed,
   });
@@ -27,8 +27,8 @@ class AnalyzingViewScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.theme.scaffoldBackgroundColor,
-      appBar: FeaturesHeader(
-        title: appBarTitle,
+      appBar:appBarTitle == null ? null : FeaturesHeader(
+        title: appBarTitle!,
         onPressed: onBackPressed,
       ),
       body: Center(

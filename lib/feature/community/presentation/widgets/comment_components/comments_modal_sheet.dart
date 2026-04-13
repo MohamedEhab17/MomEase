@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/community/data/models/comment_model.dart';
 import 'package:new_mama/feature/community/dummy/dummy_comment.dart';
 import 'package:new_mama/feature/community/presentation/widgets/comment_components/chat_input_bar.dart';
@@ -194,7 +196,7 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
       padding: 20.hPadding,
       child: Row(
         children: [
-          Text('Comments', style: context.text.displaySmall!),
+          Text(context.trContext(TK.communityComments), style: context.text.displaySmall!),
           const Spacer(),
           Text(
             '${_comments.length}',
@@ -291,7 +293,7 @@ class _CommentsModalSheetState extends State<CommentsModalSheet> {
 
   Widget _buildCommentInput() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      padding: const EdgeInsetsDirectional.only(start: 20, end: 20, bottom: 20),
       child: ChatInputBar(
         isProcessing: false,
         controller: _commentController,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_circle_avatar_with_icon.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/custom_instructions_recommendations.dart';
@@ -17,7 +19,6 @@ class InsightViewScaffold extends StatelessWidget {
   final String instructionsTitle;
   final String ctaText;
   final VoidCallback onCtaPressed;
-  final String disclaimerText;
 
   const InsightViewScaffold({
     super.key,
@@ -29,8 +30,6 @@ class InsightViewScaffold extends StatelessWidget {
     required this.instructionsTitle,
     required this.ctaText,
     required this.onCtaPressed,
-    this.disclaimerText =
-        'This is guidance, not medical advice. Trust your instincts – you know your baby best',
   });
 
   @override
@@ -73,7 +72,7 @@ class InsightViewScaffold extends StatelessWidget {
             Padding(
               padding: 12.w.hPadding,
               child: Text(
-                disclaimerText,
+                context.trContext(TK.commonGuidance),
                 style: context.text.bodyMedium!.copyWith(
                   color: context.ext.colors.lightTextPrimary.withAlpha(128),
                 ),

@@ -21,7 +21,7 @@ class HealthInsightItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsetsDirectional.only(bottom: 12.h),
       child: Row(
         children: [
           Container(

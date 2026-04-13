@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 
 class EmptyNotifications extends StatelessWidget {
@@ -14,7 +16,7 @@ class EmptyNotifications extends StatelessWidget {
       child: Padding(
         padding: 16.hPadding,
         child: Column(
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
               AppIcons.iconsInActiveNotification,
@@ -27,20 +29,20 @@ class EmptyNotifications extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             Text(
-              'You Don’t have notifications',
+              context.trContext(TK.notificationsEmptyTitle),
               style: context.text.titleMedium!.copyWith(
                 fontWeight: FontWeight.w500,
                 color: context.colors.onSurface,
               ),
-               textAlign: .center,
+               textAlign: TextAlign.center,
             ),
             SizedBox(height: 8.h),
             Text(
-              'When you get notifications, they\'ll show up here' * 2,
+              context.trContext(TK.notificationsEmptySubtitle),
               style: context.text.titleSmall!.copyWith(
                 color: context.colors.onSurfaceVariant,
               ),
-              textAlign: .center,
+              textAlign: TextAlign.center,
             ),
           ],
         ),

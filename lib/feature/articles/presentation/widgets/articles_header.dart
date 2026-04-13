@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
@@ -19,7 +21,7 @@ class ArticlesHeader extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       scrolledUnderElevation: 0,
-      actionsPadding: EdgeInsets.only(right: 15.w),
+      actionsPadding: EdgeInsetsDirectional.only(end: 15.w),
       actions: [
         if (showSaveIcon)
           GestureDetector(
@@ -63,7 +65,7 @@ class ArticlesHeader extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       title: Text(
-        'Articles',
+        context.trContext(TK.articlesTitle),
         style: context.text.headlineMedium!.copyWith(
           color: context.ext.colors.primaryDark,
           fontWeight: FontWeight.w600,

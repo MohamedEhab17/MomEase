@@ -16,7 +16,7 @@ class ArticlesSliverHeader extends StatelessWidget {
 
       backgroundColor: Colors.transparent,
       leading: Padding(
-        padding: const EdgeInsets.only(left: 20, top: 24),
+        padding: const EdgeInsetsDirectional.only(start: 20, top: 24),
         child: CircleAvatar(
           backgroundColor: context.colors.onSurface,
           child: Transform.translate(
@@ -46,10 +46,10 @@ class ArticlesSliverHeader extends StatelessWidget {
             height: 250.h,
             fit: BoxFit.cover,
           ),
-          Positioned(
+          PositionedDirectional(
             bottom: 16,
-            left: 30,
-            right: 28,
+            start: 30,
+            end: 28,
             child: Text(
               article.title,
               style: context.text.headlineMedium!.copyWith(

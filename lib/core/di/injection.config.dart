@@ -52,6 +52,7 @@ import '../../feature/notifications/presentation/view_model/notification_cubit.d
     as _i473;
 import '../../feature/profile/presentation/view_model/profile_cubit.dart'
     as _i386;
+import '../localization/cubit/language_cubit.dart' as _i866;
 import 'app_module.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -64,6 +65,7 @@ extension GetItInjectableX on _i174.GetIt {
     final appModule = _$AppModule();
     gh.factory<_i386.ProfileCubit>(() => _i386.ProfileCubit());
     gh.lazySingleton<_i1039.AudioRecorder>(() => appModule.audioRecorder);
+    gh.lazySingleton<_i866.LanguageCubit>(() => _i866.LanguageCubit());
     gh.lazySingleton<_i921.ArticleLocalDataSource>(
       () => _i921.ArticleLocalDataSourceImpl(),
     );

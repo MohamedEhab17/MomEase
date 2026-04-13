@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
@@ -33,7 +35,7 @@ class _SleepTabViewState extends State<SleepTabView> {
     if (_selectedDate == null || _startTime == null || _endTime == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please fill all required fields'),
+          content: Text(context.trContext(TK.babySleepRequired)),
           backgroundColor: context.ext.colors.primaryDark,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -60,7 +62,7 @@ class _SleepTabViewState extends State<SleepTabView> {
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Sleep record saved! 😴'),
+        content: Text(context.trContext(TK.babySleepSaved)),
         backgroundColor: context.ext.colors.greenText,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -74,11 +76,11 @@ class _SleepTabViewState extends State<SleepTabView> {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
       child: Column(
-        crossAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Sleeping Date
           Text(
-            'Sleeping Date',
+            context.trContext(TK.babySleepDate),
             style: context.text.titleMedium!.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -96,10 +98,10 @@ class _SleepTabViewState extends State<SleepTabView> {
             children: [
               Expanded(
                 child: Column(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Start Time',
+                      context.trContext(TK.babySleepStart),
                       style: context.text.titleMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -117,10 +119,10 @@ class _SleepTabViewState extends State<SleepTabView> {
               16.w.width,
               Expanded(
                 child: Column(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'End Time',
+                      context.trContext(TK.babySleepEnd),
                       style: context.text.titleMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -141,7 +143,7 @@ class _SleepTabViewState extends State<SleepTabView> {
 
           // Notes
           Text(
-            'Notes',
+            context.trContext(TK.commonNotes),
             style: context.text.titleMedium!.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -149,7 +151,7 @@ class _SleepTabViewState extends State<SleepTabView> {
           8.h.height,
           TextFormFieldHelper(
             controller: _notesController,
-            hint: 'How was your baby\'s sleep?',
+            hint: context.trContext(TK.babySleepNotes),
             maxLines: 10,
             minLines: 3,
             enableShadow: false,
@@ -161,7 +163,7 @@ class _SleepTabViewState extends State<SleepTabView> {
 
           // Save button
           CustomElevatedButton(
-            text: 'Save Sleeping record',
+            text: context.trContext(TK.babySleepSaveRecord),
             onPressed: () => _save(cubit),
             backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
 

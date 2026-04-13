@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
@@ -37,7 +39,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
     if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please select a feeding date'),
+          content: Text(context.trContext(TK.babyFeedingSelectDate)),
           backgroundColor: context.ext.colors.primaryDark,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -60,7 +62,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
     setState(() => _selectedDate = null);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Feeding session saved! 🍼'),
+        content: Text(context.trContext(TK.babyFeedingSaved)),
         backgroundColor: context.ext.colors.greenText,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -102,14 +104,14 @@ class _FeedingTabViewState extends State<FeedingTabView> {
                     // Start/Stop button with spinner
                     Center(
                       child: Row(
-                        mainAxisAlignment: .spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         spacing: 12.w,
                         children: [
                           Expanded(
                             child: CustomElevatedButton(
                               text: isRunning
-                                  ? 'Stop Session'
-                                  : 'Start new Session',
+                                  ? context.trContext(TK.babyFeedingStopSession)
+                                  : context.trContext(TK.babyFeedingStartSession),
                               onPressed: () {
                                 if (isRunning) {
                                   cubit.stopFeedingTimer();
@@ -193,7 +195,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
 
               // Feeding Type
               Text(
-                'Feeding Type',
+                context.trContext(TK.babyFeedingType),
                 style: context.text.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -207,7 +209,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
 
               // Feeding Date
               Text(
-                'Feeding Date',
+                context.trContext(TK.babyFeedingDate),
                 style: context.text.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -222,7 +224,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
 
               // Notes
               Text(
-                'Notes',
+                context.trContext(TK.commonNotes),
                 style: context.text.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -230,7 +232,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
               8.h.height,
               TextFormFieldHelper(
                 controller: _notesController,
-                hint: 'How was the baby\'s feeding?',
+                hint: context.trContext(TK.babyFeedingNotesHint),
                 maxLines: 10,
                 minLines: 3,
                 enableShadow: false,
@@ -242,7 +244,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
 
               // Save button
               CustomElevatedButton(
-                text: 'Save Feeding Session',
+                text: context.trContext(TK.babyFeedingSaveSession),
                 onPressed: () => _save(cubit),
                 backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
                 // context.ext.colors.primaryDark,

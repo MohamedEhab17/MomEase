@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
@@ -7,6 +8,7 @@ import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:flutter/material.dart';
+import "package:new_mama/core/localization/translation_keys.dart";
 
 class ArticlesCard extends StatelessWidget {
   const ArticlesCard({super.key, required this.article});
@@ -50,7 +52,7 @@ class ArticlesCard extends StatelessWidget {
               child: Padding(
                 padding: 8.allPadding,
                 child: Column(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 4.h,
                   children: [
                     const Spacer(),
@@ -64,7 +66,7 @@ class ArticlesCard extends StatelessWidget {
                       ),
                     ),
                     CustomElevatedButton(
-                      text: 'View full article',
+                      text: context.trContext(TK.homeViewAllArticle),
                       textStyle: context.text.labelSmall!.copyWith(
                         color:
                             context.theme.buttonTheme.colorScheme!.onSecondary,

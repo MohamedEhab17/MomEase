@@ -1,7 +1,9 @@
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_state.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +43,7 @@ class _ArticlesViewState extends State<ArticlesView> {
               fillColor: context.theme.cardColor,
               borderColor: context.ext.colors.primaryLighter,
               borderRadius: BorderRadius.circular(64.r),
-              hint: 'Search articles...',
+              hint: context.trContext(TK.articlesSearchHint),
               hintStyle:context.text.bodyLarge!.copyWith(
                 color: context.ext.colors.lightTextDisabled,
               ),
@@ -70,7 +72,7 @@ class _ArticlesViewState extends State<ArticlesView> {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (state.articles.isEmpty) {
-                  return const Center(child: Text('No articles found.'));
+                  return Center(child: Text(context.trContext(TK.articlesEmpty)));
                 }
                 return ListView.separated(
                   itemCount: state.articles.length,

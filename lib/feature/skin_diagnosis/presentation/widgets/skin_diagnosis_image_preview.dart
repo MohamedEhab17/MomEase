@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/animated_dotted_container.dart';
 import 'package:new_mama/core/widgets/full_screen_local_gallery.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
@@ -52,9 +54,9 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
+                  PositionedDirectional(
                     top: 12.h,
-                    right: 12.w,
+                    end: 12.w,
                     child: InkWell(
                       onTap: () {
                         context.read<SkinDiagnosisCubit>().cropImage(
@@ -95,7 +97,7 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
                   ),
                   24.height,
                   Text(
-                    'No Photo Selected',
+                    context.trContext(TK.skinNoPhotoTitle),
                     style: context.text.headlineMedium!.copyWith(
                       color: context.ext.colors.primaryDark,
                       fontWeight: FontWeight.w600,
@@ -103,7 +105,7 @@ class SkinDiagnosisImagePreview extends StatelessWidget {
                   ),
                   8.height,
                   Text(
-                    'Please take a clear photo or upload\none from your gallery.',
+                    context.trContext(TK.skinNoPhotoSubtitle),
                     textAlign: TextAlign.center,
                     style: context.text.titleLarge!.copyWith(
                       color: context.ext.colors.primaryDark.withAlpha(128),

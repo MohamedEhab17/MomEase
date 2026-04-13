@@ -1,6 +1,8 @@
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/widgets/love_action_button.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
@@ -36,13 +38,13 @@ class PostActions extends StatelessWidget {
           icon: post.isLiked
               ? AppIcons.iconsFilledLike
               : AppIcons.iconsUnfilledLike,
-          label: post.likes == 0 ? "Liked" : "${post.likes}",
+          label: post.likes == 0 ? context.trContext(TK.communityLiked) : "${post.likes}",
           isLiked: post.isLiked,
           onTap: () => cubit.toggleLike(post.id),
         ),
         ActionButton(
           icon: AppIcons.iconsComment,
-          label: post.comments == 0 ? "Comment" : "${post.comments}",
+          label: post.comments == 0 ? context.trContext(TK.communityComment) : "${post.comments}",
           onTap: () => _showCommentsModal(context),
         ),
         ActionButton(
@@ -50,7 +52,7 @@ class PostActions extends StatelessWidget {
           icon: post.isSaved
               ? AppIcons.iconsFilledSave
               : AppIcons.iconsUnfilledSave,
-          label: post.saves == 0 ? "Saved" : "${post.saves}",
+          label: post.saves == 0 ? context.trContext(TK.communitySaved) : "${post.saves}",
           onTap: () {
             cubit.toggleSave(post.id);
             if (!post.isSaved) {

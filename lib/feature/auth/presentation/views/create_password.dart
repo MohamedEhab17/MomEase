@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
@@ -63,7 +65,7 @@ class _CreatePasswordState extends State<CreatePassword> {
         centerTitle: true,
         backgroundColor: context.theme.appBarTheme.backgroundColor,
         scrolledUnderElevation: 0,
-        title: Text('Create New Password', style: context.text.displaySmall!),
+        title: Text(context.trContext(TK.authCreatePassword), style: context.text.displaySmall!),
         leading: Icon(
           Icons.arrow_back_ios_new_rounded,
           size: 24.sp,
@@ -79,7 +81,7 @@ class _CreatePasswordState extends State<CreatePassword> {
             40.h.height,
 
             Text(
-              'Your new password must be different from previously used password',
+              context.trContext(TK.authCreatePwdInstructions),
               style: context.text.titleLarge!,
               maxLines: 2,
               textAlign: TextAlign.center,
@@ -91,7 +93,7 @@ class _CreatePasswordState extends State<CreatePassword> {
             TextFormFieldHelper(
               controller: _passwordController,
               isPassword: true,
-              hint: 'New Password',
+              hint: context.trContext(TK.authCreatePwdNewHint),
               hintStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: context.ext.colors.lightTextDisabled,
               ),
@@ -111,7 +113,7 @@ class _CreatePasswordState extends State<CreatePassword> {
             TextFormFieldHelper(
               controller: _confirmPasswordController,
               isPassword: true,
-              hint: 'Confirm New Password',
+              hint: context.trContext(TK.authCreatePwdConfirmHint),
               fillColor: context.theme.cardColor,
               hintStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: context.ext.colors.lightTextDisabled,
@@ -132,14 +134,14 @@ class _CreatePasswordState extends State<CreatePassword> {
             Opacity(
               opacity: isValid ? 1 : 0.5,
               child: CustomElevatedButton(
-                text: 'Save',
+                text: context.trContext(TK.authCreatePwdSaveButton),
                 minimumSize: Size(double.infinity, 52.h),
                 onPressed: isValid
                     ? () {
                         FocusScope.of(context).unfocus();
                         context.go(AppRoutesPaths.login);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Password Updated')),
+                          SnackBar(content: Text(context.trContext(TK.authPasswordUpdated))),
                         );
 
                         /// هنا API أو navigation

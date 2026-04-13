@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
 import 'package:new_mama/feature/community/data/models/comment_model.dart';
@@ -56,7 +58,7 @@ class _CommentItemState extends State<CommentItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16, left: widget.isReply ? 40 : 0),
+      padding: EdgeInsetsDirectional.only(bottom: 16, start: widget.isReply ? 40 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -156,7 +158,7 @@ class _CommentItemState extends State<CommentItem> {
           ),
           const SizedBox(width: 4),
           Text(
-            '$_likeCount Likes ',
+            context.trContext(TK.communityLikesCount, namedArgs: {'count': '$_likeCount'}),
             style: context.text.labelLarge!.copyWith(
               color: context.colors.onSurface.withAlpha(179),
             ),
@@ -170,7 +172,7 @@ class _CommentItemState extends State<CommentItem> {
     return GestureDetector(
       onTap: _handleReply,
       child: Text(
-        'Reply',
+        context.trContext(TK.communityReply),
         style: context.text.labelLarge!.copyWith(
           color: context.ext.colors.primaryDark,
           fontWeight: FontWeight.bold,
@@ -197,8 +199,8 @@ class _CommentItemState extends State<CommentItem> {
           const SizedBox(width: 6),
           Text(
             isHiding
-                ? 'Hide Replies (${widget.comment.replies})'
-                : 'View Replies (${widget.comment.replies})',
+                ? context.trContext(TK.communityHideReplies, namedArgs: {'count': widget.comment.replies.toString()})
+                : context.trContext(TK.communityViewReplies, namedArgs: {'count': widget.comment.replies.toString()}),
             style: context.text.labelLarge!.copyWith(
               fontWeight: FontWeight.w700,
               color: context.colors.onSurface.withAlpha(179),

@@ -16,7 +16,7 @@ class NotificationView extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<NotificationCubit>()..loadNotifications(),
       child: Column(
-        crossAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const NotificationHeader(),
           8.h.height,

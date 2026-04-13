@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 
@@ -13,14 +15,14 @@ class LogoutButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
       child: Column(
-        mainAxisAlignment: .center,
-        crossAxisAlignment: .center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         spacing: 24,
         children: [
           CustomElevatedButton(
             backgroundColor: context.theme.buttonTheme.colorScheme!.secondary,
             borderColor: context.ext.colors.primaryDark,
-            text: "Logout Account",
+            text: context.trContext(TK.profileLogoutAccount),
             textStyle: context.text.titleLarge!.copyWith(
               color: context.colors.primary,
               fontWeight: FontWeight.w600,
@@ -31,7 +33,7 @@ class LogoutButton extends StatelessWidget {
             },
           ),
           Text(
-            "MomEase V1.0.0",
+            context.trContext(TK.profileVersion),
             style: context.text.bodyLarge!.copyWith(
               color: context.colors.onSurfaceVariant,
             ),

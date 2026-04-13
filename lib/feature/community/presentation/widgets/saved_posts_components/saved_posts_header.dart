@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 
 class SavedPostsHeader extends StatelessWidget {
   final int postsCount;
@@ -17,7 +19,7 @@ class SavedPostsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: .start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         IconButton(
           onPressed: () => context.pop(),
@@ -28,10 +30,23 @@ class SavedPostsHeader extends StatelessWidget {
           ),
           padding: EdgeInsets.zero,
         ),
-        Text('Saved Posts', style: context.text.displaySmall!),
-        const Spacer(),
+        Expanded(
+          child: Text(
+            context.trContext(TK.communitySavedPosts),
+            style: context.text.displaySmall!,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
         showTrailing
-            ? Text("$postsCount ${postsCount == 1 ? "post" : "posts"}")
+            ? Text(
+                postsCount == 1
+                    ? context.trContext(TK.communitySavedPostsOnePost)
+                    : context.trContext(
+                        TK.communitySavedPostsNPosts,
+                        namedArgs: {'count': '$postsCount'},
+                      ),
+              )
             : const SizedBox.shrink(),
         20.width,
       ],

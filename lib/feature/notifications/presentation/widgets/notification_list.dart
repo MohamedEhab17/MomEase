@@ -65,7 +65,7 @@ class _NotificationListState extends State<NotificationList> {
           color: context.ext.colors.primaryDark,
           child: ListView.separated(
             controller: _scrollController,
-            padding: EdgeInsets.only(bottom: 20.h, top: 4.h),
+            padding: EdgeInsetsDirectional.only(bottom: 20.h, top: 4.h),
             itemCount:
                 state.notifications.length + (state.hasReachedMax ? 0 : 1),
             separatorBuilder: (context, index) => 16.h.height,

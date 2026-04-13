@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/enums/verification_type.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_images.dart';
@@ -50,7 +52,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         centerTitle: true,
         backgroundColor: context.theme.appBarTheme.backgroundColor,
         scrolledUnderElevation: 0,
-        title: Text('Forget Password', style: context.text.displaySmall!),
+        title: Text(context.trContext(TK.authForgetAppBarTitle), style: context.text.displaySmall!),
         leading: IconButton(
           onPressed: () => context.pop(),
           icon: Icon(
@@ -69,7 +71,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             CustomCircleAvatar(imagePath: AppImages.imagesForgetPassword),
 
             Text(
-              'Please enter your Email address to receive a verification code',
+              context.trContext(TK.authForgetInstructions),
               maxLines: 2,
               textAlign: TextAlign.center,
               style: context.text.titleMedium!.copyWith(
@@ -78,7 +80,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             ),
 
             TextFormFieldHelper(
-              hint: 'Email Address',
+              hint: context.trContext(TK.authForgetEmailHint),
               controller: _emailController,
               fillColor: context.theme.cardColor,
               hintStyle: context.text.titleMedium!.copyWith(
@@ -95,7 +97,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             Opacity(
               opacity: isValid ? 1.0 : 0.5,
               child: CustomElevatedButton(
-                text: 'Send Code',
+                text: context.trContext(TK.authForgetSendCode),
                 minimumSize: Size(double.infinity, 52.h),
                 onPressed: isValid
                     ? () {
@@ -110,7 +112,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             ),
 
             Text(
-              'Try another way',
+              context.trContext(TK.commonRetry),
               style: context.text.titleMedium!.copyWith(
                 color: context.colors.primary,
                 decoration: TextDecoration.underline,

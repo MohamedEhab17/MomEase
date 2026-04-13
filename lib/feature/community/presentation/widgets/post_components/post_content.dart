@@ -25,7 +25,7 @@ class PostContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsetsDirectional.only(bottom: 12),
       padding: boxShadow != null ? const EdgeInsets.all(12) : null,
       decoration: BoxDecoration(
         color: backgroundColor ?? context.theme.scaffoldBackgroundColor,

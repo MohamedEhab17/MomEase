@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 
 class FeedingFrequencyChart extends StatelessWidget {
   final List<double> data; // 7 values, one per day
@@ -22,14 +24,14 @@ class FeedingFrequencyChart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Feeding Frequency',
+              context.trContext(TK.babyFeedingFrequency),
               style: context.text.titleLarge!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: context.ext.colors.lightTextPrimary,
               ),
             ),
             Text(
-              'Last 7 Days',
+              context.trContext(TK.babyLast7Days),
               style: context.text.bodyMedium!.copyWith(
                 color: context.ext.colors.lightTextSecondary,
               ),
@@ -51,14 +53,9 @@ class FeedingFrequencyChart extends StatelessWidget {
         ),
         6.h.height,
         Row(
-          mainAxisAlignment: .spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: dayLabels
-              .map(
-                (d) => Text(
-                  d,
-                  style: context.text.bodyMedium!
-                ),
-              )
+              .map((d) => Text(d, style: context.text.bodyMedium!))
               .toList(),
         ),
       ],

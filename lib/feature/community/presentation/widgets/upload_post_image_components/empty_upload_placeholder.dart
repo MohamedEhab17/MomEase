@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
 import 'package:new_mama/core/widgets/animated_dotted_container.dart';
@@ -24,10 +26,10 @@ class EmptyUploadPlaceholder extends StatelessWidget {
           height: 184.h,
           width: double.infinity,
           color: context.ext.colors.backgroundPink,
-          alignment: .center,
+          alignment: Alignment.center,
           child: Column(
-            mainAxisAlignment: .center,
-            crossAxisAlignment: .center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
                 radius: 42.r,
@@ -46,7 +48,7 @@ class EmptyUploadPlaceholder extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20.h),
-              Text("Add Photos", style: context.text.headlineMedium!),
+              Text(context.trContext(TK.communityAddPhotos), style: context.text.headlineMedium!),
             ],
           ),
         ),

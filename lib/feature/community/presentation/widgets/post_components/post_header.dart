@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_overlay_menu.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_action_handler.dart';
@@ -29,7 +31,7 @@ class PostHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                "1 day ago",
+                context.trContext(TK.communityJustNow),
                 style: context.text.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w400,
                   color: context.ext.colors.lightTextDisabled,
@@ -41,21 +43,25 @@ class PostHeader extends StatelessWidget {
         CustomOverlayMenu<String>(
           onItemSelected: (value) =>
               PostActionHandler.handleAction(context, value, post),
-          items: const [
+          items: [
             OverlayMenuItem(
               icon: Icons.copy,
-              text: "Copy link",
+              text: context.trContext(TK.communityCopyLink),
               value: "Copy link",
             ),
-            OverlayMenuItem(icon: Icons.share, text: "Share", value: "Share"),
+            OverlayMenuItem(
+              icon: Icons.share,
+              text: context.trContext(TK.communityShare),
+              value: "Share",
+            ),
             OverlayMenuItem(
               icon: Icons.report,
-              text: "Report",
+              text: context.trContext(TK.communityReportPost),
               value: "Report",
             ),
             OverlayMenuItem(
               icon: Icons.bookmark_remove,
-              text: "Remove from Saves",
+              text: context.trContext(TK.communityRemovePost),
               value: "Remove",
             ),
           ],

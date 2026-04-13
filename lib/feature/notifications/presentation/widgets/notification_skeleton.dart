@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import '../../data/model/notification_model.dart';
 import 'notification_item.dart';
 
@@ -12,16 +14,16 @@ class NotificationSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     final dummyItem = NotificationModel(
       id: 'skeleton',
-      title: 'Loading notification title',
-      body: 'Loading notification body description goes here',
-      time: 'Just now',
+      title: '...',
+      body: '...',
+      time: context.trContext(TK.communityJustNow),
       isUnread: false,
     );
 
     return Skeletonizer(
       enabled: true,
       child: ListView.separated(
-        padding: EdgeInsets.only(bottom: 20.h, top: 4.h),
+        padding: EdgeInsetsDirectional.only(bottom: 20.h, top: 4.h),
         itemCount: 10,
         separatorBuilder: (context, index) => 16.h.height,
         itemBuilder: (context, index) {

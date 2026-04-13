@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/app_section/presentation/view_model/cubit/bottom_nav_cubit.dart';
 import 'package:new_mama/feature/profile/data/models/profile_model.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/account_action_item_tile.dart';
@@ -33,8 +35,27 @@ class AccountSupportSection extends StatelessWidget {
           }
         }
 
+        String getLocalizedTitle(String title) {
+          switch (title) {
+            case "Manage Profile":
+              return context.trContext(TK.profileManageProfile);
+            case "Security":
+              return context.trContext(TK.profileSecurity);
+            case "Notifications":
+              return context.trContext(TK.notificationsTitle);
+            case "Language":
+              return context.trContext(TK.profileLanguageLabel);
+            case "Theme":
+              return context.trContext(TK.profileThemeLabel);
+            case "Help Center":
+              return context.trContext(TK.profileHelpCenter);
+            default:
+              return title;
+          }
+        }
+
         return AccountActionItemTile(
-          title: item.title,
+          title: getLocalizedTitle(item.title),
           iconData: getIcon(item.iconPath),
           iconBackgroundColor: item.iconBackgroundColor,
           iconColor: item.iconColor,

@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
@@ -22,7 +24,7 @@ class SkinDiagnosisActions extends StatelessWidget {
       return Column(
         children: [
           CustomElevatedButton(
-            text: 'Analyze Skin',
+            text: context.trContext(TK.skinAnalyzeSkin),
             icon: Icon(
               Icons.analytics_outlined,
               color: context.theme.buttonTheme.colorScheme!.onPrimary,
@@ -38,7 +40,7 @@ class SkinDiagnosisActions extends StatelessWidget {
           if (state.imageSource != ImageSource.gallery) ...[
             16.height,
             CustomElevatedButton(
-              text: 'Retake Photo',
+              text: context.trContext(TK.skinRetakePhoto),
               icon: SvgPicture.asset(
                 AppIcons.iconsCamera,
                 width: 24.w,
@@ -66,7 +68,7 @@ class SkinDiagnosisActions extends StatelessWidget {
           if (state.imageSource != ImageSource.camera) ...[
             16.height,
             CustomElevatedButton(
-              text: 'Reupload From Gallery',
+              text: context.trContext(TK.skinReuploadGallery),
               icon: SvgPicture.asset(
                 AppIcons.iconsUpload,
                 width: 24.w,
@@ -99,7 +101,7 @@ class SkinDiagnosisActions extends StatelessWidget {
     return Column(
       children: [
         CustomElevatedButton(
-          text: 'Take Photo',
+          text: context.trContext(TK.skinTakePhoto),
           icon: SvgPicture.asset(
             AppIcons.iconsCamera,
             width: 24.w,
@@ -120,7 +122,7 @@ class SkinDiagnosisActions extends StatelessWidget {
         ),
         24.height,
         CustomElevatedButton(
-          text: 'Upload From Gallery',
+          text: context.trContext(TK.skinUploadGallery),
           icon: SvgPicture.asset(
             AppIcons.iconsUpload,
             width: 24.w,

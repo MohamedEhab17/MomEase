@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/widgets/analyzing_view_scaffold.dart';
 
@@ -12,18 +14,17 @@ class CryAnalyzingView extends StatefulWidget {
 }
 
 class _CryAnalyzingViewState extends State<CryAnalyzingView> {
-  final List<String> advices = [
-    'Take small moments for yourself, even 5 minutes of quiet time.',
-    'Connect with loved ones or join a mother\'s support group.',
-    'If you\'re concerned, reach out to your healthcare provider.',
-    'Remember: asking for help is a sign of strength, not weakness.',
-  ];
-
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
       if (!mounted) return;
+      final advices = [
+        context.trContext(TK.babyCryTip1),
+        context.trContext(TK.babyCryTip2),
+        context.trContext(TK.babyCryTip3),
+        context.trContext(TK.babyCryTip4),
+      ];
       context.push(AppRoutesPaths.cryingResultView, extra: advices);
     });
   }
@@ -31,10 +32,9 @@ class _CryAnalyzingViewState extends State<CryAnalyzingView> {
   @override
   Widget build(BuildContext context) {
     return AnalyzingViewScaffold(
-      appBarTitle: 'Crying Sound Analysis',
       icon: AppIcons.iconsSound,
-      headline: 'Analyzing Crying Condition',
-      subtitle: 'Our AI is Carefully examining the Sound',
+      headline: context.trContext(TK.babyCryAnalyzingHeadline),
+      subtitle: context.trContext(TK.babyCryAnalyzingSubtitle),
     );
   }
 }

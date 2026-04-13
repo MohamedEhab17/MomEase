@@ -20,8 +20,8 @@ class PostBody extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: isArabic
-          ? .end
-          : .start,
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: [
         ReadMoreText(
           post.text,

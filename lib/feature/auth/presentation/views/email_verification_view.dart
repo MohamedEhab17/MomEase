@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/enums/verification_type.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
@@ -79,7 +81,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
           onPressed: () => context.pop(),
         ),
         centerTitle: true,
-        title: Text("Verify Your Email", style: context.text.displaySmall!),
+        title: Text(context.trContext(TK.authVerifyEmail), style: context.text.displaySmall!),
       ),
       body: SingleChildScrollView(
         padding: 22.hPadding,
@@ -90,7 +92,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
             40.h.height,
 
             Text(
-              'Please enter the code we sent to\nhe ******* nik@gmail.com',
+              context.trContext(TK.authVerificationCodeInstructions),
               style: context.text.titleLarge!,
               textAlign: TextAlign.center,
             ),
@@ -137,7 +139,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
             TextButton(
               onPressed: canResend ? startTimer : null,
               child: Text(
-                'Resend Code',
+                context.trContext(TK.authResendCode),
                 style: context.text.titleLarge!.copyWith(
                   color: canResend
                       ? context.ext.colors.primaryDark
@@ -155,7 +157,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
             // TIMER
             Text(
               canResend
-                  ? "You can resend now"
+                  ? context.trContext(TK.authVerificationResendNow)
                   : "00:${seconds.toString().padLeft(2, '0')}",
               style: context.text.titleMedium!.copyWith(
                 color: context.ext.colors.lightTextPrimary,
@@ -168,7 +170,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
             Opacity(
               opacity: isCodeComplete ? 1 : 0.5,
               child: CustomElevatedButton(
-                text: "Verify",
+                text: context.trContext(TK.authVerificationVerifyButton),
                 minimumSize: Size(double.infinity, 52.h),
                 onPressed: isCodeComplete ? handleVerify : null,
               ),
@@ -177,8 +179,8 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
             24.h.height,
 
             CustomRichText(
-              firstText: "Didn't receive code? ",
-              secondText: "Check your spam",
+              firstText: context.trContext(TK.authVerificationDidntReceiveFirst),
+              secondText: context.trContext(TK.authVerificationSpamLink),
               onTap: () => openEmailApp(context),
               firstTextStyle: context.text.titleMedium!.copyWith(
                 color: context.ext.colors.lightTextDisabled,
@@ -204,13 +206,19 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
         await launchUrl(gmailWeb, mode: LaunchMode.externalApplication);
       }
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Check your spam folder')));
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.trContext(TK.authVerificationSpamSnackbar))),
+      );
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error: $e')));
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.trContext(TK.commonErrorWithDetails, namedArgs: {'error': '$e'}),
+          ),
+        ),
+      );
     }
   }
 }

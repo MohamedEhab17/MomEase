@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/enums/verification_type.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
@@ -69,26 +71,26 @@ class _SignUpViewState extends State<SignUpView> {
         bottom: false,
         child: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-          padding: EdgeInsets.only(
-            left: 16.w,
-            right: 16.w,
+          padding: EdgeInsetsDirectional.only(
+            start: 16.w,
+            end: 16.w,
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: .start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 76.h.height,
                 CustomRichText(
-                  firstText: "Create an account, ",
-                  secondText: "Mama!",
+                  firstText: context.trContext(TK.authSignUpTitleFirst),
+                  secondText: context.trContext(TK.authSignUpTitleSecond),
 
                   center: false,
                 ),
                 8.h.height,
                 Text(
-                  "Join us to start your journey!",
+                  context.trContext(TK.authSignUpSubtitle),
                   style: context.text.titleMedium!.copyWith(
                     color: context.ext.colors.lightTextDisabled,
                     fontWeight: FontWeight.w500,
@@ -100,7 +102,7 @@ class _SignUpViewState extends State<SignUpView> {
                   children: [
                     Expanded(
                       child: TextFormFieldHelper(
-                        hint: "First Name",
+                        hint: context.trContext(TK.authSignUpFirstNameHint),
                         borderRadius: BorderRadius.circular(64),
                         onValidate: validateUsername,
                         keyboardType: TextInputType.name,
@@ -111,7 +113,7 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     Expanded(
                       child: TextFormFieldHelper(
-                        hint: "Last Name",
+                        hint: context.trContext(TK.authSignUpLastNameHint),
                         fillColor: context.theme.cardColor,
                         borderRadius: BorderRadius.circular(64),
                         onValidate: validateUsername,
@@ -124,7 +126,7 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
                 24.h.height,
                 TextFormFieldHelper(
-                  hint: "Email",
+                  hint: context.trContext(TK.authSignUpEmailHint),
                   borderRadius: BorderRadius.circular(64),
                   onValidate: validateEmailOrPhone,
                   keyboardType: TextInputType.emailAddress,
@@ -134,7 +136,7 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
                 24.h.height,
                 TextFormFieldHelper(
-                  hint: "Password",
+                  hint: context.trContext(TK.authSignUpPasswordHint),
                   isPassword: true,
                   borderRadius: BorderRadius.circular(64),
                   onValidate: validatePassword,
@@ -148,7 +150,7 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
                 24.h.height,
                 TextFormFieldHelper(
-                  hint: "Confirm Password",
+                  hint: context.trContext(TK.authSignUpConfirmPasswordHint),
                   isPassword: true,
                   borderRadius: BorderRadius.circular(64),
                   fillColor: context.theme.cardColor,
@@ -162,7 +164,7 @@ class _SignUpViewState extends State<SignUpView> {
                 Opacity(
                   opacity: isValid ? 1.0 : 0.5,
                   child: CustomElevatedButton(
-                    text: "Sign Up",
+                    text: context.trContext(TK.authSignUpButton),
 
                     minimumSize: Size(double.infinity, 52),
                     onPressed: isValid
@@ -176,15 +178,15 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                 ),
                 12.h.height,
-                TwoDividerSeparatedWithText(text: "Or"),
+                TwoDividerSeparatedWithText(text: context.trContext(TK.authSignUpOr)),
                 24.h.height,
                 CustomAuthOptions(),
                 24.h.height,
                 MediaQuery.of(context).viewInsets.bottom != 0.0
                     ? SizedBox.shrink()
                     : CustomRichText(
-                        firstText: "Already have an account? ",
-                        secondText: "Login",
+                        firstText: context.trContext(TK.authSignUpHasAccountFirst),
+                        secondText: context.trContext(TK.authSignUpLoginLink),
                         onTap: () => context.pop(),
                         firstTextStyle: context.text.titleMedium!.copyWith(
                           color: context.ext.colors.lightTextDisabled,

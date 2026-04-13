@@ -19,14 +19,14 @@ class ProfilePostPreviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
+      margin: EdgeInsetsDirectional.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: context.ext.colors.primaryTint.withAlpha(150),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
-        crossAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -37,7 +37,7 @@ class ProfilePostPreviewCard extends StatelessWidget {
               8.width,
               Expanded(
                 child: Column(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       post.userName,

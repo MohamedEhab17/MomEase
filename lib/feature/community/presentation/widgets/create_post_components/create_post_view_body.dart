@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
@@ -41,7 +43,7 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
             controller: _postContentController,
             borderRadius: BorderRadius.circular(16.r),
             fillColor: context.colors.surface,
-            hint: "Share your store or your thoughts...",
+            hint: context.trContext(TK.communityCreatePostHint),
             maxLines: 8,
             minLines: 8,
           ),
@@ -58,14 +60,14 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
                 textStyle: context.text.headlineMedium!.copyWith(
                   color: context.theme.buttonTheme.colorScheme!.onPrimary,
                 ),
-                text: "Post",
+                text: context.trContext(TK.communityPostButton),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
                   if (_postContentController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                      SnackBar(
                         content: Text(
-                          "Please enter some content for the post.",
+                          context.trContext(TK.communityPostContentRequired),
                         ),
                       ),
                     );
@@ -73,8 +75,8 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
                   }
                   // Handle post submission logic here, including the post content and image.
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Post submitted successfully!"),
+                    SnackBar(
+                      content: Text(context.trContext(TK.communityPostsu)),
                     ),
                   );
                   context.read<CommunityCubit>().createPost(
@@ -99,7 +101,7 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
           ),
           12.height,
           Text(
-            "Share your moment with community",
+            context.trContext(TK.communityShareMoment),
             style: context.text.bodyMedium!.copyWith(
               fontWeight: FontWeight.normal,
               color: context.colors.onSurface.withAlpha(128),

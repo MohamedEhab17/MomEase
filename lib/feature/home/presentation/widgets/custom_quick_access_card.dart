@@ -71,11 +71,16 @@ class CustomQuickAccessCard extends StatelessWidget {
           ),
         ),
         trailing: showTrailing == true
-            ? SvgPicture.asset(
-                AppIcons.iconsForwardArrow,
-                colorFilter: ColorFilter.mode(
-                  context.ext.colors.primaryDark,
-                  BlendMode.srcIn,
+            ? Transform.flip(
+                flipX: Directionality.of(context) == TextDirection.rtl
+                    ? true
+                    : false,
+                child: SvgPicture.asset(
+                  AppIcons.iconsForwardArrow,
+                  colorFilter: ColorFilter.mode(
+                    context.ext.colors.primaryDark,
+                    BlendMode.srcIn,
+                  ),
                 ),
               )
             : null,

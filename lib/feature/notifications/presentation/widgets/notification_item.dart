@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import '../../data/model/notification_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -32,7 +34,7 @@ class NotificationItem extends StatelessWidget {
             ? context.ext.colors.primaryLighter.withAlpha(128)
             : context.theme.cardColor,
         child: Container(
-          clipBehavior: .antiAlias,
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
             color: notification.isUnread
@@ -96,8 +98,8 @@ class NotificationItem extends StatelessWidget {
                     ),
                     16.w.width,
                     Column(
-                      mainAxisAlignment: .spaceBetween,
-                      crossAxisAlignment: .end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
                           notification.time,
@@ -109,7 +111,7 @@ class NotificationItem extends StatelessWidget {
                         InkWell(
                           onTap: onViewPost,
                           child: Text(
-                            'View Post',
+                            context.trContext(TK.notificationsViewPost),
                             style: context.text.bodyMedium!.copyWith(
                               fontWeight: FontWeight.w700,
                               color:

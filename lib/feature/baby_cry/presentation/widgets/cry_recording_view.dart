@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
@@ -40,7 +42,7 @@ class CryRecordingView extends StatelessWidget {
         ),
         10.h.height,
         Text(
-          'Recording baby’s cry...',
+          context.trContext(TK.babyCryRecordingStatus),
           style: context.text.titleMedium!.copyWith(
             color: context.text.titleMedium!.color!.withAlpha(178),
           ),
@@ -48,7 +50,7 @@ class CryRecordingView extends StatelessWidget {
         96.h.height,
 
         CustomElevatedButton(
-          text: 'Stop Recording',
+          text: context.trContext(TK.babyCryStopRecording),
           onPressed: () {
             context.read<SoundRecordingCubit>().stopRecording();
           },

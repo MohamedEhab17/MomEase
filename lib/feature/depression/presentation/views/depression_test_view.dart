@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
@@ -44,9 +46,15 @@ class DepressionTestView extends StatelessWidget {
         final progress = (currentIndex + 1) / totalQuestions;
 
         return Scaffold(
-          appBar: FeaturesHeader(title: 'Healthy check-In'),
+          appBar: FeaturesHeader(
+            title: context.trContext(TK.depressionAppBarTitle),
+          ),
           body: Padding(
-            padding: EdgeInsets.only(right: 20.w, left: 20.w, top: 32.h),
+            padding: EdgeInsetsDirectional.only(
+              end: 20.w,
+              start: 20.w,
+              top: 32.h,
+            ),
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
@@ -62,14 +70,20 @@ class DepressionTestView extends StatelessWidget {
                       ),
                       8.h.height,
                       Text(
-                        'Question ${currentIndex + 1} of $totalQuestions',
+                        context.trContext(
+                          'depression.question_progress',
+                          namedArgs: {
+                            'current': '${currentIndex + 1}',
+                            'total': '$totalQuestions',
+                          },
+                        ),
                         style: context.text.bodyMedium!,
                       ),
                       48.h.height,
                       Align(
-                        alignment: Alignment.centerLeft,
+                        alignment: AlignmentDirectional.centerStart,
                         child: Text(
-                          currentQuestion.query,
+                          context.trContext(currentQuestion.query),
                           style: context.text.headlineSmall!.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -98,8 +112,8 @@ class DepressionTestView extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: CustomElevatedButton(
                     text: currentIndex == totalQuestions - 1
-                        ? 'Finish Check-In'
-                        : 'Next Question',
+                        ? context.trContext(TK.depressionFinishCheckIn)
+                        : context.trContext(TK.depressionNextQuestion),
                     onPressed: selectedAnswerIndex == null
                         ? () {}
                         : () {

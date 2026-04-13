@@ -15,7 +15,7 @@ class DrawerItemGroup extends StatelessWidget {
       children: [
         if (title != null) ...[
           Padding(
-            padding: EdgeInsets.only(left: 16.w, bottom: 8.h),
+            padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 8.h),
             child: Text(
               title!.toUpperCase(),
               style: context.theme.textTheme.titleLarge!.copyWith(

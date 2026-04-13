@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class DrawerListTile extends StatelessWidget {
   final String title;
@@ -9,6 +10,7 @@ class DrawerListTile extends StatelessWidget {
   final VoidCallback? onTap;
   final Color? titleColor;
   final double? fontSize;
+  final bool? flipX;
 
   const DrawerListTile({
     super.key,
@@ -18,6 +20,7 @@ class DrawerListTile extends StatelessWidget {
     this.onTap,
     this.titleColor,
     this.fontSize,
+    this.flipX,
   });
 
   @override
@@ -33,14 +36,20 @@ class DrawerListTile extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: titleColor ?? Theme.of(context).colorScheme.onSurface,
+                style: context.text.titleMedium!.copyWith(
+                  color: titleColor ?? context.colors.onSurface,
                   fontWeight: FontWeight.w500,
                   fontSize: fontSize ?? 16.sp,
                 ),
               ),
             ),
-            if (trailing != null) ...[8.w.width, trailing!],
+            if (trailing != null) ...[
+              8.w.width,
+              Transform.flip(
+                flipX: flipX ?? Directionality.of(context) == TextDirection.rtl,
+                child: trailing!,
+              ),
+            ],
           ],
         ),
       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
@@ -59,9 +61,9 @@ class _LoginViewState extends State<LoginView> {
         bottom: false,
         child: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-          padding: EdgeInsets.only(
-            left: 16.w,
-            right: 16.w,
+          padding: EdgeInsetsDirectional.only(
+            start: 16.w,
+            end: 16.w,
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Form(
@@ -71,13 +73,13 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 168.h.height,
                 CustomRichText(
-                  firstText: "Welcome Back, ",
-                  secondText: "Mama!",
+                  firstText: context.trContext(TK.authLoginWelcomeFirst),
+                  secondText: context.trContext(TK.authLoginWelcomeSecond),
                   center: false,
                 ),
                 8.h.height,
                 Text(
-                  "Login to continue your journey!",
+                  context.trContext(TK.authLogin),
                   style: context.text.titleMedium!.copyWith(
                     color: context.ext.colors.lightTextDisabled,
                     fontWeight: FontWeight.w500,
@@ -86,7 +88,7 @@ class _LoginViewState extends State<LoginView> {
                 56.h.height,
                 TextFormFieldHelper(
                   controller: _emailController,
-                  hint: "Email/Phone",
+                  hint: context.trContext(TK.authLoginEmailPhoneHint),
                   borderRadius: BorderRadius.circular(64),
                   onValidate: validateEmailOrPhone,
                   fillColor: context.theme.cardColor,
@@ -96,7 +98,7 @@ class _LoginViewState extends State<LoginView> {
                 24.h.height,
                 TextFormFieldHelper(
                   controller: _passwordController,
-                  hint: "Password",
+                  hint: context.trContext(TK.authLoginPasswordHint),
                   isPassword: true,
                   borderRadius: BorderRadius.circular(64),
                   onValidate: validatePassword,
@@ -106,14 +108,14 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 8.h.height,
                 Align(
-                  alignment: Alignment.centerRight,
+                  alignment: AlignmentDirectional.centerEnd,
                   child: GestureDetector(
                     onTap: () {
                       context.push(AppRoutesPaths.forgotPassword);
                     },
 
                     child: Text(
-                      "Forgot Password?",
+                      context.trContext(TK.authForgotPassword),
                       style: context.text.bodyLarge!.copyWith(
                         color: context.ext.colors.primaryDark,
                         fontWeight: FontWeight.w500,
@@ -135,15 +137,15 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 12.h.height,
-                TwoDividerSeparatedWithText(text: "Or"),
+                TwoDividerSeparatedWithText(text: context.trContext(TK.authLoginOr)),
                 24.h.height,
                 CustomAuthOptions(),
                 24.h.height,
                 MediaQuery.of(context).viewInsets.bottom != 0.0
                     ? SizedBox.shrink()
                     : CustomRichText(
-                        firstText: "Don't have an account? ",
-                        secondText: "Sign Up",
+                        firstText: context.trContext(TK.authLoginNoAccountFirst),
+                        secondText: context.trContext(TK.authLoginSignUpLink),
                         onTap: () {
                           context.push(AppRoutesPaths.signup);
                         },

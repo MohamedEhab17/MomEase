@@ -34,9 +34,9 @@ class UploadedImageTile extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
+        PositionedDirectional(
           top: 6,
-          right: 6,
+          end: 6,
           child: GestureDetector(
             onTap: onTapRemove,
             child: Container(
@@ -49,9 +49,9 @@ class UploadedImageTile extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
+        PositionedDirectional(
           bottom: 6,
-          right: 6,
+          end: 6,
           child: GestureDetector(
             onTap: onTapCrop,
             child: Container(

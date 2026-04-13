@@ -38,8 +38,8 @@ class _ReportPostDialogState extends State<ReportPostDialog> {
   Widget build(BuildContext context) {
     return AnimatedDialogContainer(
       child: Column(
-        mainAxisSize: .min,
-        crossAxisAlignment: .center,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const ReportDialogHeader(),
           34.height,

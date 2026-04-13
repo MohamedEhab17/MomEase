@@ -32,7 +32,7 @@ class ProfileHeader extends StatelessWidget {
           bottomRight: Radius.circular(40.r),
         ),
       ),
-      padding: EdgeInsets.only(top: 60.h, bottom: 30.h),
+      padding: EdgeInsetsDirectional.only(top: 60.h, bottom: 30.h),
       child: Column(
         children: [
           30.verticalSpace,
@@ -57,9 +57,9 @@ class ProfileHeader extends StatelessWidget {
                   backgroundImage: NetworkImage(avatarUrl),
                 ),
               ),
-              Positioned(
+              PositionedDirectional(
                 bottom: 0,
-                right: 0,
+                end: 0,
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: const BoxDecoration(

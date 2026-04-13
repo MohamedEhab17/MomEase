@@ -14,33 +14,39 @@ class DrawerUserHeader extends StatelessWidget {
       curve: const Interval(0.0, 0.5, curve: Curves.easeOutBack),
     );
 
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+
     return AnimatedBuilder(
       animation: curved,
       builder: (context, _) {
+        final offsetX = isRTL
+            ? 40 * (1 - curved.value)
+            : -40 * (1 - curved.value);
+
         return Transform.translate(
-          offset: Offset(-40 * (1 - curved.value), 0),
+          offset: Offset(offsetX, 0),
           child: Opacity(
             opacity: curved.value.clamp(0.0, 1.0),
             child: Container(
-              padding: EdgeInsets.only(
+              padding: EdgeInsetsDirectional.only(
                 top: MediaQuery.of(context).padding.top + 24.h,
                 bottom: 24.h,
-                left: 24.w,
-                right: 24.w,
+                start: 24.w,
+                end: 24.w,
               ),
               decoration: BoxDecoration(
                 color: context.colors.primary,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(30.r),
-                  bottomLeft: Radius.circular(30.r),
+                borderRadius: BorderRadiusDirectional.only(
+                  bottomEnd: Radius.circular(30.r),
+                  bottomStart: Radius.circular(30.r),
                 ),
                 gradient: LinearGradient(
                   colors: [
                     context.colors.primary,
                     context.ext.colors.primaryLight,
                   ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: AlignmentDirectional.topStart,
+                  end: AlignmentDirectional.bottomEnd,
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -54,7 +60,7 @@ class DrawerUserHeader extends StatelessWidget {
               child: Row(
                 children: [
                   Stack(
-                    alignment: Alignment.bottomRight,
+                    alignment: AlignmentDirectional.bottomEnd,
                     children: [
                       CircleAvatar(
                         radius: 30.r,

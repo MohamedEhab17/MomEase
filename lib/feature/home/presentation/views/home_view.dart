@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
@@ -19,12 +21,15 @@ class HomeView extends StatelessWidget {
       clipBehavior: Clip.none,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Column(
-        crossAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Welcome again, Rana!', style: context.text.displayMedium!),
+          Text(
+            "${context.trContext(TK.homeWelcome)} Rawan!",
+            style: context.text.displayMedium!,
+          ),
           4.height,
           Text(
-            'How can we help you today?',
+            context.trContext(TK.homeOfferingHelp),
             style: context.text.titleMedium!.copyWith(
               color: context.ext.colors.lightTextPrimary.withAlpha(178),
             ),
@@ -33,7 +38,7 @@ class HomeView extends StatelessWidget {
           DepressionTestWidget(),
           32.height,
           Text(
-            'Quick access',
+            context.trContext(TK.homeQuickAccessSection),
             style: context.text.titleMedium!.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -41,8 +46,8 @@ class HomeView extends StatelessWidget {
           12.height,
           CustomQuickAccessCard(
             leadingIcon: AppIcons.iconsSound,
-            title: 'Crying Sound Analysis',
-            subtitle: 'Understand why your baby is crying',
+            title: context.trContext(TK.homeQuickAccessCryTitle),
+            subtitle: context.trContext(TK.homeQuickAccessCrySubtitle),
             showTrailing: true,
 
             onTap: () {
@@ -52,8 +57,8 @@ class HomeView extends StatelessWidget {
           8.height,
           CustomQuickAccessCard(
             leadingIcon: AppIcons.iconsSkin,
-            title: 'Skin Diagnosis',
-            subtitle: 'check your baby’s skin health',
+            title: context.trContext(TK.homeQuickAccessSkinTitle),
+            subtitle: context.trContext(TK.homeQuickAccessSkinSubtitle),
             showTrailing: true,
 
             onTap: () {
@@ -63,8 +68,8 @@ class HomeView extends StatelessWidget {
           8.height,
           CustomQuickAccessCard(
             leadingIcon: AppIcons.iconsBabyTracing,
-            title: 'Baby Tracking',
-            subtitle: 'Log feeding, sleep, and diapers',
+            title: context.trContext(TK.homeQuickAccessTrackingTitle),
+            subtitle: context.trContext(TK.homeQuickAccessTrackingSubtitle),
             showTrailing: true,
             onTap: () {
               context.push(AppRoutesPaths.babyTrackView);
@@ -72,12 +77,17 @@ class HomeView extends StatelessWidget {
           ),
           24.height,
           Row(
-            mainAxisAlignment: .spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Useful articles',
-                style: context.text.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  context.trContext(TK.homeUsefulArticles),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
 
@@ -86,7 +96,7 @@ class HomeView extends StatelessWidget {
                   context.push(AppRoutesPaths.articleCategoryView);
                 },
                 child: Text(
-                  'View all',
+                  context.trContext(TK.commonViewAll),
                   style: context.text.bodyMedium!.copyWith(
                     color: context.ext.colors.primaryDark,
                   ),

@@ -10,7 +10,7 @@ class DottedList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       spacing: 10.w,
-      crossAxisAlignment: .start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: 10.topPadding,

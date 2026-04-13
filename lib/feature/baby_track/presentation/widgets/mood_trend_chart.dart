@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 
 class MoodTrendChart extends StatelessWidget {
   final List<double> points; // normalized 0..1
@@ -12,7 +14,10 @@ class MoodTrendChart extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Mood Trend', style: context.theme.textTheme.bodyMedium),
+        Text(
+          context.trContext(TK.babyMoodTrend),
+          style: context.theme.textTheme.bodyMedium,
+        ),
         SizedBox(height: 10.h),
         SizedBox(
           height: 60.h,

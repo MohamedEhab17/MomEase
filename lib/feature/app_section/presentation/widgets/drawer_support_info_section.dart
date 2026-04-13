@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'drawer_helpers.dart';
 import 'drawer_item_group.dart';
@@ -12,15 +14,15 @@ class DrawerSupportInfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return DrawerItemGroup(
-      title: 'Support & Info',
+      title: context.trContext(TK.drawerSupportInfo),
       children: [
         DrawerListTile(
-          title: 'Help Center',
+          title: context.trContext(TK.drawerHelpCenter),
           leading: buildDrawerIcon(AppIcons.iconsHelp, color:  context.ext.colors.primaryDark),
           onTap: () {},
         ),
         DrawerListTile(
-          title: 'Contact Us',
+          title: context.trContext(TK.drawerContactUs),
           leading: buildDrawerIcon(
             AppIcons.iconsContact,
             color: context.ext.colors.primaryDark,
@@ -28,7 +30,7 @@ class DrawerSupportInfoSection extends StatelessWidget {
           onTap: () {},
         ),
         DrawerListTile(
-          title: 'About MomEase',
+          title: context.trContext(TK.drawerAboutMomEase),
           leading: buildDrawerIcon(AppIcons.iconsAbout, color: context.ext.colors.primaryDark),
           onTap: () {},
         ),

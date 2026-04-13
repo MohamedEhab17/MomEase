@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'drawer_helpers.dart';
 import 'drawer_list_tile.dart';
@@ -14,13 +16,13 @@ class DrawerStandaloneActionsSection extends StatelessWidget {
     return Column(
       children: [
         DrawerListTile(
-          title: 'Rate MomEase',
+          title: context.trContext(TK.drawerRateApp),
           titleColor: onSurfaceVariant,
           leading: buildDrawerIcon(AppIcons.iconsRate, color: onSurfaceVariant),
           onTap: () {},
         ),
         DrawerListTile(
-          title: 'Share with Friends',
+          title: context.trContext(TK.drawerShareApp),
           titleColor: onSurfaceVariant,
           leading: buildDrawerIcon(
             AppIcons.iconsShare,
@@ -29,7 +31,7 @@ class DrawerStandaloneActionsSection extends StatelessWidget {
           onTap: () {},
         ),
         DrawerListTile(
-          title: 'Send Feedback',
+          title: context.trContext(TK.drawerSendFeedback),
           titleColor: onSurfaceVariant,
           leading: buildDrawerIcon(
             AppIcons.iconsFeedback,

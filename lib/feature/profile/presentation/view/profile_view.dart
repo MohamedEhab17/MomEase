@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
@@ -50,7 +52,7 @@ class _ProfileBody extends StatelessWidget {
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
-                crossAxisAlignment: .start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ProfileHeader(
                     avatarUrl: profile.avatarUrl,
@@ -60,7 +62,7 @@ class _ProfileBody extends StatelessWidget {
                   24.height,
 
                   // Parenting Journey
-                  const ProfileSectionTitle(title: "My Parenting Journey"),
+                  ProfileSectionTitle(title: context.trContext(TK.profileParentingJourney)),
                   ParentingJourneySection(journey: profile.journey),
 
                   // Baby Info
@@ -68,12 +70,12 @@ class _ProfileBody extends StatelessWidget {
                   24.height,
 
                   // Community Posts
-                  const ProfileSectionTitle(title: "My Community Posts"),
+                  ProfileSectionTitle(title: context.trContext(TK.profileCommunityPosts)),
                   CommunityPostsSection(posts: profile.recentPosts),
                   24.height,
 
                   // Saved Articles
-                  const ProfileSectionTitle(title: "Saved Articles"),
+                  ProfileSectionTitle(title: context.trContext(TK.articlesSaved)),
                   8.height,
                   SavedArticlesSection(articles: profile.savedArticles),
                   24.height,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 
@@ -22,12 +24,12 @@ class PostActionHandler {
       case 'Copy link':
         Clipboard.setData(ClipboardData(text: post.text));
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Link copied to clipboard')),
+          SnackBar(content: Text(context.trContext(TK.communityLinkCopied))),
         );
         break;
       case 'Share':
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Share functionality coming soon')),
+          SnackBar(content: Text(context.trContext(TK.communityShareSoon))),
         );
         break;
     }

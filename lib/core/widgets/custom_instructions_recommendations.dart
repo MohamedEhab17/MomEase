@@ -24,7 +24,7 @@ class CustomInstructionsRecommendations extends StatelessWidget {
         border: Border.all(color: context.ext.colors.primaryLight),
       ),
       child: Column(
-        crossAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,

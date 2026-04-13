@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_baby_activity_section.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_health_section.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_helpful_suggestions_section.dart';
@@ -28,7 +30,7 @@ class InsightsView extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          'Baby Activity Insights',
+          context.trContext(TK.babyInsightsTitle),
           style: context.text.headlineMedium!.copyWith(
             fontWeight: FontWeight.w600,
             color: context.ext.colors.primaryDark,
@@ -39,7 +41,7 @@ class InsightsView extends StatelessWidget {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         child: Column(
-          crossAxisAlignment: .start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ── Top stat cards ──
             Row(
@@ -47,24 +49,24 @@ class InsightsView extends StatelessWidget {
                 InsightsStatCard(
                   icon: Icons.favorite_rounded,
                   iconColor: context.ext.colors.primaryDark,
-                  label: 'Health Score',
-                  value: 'Feeding',
+                  label: context.trContext(TK.babyHealthScore),
+                  value: context.trContext(TK.babyFeedingLabel),
                   background: context.ext.colors.primaryDark,
                 ),
                 SizedBox(width: 10.w),
                 InsightsStatCard(
                   icon: Icons.mood_rounded,
                   iconColor: Colors.orange,
-                  label: 'Mom Mood',
-                  value: 'Calm / Tired',
+                  label: context.trContext(TK.babyMomMood),
+                  value: context.trContext(TK.babyCalm),
                   background: Colors.orange,
                 ),
                 SizedBox(width: 10.w),
                 InsightsStatCard(
                   icon: Icons.check_circle_rounded,
                   iconColor: context.ext.colors.greenText,
-                  label: 'Coping Rate',
-                  value: 'Good',
+                  label: context.trContext(TK.babyCopingRate),
+                  value: context.trContext(TK.babyGood),
                   background: context.ext.colors.backgroundGreen,
                 ),
               ],

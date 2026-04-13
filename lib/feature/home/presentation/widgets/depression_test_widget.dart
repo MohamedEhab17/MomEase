@@ -1,6 +1,8 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_images.dart';
@@ -23,8 +25,8 @@ class DepressionTestWidget extends StatelessWidget {
             color: context.ext.colors.primaryLighter,
             borderRadius: BorderRadius.circular(20.r),
             gradient: LinearGradient(
-              begin: .bottomCenter,
-              end: .topCenter,
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
               colors: [
                 context.ext.colors.primaryLighter,
                 context.ext.colors.primaryTint,
@@ -32,37 +34,43 @@ class DepressionTestWidget extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
+        PositionedDirectional(
           bottom: 9.h,
 
-          left: 5.w,
-          child: SvgPicture.asset(
-            AppImages.imagesDepression,
-            width: 187.w,
-            height: 171.h,
-            colorMapper: AppSvgColorMapper(
-              from: Color(0xffFF9BBC),
-              to: context.ext.colors.primaryLight,
+          start: 5.w,
+          child: Transform.flip(
+            flipX: Directionality.of(context) == TextDirection.rtl
+                ? true
+                : false,
+            child: SvgPicture.asset(
+              AppImages.imagesDepression,
+              width: 187.w,
+              height: 171.h,
+              colorMapper: AppSvgColorMapper(
+                from: Color(0xffFF9BBC),
+                to: context.ext.colors.primaryLight,
+              ),
             ),
           ),
         ),
-        Positioned(
-          right: 17.w,
+        PositionedDirectional(
+          end: 17.w,
           top: 30.h,
-          left: 190.w,
+          start: 190.w,
           child: Text(
-            'How is your mood today?',
-            maxLines: 2,
+            context.trContext(TK.homeDepressionCardTitle),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
             style: context.theme.textTheme.titleMedium!.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
-        Positioned(
-          right: 25.w,
+        PositionedDirectional(
+          end: 25.w,
           bottom: 30.h,
           child: CustomElevatedButton(
-            text: 'Make Depression Test',
+            text: context.trContext(TK.homeDepressionCardCta),
             textStyle: context.theme.textTheme.bodySmall!,
             onPressed: () {
               context.push(AppRoutesPaths.depressionView);

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_data.dart';
@@ -70,12 +72,12 @@ class _OnboardingViewState extends State<OnboardingView> {
                   spacing: 5,
                   children: [
                     Text(
-                      onboardingList[currentPage].title,
+                      context.trContext(onboardingList[currentPage].title),
                       textAlign: TextAlign.center,
                       style: context.text.headlineLarge!,
                     ),
                     Text(
-                      onboardingList[currentPage].description,
+                      context.trContext(onboardingList[currentPage].description),
                       textAlign: TextAlign.center,
                       style: context.text.titleMedium!,
                     ),
@@ -91,7 +93,7 @@ class _OnboardingViewState extends State<OnboardingView> {
         padding: const EdgeInsets.symmetric(horizontal: 23),
         child: currentPage == onboardingList.length - 1
             ? CustomElevatedButton(
-                text: "Start",
+                text: context.trContext(TK.onboardingStart),
                 onPressed: () {
                   context.go(AppRoutesPaths.login);
                 },
@@ -101,7 +103,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomElevatedButton(
-                    text: 'Skip',
+                    text: context.trContext(TK.onboardingSkip),
                     backgroundColor: Theme.of(context).colorScheme.surface,
                     onPressed: () {
                       pageViewController.animateToPage(
@@ -112,7 +114,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                     },
                   ),
                   CustomElevatedButton(
-                    text: "Next",
+                    text: context.trContext(TK.onboardingNext),
                     onPressed: () {
                       if (currentPage < onboardingList.length - 1) {
                         pageViewController.nextPage(

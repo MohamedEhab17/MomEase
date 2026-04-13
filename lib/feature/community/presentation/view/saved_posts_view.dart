@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_state.dart';
 import 'package:animate_to/animate_to.dart';
@@ -43,7 +45,7 @@ class _SavedPostsViewState extends State<SavedPostsView> {
                   Expanded(
                     child: Center(
                       child: Text(
-                        "No Saved Posts",
+                        context.trContext(TK.communityNoSavedPosts),
                         style: context.text.displaySmall!,
                       ),
                     ),
@@ -53,7 +55,7 @@ class _SavedPostsViewState extends State<SavedPostsView> {
             }
 
             return Column(
-              crossAxisAlignment: .start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: 10.vPadding,

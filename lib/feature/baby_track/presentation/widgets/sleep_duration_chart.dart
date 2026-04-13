@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 
 class SleepDurationChart extends StatelessWidget {
@@ -22,14 +24,14 @@ class SleepDurationChart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Sleep Duration (hrs)',
+              context.trContext(TK.babySleepDuration),
               style: AppStyles.styleInter14.copyWith(
                 fontWeight: FontWeight.w600,
                 color: context.ext.colors.lightTextPrimary,
               ),
             ),
             Text(
-              'Daily Avg',
+              context.trContext(TK.babyDailyAvg),
               style: AppStyles.styleInter10.copyWith(
                 color: context.ext.colors.lightTextSecondary,
               ),

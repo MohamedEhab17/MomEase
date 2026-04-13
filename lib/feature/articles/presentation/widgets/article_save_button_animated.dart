@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_animated_button.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
@@ -22,7 +24,9 @@ class ArticleSaveButtonAnimated extends StatelessWidget {
         );
 
         return CustomAnimatedButton(
-          text: currentArticle.isSaved ? "Saved" : "Save Article",
+          text: currentArticle.isSaved
+              ? context.trContext(TK.articlesSaved)
+              : context.trContext(TK.articlesSave),
           minimumSize: Size(double.infinity, 52.h),
           onPressed: () {
             context.read<ArticleCubit>().toggleSaveArticle(article.id);

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
@@ -77,7 +79,7 @@ class _MentionInputBarState extends State<MentionInputBar> {
                 color: context.colors.onSurface,
               ),
               decoration: InputDecoration(
-                hintText: 'Write a comment',
+                hintText: context.trContext(TK.communityWriteComment),
                 hintStyle: context.text.bodySmall!.copyWith(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,

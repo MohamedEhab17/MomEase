@@ -46,10 +46,10 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                   offset = 0; // Prevent pulling down to show background
                 }
               }
-              return Positioned(
+              return PositionedDirectional(
                 top: -offset * 0.5,
-                left: 0,
-                right: 0,
+                start: 0,
+                end: 0,
                 height: 380.h,
                 child: child!,
               );
@@ -71,10 +71,10 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                     ),
                   ),
                 ),
-                Positioned(
+                PositionedDirectional(
                   bottom: 70.h, // Space for the overlapping body radius
-                  left: 20.w,
-                  right: 20.w,
+                  start: 20.w,
+                  end: 20.w,
                   child: Text(
                     widget.article.title,
                     style: context.text.displaySmall!.copyWith(
@@ -113,9 +113,9 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
           ),
 
           // Fixed Top Back Button
-          Positioned(
+          PositionedDirectional(
             top: MediaQuery.of(context).padding.top + 10.h,
-            left: 20.w,
+            start: 20.w,
             child: CircleAvatar(
               backgroundColor: Colors.white,
               child: Transform.translate(

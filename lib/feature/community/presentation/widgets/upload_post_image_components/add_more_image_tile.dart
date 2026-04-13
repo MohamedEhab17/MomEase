@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/animated_dotted_container.dart';
 
 class AddMoreImageTile extends StatelessWidget {
@@ -22,9 +24,9 @@ class AddMoreImageTile extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.6,
 
           color: context.ext.colors.backgroundPink,
-          alignment: .center,
+          alignment: Alignment.center,
           child: Column(
-            mainAxisAlignment: .center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
                 radius: 30.r,
@@ -39,7 +41,7 @@ class AddMoreImageTile extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 8.h),
-              Text("Add More", style: context.text.titleLarge!),
+              Text(context.trContext(TK.communityAddMore), style: context.text.titleLarge!),
             ],
           ),
         ),

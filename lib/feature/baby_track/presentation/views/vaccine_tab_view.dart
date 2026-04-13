@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_track/data/dummy/baby_track_dummy_data.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/vaccine_progress_header.dart';
@@ -47,12 +49,12 @@ class VaccineTabView extends StatelessWidget {
                 child: Row(
                   children: [
                     VaccineSubTab(
-                      label: "Baby's Log",
+                      label: context.trContext(TK.babyVaccineLog),
                       isSelected: tabIdx == 0,
                       onTap: () => cubit.switchVaccineTab(0),
                     ),
                     VaccineSubTab(
-                      label: 'Official Schedule',
+                      label: context.trContext(TK.babyVaccineSchedule),
                       isSelected: tabIdx == 1,
                       onTap: () => cubit.switchVaccineTab(1),
                     ),
