@@ -36,7 +36,7 @@ class NewMama extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => ThemeCubit()..loadSavedTheme()),
         BlocProvider(create: (context) => getIt<LanguageCubit>()..loadSavedLanguage()),
       ],
       child: ScreenUtilInit(

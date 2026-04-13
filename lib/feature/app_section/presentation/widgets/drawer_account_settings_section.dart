@@ -10,6 +10,7 @@ import 'package:new_mama/core/utils/app_icons.dart';
 import 'drawer_helpers.dart';
 import 'drawer_item_group.dart';
 import 'drawer_list_tile.dart';
+import 'drawer_dropdown_tile.dart';
 
 class DrawerAccountSettingsSection extends StatelessWidget {
   const DrawerAccountSettingsSection({super.key});
@@ -77,17 +78,51 @@ class DrawerAccountSettingsSection extends StatelessWidget {
         ),
         BlocBuilder<ThemeCubit, AppThemeMode>(
           builder: (context, themeMode) {
-            return DrawerListTile(
+            String themeText = 'Pink';
+            if (themeMode == AppThemeMode.blue) themeText = 'Blue';
+            if (themeMode == AppThemeMode.dark) themeText = 'Dark';
+
+            return DrawerDropdownTile<AppThemeMode>(
               title: context.trContext(TK.commonThemeMode),
               leading: buildDrawerIcon(
                 AppIcons.iconsTheme,
                 color: context.ext.colors.primaryDark,
               ),
-              trailing: buildDrawerChevron(
-                color: context.ext.colors.primaryDark,
-              ),
-              onTap: () {
-                context.read<ThemeCubit>().toggleTheme();
+              trailingText: themeText,
+              items: [
+                PopupMenuItem(
+                  value: AppThemeMode.pink,
+                  child: Text(
+                    'Pink',
+                    style: context.theme.textTheme.titleSmall!.copyWith(
+                      color: context.colors.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: AppThemeMode.blue,
+                  child: Text(
+                    'Blue',
+                    style: context.theme.textTheme.titleSmall!.copyWith(
+                      color: context.colors.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: AppThemeMode.dark,
+                  child: Text(
+                    'Dark',
+                    style: context.theme.textTheme.titleSmall!.copyWith(
+                      color: context.colors.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+              onSelected: (newMode) {
+                context.read<ThemeCubit>().changeTheme(newMode);
               },
             );
           },
