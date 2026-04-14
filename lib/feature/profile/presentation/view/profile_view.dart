@@ -5,6 +5,7 @@ import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart';
 import 'package:new_mama/feature/profile/presentation/view_model/profile_state.dart';
@@ -21,7 +22,6 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<ProfileCubit>()..loadProfile()),
@@ -43,7 +43,7 @@ class _ProfileBody extends StatelessWidget {
         builder: (context, state) {
           if (state is ProfileLoading) {
             return Center(
-              child: CircularProgressIndicator(color: context.colors.primary),
+              child: CustomLoadingIndicator(color: context.colors.primary),
             );
           } else if (state is ProfileError) {
             return Center(child: Text(state.message));
@@ -62,7 +62,9 @@ class _ProfileBody extends StatelessWidget {
                   24.height,
 
                   // Parenting Journey
-                  ProfileSectionTitle(title: context.trContext(TK.profileParentingJourney)),
+                  ProfileSectionTitle(
+                    title: context.trContext(TK.profileParentingJourney),
+                  ),
                   ParentingJourneySection(journey: profile.journey),
 
                   // Baby Info
@@ -70,12 +72,16 @@ class _ProfileBody extends StatelessWidget {
                   24.height,
 
                   // Community Posts
-                  ProfileSectionTitle(title: context.trContext(TK.profileCommunityPosts)),
+                  ProfileSectionTitle(
+                    title: context.trContext(TK.profileCommunityPosts),
+                  ),
                   CommunityPostsSection(posts: profile.recentPosts),
                   24.height,
 
                   // Saved Articles
-                  ProfileSectionTitle(title: context.trContext(TK.articlesSaved)),
+                  ProfileSectionTitle(
+                    title: context.trContext(TK.articlesSaved),
+                  ),
                   8.height,
                   SavedArticlesSection(articles: profile.savedArticles),
                   24.height,

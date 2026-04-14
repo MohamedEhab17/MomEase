@@ -172,7 +172,6 @@ class PostImageGrid extends StatelessWidget {
       imageUrl: url,
       fit: fit,
       width: double.infinity,
-      placeholder: (_, _) => const Center(child: CircularProgressIndicator()),
       errorWidget: (_, _, _) =>
           Center(child: Icon(Icons.error, color: context.colors.primary)),
     );

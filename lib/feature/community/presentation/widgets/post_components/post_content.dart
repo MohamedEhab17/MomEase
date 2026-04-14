@@ -33,7 +33,7 @@ class PostContent extends StatelessWidget {
         boxShadow: boxShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         spacing: 12,
         children: [
           PostHeader(post: post),

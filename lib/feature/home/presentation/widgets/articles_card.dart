@@ -9,6 +9,7 @@ import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:flutter/material.dart';
 import "package:new_mama/core/localization/translation_keys.dart";
+import 'package:new_mama/core/widgets/custom_network_image.dart';
 
 class ArticlesCard extends StatelessWidget {
   const ArticlesCard({super.key, required this.article});
@@ -30,10 +31,10 @@ class ArticlesCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
-              child: Image.network(
-                article.imageUrl,
+              child: CustomNetworkImage(
+                imageUrl: article.imageUrl,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
+                errorWidget: (context, error, stackTrace) =>
                     Image.asset(AppImages.imagesArticles, fit: BoxFit.cover),
               ),
             ),

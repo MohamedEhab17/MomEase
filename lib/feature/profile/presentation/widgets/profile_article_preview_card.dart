@@ -6,6 +6,7 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:new_mama/core/widgets/custom_network_image.dart';
 
 class ProfileArticlePreviewCard extends StatelessWidget {
   final ArticleModel article;
@@ -39,8 +40,8 @@ class ProfileArticlePreviewCard extends StatelessWidget {
                 topLeft: Radius.circular(16.r),
                 topRight: Radius.circular(16.r),
               ),
-              child: Image.network(
-                article.imageUrl,
+              child: CustomNetworkImage(
+                imageUrl: article.imageUrl,
                 height: 150.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
