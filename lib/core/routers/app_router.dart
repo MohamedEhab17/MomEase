@@ -23,10 +23,12 @@ import 'package:new_mama/feature/articles/presentation/view/article_details_view
 import 'package:new_mama/feature/articles/presentation/view/articles_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/saved_articles_view.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
+import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/views/create_password.dart';
 import 'package:new_mama/feature/auth/presentation/views/email_verification_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/forget_password.dart';
 import 'package:new_mama/feature/auth/presentation/views/login_view.dart';
+import 'package:new_mama/feature/auth/presentation/views/reset_password_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/sign_up_view.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/email_verified_success_widget.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/cry_analyzing_view.dart';
@@ -51,12 +53,28 @@ import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_c
 import 'package:new_mama/feature/baby_track/presentation/views/baby_track_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/insights_view.dart';
 
+import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
+
 class AppRouter {
   static late final GoRouter router;
 
   static Future<void> initRouter() async {
+    final authLocalDataSource = getIt<AuthLocalDataSource>();
+    final isOnboardingCompleted = authLocalDataSource.isOnboardingCompleted();
+    final tokens = await authLocalDataSource.getTokens();
+    final isUserLoggedIn = tokens != null;
+
+    String initialLocation;
+    if (!isOnboardingCompleted) {
+      initialLocation = AppRoutesPaths.onboarding;
+    } else if (isUserLoggedIn) {
+      initialLocation = AppRoutesPaths.appSectionView;
+    } else {
+      initialLocation = AppRoutesPaths.login;
+    }
+
     router = GoRouter(
-      initialLocation: AppRoutesPaths.appSectionView,
+      initialLocation: initialLocation,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -71,7 +89,10 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.login,
           name: 'login',
-          builder: (context, state) => const LoginView(),
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<AuthCubit>(),
+            child: const LoginView(),
+          ),
         ),
         GoRoute(
           path: AppRoutesPaths.communityView,
@@ -97,14 +118,22 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.signup,
           name: 'signup',
-          builder: (context, state) => const SignUpView(),
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<AuthCubit>(),
+            child: const SignUpView(),
+          ),
         ),
         GoRoute(
           path: AppRoutesPaths.emailVerification,
           name: 'emailVerification',
           builder: (context, state) {
-            final type = state.extra as VerificationType;
-            return EmailVerificationView(type: type);
+            final args = state.extra as Map<String, dynamic>;
+            final type = args['type'] as VerificationType;
+            final email = args['email'] as String;
+            return BlocProvider(
+              create: (_) => getIt<AuthCubit>(),
+              child: EmailVerificationView(type: type, email: email),
+            );
           },
         ),
         GoRoute(
@@ -115,12 +144,29 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.createPassword,
           name: 'createPassword',
-          builder: (context, state) => const CreatePassword(),
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<AuthCubit>(),
+            child: const CreatePassword(),
+          ),
         ),
         GoRoute(
           path: AppRoutesPaths.forgotPassword,
           name: 'forgotPassword',
           builder: (context, state) => const ForgetPassword(),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.resetPassword,
+          name: 'resetPassword',
+          builder: (context, state) {
+            final args = state.extra as Map<String, dynamic>;
+            return BlocProvider(
+              create: (_) => getIt<AuthCubit>(),
+              child: ResetPasswordView(
+                email: args['email'] as String,
+                resetToken: args['resetToken'] as String? ?? '',
+              ),
+            );
+          },
         ),
         GoRoute(
           path: AppRoutesPaths.homeView,

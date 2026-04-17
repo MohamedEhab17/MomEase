@@ -22,7 +22,7 @@ class CustomAuthOptions extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-          onPressed: googleOnPressed,
+          onPressed: facebookOnPressed,
           icon: SvgPicture.asset(
             AppIcons.iconsFacebook,
             width: iconSize.w,

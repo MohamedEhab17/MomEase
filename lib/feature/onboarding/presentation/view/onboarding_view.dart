@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
+import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_data.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_model.dart';
 import 'package:new_mama/feature/onboarding/presentation/widgets/custom_animated_widget.dart';
@@ -22,7 +24,7 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.colors.surface,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 38.w, vertical: 80.h),
@@ -61,7 +63,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                   dotWidth: 15,
                   dotHeight: 8,
                   dotColor: context.ext.colors.greyLight,
-                  activeDotColor: context.ext.colors.primaryTint,
+                  activeDotColor: context.ext.colors.primaryDark,
                 ),
               ),
               SizedBox(height: 24),
@@ -77,7 +79,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                       style: context.text.headlineLarge!,
                     ),
                     Text(
-                      context.trContext(onboardingList[currentPage].description),
+                      context.trContext(
+                        onboardingList[currentPage].description,
+                      ),
                       textAlign: TextAlign.center,
                       style: context.text.titleMedium!,
                     ),
@@ -95,6 +99,7 @@ class _OnboardingViewState extends State<OnboardingView> {
             ? CustomElevatedButton(
                 text: context.trContext(TK.onboardingStart),
                 onPressed: () {
+                  getIt<AuthLocalDataSource>().setOnboardingCompleted();
                   context.go(AppRoutesPaths.login);
                 },
                 minimumSize: Size(double.infinity, 52.h),
@@ -104,8 +109,11 @@ class _OnboardingViewState extends State<OnboardingView> {
                 children: [
                   CustomElevatedButton(
                     text: context.trContext(TK.onboardingSkip),
-                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    textStyle: context.text.headlineMedium!.copyWith(),
+                    backgroundColor:
+                        context.theme.buttonTheme.colorScheme!.secondary,
                     onPressed: () {
+                      getIt<AuthLocalDataSource>().setOnboardingCompleted();
                       pageViewController.animateToPage(
                         onboardingList.length - 1,
                         duration: const Duration(milliseconds: 500),

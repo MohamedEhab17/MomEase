@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/enums/verification_type.dart';
@@ -7,195 +8,182 @@ import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
-import 'package:new_mama/feature/auth/presentation/widgets/custom_circle_avatar.dart';
-import 'package:new_mama/feature/auth/presentation/widgets/custom_rich_text.dart';
-import 'package:pinput/pinput.dart';
+import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
+import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/verification_footer.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/verification_header.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/verification_otp_section.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/verification_timer_section.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EmailVerificationView extends StatefulWidget {
   final VerificationType type;
+  final String email;
 
-  const EmailVerificationView({super.key, required this.type});
+  const EmailVerificationView({
+    super.key,
+    required this.type,
+    required this.email,
+  });
 
   @override
   State<EmailVerificationView> createState() => _EmailVerificationViewState();
 }
 
 class _EmailVerificationViewState extends State<EmailVerificationView> {
-  String code = '';
-  bool isCodeComplete = false;
+  String _code = '';
+  bool _isCodeComplete = false;
 
-  int seconds = 59;
-  bool canResend = false;
-  Timer? timer;
+  int _seconds = 59;
+  bool _canResend = false;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    startTimer();
+    _startTimer();
   }
 
-  void startTimer() {
-    seconds = 59;
-    canResend = false;
+  void _startTimer() {
+    _seconds = 59;
+    _canResend = false;
 
-    timer?.cancel();
-    timer = Timer.periodic(const Duration(seconds: 1), (t) {
-      if (seconds == 0) {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (!mounted) {
         t.cancel();
-        setState(() => canResend = true);
+        return;
+      }
+      if (_seconds == 0) {
+        t.cancel();
+        setState(() => _canResend = true);
       } else {
-        setState(() => seconds--);
+        setState(() => _seconds--);
       }
     });
   }
 
   @override
   void dispose() {
-    timer?.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
-  /// 🎯 dynamic navigation
-  void handleVerify() {
-    if (widget.type == VerificationType.signup) {
-      context.push(AppRoutesPaths.emailVerifiedSuccess);
-    } else {
-      context.push(AppRoutesPaths.createPassword);
-    }
+  void _handleVerify() {
+    context.read<AuthCubit>().verifyEmail(widget.email, _code);
+  }
+
+  void _handleResend() {
+    _startTimer();
+    context.read<AuthCubit>().resendOtp(widget.email);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
-      appBar: AppBar(
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is EmailVerificationSuccess) {
+          AppToast.success(
+            context,
+            title: 'Email Verified',
+            message: 'Your email has been verified successfully.',
+          );
+          if (widget.type == VerificationType.signup) {
+            context.go(AppRoutesPaths.emailVerifiedSuccess);
+          } else {
+            context.push(
+              AppRoutesPaths.resetPassword,
+              extra: {
+                'email': widget.email,
+                'resetToken': _code,
+              },
+            );
+          }
+        } else if (state is ResendOtpSuccess) {
+          AppToast.success(
+            context,
+            title: 'Code Resent',
+            message: state.message,
+          );
+        } else if (state is AuthError) {
+          AppToast.error(context, message: state.message);
+        }
+      },
+      child: Scaffold(
         backgroundColor: context.theme.scaffoldBackgroundColor,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, color: context.colors.onSurface),
-          onPressed: () => context.pop(),
+        appBar: AppBar(
+          backgroundColor: context.theme.scaffoldBackgroundColor,
+          scrolledUnderElevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: context.colors.onSurface,
+            ),
+            onPressed: () => context.pop(),
+          ),
+          centerTitle: true,
+          title: Text(
+            context.trContext(TK.authVerifyEmail),
+            style: context.text.displaySmall!,
+          ),
         ),
-        centerTitle: true,
-        title: Text(context.trContext(TK.authVerifyEmail), style: context.text.displaySmall!),
-      ),
-      body: SingleChildScrollView(
-        padding: 22.hPadding,
-        child: Column(
-          children: [
-            64.h.height,
-            CustomCircleAvatar(imagePath: AppImages.imagesEmailVerification),
-            40.h.height,
-
-            Text(
-              context.trContext(TK.authVerificationCodeInstructions),
-              style: context.text.titleLarge!,
-              textAlign: TextAlign.center,
-            ),
-
-            37.h.height,
-
-            /// 🔢 PIN INPUT
-            Pinput(
-              length: 4,
-              showCursor: true,
-              onChanged: (value) {
-                setState(() {
-                  code = value;
-                  isCodeComplete = value.length == 4;
-                });
-              },
-              onCompleted: (pin) {
-                setState(() {
-                  code = pin;
-                  isCodeComplete = true;
-                });
-              },
-              defaultPinTheme: PinTheme(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: context.ext.colors.greyExtraLight),
-                ),
+        body: SingleChildScrollView(
+          padding: 22.hPadding,
+          child: Column(
+            children: [
+              VerificationHeader(email: widget.email),
+              37.h.height,
+              VerificationOtpSection(
+                onChanged: (value) {
+                  setState(() {
+                    _code = value;
+                    _isCodeComplete = value.length == 4;
+                  });
+                },
+                onCompleted: (pin) {
+                  setState(() {
+                    _code = pin;
+                    _isCodeComplete = true;
+                  });
+                  _handleVerify();
+                },
               ),
-              focusedPinTheme: PinTheme(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: context.ext.colors.primaryDark),
-                ),
+              24.h.height,
+              VerificationTimerSection(
+                canResend: _canResend,
+                seconds: _seconds,
+                onResend: _handleResend,
               ),
-            ),
-
-            24.h.height,
-
-            /// 🔁 RESEND
-            TextButton(
-              onPressed: canResend ? startTimer : null,
-              child: Text(
-                context.trContext(TK.authResendCode),
-                style: context.text.titleLarge!.copyWith(
-                  color: canResend
-                      ? context.ext.colors.primaryDark
-                      : context.ext.colors.lightTextDisabled,
-                  decoration: TextDecoration.underline,
-                  decorationColor: canResend
-                      ? context.ext.colors.primaryDark
-                      : context.ext.colors.lightTextDisabled,
-                ),
+              50.h.height,
+              BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) {
+                  final isLoading = state is AuthLoading;
+                  return Opacity(
+                    opacity: _isCodeComplete && !isLoading ? 1 : 0.5,
+                    child: CustomElevatedButton(
+                      text: context.trContext(TK.authVerificationVerifyButton),
+                      minimumSize: Size(double.infinity, 52.h),
+                      onPressed:
+                          _isCodeComplete && !isLoading ? _handleVerify : null,
+                    ),
+                  );
+                },
               ),
-            ),
-
-            8.h.height,
-
-            // TIMER
-            Text(
-              canResend
-                  ? context.trContext(TK.authVerificationResendNow)
-                  : "00:${seconds.toString().padLeft(2, '0')}",
-              style: context.text.titleMedium!.copyWith(
-                color: context.ext.colors.lightTextPrimary,
-              ),
-            ),
-
-            50.h.height,
-
-            // VERIFY BUTTON
-            Opacity(
-              opacity: isCodeComplete ? 1 : 0.5,
-              child: CustomElevatedButton(
-                text: context.trContext(TK.authVerificationVerifyButton),
-                minimumSize: Size(double.infinity, 52.h),
-                onPressed: isCodeComplete ? handleVerify : null,
-              ),
-            ),
-
-            24.h.height,
-
-            CustomRichText(
-              firstText: context.trContext(TK.authVerificationDidntReceiveFirst),
-              secondText: context.trContext(TK.authVerificationSpamLink),
-              onTap: () => openEmailApp(context),
-              firstTextStyle: context.text.titleMedium!.copyWith(
-                color: context.ext.colors.lightTextDisabled,
-              ),
-              secondTextStyle: context.text.titleMedium!.copyWith(
-                color: context.ext.colors.primaryDark,
-              ),
-            ),
-          ],
+              24.h.height,
+              VerificationFooter(onTap: () => _openEmailApp(context)),
+              24.h.height,
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future<void> openEmailApp(BuildContext context) async {
+  Future<void> _openEmailApp(BuildContext context) async {
     final Uri gmailApp = Uri.parse('googlegmail://');
     final Uri gmailWeb = Uri.parse('https://mail.google.com');
 
@@ -207,16 +195,17 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
       }
 
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.trContext(TK.authVerificationSpamSnackbar))),
+      AppToast.info(
+        context,
+        message: context.trContext(TK.authVerificationSpamSnackbar),
       );
     } catch (e) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            context.trContext(TK.commonErrorWithDetails, namedArgs: {'error': '$e'}),
-          ),
+      AppToast.error(
+        context,
+        message: context.trContext(
+          TK.commonErrorWithDetails,
+          namedArgs: {'error': '$e'},
         ),
       );
     }

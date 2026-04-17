@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/extensions/localization_ex.dart';
-import 'package:new_mama/core/localization/translation_keys.dart';
+import 'package:new_mama/core/enums/verification_type.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/validation_methods.dart';
-import 'package:new_mama/core/widgets/custom_elevated_button.dart';
-import 'package:new_mama/core/widgets/text_form_field_helper.dart';
-import 'package:new_mama/feature/auth/presentation/widgets/custom_auth_options.dart';
-import 'package:new_mama/feature/auth/presentation/widgets/custom_rich_text.dart';
-import 'package:new_mama/feature/auth/presentation/widgets/two_divider_separated_with_text.dart';
+import 'package:new_mama/core/di/injection.dart';
+import 'package:new_mama/core/helper/biometric_helper.dart';
+import 'package:new_mama/core/helper/google_auth_helper.dart';
+import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
+import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/login_button_row.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/login_footer.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/login_form.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/login_header.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/login_social_auth_section.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -32,14 +37,35 @@ class _LoginViewState extends State<LoginView> {
     _formKey = GlobalKey<FormState>();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _checkBiometrics();
+  }
+
+  bool _isBiometricAvailable = false;
+  Future<void> _checkBiometrics() async {
+    final available = await getIt<BiometricHelper>().isBiometricAvailable();
+    if (mounted) {
+      setState(() {
+        _isBiometricAvailable = available;
+      });
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    final (idToken, error) = await getIt<GoogleAuthHelper>().getGoogleIdToken();
+    if (mounted) {
+      if (idToken != null) {
+        context.read<AuthCubit>().googleLogin(idToken);
+      } else if (error != null) {
+        AppToast.error(context, message: error);
+      }
+    }
   }
 
   @override
   void dispose() {
-    super.dispose();
-    _formKey.currentState?.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    super.dispose();
   }
 
   bool isValid = false;
@@ -54,111 +80,80 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        bottom: false,
-        child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-          padding: EdgeInsetsDirectional.only(
-            start: 16.w,
-            end: 16.w,
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                168.h.height,
-                CustomRichText(
-                  firstText: context.trContext(TK.authLoginWelcomeFirst),
-                  secondText: context.trContext(TK.authLoginWelcomeSecond),
-                  center: false,
-                ),
-                8.h.height,
-                Text(
-                  context.trContext(TK.authLogin),
-                  style: context.text.titleMedium!.copyWith(
-                    color: context.ext.colors.lightTextDisabled,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                56.h.height,
-                TextFormFieldHelper(
-                  controller: _emailController,
-                  hint: context.trContext(TK.authLoginEmailPhoneHint),
-                  borderRadius: BorderRadius.circular(64),
-                  onValidate: validateEmailOrPhone,
-                  fillColor: context.theme.cardColor,
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: (_) => validateForm(),
-                ),
-                24.h.height,
-                TextFormFieldHelper(
-                  controller: _passwordController,
-                  hint: context.trContext(TK.authLoginPasswordHint),
-                  isPassword: true,
-                  borderRadius: BorderRadius.circular(64),
-                  onValidate: validatePassword,
-                  fillColor: context.theme.cardColor,
-                  keyboardType: TextInputType.visiblePassword,
-                  onChanged: (_) => validateForm(),
-                ),
-                8.h.height,
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: GestureDetector(
-                    onTap: () {
-                      context.push(AppRoutesPaths.forgotPassword);
-                    },
-
-                    child: Text(
-                      context.trContext(TK.authForgotPassword),
-                      style: context.text.bodyLarge!.copyWith(
-                        color: context.ext.colors.primaryDark,
-                        fontWeight: FontWeight.w500,
-                      ),
+    return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (prev, next) => next is AuthSuccess || next is AuthError,
+      listener: (context, state) {
+        if (state is AuthSuccess) {
+          context.go(AppRoutesPaths.appSectionView);
+        } else if (state is AuthError) {
+          if (state.message.contains(
+            "Please verify your email before logging in.",
+          )) {
+            context.go(
+              AppRoutesPaths.emailVerification,
+              extra: {
+                'type': VerificationType.signup,
+                'email': _emailController.text.trim(),
+              },
+            );
+          } else {
+            AppToast.error(context, message: state.message);
+          }
+        }
+      },
+      child: Scaffold(
+        backgroundColor: context.theme.scaffoldBackgroundColor,
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          bottom: false,
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+            padding: EdgeInsetsDirectional.only(
+              start: 16.w,
+              end: 16.w,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Form(
+              key: _formKey,
+              child: AutofillGroup(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const LoginHeader(),
+                    LoginForm(
+                      emailController: _emailController,
+                      passwordController: _passwordController,
+                      onFormChanged: validateForm,
                     ),
-                  ),
+                    48.h.height,
+                    LoginButtonRow(
+                      isValid: isValid,
+                      isBiometricAvailable: _isBiometricAvailable,
+                      onLoginPressed: () {
+                        FocusScope.of(context).unfocus();
+                        context.read<AuthCubit>().login(
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text,
+                        );
+                      },
+                      onBiometricPressed: () {
+                        FocusScope.of(context).unfocus();
+                        context.read<AuthCubit>().biometricLogin();
+                      },
+                    ),
+                    12.h.height,
+                    LoginSocialAuthSection(
+                      onGooglePressed: () {
+                        FocusScope.of(context).unfocus();
+                        _handleGoogleSignIn();
+                      },
+                    ),
+                    24.h.height,
+                    const LoginFooter(),
+                    24.h.height,
+                  ],
                 ),
-                48.h.height,
-                Opacity(
-                  opacity: isValid ? 1.0 : 0.5,
-                  child: CustomElevatedButton(
-                    text: "Login",
-                    minimumSize: Size(double.infinity, 52),
-                    onPressed: isValid
-                        ? () {
-                            context.go(AppRoutesPaths.appSectionView);
-                          }
-                        : null,
-                  ),
-                ),
-                12.h.height,
-                TwoDividerSeparatedWithText(text: context.trContext(TK.authLoginOr)),
-                24.h.height,
-                CustomAuthOptions(),
-                24.h.height,
-                MediaQuery.of(context).viewInsets.bottom != 0.0
-                    ? SizedBox.shrink()
-                    : CustomRichText(
-                        firstText: context.trContext(TK.authLoginNoAccountFirst),
-                        secondText: context.trContext(TK.authLoginSignUpLink),
-                        onTap: () {
-                          context.push(AppRoutesPaths.signup);
-                        },
-                        firstTextStyle: context.text.titleMedium!.copyWith(
-                          color: context.ext.colors.lightTextDisabled,
-                        ),
-                        secondTextStyle: context.text.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: context.ext.colors.primaryDark,
-                        ),
-                      ),
-                24.h.height,
-              ],
+              ),
             ),
           ),
         ),

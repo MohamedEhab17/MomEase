@@ -9,11 +9,12 @@ import 'package:new_mama/core/routers/app_router.dart';
 import 'package:new_mama/core/theme/app_theme.dart';
 import 'package:new_mama/core/theme/cubit/theme_cubit.dart';
 import 'package:new_mama/core/localization/cubit/language_cubit.dart';
+import 'package:toastification/toastification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  configureDependencies();
+  await configureDependencies();
   await AppRouter.initRouter();
 
   runApp(
@@ -59,17 +60,19 @@ class NewMama extends StatelessWidget {
                     }
                   }
 
-                  return MaterialApp.router(
-                    title: 'New Mama',
-                    theme: getTheme(),
-                    themeAnimationCurve: Curves.fastOutSlowIn,
-                    themeAnimationDuration: const Duration(milliseconds: 1000),
-                    routerConfig: AppRouter.router,
-                    debugShowCheckedModeBanner: false,
-                    localizationsDelegates: context.localizationDelegates,
-                    supportedLocales: context.supportedLocales,
-                    locale: locale, // Force localized state sync instantly
-                    builder: DevicePreview.appBuilder,
+                  return ToastificationWrapper(
+                    child: MaterialApp.router(
+                      title: 'New Mama',
+                      theme: getTheme(),
+                      themeAnimationCurve: Curves.fastOutSlowIn,
+                      themeAnimationDuration: const Duration(milliseconds: 1000),
+                      routerConfig: AppRouter.router,
+                      debugShowCheckedModeBanner: false,
+                      localizationsDelegates: context.localizationDelegates,
+                      supportedLocales: context.supportedLocales,
+                      locale: locale,
+                      builder: DevicePreview.appBuilder,
+                    ),
                   );
                 },
               );

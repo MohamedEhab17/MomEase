@@ -25,6 +25,7 @@ class TextFormFieldHelper extends StatefulWidget {
   final TextStyle? hintStyle;
   final Color? borderColor;
   final Color? fillColor;
+  final Iterable<String>? autoFillHint;
 
   final bool enableShadow;
 
@@ -62,6 +63,7 @@ class TextFormFieldHelper extends StatefulWidget {
     this.fillColor,
     this.isReadOnly,
     this.enableShadow = true,
+    this.autoFillHint,
   });
 
   @override
@@ -143,6 +145,7 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
             enabled: widget.enabled,
             textInputAction: widget.action ?? TextInputAction.next,
             focusNode: widget.focusNode,
+            autofillHints: widget.autoFillHint?.toList(),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             textAlign: widget.isMobile != null
                 ? TextAlign.left

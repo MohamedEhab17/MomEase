@@ -438,4 +438,10 @@ class TK {
   static const commonDayThu = 'common.day_labels.thu';
   static const commonDayFri = 'common.day_labels.fri';
   static const commonDaySat = 'common.day_labels.sat';
+
+  // 🔹 Toast
+  static const toastSuccess = 'common.toast.success';
+  static const toastError = 'common.toast.error';
+  static const toastWarning = 'common.toast.warning';
+  static const toastInfo = 'common.toast.info';
 }

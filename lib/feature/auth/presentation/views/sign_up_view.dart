@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/enums/verification_type.dart';
-import 'package:new_mama/core/extensions/localization_ex.dart';
-import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/validation_methods.dart';
-import 'package:new_mama/core/widgets/custom_elevated_button.dart';
-import 'package:new_mama/core/widgets/text_form_field_helper.dart';
-import 'package:new_mama/feature/auth/presentation/widgets/custom_auth_options.dart';
-import 'package:new_mama/feature/auth/presentation/widgets/custom_rich_text.dart';
-import 'package:new_mama/feature/auth/presentation/widgets/two_divider_separated_with_text.dart';
+import 'package:new_mama/core/di/injection.dart';
+import 'package:new_mama/core/helper/google_auth_helper.dart';
+import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
+import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/login_social_auth_section.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/signup_button.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/signup_footer.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/signup_form.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/signup_header.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -26,6 +29,8 @@ class _SignUpViewState extends State<SignUpView> {
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
   late final TextEditingController _emailController;
+  late final TextEditingController _phoneController;
+  late final TextEditingController _ageController;
 
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
@@ -39,17 +44,31 @@ class _SignUpViewState extends State<SignUpView> {
     _confirmPasswordController = TextEditingController();
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
+    _phoneController = TextEditingController();
+    _ageController = TextEditingController();
   }
 
   @override
   void dispose() {
-    super.dispose();
-    _formKey.currentState?.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _firstNameController.dispose();
     _lastNameController.dispose();
+    _phoneController.dispose();
+    _ageController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    final (idToken, error) = await getIt<GoogleAuthHelper>().getGoogleIdToken();
+    if (mounted) {
+      if (idToken != null) {
+        context.read<AuthCubit>().googleLogin(idToken);
+      } else if (error != null) {
+        AppToast.error(context, message: error);
+      }
+    }
   }
 
   bool isValid = false;
@@ -64,140 +83,75 @@ class _SignUpViewState extends State<SignUpView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        bottom: false,
-        child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-          padding: EdgeInsetsDirectional.only(
-            start: 16.w,
-            end: 16.w,
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                76.h.height,
-                CustomRichText(
-                  firstText: context.trContext(TK.authSignUpTitleFirst),
-                  secondText: context.trContext(TK.authSignUpTitleSecond),
-
-                  center: false,
-                ),
-                8.h.height,
-                Text(
-                  context.trContext(TK.authSignUpSubtitle),
-                  style: context.text.titleMedium!.copyWith(
-                    color: context.ext.colors.lightTextDisabled,
-                    fontWeight: FontWeight.w500,
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthSuccess) {
+          context.push(
+            AppRoutesPaths.emailVerification,
+            extra: {
+              'type': VerificationType.signup,
+              'email': _emailController.text.trim(),
+            },
+          );
+        } else if (state is AuthError) {
+          AppToast.error(context, message: state.message);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: context.theme.scaffoldBackgroundColor,
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          bottom: false,
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+            padding: EdgeInsetsDirectional.only(
+              start: 16.w,
+              end: 16.w,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SignUpHeader(),
+                  SignUpForm(
+                    firstNameController: _firstNameController,
+                    lastNameController: _lastNameController,
+                    emailController: _emailController,
+                    phoneController: _phoneController,
+                    ageController: _ageController,
+                    passwordController: _passwordController,
+                    confirmPasswordController: _confirmPasswordController,
+                    onFormChanged: validateForm,
                   ),
-                ),
-                56.h.height,
-                Row(
-                  spacing: 24.w,
-                  children: [
-                    Expanded(
-                      child: TextFormFieldHelper(
-                        hint: context.trContext(TK.authSignUpFirstNameHint),
-                        borderRadius: BorderRadius.circular(64),
-                        onValidate: validateUsername,
-                        keyboardType: TextInputType.name,
-                        controller: _firstNameController,
-                        fillColor: context.theme.cardColor,
-                        onChanged: (_) => validateForm(),
-                      ),
-                    ),
-                    Expanded(
-                      child: TextFormFieldHelper(
-                        hint: context.trContext(TK.authSignUpLastNameHint),
-                        fillColor: context.theme.cardColor,
-                        borderRadius: BorderRadius.circular(64),
-                        onValidate: validateUsername,
-                        keyboardType: TextInputType.name,
-                        controller: _lastNameController,
-                        onChanged: (_) => validateForm(),
-                      ),
-                    ),
-                  ],
-                ),
-                24.h.height,
-                TextFormFieldHelper(
-                  hint: context.trContext(TK.authSignUpEmailHint),
-                  borderRadius: BorderRadius.circular(64),
-                  onValidate: validateEmailOrPhone,
-                  keyboardType: TextInputType.emailAddress,
-                  controller: _emailController,
-                  fillColor: context.theme.cardColor,
-                  onChanged: (_) => validateForm(),
-                ),
-                24.h.height,
-                TextFormFieldHelper(
-                  hint: context.trContext(TK.authSignUpPasswordHint),
-                  isPassword: true,
-                  borderRadius: BorderRadius.circular(64),
-                  onValidate: validatePassword,
-                  controller: _passwordController,
-                  keyboardType: TextInputType.visiblePassword,
-                  fillColor: context.theme.cardColor,
-                  onChanged: (_) {
-                    validateForm();
-                    _formKey.currentState?.validate();
-                  },
-                ),
-                24.h.height,
-                TextFormFieldHelper(
-                  hint: context.trContext(TK.authSignUpConfirmPasswordHint),
-                  isPassword: true,
-                  borderRadius: BorderRadius.circular(64),
-                  fillColor: context.theme.cardColor,
-                  controller: _confirmPasswordController,
-                  onValidate: (value) =>
-                      validateConfirmPassword(value, _passwordController.text),
-                  keyboardType: TextInputType.visiblePassword,
-                  onChanged: (_) => validateForm(),
-                ),
-                48.h.height,
-                Opacity(
-                  opacity: isValid ? 1.0 : 0.5,
-                  child: CustomElevatedButton(
-                    text: context.trContext(TK.authSignUpButton),
-
-                    minimumSize: Size(double.infinity, 52),
-                    onPressed: isValid
-                        ? () {
-                            context.push(
-                              AppRoutesPaths.emailVerification,
-                              extra: VerificationType.signup,
-                            );
-                          }
-                        : null,
+                  32.h.height,
+                  SignUpButton(
+                    isValid: isValid,
+                    onPressed: () {
+                      context.read<AuthCubit>().register(
+                            firstName: _firstNameController.text.trim(),
+                            lastName: _lastNameController.text.trim(),
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text,
+                            confirmPassword: _confirmPasswordController.text,
+                            phone: _phoneController.text.trim(),
+                            age: int.tryParse(_ageController.text) ?? 20,
+                          );
+                    },
                   ),
-                ),
-                12.h.height,
-                TwoDividerSeparatedWithText(text: context.trContext(TK.authSignUpOr)),
-                24.h.height,
-                CustomAuthOptions(),
-                24.h.height,
-                MediaQuery.of(context).viewInsets.bottom != 0.0
-                    ? SizedBox.shrink()
-                    : CustomRichText(
-                        firstText: context.trContext(TK.authSignUpHasAccountFirst),
-                        secondText: context.trContext(TK.authSignUpLoginLink),
-                        onTap: () => context.pop(),
-                        firstTextStyle: context.text.titleMedium!.copyWith(
-                          color: context.ext.colors.lightTextDisabled,
-                        ),
-                        secondTextStyle: context.text.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: context.ext.colors.primaryDark,
-                        ),
-                      ),
-                24.h.height,
-              ],
+                  12.h.height,
+                  LoginSocialAuthSection(
+                    onGooglePressed: () {
+                      FocusScope.of(context).unfocus();
+                      _handleGoogleSignIn();
+                    },
+                  ),
+                  24.h.height,
+                  const SignUpFooter(),
+                  24.h.height,
+                ],
+              ),
             ),
           ),
         ),

@@ -406,6 +406,12 @@
       "thu": "Thu",
       "fri": "Fri",
       "sat": "Sat"
+    },
+    "toast": {
+      "success": "Success",
+      "error": "Error",
+      "warning": "Warning",
+      "info": "Info"
     }
   },
 
