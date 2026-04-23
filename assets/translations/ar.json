@@ -316,7 +316,9 @@
     "doing_well": "أنتِ بخير نفسياً",
     "gentle_recommendations": "نصائح بسيطة",
     "retake_check_in": "إعادة الفحص",
-    "back_to_home": "العودة للرئيسية"
+    "back_to_home": "العودة للرئيسية",
+    "depression_test_title": "اختبارات تقييم الحالة النفسية",
+    "depression_tests_desc": "خدي لحظة لتطمني على نفسك. الأدوات دي معتمدة من الناحية الطبية وبتساعدك تفهمي حالتك النفسية."
   },
 
   "skin_diagnosis": {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class DottedList extends StatelessWidget {
@@ -9,7 +10,6 @@ class DottedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 10.w,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -19,6 +19,7 @@ class DottedList extends StatelessWidget {
             radius: 4.r,
           ),
         ),
+        10.w.width,
         Expanded(
           child: Text(
             text,

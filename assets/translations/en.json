@@ -326,6 +326,8 @@
     "gentle_recommendations": "Gentle Recommendations",
     "retake_check_in": "Retake Check-In",
     "back_to_home": "Back to Home",
+    "depression_test_title": "Depression Self-Assessment Tests",
+    "depression_tests_desc": "Take a moment to check in with yourself. These clinically-validated tools help you understand your emotional well-being.",
     "severity": {
       "minimal": "Minimal",
       "mild": "Mild",

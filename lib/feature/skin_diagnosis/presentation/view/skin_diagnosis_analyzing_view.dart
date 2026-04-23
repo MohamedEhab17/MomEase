@@ -46,9 +46,7 @@ class _SkinDiagnosisAnalyzingViewState
       headline: context.trContext(TK.skinAnalyzingHeadline),
       subtitle: context.trContext(TK.skinAnalyzingSubtitle),
       onBackPressed: () {
-        while (context.canPop()) {
-          context.pop();
-        }
+        context.go(AppRoutesPaths.appSectionView);
       },
       indicator: Container(
         padding: 16.w.allPadding,

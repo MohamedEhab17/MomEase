@@ -20,7 +20,9 @@ class DepressionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: FeaturesHeader(title: context.trContext(TK.depressionAppBarTitle)),
+      appBar: FeaturesHeader(
+        title: context.trContext(TK.depressionAppBarTitle),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
         clipBehavior: Clip.none,
@@ -75,7 +77,7 @@ class DepressionView extends StatelessWidget {
             CustomElevatedButton(
               text: context.trContext(TK.depressionStartCheckIn),
               onPressed: () {
-                context.push(AppRoutesPaths.depressionTestView);
+                context.push(AppRoutesPaths.depressionTestOptionsView);
               },
               textStyle: context.text.titleMedium!.copyWith(
                 color: context.theme.buttonTheme.colorScheme!.onPrimary,

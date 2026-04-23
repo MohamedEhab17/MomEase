@@ -15,6 +15,7 @@ class AppRoutesPaths {
   static const String savedArticlesView = '/savedArticlesView';
   static const String depressionView = '/depressionView';
   static const String depressionTestView = '/depressionTestView';
+  static const String depressionTestOptionsView = '/depressionTestOptionsView';
   static const String depressionResultView = '/depressionResultView';
   static const String cryingInsightView = '/cryingInsightView';
   static const String cryingResultView = '/cryingResultView';

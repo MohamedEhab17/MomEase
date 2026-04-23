@@ -24,9 +24,7 @@ class SkinDiagnosisResultView extends StatelessWidget {
       appBar: FeaturesHeader(
         title: context.trContext(TK.skinResultTitle),
         onPressed: () {
-          while (context.canPop()) {
-            context.pop();
-          }
+          context.go(AppRoutesPaths.appSectionView);
         },
       ),
       body: SingleChildScrollView(
@@ -62,10 +60,7 @@ class SkinDiagnosisResultView extends StatelessWidget {
               text: context.trContext(TK.skinAnalyzeAnother),
               minimumSize: Size(double.infinity, 52.h),
               onPressed: () {
-                while (context.canPop()) {
-                  context.pop();
-                }
-                context.push(AppRoutesPaths.skinDiagnosisInsightView);
+                context.pushReplacement(AppRoutesPaths.skinDiagnosisInsightView);
               },
             ),
             24.h.height,

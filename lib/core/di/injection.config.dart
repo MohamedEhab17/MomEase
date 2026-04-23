@@ -71,6 +71,36 @@ import '../../feature/community/domain/usecases/community_usecases.dart'
     as _i1038;
 import '../../feature/community/presentation/view_model/community_cubit.dart'
     as _i1026;
+import '../../feature/depression/data/datasources/assessment_remote_data_source_contract.dart'
+    as _i766;
+import '../../feature/depression/data/datasources/assessment_remote_data_source_impl.dart'
+    as _i730;
+import '../../feature/depression/data/repositories/assessments_repository_impl.dart'
+    as _i501;
+import '../../feature/depression/domain/repositories/assessment_repository.dart'
+    as _i121;
+import '../../feature/depression/domain/usecase/get_assessment_by_id_usecase.dart'
+    as _i812;
+import '../../feature/depression/domain/usecase/get_assessment_result_usecase.dart'
+    as _i156;
+import '../../feature/depression/domain/usecase/get_assessments_usecase.dart'
+    as _i9;
+import '../../feature/depression/domain/usecase/get_options_usecase.dart'
+    as _i895;
+import '../../feature/depression/domain/usecase/get_question_by_id_usecase.dart'
+    as _i552;
+import '../../feature/depression/domain/usecase/get_questions_usecase.dart'
+    as _i670;
+import '../../feature/depression/domain/usecase/submit_assessment_usecase.dart'
+    as _i331;
+import '../../feature/depression/presentation/view_model/assessment_result_cubit/assessment_result_cubit.dart'
+    as _i712;
+import '../../feature/depression/presentation/view_model/assessments_cubit/assessments_cubit.dart'
+    as _i550;
+import '../../feature/depression/presentation/view_model/questions_cubit/questions_cubit.dart'
+    as _i458;
+import '../../feature/depression/presentation/view_model/submit_cubit/submit_cubit.dart'
+    as _i562;
 import '../../feature/notifications/data/datasource/notification_local_datasource.dart'
     as _i967;
 import '../../feature/notifications/data/repository/notification_repository.dart'
@@ -154,6 +184,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i589.SoundRecordingCubit>(
       () => _i589.SoundRecordingCubit(gh<_i0.AudioRepository>()),
+    );
+    gh.lazySingleton<_i766.AssessmentRemoteDataSourceContract>(
+      () => _i730.AssessmentRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
+    gh.lazySingleton<_i121.AssessmentRepository>(
+      () => _i501.AssessmentRepositoryImpl(
+        gh<_i766.AssessmentRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
+      ),
     );
     gh.factory<_i875.GetArticlesUseCase>(
       () => _i875.GetArticlesUseCase(gh<_i95.ArticleRepository>()),
@@ -241,11 +280,41 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1038.CreatePostUseCase>(),
       ),
     );
+    gh.factory<_i812.GetAssessmentByIdUseCase>(
+      () => _i812.GetAssessmentByIdUseCase(gh<_i121.AssessmentRepository>()),
+    );
+    gh.factory<_i156.GetAssessmentResultUseCase>(
+      () => _i156.GetAssessmentResultUseCase(gh<_i121.AssessmentRepository>()),
+    );
+    gh.factory<_i9.GetAssessmentsUseCase>(
+      () => _i9.GetAssessmentsUseCase(gh<_i121.AssessmentRepository>()),
+    );
+    gh.factory<_i895.GetOptionsUseCase>(
+      () => _i895.GetOptionsUseCase(gh<_i121.AssessmentRepository>()),
+    );
+    gh.factory<_i552.GetQuestionByIdUseCase>(
+      () => _i552.GetQuestionByIdUseCase(gh<_i121.AssessmentRepository>()),
+    );
+    gh.factory<_i670.GetQuestionsUseCase>(
+      () => _i670.GetQuestionsUseCase(gh<_i121.AssessmentRepository>()),
+    );
+    gh.factory<_i331.SubmitAssessmentUseCase>(
+      () => _i331.SubmitAssessmentUseCase(gh<_i121.AssessmentRepository>()),
+    );
+    gh.factory<_i458.QuestionsCubit>(
+      () => _i458.QuestionsCubit(
+        gh<_i670.GetQuestionsUseCase>(),
+        gh<_i895.GetOptionsUseCase>(),
+      ),
+    );
     gh.factory<_i989.BiometricLoginUseCase>(
       () => _i989.BiometricLoginUseCase(
         gh<_i488.AuthRepository>(),
         gh<_i792.BiometricHelper>(),
       ),
+    );
+    gh.factory<_i562.SubmitCubit>(
+      () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
     );
     gh.lazySingleton<_i849.ChangePasswordUseCase>(
       () => _i849.ChangePasswordUseCase(gh<_i488.AuthRepository>()),
@@ -273,6 +342,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i352.VerifyEmailUseCase>(
       () => _i352.VerifyEmailUseCase(gh<_i488.AuthRepository>()),
+    );
+    gh.factory<_i550.AssessmentsCubit>(
+      () => _i550.AssessmentsCubit(gh<_i9.GetAssessmentsUseCase>()),
+    );
+    gh.factory<_i712.AssessmentResultCubit>(
+      () => _i712.AssessmentResultCubit(gh<_i156.GetAssessmentResultUseCase>()),
     );
     gh.factory<_i47.AuthCubit>(
       () => _i47.AuthCubit(

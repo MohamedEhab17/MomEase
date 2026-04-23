@@ -24,9 +24,7 @@ class CryingResultView extends StatelessWidget {
       appBar: FeaturesHeader(
         title: context.trContext(TK.babyCryResultTitle),
         onPressed: () {
-          while (context.canPop()) {
-            context.pop();
-          }
+          context.go(AppRoutesPaths.appSectionView);
         },
       ),
       body: SingleChildScrollView(
@@ -63,10 +61,7 @@ class CryingResultView extends StatelessWidget {
               backgroundColor: context.ext.colors.primaryDark,
               minimumSize: Size(double.infinity, 52.h),
               onPressed: () {
-                while (context.canPop()) {
-                  context.pop();
-                }
-                context.push(AppRoutesPaths.cryingInsightView);
+                context.pushReplacement(AppRoutesPaths.cryingInsightView);
               },
               textStyle: context.text.headlineMedium!.copyWith(
                 color: context.theme.buttonTheme.colorScheme!.onPrimary,

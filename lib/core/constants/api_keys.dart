@@ -12,4 +12,11 @@ class Api {
   static const String googleLogin = 'Auth/google-login';
   static const String changePassword = 'Auth/change-password';
   static const String revokeToken = 'Auth/revoke-token';
+  static const String getAssessments = 'assessments';
+  static const String getQuestions = 'assessments/{assessmentId}/questions';
+  static const String submitAssessment = 'assessments/{assessmentId}/submit';
+  static const String getQuestionById = 'assessments/{assessmentId}/questions/{questionId}';
+  static const String getOptionsByQuestionId = 'questions/{questionId}/options';
+  static const String getAssessmentResult = "assessment-results/{id}";
 }
+

@@ -1,165 +1,174 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
+import 'package:new_mama/core/theme/app_colors.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
-import 'package:new_mama/core/widgets/features_header.dart';
 import 'package:new_mama/core/widgets/custom_instructions_recommendations.dart';
+import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
+import 'package:new_mama/core/widgets/features_header.dart';
+import 'package:new_mama/feature/depression/domain/entities/assessments.dart';
+import 'package:new_mama/feature/depression/presentation/view_model/assessment_result_cubit/assessment_result_cubit.dart';
+import 'package:new_mama/feature/depression/presentation/view_model/assessment_result_cubit/assessment_result_state.dart';
 
 class DepressionResultView extends StatelessWidget {
-  final int totalScore;
+  final Assessments assessment;
 
-  DepressionResultView({super.key, required this.totalScore});
-  final List<String> _adviceKeys = [
-    TK.babyCryTip1,
-    TK.babyCryTip2,
-    TK.babyCryTip3,
-    TK.babyCryTip4,
-  ];
-  String _severityResult(BuildContext context) {
-    if (totalScore <= 4) return context.trContext(TK.depressionSeverityMinimal);
-    if (totalScore <= 9) return context.trContext(TK.depressionSeverityMild);
-    if (totalScore <= 14) return context.trContext(TK.depressionSeverityModerate);
-    if (totalScore <= 19) return context.trContext(TK.depressionSeverityModSevere);
-    return context.trContext(TK.depressionSeveritySevere);
+  const DepressionResultView({super.key, required this.assessment});
+
+  /// Maps the score to the themed foreground severity color.
+  Color _severityColor(AppColors colors, int score) {
+    if (score <= 4) return colors.severityMinimal;
+    if (score <= 9) return colors.severityMild;
+    if (score <= 14) return colors.severityModerate;
+    if (score <= 19) return colors.severityHigh;
+    return colors.severitySevere;
   }
 
-  Color _severityColor(BuildContext context) {
-    if (totalScore <= 4) {
-      return context.ext.colors.greenText;
-    }
-    if (totalScore <= 9) return Colors.blue;
-    if (totalScore <= 14) return Colors.orange;
-    if (totalScore <= 19) return Colors.deepOrange;
-    return Colors.red;
-  }
-
-  Color _severityBackgroundColor(BuildContext context) {
-    if (totalScore <= 9) {
-      return context.ext.colors.backgroundGreen.withAlpha(77);
-    }
-    if (totalScore <= 14) return Colors.orange.withAlpha(77);
-    return Colors.red.withAlpha(77);
-  }
-
-  String _description(BuildContext context) {
-    if (totalScore <= 4) {
-      return context.trContext(TK.depressionResultMinimal);
-    } else if (totalScore <= 9) {
-      return context.trContext(TK.depressionResultMild);
-    } else if (totalScore <= 14) {
-      return context.trContext(TK.depressionResultModerate);
-    } else if (totalScore <= 19) {
-      return context.trContext(TK.depressionResultModSevere);
-    } else {
-      return context.trContext(TK.depressionResultSevere);
-    }
+  /// Maps the score to the themed background severity color.
+  Color _severityBackgroundColor(AppColors colors, int score) {
+    if (score <= 4) return colors.severityMinimalBg;
+    if (score <= 9) return colors.severityMildBg;
+    if (score <= 14) return colors.severityModerateBg;
+    if (score <= 19) return colors.severityHighBg;
+    return colors.severitySevereBg;
   }
 
   @override
   Widget build(BuildContext context) {
-    final advices = _adviceKeys.map((k) => context.trContext(k)).toList();
+    return BlocBuilder<AssessmentResultCubit, AssessmentResultState>(
+      builder: (context, state) {
+        if (state is AssessmentResultLoading) {
+          return const Scaffold(
+            body: Center(child: CustomLoadingIndicator()),
+          );
+        }
+        if (state is AssessmentResultError) {
+          return Scaffold(body: Center(child: Text(state.message)));
+        }
+        if (state is AssessmentResultSuccess) {
+          final result = state.result;
+          final description = result.description;
+          final themeColors = context.ext.colors;
+          final fgColor = _severityColor(themeColors, result.score);
+          final bgColor = _severityBackgroundColor(themeColors, result.score);
 
-    return Scaffold(
-      appBar: FeaturesHeader(
-        title: context.trContext(TK.depressionAppBarTitle),
-        onPressed: () {
-          while (context.canPop()) {
-            context.pop();
-          }
-        },
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 33.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 33, vertical: 24),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.r),
-                color: _severityBackgroundColor(context),
-              ),
-
+          return Scaffold(
+            appBar: FeaturesHeader(
+              title: context.trContext(TK.depressionAppBarTitle),
+              onPressed: () {
+                context.go(AppRoutesPaths.appSectionView);
+              },
+            ),
+            body: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 33.h),
               child: Column(
-                spacing: 12.h,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(context.trContext(TK.depressionWellbeing), style: context.text.bodyMedium!),
-                  Text(
-                    _severityResult(context),
-                    style: context.text.displayMedium!.copyWith(
-                      color: _severityColor(context),
+                  // ── Score & Severity Card ───────────────────────────────────────
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 33,
+                      vertical: 24,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.r),
+                      color: bgColor,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(assessment.name, style: context.text.bodyMedium!),
+                        12.h.height,
+                        // Severity from API
+                        Text(
+                          result.severity,
+                          style: context.text.displayMedium!.copyWith(
+                            color: fgColor,
+                          ),
+                        ),
+                        12.h.height,
+                        // Score from API
+                        Text(
+                          context.trContext(
+                            TK.depressionScoreDisplay,
+                            namedArgs: {'score': '${result.score}'},
+                          ),
+                          style: context.text.bodyMedium!.copyWith(
+                            color: context.text.bodyMedium!.color!.withAlpha(
+                              178,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+
+                  41.h.height,
                   Text(
-                    context.trContext(
-                      TK.depressionScoreDisplay,
-                      namedArgs: {'score': '$totalScore'},
+                    result.severity,
+                    style: context.text.displayMedium!,
+                    textAlign: TextAlign.center,
+                    softWrap: true,
+                  ),
+                  30.h.height,
+
+                  // ── Advice / Description from API ───────────────────────────────
+                  Text(
+                    description,
+                    style: context.text.titleSmall!,
+                    textAlign: TextAlign.center,
+                    softWrap: true,
+                  ),
+                  33.h.height,
+
+                  CustomInstructionsRecommendations(
+                    advices: [],
+                    title: context.trContext(TK.depressionRecommendations),
+                  ),
+                  53.h.height,
+                  // ── Actions ─────────────────────────────────────────────────────
+                  CustomElevatedButton(
+                    text: context.trContext(TK.depressionRetake),
+                    textStyle: context.text.headlineMedium!.copyWith(
+                      color: context.theme.buttonTheme.colorScheme!.onPrimary,
                     ),
-                    style: context.text.bodyMedium!.copyWith(
-                      color: context.text.bodyMedium!.color!.withAlpha(178),
+                    onPressed: () {
+                      context.pushReplacement(
+                        AppRoutesPaths.depressionTestView,
+                        extra: assessment,
+                      );
+                    },
+                    backgroundColor:
+                        context.theme.buttonTheme.colorScheme!.primary,
+                    minimumSize: Size(double.infinity, 52.h),
+                  ),
+
+                  24.h.height,
+                  CustomElevatedButton(
+                    text: context.trContext(TK.depressionBackHome),
+                    textStyle: context.text.headlineMedium!.copyWith(
+                      color: context.theme.buttonTheme.colorScheme!.primary,
                     ),
+                    onPressed: () {
+                      context.go(AppRoutesPaths.appSectionView);
+                    },
+                    borderColor: context.ext.colors.primaryDark,
+                    backgroundColor:
+                        context.theme.buttonTheme.colorScheme!.secondary,
+                    minimumSize: Size(double.infinity, 52.h),
                   ),
                 ],
               ),
             ),
-            41.h.height,
-            Text(
-              context.trContext(TK.depressionDoingWell),
-              style: context.text.displayMedium!,
-              textAlign: TextAlign.center,
-              softWrap: true,
-            ),
-            30.h.height,
-            Text(
-              _description(context),
-              style: context.text.titleSmall!,
-              textAlign: TextAlign.center,
-              softWrap: true,
-            ),
-            33.h.height,
-            CustomInstructionsRecommendations(
-              title: context.trContext(TK.depressionRecommendations),
-              advices: advices,
-            ),
-            53.h.height,
-
-            CustomElevatedButton(
-              text: context.trContext(TK.depressionRetake),
-              textStyle: context.text.headlineMedium!.copyWith(
-                color: context.theme.buttonTheme.colorScheme!.onPrimary,
-              ),
-              onPressed: () {
-                while (context.canPop()) {
-                  context.pop();
-                }
-                context.push('/depressionTestView');
-              },
-              backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
-              minimumSize: Size(double.infinity, 52.h),
-            ),
-
-            24.h.height,
-            CustomElevatedButton(
-              text: context.trContext(TK.depressionBackHome),
-              textStyle: context.text.headlineMedium!.copyWith(
-                color: context.theme.buttonTheme.colorScheme!.primary,
-              ),
-              onPressed: () {
-                while (context.canPop()) {
-                  context.pop();
-                }
-              },
-              borderColor: context.ext.colors.primaryDark,
-              backgroundColor: context.theme.buttonTheme.colorScheme!.secondary,
-              minimumSize: Size(double.infinity, 52.h),
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+        return const Scaffold(body: SizedBox.shrink());
+      },
     );
   }
 }

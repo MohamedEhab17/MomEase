@@ -180,4 +180,7 @@ class AppIcons {
   /// Assets for iconsCalender
   /// assets/icons/calender.svg
   static const String iconsCalender = "assets/icons/calender.svg";
+  /// Assets for iconsQuestions
+  /// assets/icons/questions.svg
+  static const String iconsQuestions = "assets/icons/questions.svg";
 }

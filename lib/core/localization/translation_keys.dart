@@ -362,6 +362,8 @@ class TK {
   static const depressionRecommendations = 'depression.gentle_recommendations';
   static const depressionRetake = 'depression.retake_check_in';
   static const depressionBackHome = 'depression.back_to_home';
+  static const depressionTestTitle = 'depression.depression_test_title';
+  static const depressionTestsDesc = 'depression.depression_tests_desc';
   // Severity
   static const depressionSeverityMinimal = 'depression.severity.minimal';
   static const depressionSeverityMild = 'depression.severity.mild';

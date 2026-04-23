@@ -82,14 +82,16 @@ class CustomElevatedButton extends StatelessWidget {
             }),
           ),
       onPressed: onPressed,
-      label: Text(
-        text,
-        style:
-            textStyle ??
-            context.text.headlineMedium!.copyWith(
-              color:
-                  textColor ?? context.theme.buttonTheme.colorScheme!.onPrimary,
-            ),
+      label: FittedBox(
+        child: Text(
+          text,
+          style:
+              textStyle ??
+              context.text.headlineMedium!.copyWith(
+                color:
+                    textColor ?? context.theme.buttonTheme.colorScheme!.onPrimary,
+              ),
+        ),
       ),
     );
   }

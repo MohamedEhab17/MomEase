@@ -40,6 +40,19 @@ class AppColors {
   final Color textDisabledLighter;
   final Color greenText;
 
+  // Severity
+  final Color severityMinimal;
+  final Color severityMild;
+  final Color severityModerate;
+  final Color severityHigh;
+  final Color severitySevere;
+  final Color severityMinimalBg;
+  final Color severityMildBg;
+  final Color severityModerateBg;
+  final Color severityHighBg;
+  final Color severitySevereBg;
+
+
   final Color darkTextPrimary;
   final Color darkTextSecondary;
 
@@ -71,6 +84,16 @@ class AppColors {
     required this.lightTextDisabled,
     required this.textDisabledLighter,
     required this.greenText,
+    required this.severityMinimal,
+    required this.severityMild,
+    required this.severityModerate,
+    required this.severityHigh,
+    required this.severitySevere,
+    required this.severityMinimalBg,
+    required this.severityMildBg,
+    required this.severityModerateBg,
+    required this.severityHighBg,
+    required this.severitySevereBg,
     required this.darkTextPrimary,
     required this.darkTextSecondary,
   });
@@ -104,6 +127,16 @@ class AppColors {
     lightTextDisabled: Color(0xFF999999),
     textDisabledLighter: Color(0xffB2B2B2),
     greenText: Color(0xFF31B042),
+    severityMinimal: Color(0xFF31B042),
+    severityMild: Color(0xFF5B8DEF),
+    severityModerate: Color(0xFFE8943A),
+    severityHigh: Color(0xFFE05C3A),
+    severitySevere: Color(0xFFD63B3B),
+    severityMinimalBg: Color(0xFFE8F8EC),
+    severityMildBg: Color(0xFFE6EFFE),
+    severityModerateBg: Color(0xFFFFF3E6),
+    severityHighBg: Color(0xFFFDE8E3),
+    severitySevereBg: Color(0xFFFDE3E3),
     darkTextPrimary: Color(0xFFFFFFFF),
     darkTextSecondary: Color(0xFFCECECE),
   );
@@ -146,6 +179,16 @@ class AppColors {
     textDisabledLighter: Color(0xFFB2B2B2),
 
     greenText: Color(0xFF31B042),
+    severityMinimal: Color(0xFF2DA44E),
+    severityMild: Color(0xFF4C8DFF),
+    severityModerate: Color(0xFFD4881F),
+    severityHigh: Color(0xFFCF5035),
+    severitySevere: Color(0xFFC93535),
+    severityMinimalBg: Color(0xFFE4F6EA),
+    severityMildBg: Color(0xFFE1EDFF),
+    severityModerateBg: Color(0xFFFFF1E0),
+    severityHighBg: Color(0xFFFCE5DF),
+    severitySevereBg: Color(0xFFFCDFDF),
 
     darkTextPrimary: Color(0xFFFFFFFF),
     darkTextSecondary: Color(0xFFCECECE),
@@ -192,6 +235,16 @@ class AppColors {
     textDisabledLighter: Color(0xFF475569),
 
     greenText: Color(0xFF4ADE80),
+    severityMinimal: Color(0xFF4ADE80),
+    severityMild: Color(0xFF60A5FA),
+    severityModerate: Color(0xFFFBBF24),
+    severityHigh: Color(0xFFFB923C),
+    severitySevere: Color(0xFFF87171),
+    severityMinimalBg: Color(0xFF142C1F),
+    severityMildBg: Color(0xFF162438),
+    severityModerateBg: Color(0xFF2D2612),
+    severityHighBg: Color(0xFF2D1A12),
+    severitySevereBg: Color(0xFF2D1414),
 
     darkTextPrimary: Color(0xFFFFFFFF),
     darkTextSecondary: Color(0xFFE2E8F0),

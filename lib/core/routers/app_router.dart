@@ -14,7 +14,12 @@ import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/birth_e
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/date_of_birth.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/feeding_type.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/first_time_mama.dart';
-import 'package:new_mama/feature/depression/presentation/view_model/depression_cubit.dart';
+import 'package:new_mama/feature/depression/presentation/view_model/assessments_cubit/assessments_cubit.dart';
+import 'package:new_mama/feature/depression/domain/entities/assessments.dart';
+import 'package:new_mama/feature/depression/presentation/view_model/questions_cubit/questions_cubit.dart';
+import 'package:new_mama/feature/depression/presentation/view_model/submit_cubit/submit_cubit.dart';
+import 'package:new_mama/feature/depression/presentation/view_model/assessment_result_cubit/assessment_result_cubit.dart';
+
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/feature/app_section/presentation/view/app_section_view.dart';
@@ -36,6 +41,7 @@ import 'package:new_mama/feature/baby_cry/presentation/views/crying_insight_view
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_recording_session_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_result_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_result_view.dart';
+import 'package:new_mama/feature/depression/presentation/views/depression_test_options_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_test_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_view.dart';
 import 'package:new_mama/feature/community/presentation/view/community_view.dart';
@@ -74,7 +80,10 @@ class AppRouter {
     }
 
     router = GoRouter(
-      initialLocation: initialLocation,
+      initialLocation:
+       initialLocation
+      //AppRoutesPaths.depressionTestOptionsView
+      ,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -214,21 +223,48 @@ class AppRouter {
           builder: (context, state) => const DepressionView(),
         ),
         GoRoute(
-          path: AppRoutesPaths.depressionTestView,
-          name: 'depressionTestView',
+          path: AppRoutesPaths.depressionTestOptionsView,
+          name: 'depressionTestOptionsView',
           builder: (context, state) => BlocProvider(
-            create: (context) => DepressionCubit()..startTest(),
-            child: const DepressionTestView(),
-          ),
+            create: (context) =>getIt<AssessmentsCubit> ()..fetchAssessments(),
+            child: const DepressionTestOptionsView()),
         ),
-        GoRoute(
-          path: AppRoutesPaths.depressionResultView,
-          name: 'depressionResultView',
-          builder: (context, state) {
-            final score = state.extra as int? ?? 0;
-            return DepressionResultView(totalScore: score);
+        ShellRoute(
+          builder: (context, state, child) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => getIt<SubmitCubit>()),
+                BlocProvider(create: (context) => getIt<QuestionsCubit>()),
+              ],
+              child: child,
+            );
           },
+          routes: [
+            GoRoute(
+              path: AppRoutesPaths.depressionTestView,
+              name: 'depressionTestView',
+              builder: (context, state) {
+                final assessment = state.extra as Assessments;
+                return DepressionTestView(assessment: assessment);
+              },
+            ),
+            GoRoute(
+              path: AppRoutesPaths.depressionResultView,
+              name: 'depressionResultView',
+              builder: (context, state) {
+                final extra = state.extra as Map<String, dynamic>;
+                final assessment = extra['assessment'] as Assessments;
+                final resultId = extra['resultId'] as int;
+
+                return BlocProvider(
+                  create: (context) => getIt<AssessmentResultCubit>()..getResult(resultId),
+                  child: DepressionResultView(assessment: assessment),
+                );
+              },
+            ),
+          ],
         ),
+
         GoRoute(
           path: AppRoutesPaths.cryingInsightView,
           name: 'cryingInsightView',
