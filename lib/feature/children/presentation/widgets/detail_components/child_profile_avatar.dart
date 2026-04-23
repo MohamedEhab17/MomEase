@@ -55,10 +55,10 @@ class ChildProfileAvatar extends StatelessWidget {
                           ? child.photoUrl!
                           : 'http://momease.runasp.net${child.photoUrl}',
                       fit: BoxFit.cover,
-                      placeholder: (_, __) => const Center(
+                      placeholder: (_, _) => const Center(
                         child: CircularProgressIndicator(),
                       ),
-                      errorWidget: (_, __, ___) => GenderEmoji(child: child),
+                      errorWidget: (_, _, _) => GenderEmoji(child: child),
                     ),
                   )
                 : GenderEmoji(child: child),

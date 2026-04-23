@@ -372,7 +372,7 @@
     "finish_check_in": "Finish Check-In",
     "next_question": "Next Question",
     "emotional_wellbeing": "Emotional Well-being",
-    "score_display": "Score: {score} / 27",
+    "score_display": "Result: {percentage}%",
     "doing_well": "You're doing well emotionally",
     "gentle_recommendations": "Gentle Recommendations",
     "retake_check_in": "Retake Check-In",

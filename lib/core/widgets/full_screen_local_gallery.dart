@@ -76,7 +76,11 @@ class _FullScreenLocalGalleryState extends State<FullScreenLocalGallery> {
               width: double.infinity,
               height: double.infinity,
               errorBuilder: (_, _, _) => Center(
-                child: Icon(Icons.error, color: Theme.of(context).colorScheme.primary, size: 48),
+                child: Icon(
+                  Icons.error,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 48,
+                ),
               ),
             ),
           );

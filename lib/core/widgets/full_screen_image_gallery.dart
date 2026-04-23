@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:new_mama/core/helper/app_toast.dart';
+import 'package:gallery_saver_plus/gallery_saver.dart';
 
 class FullScreenImageGallery extends StatefulWidget {
   final List<String> images;
@@ -41,21 +39,19 @@ class _FullScreenImageGalleryState extends State<FullScreenImageGallery> {
   Future<void> _downloadImage(BuildContext context, String url) async {
     try {
       AppToast.info(context, message: 'Downloading image...');
-      final dio = Dio();
-      final dir = await getApplicationDocumentsDirectory();
-      
-      final fileName = url.split('/').last.replaceAll(RegExp(r'[^a-zA-Z0-9.\-]'), '_').split('?').first;
-      final savePath = '${dir.path}/${fileName.endsWith('.jpg') || fileName.endsWith('.png') ? fileName : '$fileName.jpg'}';
-      
-      await dio.download(url, savePath);
-      
+
+      final result = await GallerySaver.saveImage(url);
+
       if (context.mounted) {
-        AppToast.success(context, message: 'Image downloaded successfully');
-        OpenFile.open(savePath);
+        if (result == true) {
+          AppToast.success(context, message: 'Saved to gallery');
+        } else {
+          AppToast.error(context, message: 'Failed to save image');
+        }
       }
     } catch (e) {
       if (context.mounted) {
-        AppToast.error(context, message: 'Failed to download image.');
+        AppToast.error(context, message: 'Download failed');
       }
     }
   }
@@ -76,7 +72,8 @@ class _FullScreenImageGalleryState extends State<FullScreenImageGallery> {
             ? [
                 IconButton(
                   icon: const Icon(Icons.download_rounded),
-                  onPressed: () => _downloadImage(context, widget.images[_currentIndex]),
+                  onPressed: () =>
+                      _downloadImage(context, widget.images[_currentIndex]),
                 ),
               ]
             : null,
@@ -113,7 +110,11 @@ class _FullScreenImageGalleryState extends State<FullScreenImageGallery> {
                 child: CircularProgressIndicator(color: Colors.white),
               ),
               errorWidget: (_, _, _) => Center(
-                child: Icon(Icons.error, color: Theme.of(context).colorScheme.primary, size: 48),
+                child: Icon(
+                  Icons.error,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 48,
+                ),
               ),
             ),
           );
@@ -122,4 +123,3 @@ class _FullScreenImageGalleryState extends State<FullScreenImageGallery> {
     );
   }
 }
-

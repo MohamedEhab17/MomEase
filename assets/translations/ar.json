@@ -384,7 +384,7 @@
     "finish_check_in": "إنهاء",
     "next_question": "السؤال التالي",
     "emotional_wellbeing": "الحالة النفسية",
-    "score_display": "النتيجة: {score} / 27",
+    "score_display": "النتيجة: {percentage}%",
     "doing_well": "أنتِ بخير نفسياً",
     "gentle_recommendations": "نصائح بسيطة",
     "retake_check_in": "إعادة الفحص",

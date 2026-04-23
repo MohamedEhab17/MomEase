@@ -44,9 +44,7 @@ class DepressionResultView extends StatelessWidget {
     return BlocBuilder<AssessmentResultCubit, AssessmentResultState>(
       builder: (context, state) {
         if (state is AssessmentResultLoading) {
-          return const Scaffold(
-            body: Center(child: CustomLoadingIndicator()),
-          );
+          return const Scaffold(body: Center(child: CustomLoadingIndicator()));
         }
         if (state is AssessmentResultError) {
           return Scaffold(body: Center(child: Text(state.message)));
@@ -92,11 +90,15 @@ class DepressionResultView extends StatelessWidget {
                           ),
                         ),
                         12.h.height,
-                        // Score from API
+                        // Percentage Score (Calculating based on total questions * 3 max points)
                         Text(
                           context.trContext(
                             TK.depressionScoreDisplay,
-                            namedArgs: {'score': '${result.score}'},
+                            namedArgs: {
+                              'percentage':
+                                  ((result.score / (assessment.maxScore)) * 100)
+                                      .toStringAsFixed(0),
+                            },
                           ),
                           style: context.text.bodyMedium!.copyWith(
                             color: context.text.bodyMedium!.color!.withAlpha(
