@@ -23,7 +23,11 @@ class ChildModel extends Child {
       ageInDays: json['ageInDays'] as int? ?? 0,
       deliveryType: json['deliveryType'] as String? ?? '',
       feedingTypeForBaby: json['feedingTypeForBaby'] as String? ?? '',
-      photoUrl: json['photoUrl'] as String?,
+      photoUrl: json['photoUrl'] != null && (json['photoUrl'] as String).isNotEmpty
+          ? (json['photoUrl'] as String).startsWith('http')
+              ? json['photoUrl'] as String
+              : 'http://momease.runasp.net${json['photoUrl']}'
+          : null,
     );
   }
 

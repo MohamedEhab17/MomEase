@@ -126,7 +126,9 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
                   deliveryType: c.deliveryType,
                   feedingTypeForBaby: c.feedingTypeForBaby,
                   photoUrl: photoUrl.isNotEmpty
-                      ? 'http://momease.runasp.net$photoUrl'
+                      ? photoUrl.startsWith('http')
+                          ? photoUrl
+                          : 'http://momease.runasp.net$photoUrl'
                       : c.photoUrl,
                 );
               }

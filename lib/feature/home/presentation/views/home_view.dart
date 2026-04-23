@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
           Text(
             context.trContext(TK.homeOfferingHelp),
             style: context.text.titleMedium!.copyWith(
-              color: context.ext.colors.lightTextPrimary.withAlpha(178),
+              color: context.ext.colors.lightTextPrimary.withValues(alpha: 178),
             ),
           ),
           20.height,

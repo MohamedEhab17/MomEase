@@ -10,6 +10,7 @@ import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_dia
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_state.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/widgets/skin_diagnosis_actions.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/widgets/skin_diagnosis_image_preview.dart';
+import 'package:new_mama/feature/children/presentation/widgets/premium_child_selector.dart';
 
 class SkinDiagnosisPhotoView extends StatelessWidget {
   const SkinDiagnosisPhotoView({super.key});
@@ -35,6 +36,8 @@ class SkinDiagnosisPhotoView extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 32.h),
             child: Column(
               children: [
+                const PremiumChildSelector(),
+                20.h.height,
                 SkinDiagnosisImagePreview(state: state),
                 68.height,
                 SkinDiagnosisActions(state: state),
