@@ -3,23 +3,53 @@ import 'package:new_mama/core/constants/api_keys.dart';
 import '../../di/injection.dart';
 import '../../../feature/auth/data/datasources/auth_local_data_source_contract.dart';
 import '../../../feature/auth/data/models/token_model.dart';
+import '../../localization/cubit/language_cubit.dart';
 
 class AuthInterceptor extends Interceptor {
+  final Dio _dio;
+
+  AuthInterceptor(this._dio);
+
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final localDataSource = getIt<AuthLocalDataSource>();
     final token = await localDataSource.getAccessToken();
 
+    // 1. Authorization Header
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
     }
 
-    super.onRequest(options, handler);
+    // 2. Accept-Language Header
+    if (!options.headers.containsKey('Accept-Language')) {
+      options.headers['Accept-Language'] =
+          getIt<LanguageCubit>().state.languageCode;
+    }
+
+    // 3. Content-Type Header
+    options.headers['Content-Type'] = 'application/json';
+
+    return handler.next(options);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
+    // Check if 401 Unauthorized
     if (err.response?.statusCode == 401) {
+      // Prevent infinite loops:
+      // Skip refresh if the request failing is already a refresh token request
+      if (err.requestOptions.path.contains(Api.refreshToken)) {
+        return handler.next(err);
+      }
+
+      // Skip refresh if we've already retried this request once
+      if (err.requestOptions.extra['is_retry'] == true) {
+        return handler.next(err);
+      }
+
       final localDataSource = getIt<AuthLocalDataSource>();
       final tokens = await localDataSource.getTokens();
 
@@ -32,11 +62,14 @@ class AuthInterceptor extends Interceptor {
 
             // Retry original request with new access token
             final options = err.requestOptions;
-            options.headers['Authorization'] = 'Bearer ${newTokens.accessToken}';
+            options.headers['Authorization'] =
+                'Bearer ${newTokens.accessToken}';
 
-            final dio = Dio();
-            dio.options.baseUrl = Api.baseUrl;
-            final response = await dio.fetch(options);
+            // Mark as retry to prevent infinite loops if it fails again
+            options.extra['is_retry'] = true;
+
+            // Reuse SAME Dio instance
+            final response = await _dio.fetch(options);
             return handler.resolve(response);
           }
         } catch (_) {
@@ -45,17 +78,13 @@ class AuthInterceptor extends Interceptor {
         }
       }
     }
-    super.onError(err, handler);
+    return handler.next(err);
   }
 
-  /// Calls /api/Auth/refresh-token.
-  /// Real response: { success, message, data: { userId, firstName, ..., accessToken, refreshToken, accessTokenExpiration, refreshTokenExpiration } }
+  /// Calls /api/Auth/refresh-token using the SAME Dio instance
   Future<TokenModel?> _refreshToken(String refreshToken) async {
-    final dio = Dio();
-    dio.options.baseUrl = Api.baseUrl;
-
     try {
-      final response = await dio.post(
+      final response = await _dio.post(
         Api.refreshToken,
         data: {'refreshToken': refreshToken},
       );
@@ -66,7 +95,6 @@ class AuthInterceptor extends Interceptor {
         final data = body['data'];
 
         if (success && data != null && data is Map<String, dynamic>) {
-          // data contains accessToken, refreshToken, accessTokenExpiration, refreshTokenExpiration
           if (data.containsKey('accessToken')) {
             return TokenModel.fromJson(data);
           }

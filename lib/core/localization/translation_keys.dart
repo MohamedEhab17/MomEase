@@ -300,6 +300,56 @@ class TK {
   static const babySetupVaginal = 'baby_profile_setup.vaginal';
   static const babySetupCSection = 'baby_profile_setup.c_section';
 
+  // 🔹 Children
+  static const childrenMyChildren = 'children.my_children';
+  static const childrenSpaceLittleOnes = 'children.space_little_ones';
+  static const childrenYouHaveBabies = 'children.you_have_babies';
+  static const childrenAddBaby = 'children.add_baby';
+  static const childrenEditBabyInfo = 'children.edit_baby_info';
+  static const childrenAddNewBaby = 'children.add_new_baby';
+  static const childrenBabyFullName = 'children.baby_full_name';
+  static const childrenFullNameHint = 'children.full_name_hint';
+  static const childrenDateOfBirth = 'children.date_of_birth';
+  static const childrenDateHint = 'children.date_hint';
+  static const childrenDeliveryType = 'children.delivery_type';
+  static const childrenDeliverySelect = 'children.delivery_select';
+  static const childrenFeedingType = 'children.feeding_type';
+  static const childrenFeedingSelect = 'children.feeding_select';
+  static const childrenSaveChanges = 'children.save_changes';
+  static const childrenChildInfo = 'children.child_info';
+  static const childrenAddProfilePhoto = 'children.add_profile_photo';
+  static const childrenRemovePhoto = 'children.remove_photo';
+  static const childrenRemoveBaby = 'children.remove_baby';
+  static const childrenRemoveCurrentPhoto = 'children.remove_current_photo';
+  static const childrenSureRemoveBaby = 'children.sure_remove_baby';
+  static const childrenCancel = 'children.cancel';
+  static const childrenRemove = 'children.remove';
+  static const childrenBoy = 'children.boy';
+  static const childrenGirl = 'children.girl';
+  static const childrenGender = 'children.gender';
+  static const childrenAge = 'children.age';
+  static const childrenDelivery = 'children.delivery';
+  static const childrenFeeding = 'children.feeding';
+  static const childrenNormal = 'children.normal';
+  static const childrenCesarean = 'children.cesarean';
+  static const childrenBreastfeeding = 'children.breastfeeding';
+  static const childrenFormula = 'children.formula';
+  static const childrenSolidFood = 'children.solid_food';
+  static const childrenNameRequired = 'children.name_required';
+  static const childrenSelectGender = 'children.select_gender';
+  static const childrenSelectDelivery = 'children.select_delivery';
+  static const childrenSelectFeeding = 'children.select_feeding';
+  static const childrenSelectBirth = 'children.select_birth';
+  static const childrenAddSuccess = 'children.add_success';
+  static const childrenUpdateSuccess = 'children.update_success';
+  static const childrenDeleteSuccess = 'children.delete_success';
+  static const childrenPhotoSuccess = 'children.photo_success';
+  static const childrenPhotoDeleteSuccess = 'children.photo_delete_success';
+  static const childrenAddFirstBaby = 'children.add_first_baby';
+  static const childrenAddFirstBabySubtitle = 'children.add_first_baby_subtitle';
+  static const childrenNoBabiesYet = 'children.no_babies_yet';
+  static const childrenAddYourBaby = 'children.add_your_baby';
+
   // 🔹 Baby Cry
   static const babyCryAppBarTitle = 'baby_cry.app_bar_title';
   static const babyCryInsightHeadline = 'baby_cry.insight_headline';

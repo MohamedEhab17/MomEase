@@ -11,6 +11,7 @@ class CustomDropdown extends StatelessWidget {
   final String hintText;
   final String? label;
   final bool isVisible;
+  final String Function(String)? itemLabelBuilder;
 
   const CustomDropdown({
     super.key,
@@ -20,6 +21,7 @@ class CustomDropdown extends StatelessWidget {
     this.hintText = "Select",
     this.label,
     this.isVisible = false,
+    this.itemLabelBuilder,
   });
 
   @override
@@ -60,7 +62,10 @@ class CustomDropdown extends StatelessWidget {
                   .map(
                     (item) => DropdownMenuItem<String>(
                       value: item,
-                      child: Text(item, style: context.text.titleSmall!),
+                      child: Text(
+                        itemLabelBuilder?.call(item) ?? item,
+                        style: context.text.titleSmall!,
+                      ),
                     ),
                   )
                   .toList(),

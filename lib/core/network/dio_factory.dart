@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:new_mama/core/constants/api_keys.dart';
-import 'interceptors/auth_interceptor.dart';
+import 'package:new_mama/core/network/interceptors/auth_interceptor.dart';
 
 class DioFactory {
   static Dio create() {
@@ -11,12 +11,11 @@ class DioFactory {
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
       followRedirects: true,
-      validateStatus: (status) {
-        return status! < 500;
-      },
+      validateStatus: (status) => status != null && status < 500,
     );
 
-    dio.interceptors.add(AuthInterceptor());
+    // Pass the Dio instance to AuthInterceptor for token refresh reuse
+    dio.interceptors.add(AuthInterceptor(dio));
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
 
     return dio;

@@ -4,6 +4,8 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/validation_methods.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/step_next_button.dart';
@@ -42,7 +44,7 @@ class _BabyNameState extends State<BabyName> {
         child: Column(
           children: [
             Text(
-              'What’s Your Current Baby’s Name?',
+              context.trContext(TK.onboardingBabyNameTitle),
               softWrap: true,
               style: context.text.displayMedium!,
               textAlign: TextAlign.center,
@@ -50,7 +52,7 @@ class _BabyNameState extends State<BabyName> {
             81.height,
             TextFormFieldHelper(
               controller: _nameController,
-              hint: 'We’d love to know his/her name..',
+              hint: context.trContext(TK.onboardingBabyNameHint),
               hintStyle: context.text.bodyLarge!.copyWith(
                 color: context.ext.colors.lightTextDisabled,
               ),

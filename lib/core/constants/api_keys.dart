@@ -12,4 +12,9 @@ class Api {
   static const String googleLogin = 'Auth/google-login';
   static const String changePassword = 'Auth/change-password';
   static const String revokeToken = 'Auth/revoke-token';
+
+  /// Children (Baby) endpoints.
+  static const String children = 'Children';
+  static String childById(int id) => 'Children/$id';
+  static String childPhoto(int id) => 'Children/$id/photo';
 }

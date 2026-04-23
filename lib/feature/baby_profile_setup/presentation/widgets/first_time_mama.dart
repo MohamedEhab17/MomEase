@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
@@ -20,14 +22,14 @@ class FirstTimeMama extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Is It Your First Time As Mama?',
+              context.trContext(TK.babySetupFirstTimeTitle),
               softWrap: true,
               style: context.text.displayMedium!,
               textAlign: TextAlign.center,
             ),
             102.height,
             CustomElevatedButton(
-              text: 'Yes, It’s My First Time',
+              text: context.trContext(TK.babySetupFirstTimeYes),
               onPressed: () {
                 context.read<OnboardingCubit>().setAnswer(
                   'firstTimeMama',
@@ -41,7 +43,7 @@ class FirstTimeMama extends StatelessWidget {
             ),
             24.height,
             CustomElevatedButton(
-              text: 'No, I’m experienced',
+              text: context.trContext(TK.babySetupFirstTimeNo),
               onPressed: () {
                 context.read<OnboardingCubit>().setAnswer(
                   'firstTimeMama',

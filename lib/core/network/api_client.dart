@@ -12,7 +12,7 @@ class ApiClient {
   Future<Response> post(String path, {dynamic data}) async {
     return await dio.post(path, data: data);
   }
-  
+
   Future<Response> put(String path, {dynamic data}) async {
     return await dio.put(path, data: data);
   }
@@ -24,5 +24,4 @@ class ApiClient {
   Future<Response> patch(String path, {dynamic data}) async {
     return await dio.patch(path, data: data);
   }
-
 }
