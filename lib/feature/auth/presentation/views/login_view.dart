@@ -10,6 +10,7 @@ import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/helper/biometric_helper.dart';
 import 'package:new_mama/core/helper/google_auth_helper.dart';
+import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_button_row.dart';
@@ -84,7 +85,13 @@ class _LoginViewState extends State<LoginView> {
       listenWhen: (prev, next) => next is AuthSuccess || next is AuthError,
       listener: (context, state) {
         if (state is AuthSuccess) {
-          context.go(AppRoutesPaths.appSectionView);
+          final isBabySetupCompleted = getIt<AuthLocalDataSource>()
+              .isBabySetupCompleted();
+          if (isBabySetupCompleted) {
+            context.go(AppRoutesPaths.appSectionView);
+          } else {
+            context.go(AppRoutesPaths.babyProfileOnboardingView);
+          }
         } else if (state is AuthError) {
           if (state.message.contains(
             "Please verify your email before logging in.",

@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/step_next_button.dart';
@@ -39,14 +41,14 @@ class _DateOfBirthState extends State<DateOfBirth> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'When were they born?',
+              context.trContext(TK.onboardingDobTitle),
               style: context.text.displayMedium!,
               textAlign: TextAlign.center,
               softWrap: true,
             ),
             16.height,
             Text(
-              'Or their expected due date if not yet arrived',
+              context.trContext(TK.onboardingDobSubtitle),
               textAlign: TextAlign.center,
               softWrap: true,
               style: context.text.titleSmall!,
@@ -57,7 +59,7 @@ class _DateOfBirthState extends State<DateOfBirth> {
               borderColor: context.ext.colors.primaryDark,
               fillColor: context.theme.cardColor,
               borderRadius: BorderRadius.circular(64.r),
-              hint: 'mm/dd/yyyy',
+              hint: context.trContext(TK.onboardingDateHint),
               hintStyle: context.text.bodyLarge!.copyWith(
                 color: context.ext.colors.lightTextDisabled,
               ),
@@ -79,16 +81,15 @@ class _DateOfBirthState extends State<DateOfBirth> {
   Future<void> _pickDate() async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
       firstDate: DateTime(2000),
-      lastDate: DateTime.now().add(const Duration(days: 270)),
+      lastDate: DateTime.now(),
       builder: (context, child) {
         return Theme(
           data: context.theme.copyWith(
             colorScheme: ColorScheme.light(
               primary: context.ext.colors.primaryDark,
-              onPrimary: Colors.white,
-              onSurface: Colors.black,
+              onPrimary: context.colors.onPrimary,
+              onSurface: context.colors.onSurface,
             ),
           ),
           child: child!,

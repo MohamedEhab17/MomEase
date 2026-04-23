@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/core/enums/verification_type.dart'
     show VerificationType;
@@ -19,7 +20,7 @@ import 'package:new_mama/feature/depression/domain/entities/assessments.dart';
 import 'package:new_mama/feature/depression/presentation/view_model/questions_cubit/questions_cubit.dart';
 import 'package:new_mama/feature/depression/presentation/view_model/submit_cubit/submit_cubit.dart';
 import 'package:new_mama/feature/depression/presentation/view_model/assessment_result_cubit/assessment_result_cubit.dart';
-
+import 'package:new_mama/feature/children/data/models/child_model.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/feature/app_section/presentation/view/app_section_view.dart';
@@ -28,6 +29,11 @@ import 'package:new_mama/feature/articles/presentation/view/article_details_view
 import 'package:new_mama/feature/articles/presentation/view/articles_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/saved_articles_view.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
+import 'package:new_mama/feature/children/domain/entities/child.dart';
+import 'package:new_mama/feature/children/presentation/cubit/children_cubit.dart';
+import 'package:new_mama/feature/children/presentation/views/add_edit_child_view.dart';
+import 'package:new_mama/feature/children/presentation/views/child_detail_view.dart';
+import 'package:new_mama/feature/children/presentation/views/children_list_view.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/views/create_password.dart';
 import 'package:new_mama/feature/auth/presentation/views/email_verification_view.dart';
@@ -69,10 +75,13 @@ class AppRouter {
     final isOnboardingCompleted = authLocalDataSource.isOnboardingCompleted();
     final tokens = await authLocalDataSource.getTokens();
     final isUserLoggedIn = tokens != null;
+    final isBabySetupCompleted = authLocalDataSource.isBabySetupCompleted();
 
     String initialLocation;
     if (!isOnboardingCompleted) {
       initialLocation = AppRoutesPaths.onboarding;
+    } else if (isUserLoggedIn && !isBabySetupCompleted) {
+      initialLocation = AppRoutesPaths.babyProfileOnboardingView;
     } else if (isUserLoggedIn) {
       initialLocation = AppRoutesPaths.appSectionView;
     } else {
@@ -332,8 +341,15 @@ class AppRouter {
         ),
         ShellRoute(
           builder: (context, state, child) {
-            return BlocProvider(
-              create: (context) => OnboardingCubit(totalSteps: 9),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => OnboardingCubit(totalSteps: 9),
+                ),
+                BlocProvider.value(
+                  value: getIt<ChildrenCubit>(),
+                ),
+              ],
               child: BabyProfileOnboardingLayout(child: child),
             );
           },
@@ -404,6 +420,50 @@ class AppRouter {
               },
             ),
           ],
+        ),
+        
+        // ── Children Feature Routes ─────────────────────────────────────────
+        GoRoute(
+          path: AppRoutesPaths.childrenListView,
+          name: 'childrenListView',
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<ChildrenCubit>()..loadChildren(),
+            child: const ChildrenListView(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.childDetailView,
+          name: 'childDetailView',
+          builder: (context, state) {
+            final extra = state.extra;
+            final Child child;
+            if (extra is Child) {
+              child = extra;
+            } else if (extra is Map<String, dynamic>) {
+              child = ChildModel.fromJson(extra);
+            } else {
+              // Fallback or error handling
+              return const Scaffold(body: Center(child: Text('Invalid Child Data')));
+            }
+            return BlocProvider.value(
+              value: getIt<ChildrenCubit>(),
+              child: ChildDetailView(child: child),
+            );
+          },
+        ),
+        GoRoute(
+          path: AppRoutesPaths.addChildView,
+          name: 'addChildView',
+          builder: (context, state) {
+            final extra = state.extra;
+            final child = extra is Child
+                ? extra
+                : (extra is Map<String, dynamic> ? ChildModel.fromJson(extra) : null);
+            return BlocProvider.value(
+              value: getIt<ChildrenCubit>(),
+              child: AddEditChildView(child: child),
+            );
+          },
         ),
       ],
     );

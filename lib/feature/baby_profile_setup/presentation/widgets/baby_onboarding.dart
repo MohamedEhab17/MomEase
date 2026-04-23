@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/step_next_button.dart';
 
@@ -20,18 +22,18 @@ class BabyOnboarding extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: 'Hello,',
+                  text: context.trContext(TK.babySetupHello),
                   style: context.text.displaySmall!.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                TextSpan(text: ' Mama!', style: context.text.headlineLarge!),
+                TextSpan(text: context.trContext(TK.babySetupMama), style: context.text.headlineLarge!),
               ],
             ),
           ),
           6.height,
           Text(
-            ' Let’s Get to know you and your journey',
+            context.trContext(TK.babySetupGetToKnow),
             style: context.text.titleSmall!,
           ),
           75.height,

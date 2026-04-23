@@ -10,6 +10,7 @@ import 'package:new_mama/feature/baby_track/presentation/widgets/insights_health
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_helpful_suggestions_section.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_mother_wellness_section.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_stat_card.dart';
+import 'package:new_mama/feature/children/presentation/widgets/premium_child_selector.dart';
 
 class InsightsView extends StatelessWidget {
   const InsightsView({super.key});
@@ -43,6 +44,8 @@ class InsightsView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const PremiumChildSelector(),
+            12.h.height,
             // ── Top stat cards ──
             Row(
               children: [

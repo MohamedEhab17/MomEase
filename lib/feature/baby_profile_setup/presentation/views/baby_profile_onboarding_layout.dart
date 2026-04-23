@@ -32,7 +32,7 @@ class BabyProfileOnboardingLayout extends StatelessWidget {
       child: Scaffold(
         backgroundColor: context.theme.scaffoldBackgroundColor,
         body: Padding(
-          padding: EdgeInsets.only(left: 20.w, right: 20, top: 42.h),
+          padding: EdgeInsetsDirectional.only(start: 20.w, end: 20, top: 42.h),
           child: BlocBuilder<OnboardingCubit, OnboardingState>(
             builder: (context, state) {
               return Column(

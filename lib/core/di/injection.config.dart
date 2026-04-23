@@ -61,6 +61,27 @@ import '../../feature/baby_cry/data/repository/audio_repository_impl.dart'
     as _i636;
 import '../../feature/baby_cry/presentation/view_model/cubit/sound_recording_cubit.dart'
     as _i589;
+import '../../feature/children/data/datasources/children_remote_data_source.dart'
+    as _i1010;
+import '../../feature/children/data/datasources/children_remote_data_source_impl.dart'
+    as _i676;
+import '../../feature/children/data/repositories/children_repository_impl.dart'
+    as _i995;
+import '../../feature/children/domain/repositories/children_repository.dart'
+    as _i889;
+import '../../feature/children/domain/usecases/create_child_use_case.dart'
+    as _i292;
+import '../../feature/children/domain/usecases/delete_child_use_case.dart'
+    as _i103;
+import '../../feature/children/domain/usecases/get_child_use_case.dart'
+    as _i698;
+import '../../feature/children/domain/usecases/get_children_use_case.dart'
+    as _i1057;
+import '../../feature/children/domain/usecases/manage_child_photo_use_case.dart'
+    as _i157;
+import '../../feature/children/domain/usecases/update_child_use_case.dart'
+    as _i178;
+import '../../feature/children/presentation/cubit/children_cubit.dart' as _i555;
 import '../../feature/community/data/datasource/community_local_datasource.dart'
     as _i97;
 import '../../feature/community/data/repository/community_repository.dart'
@@ -156,6 +177,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i967.NotificationLocalDataSource>(
       () => _i967.NotificationLocalDataSourceImpl(),
     );
+    gh.lazySingleton<_i1010.ChildrenRemoteDataSource>(
+      () => _i676.ChildrenRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i660.NotificationRepository>(
       () => _i679.NotificationRepositoryImpl(
         gh<_i967.NotificationLocalDataSource>(),
@@ -191,6 +215,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i121.AssessmentRepository>(
       () => _i501.AssessmentRepositoryImpl(
         gh<_i766.AssessmentRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
+      ),
+    );
+    gh.lazySingleton<_i889.ChildrenRepository>(
+      () => _i995.ChildrenRepositoryImpl(
+        gh<_i1010.ChildrenRemoteDataSource>(),
         gh<_i932.NetworkInfo>(),
       ),
     );
@@ -316,6 +346,27 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i562.SubmitCubit>(
       () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
     );
+    gh.factory<_i292.CreateChildUseCase>(
+      () => _i292.CreateChildUseCase(gh<_i889.ChildrenRepository>()),
+    );
+    gh.factory<_i103.DeleteChildUseCase>(
+      () => _i103.DeleteChildUseCase(gh<_i889.ChildrenRepository>()),
+    );
+    gh.factory<_i698.GetChildUseCase>(
+      () => _i698.GetChildUseCase(gh<_i889.ChildrenRepository>()),
+    );
+    gh.factory<_i1057.GetChildrenUseCase>(
+      () => _i1057.GetChildrenUseCase(gh<_i889.ChildrenRepository>()),
+    );
+    gh.factory<_i157.UploadChildPhotoUseCase>(
+      () => _i157.UploadChildPhotoUseCase(gh<_i889.ChildrenRepository>()),
+    );
+    gh.factory<_i157.DeleteChildPhotoUseCase>(
+      () => _i157.DeleteChildPhotoUseCase(gh<_i889.ChildrenRepository>()),
+    );
+    gh.factory<_i178.UpdateChildUseCase>(
+      () => _i178.UpdateChildUseCase(gh<_i889.ChildrenRepository>()),
+    );
     gh.lazySingleton<_i849.ChangePasswordUseCase>(
       () => _i849.ChangePasswordUseCase(gh<_i488.AuthRepository>()),
     );
@@ -348,6 +399,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i712.AssessmentResultCubit>(
       () => _i712.AssessmentResultCubit(gh<_i156.GetAssessmentResultUseCase>()),
+    );
+    gh.lazySingleton<_i555.ChildrenCubit>(
+      () => _i555.ChildrenCubit(
+        gh<_i1057.GetChildrenUseCase>(),
+        gh<_i292.CreateChildUseCase>(),
+        gh<_i178.UpdateChildUseCase>(),
+        gh<_i103.DeleteChildUseCase>(),
+        gh<_i157.UploadChildPhotoUseCase>(),
+        gh<_i157.DeleteChildPhotoUseCase>(),
+      ),
     );
     gh.factory<_i47.AuthCubit>(
       () => _i47.AuthCubit(

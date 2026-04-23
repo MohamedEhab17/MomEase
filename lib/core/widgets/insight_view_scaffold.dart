@@ -9,6 +9,7 @@ import 'package:new_mama/core/widgets/custom_circle_avatar_with_icon.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/custom_instructions_recommendations.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
+import 'package:new_mama/feature/children/presentation/widgets/premium_child_selector.dart';
 
 class InsightViewScaffold extends StatelessWidget {
   final String appBarTitle;
@@ -41,6 +42,8 @@ class InsightViewScaffold extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const PremiumChildSelector(),
+            20.h.height,
             CustomCircleAvatarWithIcon(
               height: 56,
               width: 56,

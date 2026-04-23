@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_state.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/step_next_button.dart';
@@ -26,7 +28,7 @@ class BabyCount extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'How Many Babies Do You Have?',
+              context.trContext(TK.babySetupCountTitle),
               style: context.text.displayMedium!,
               softWrap: true,
               textAlign: TextAlign.center,

@@ -1,11 +1,11 @@
 class AppLists {
   static const List<String> typesOfFeeding = [
-    'Breast Feeding',
-    'Formula Feeding',
-    'Mixed Feeding',
+    'Breastfeeding',
+    'Formula',
+    'SolidFood',
   ];
    static const List<String> birthExperience = [
-    'vaginal',
-    'c-section',
+    'Normal',
+    'Cesarean',
   ];
 }

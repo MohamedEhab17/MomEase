@@ -10,6 +10,8 @@ abstract class AuthLocalDataSource {
   Future<String?> getAccessToken();
   Future<void> setOnboardingCompleted();
   bool isOnboardingCompleted();
+  Future<void> setBabySetupCompleted();
+  bool isBabySetupCompleted();
   Future<void> clearAll();
 }
 

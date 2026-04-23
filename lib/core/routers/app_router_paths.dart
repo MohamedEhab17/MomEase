@@ -41,4 +41,10 @@ class AppRoutesPaths {
   static const String allSetUp = '/allSetUp';
   static const String babyTrackView = '/babyTrackView';
   static const String babyTrackInsightsView = '/babyTrackInsightsView';
+
+  // ── Children feature ──────────────────────────────────────────────────────
+  static const String childrenListView = '/childrenListView';
+  static const String childDetailView = '/childDetailView';
+  static const String addChildView = '/addChildView';
 }
+

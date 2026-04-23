@@ -17,6 +17,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const String _accessTokenExpireKey = 'access_token_expire';
   static const String _refreshTokenExpireKey = 'refresh_token_expire';
   static const String _onboardingKey = 'onboarding_completed';
+  static const String _babySetupKey = 'baby_profile_setup_done';
 
   AuthLocalDataSourceImpl(this._sharedPrefs, this._secureStorageHelper);
 
@@ -28,6 +29,16 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   bool isOnboardingCompleted() {
     return _sharedPrefs.getBool(_onboardingKey) ?? false;
+  }
+
+  @override
+  Future<void> setBabySetupCompleted() async {
+    await _sharedPrefs.setBool(_babySetupKey, true);
+  }
+
+  @override
+  bool isBabySetupCompleted() {
+    return _sharedPrefs.getBool(_babySetupKey) ?? false;
   }
 
   @override

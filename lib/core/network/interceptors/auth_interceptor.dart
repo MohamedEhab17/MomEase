@@ -10,21 +10,13 @@ import '../../di/injection.dart';
 import '../../../feature/auth/data/datasources/auth_local_data_source_contract.dart';
 import '../../../feature/auth/data/models/token_model.dart';
 
-/// Handles three responsibilities:
-/// 1. Attaches `Authorization` and `Accept-Language` headers.
-/// 2. **Proactively** refreshes the access token when it's about to expire
-///    (within a configurable buffer window), before the request is sent.
-/// 3. **Reactively** handles 401 responses by attempting a refresh; if that
-///    also fails (or the refresh token is expired), clears the session and
-///    navigates to the login screen.
 class AuthInterceptor extends QueuedInterceptor {
-  /// How far in advance to refresh the access token (before it actually expires).
   static const _accessTokenBuffer = Duration(minutes: 1);
 
   /// Prevents multiple concurrent refresh calls.
   Completer<TokenModel?>? _refreshCompleter;
 
-  // ─────────────────────────── onRequest ───────────────────────────
+  //  onRequest 
 
   @override
   void onRequest(
@@ -88,7 +80,7 @@ class AuthInterceptor extends QueuedInterceptor {
     }
   }
 
-  // ─────────────────────────── onError ─────────────────────────────
+  //  onError 
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
@@ -131,7 +123,7 @@ class AuthInterceptor extends QueuedInterceptor {
     }
   }
 
-  // ─────────────────────── Private Helpers ─────────────────────────
+  //  Private Helpers 
 
   /// Returns `true` if [expiration] is in the past.
   bool _isExpired(DateTime expiration) {

@@ -7,7 +7,7 @@ abstract class SafeCubit<State> extends Cubit<State> {
 
   /// Keeps track of operations that should be cancelled when the cubit is closed.
   final List<CancelableOperation> _operations = [];
-  
+
   /// The current debounce timer if any.
   Timer? _debounceTimer;
 

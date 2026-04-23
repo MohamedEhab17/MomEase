@@ -9,7 +9,7 @@ import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart';
 import 'package:new_mama/feature/profile/presentation/view_model/profile_state.dart';
-import 'package:new_mama/feature/profile/presentation/widgets/baby_profile_card.dart';
+import 'package:new_mama/feature/profile/presentation/widgets/children_section.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/community_posts_section.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/logout_button.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/parenting_journey_section.dart';
@@ -66,9 +66,10 @@ class _ProfileBody extends StatelessWidget {
                     title: context.trContext(TK.profileParentingJourney),
                   ),
                   ParentingJourneySection(journey: profile.journey),
+                  24.height,
 
-                  // Baby Info
-                  BabyProfileCard(baby: profile.babyProfile),
+                  // ── My Children (live from API) ──────────────────
+                  const ChildrenSection(),
                   24.height,
 
                   // Community Posts
@@ -88,7 +89,7 @@ class _ProfileBody extends StatelessWidget {
 
                   // Logout Button
                   LogoutButton(),
-                  100.height, // Padding for bottom navbar
+                  100.height,
                 ],
               ),
             );

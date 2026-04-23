@@ -14,6 +14,7 @@ import 'package:new_mama/feature/baby_track/presentation/views/feeding_tab_view.
 import 'package:new_mama/feature/baby_track/presentation/views/sleep_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/vaccine_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/baby_track_tab_bar.dart';
+import 'package:new_mama/feature/children/presentation/widgets/premium_child_selector.dart';
 
 class BabyTrackView extends StatefulWidget {
   const BabyTrackView({super.key});
@@ -111,6 +112,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
             ),
             body: Column(
               children: [
+                const PremiumChildSelector(),
                 // Tab bar
                 Padding(
                   padding: EdgeInsets.symmetric(
