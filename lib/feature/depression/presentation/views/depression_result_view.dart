@@ -129,7 +129,7 @@ class DepressionResultView extends StatelessWidget {
                   33.h.height,
 
                   CustomInstructionsRecommendations(
-                    advices: [],
+                    advices: result.recommendations,
                     title: context.trContext(TK.depressionRecommendations),
                   ),
                   53.h.height,

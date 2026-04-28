@@ -24,9 +24,9 @@ class DottedList extends StatelessWidget {
           child: Text(
             text,
             maxLines: 4,
-            style: context.text.titleMedium!.copyWith(
+            style: context.text.titleLarge!.copyWith(
               fontWeight: FontWeight.w400,
-              color: context.ext.colors.lightTextDisabled.withAlpha(178),
+              color: context.ext.colors.greyPrimary,
             ),
             overflow: TextOverflow.ellipsis,
           ),

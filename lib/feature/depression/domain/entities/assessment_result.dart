@@ -7,6 +7,7 @@ class AssessmentResult extends Equatable {
   final String severity;
   final String description;
   final String completedAt;
+  final List<String> recommendations;
 
   const AssessmentResult({
     required this.id,
@@ -15,6 +16,7 @@ class AssessmentResult extends Equatable {
     required this.severity,
     required this.description,
     required this.completedAt,
+    required this.recommendations
   });
 
   @override
@@ -25,6 +27,7 @@ class AssessmentResult extends Equatable {
         severity,
         description,
         completedAt,
+        recommendations
       ];
 }
 

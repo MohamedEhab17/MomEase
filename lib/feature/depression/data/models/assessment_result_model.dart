@@ -2,12 +2,14 @@ import 'package:new_mama/feature/depression/domain/entities/assessment_result.da
 
 class AssessmentResultModel extends AssessmentResult {
   const AssessmentResultModel({
+
     required super.id,
     required super.assessmentId,
     required super.score,
     required super.severity,
     required super.description,
     required super.completedAt,
+    required super.recommendations
   });
 
   factory AssessmentResultModel.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,9 @@ class AssessmentResultModel extends AssessmentResult {
       severity: data['levelName']?.toString() ?? '',
       description: data['advice']?.toString() ?? '',
       completedAt: data['completedAt']?.toString() ?? '',
+      recommendations: (data['recommendations'] as List<dynamic>?)
+          ?.map((item) => item.toString())
+          .toList() ?? [],
     );
   }
 
@@ -43,6 +48,7 @@ class AssessmentResultModel extends AssessmentResult {
       severity: severity,
       description: description,
       completedAt: completedAt,
+      recommendations: recommendations
     );
   }
 }
