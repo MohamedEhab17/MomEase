@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/profile_article_preview_card.dart';
 
 class SavedArticlesSection extends StatelessWidget {
-  final List<ArticleModel> articles;
+  final List<Article> articles;
 
   const SavedArticlesSection({super.key, required this.articles});
 

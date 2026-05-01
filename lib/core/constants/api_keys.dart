@@ -26,4 +26,16 @@ class Api {
   static const String children = 'Children';
   static String childById(int id) => 'Children/$id';
   static String childPhoto(int id) => 'Children/$id/photo';
+
+  /// Articles endpoints.
+  static const String articleCategories = 'articles/categories';
+  static const String articles = 'Articles/category/{categoryId}';
+  static const String articleDetail = 'Articles/{id}';
+  static const String articleSearch = 'Articles/search';
+  static const String savedArticles = 'saved-articles';
+  static String deleteSavedArticle(int id) => 'saved-articles/$id';
+
+  // Search History endpoints
+  static const String searchHistory = 'search/history';
+  static String deleteSearchTerm(String term) => 'search/history/$term';
 }

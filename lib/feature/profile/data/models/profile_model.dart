@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 
 class ProfileModel {
@@ -10,7 +10,7 @@ class ProfileModel {
   final ParentingJourney journey;
   final BabyProfile babyProfile;
   final List<PostModel> recentPosts;
-  final List<ArticleModel> savedArticles;
+  final List<Article> savedArticles;
   final List<AccountSupportItem> accountSupportItems;
 
   ProfileModel({

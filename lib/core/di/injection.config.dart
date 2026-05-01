@@ -20,12 +20,33 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../feature/articles/data/datasource/article_local_datasource.dart'
     as _i921;
-import '../../feature/articles/data/repository/article_repository.dart' as _i95;
+import '../../feature/articles/data/datasource/article_remote_datasource_contract.dart'
+    as _i159;
+import '../../feature/articles/data/datasource/article_remote_datasource_impl.dart'
+    as _i867;
 import '../../feature/articles/data/repository/article_repository_impl.dart'
     as _i625;
+import '../../feature/articles/domain/repositories/articles_repository.dart'
+    as _i18;
+import '../../feature/articles/domain/usecase/search_articles_usecase.dart'
+    as _i148;
+import '../../feature/articles/domain/usecase/search_history_usecases.dart'
+    as _i961;
 import '../../feature/articles/domain/usecases/article_usecases.dart' as _i875;
-import '../../feature/articles/presentation/view_model/article_cubit.dart'
-    as _i490;
+import '../../feature/articles/domain/usecases/get_articles_category_usecase.dart'
+    as _i537;
+import '../../feature/articles/domain/usecases/watch_article_save_status_usecase.dart'
+    as _i839;
+import '../../feature/articles/presentation/view_model/article_detail/article_detail_cubit.dart'
+    as _i187;
+import '../../feature/articles/presentation/view_model/categories_cubit/category_cubit.dart'
+    as _i964;
+import '../../feature/articles/presentation/view_model/category_articles/category_articles_cubit.dart'
+    as _i612;
+import '../../feature/articles/presentation/view_model/saved_articles/saved_articles_cubit.dart'
+    as _i973;
+import '../../feature/articles/presentation/view_model/search_articles/search_articles_cubit.dart'
+    as _i982;
 import '../../feature/auth/data/datasources/auth_local_data_source_contract.dart'
     as _i622;
 import '../../feature/auth/data/datasources/auth_local_data_source_impl.dart'
@@ -81,6 +102,8 @@ import '../../feature/children/domain/usecases/manage_child_photo_use_case.dart'
     as _i157;
 import '../../feature/children/domain/usecases/update_child_use_case.dart'
     as _i178;
+import '../../feature/children/presentation/cubit/active_child_cubit.dart'
+    as _i449;
 import '../../feature/children/presentation/cubit/children_cubit.dart' as _i555;
 import '../../feature/community/data/datasource/community_local_datasource.dart'
     as _i97;
@@ -162,9 +185,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i152.LocalAuthentication>(() => appModule.localAuth);
     gh.lazySingleton<_i375.GoogleAuthHelper>(() => _i375.GoogleAuthHelper());
     gh.lazySingleton<_i866.LanguageCubit>(() => _i866.LanguageCubit());
-    gh.lazySingleton<_i921.ArticleLocalDataSource>(
-      () => _i921.ArticleLocalDataSourceImpl(),
-    );
+    gh.lazySingleton<_i449.ActiveChildCubit>(() => _i449.ActiveChildCubit());
     gh.lazySingleton<_i557.ApiClient>(
       () => appModule.apiClient(gh<_i361.Dio>()),
     );
@@ -180,6 +201,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1010.ChildrenRemoteDataSource>(
       () => _i676.ChildrenRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
+    gh.lazySingleton<_i921.ArticleLocalDataSource>(
+      () => _i921.ArticleLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
     gh.lazySingleton<_i660.NotificationRepository>(
       () => _i679.NotificationRepositoryImpl(
         gh<_i967.NotificationLocalDataSource>(),
@@ -193,9 +217,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i96.AudioLocalDataSource>(
       () => _i881.AudioLocalDataSourceImpl(gh<_i1039.AudioRecorder>()),
-    );
-    gh.lazySingleton<_i95.ArticleRepository>(
-      () => _i625.ArticleRepositoryImpl(gh<_i921.ArticleLocalDataSource>()),
     );
     gh.lazySingleton<_i792.BiometricHelper>(
       () => _i792.BiometricHelper(gh<_i152.LocalAuthentication>()),
@@ -212,6 +233,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i766.AssessmentRemoteDataSourceContract>(
       () => _i730.AssessmentRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
+    gh.lazySingleton<_i159.ArticleRemoteDataSourceContract>(
+      () => _i867.ArticleRemoteDatasourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i121.AssessmentRepository>(
       () => _i501.AssessmentRepositoryImpl(
         gh<_i766.AssessmentRemoteDataSourceContract>(),
@@ -223,12 +247,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1010.ChildrenRemoteDataSource>(),
         gh<_i932.NetworkInfo>(),
       ),
-    );
-    gh.factory<_i875.GetArticlesUseCase>(
-      () => _i875.GetArticlesUseCase(gh<_i95.ArticleRepository>()),
-    );
-    gh.factory<_i875.ToggleSaveArticleUseCase>(
-      () => _i875.ToggleSaveArticleUseCase(gh<_i95.ArticleRepository>()),
     );
     gh.lazySingleton<_i622.AuthLocalDataSource>(
       () => _i557.AuthLocalDataSourceImpl(
@@ -263,12 +281,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i932.NetworkInfo>(),
       ),
     );
-    gh.factory<_i490.ArticleCubit>(
-      () => _i490.ArticleCubit(
-        gh<_i875.GetArticlesUseCase>(),
-        gh<_i875.ToggleSaveArticleUseCase>(),
-      ),
-    );
     gh.factory<_i1038.GetPostsUseCase>(
       () => _i1038.GetPostsUseCase(gh<_i963.CommunityRepository>()),
     );
@@ -289,6 +301,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1038.CreatePostUseCase>(
       () => _i1038.CreatePostUseCase(gh<_i963.CommunityRepository>()),
+    );
+    gh.lazySingleton<_i18.ArticlesRepository>(
+      () => _i625.ArticleRepositoryImpl(
+        gh<_i159.ArticleRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
+      ),
     );
     gh.factory<_i473.NotificationCubit>(
       () => _i473.NotificationCubit(
@@ -343,9 +361,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i792.BiometricHelper>(),
       ),
     );
-    gh.factory<_i562.SubmitCubit>(
-      () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
-    );
     gh.factory<_i292.CreateChildUseCase>(
       () => _i292.CreateChildUseCase(gh<_i889.ChildrenRepository>()),
     );
@@ -366,6 +381,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i178.UpdateChildUseCase>(
       () => _i178.UpdateChildUseCase(gh<_i889.ChildrenRepository>()),
+    );
+    gh.factory<_i562.SubmitCubit>(
+      () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
     );
     gh.lazySingleton<_i849.ChangePasswordUseCase>(
       () => _i849.ChangePasswordUseCase(gh<_i488.AuthRepository>()),
@@ -394,11 +412,41 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i352.VerifyEmailUseCase>(
       () => _i352.VerifyEmailUseCase(gh<_i488.AuthRepository>()),
     );
-    gh.factory<_i550.AssessmentsCubit>(
-      () => _i550.AssessmentsCubit(gh<_i9.GetAssessmentsUseCase>()),
+    gh.factory<_i148.SearchArticlesUseCase>(
+      () => _i148.SearchArticlesUseCase(gh<_i18.ArticlesRepository>()),
     );
-    gh.factory<_i712.AssessmentResultCubit>(
-      () => _i712.AssessmentResultCubit(gh<_i156.GetAssessmentResultUseCase>()),
+    gh.factory<_i961.GetSearchHistoryUseCase>(
+      () => _i961.GetSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i961.SaveSearchQueryUseCase>(
+      () => _i961.SaveSearchQueryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i961.ClearSearchHistoryUseCase>(
+      () => _i961.ClearSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i961.RemoveSearchTermUseCase>(
+      () => _i961.RemoveSearchTermUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i875.GetArticlesByCategoryUseCase>(
+      () => _i875.GetArticlesByCategoryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i875.GetArticleByIdUseCase>(
+      () => _i875.GetArticleByIdUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i875.SaveArticleUseCase>(
+      () => _i875.SaveArticleUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i875.UnsaveArticleUseCase>(
+      () => _i875.UnsaveArticleUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i875.GetSavedArticlesUseCase>(
+      () => _i875.GetSavedArticlesUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i537.GetArticlesCategoryUsecase>(
+      () => _i537.GetArticlesCategoryUsecase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i839.WatchArticleSaveStatusUseCase>(
+      () => _i839.WatchArticleSaveStatusUseCase(gh<_i18.ArticlesRepository>()),
     );
     gh.lazySingleton<_i555.ChildrenCubit>(
       () => _i555.ChildrenCubit(
@@ -408,6 +456,43 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i103.DeleteChildUseCase>(),
         gh<_i157.UploadChildPhotoUseCase>(),
         gh<_i157.DeleteChildPhotoUseCase>(),
+      ),
+    );
+    gh.factory<_i964.CategoryCubit>(
+      () => _i964.CategoryCubit(gh<_i537.GetArticlesCategoryUsecase>()),
+    );
+    gh.factory<_i973.SavedArticlesCubit>(
+      () => _i973.SavedArticlesCubit(
+        gh<_i875.GetSavedArticlesUseCase>(),
+        gh<_i875.SaveArticleUseCase>(),
+        gh<_i875.UnsaveArticleUseCase>(),
+        gh<_i839.WatchArticleSaveStatusUseCase>(),
+      ),
+    );
+    gh.factory<_i550.AssessmentsCubit>(
+      () => _i550.AssessmentsCubit(gh<_i9.GetAssessmentsUseCase>()),
+    );
+    gh.factory<_i712.AssessmentResultCubit>(
+      () => _i712.AssessmentResultCubit(gh<_i156.GetAssessmentResultUseCase>()),
+    );
+    gh.factory<_i187.ArticleDetailCubit>(
+      () => _i187.ArticleDetailCubit(
+        gh<_i875.GetArticleByIdUseCase>(),
+        gh<_i875.SaveArticleUseCase>(),
+        gh<_i875.UnsaveArticleUseCase>(),
+        gh<_i839.WatchArticleSaveStatusUseCase>(),
+      ),
+    );
+    gh.factory<_i982.SearchArticlesCubit>(
+      () => _i982.SearchArticlesCubit(
+        gh<_i148.SearchArticlesUseCase>(),
+        gh<_i961.GetSearchHistoryUseCase>(),
+        gh<_i961.SaveSearchQueryUseCase>(),
+        gh<_i961.ClearSearchHistoryUseCase>(),
+        gh<_i961.RemoveSearchTermUseCase>(),
+        gh<_i875.SaveArticleUseCase>(),
+        gh<_i875.UnsaveArticleUseCase>(),
+        gh<_i839.WatchArticleSaveStatusUseCase>(),
       ),
     );
     gh.factory<_i47.AuthCubit>(
@@ -422,6 +507,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i849.ChangePasswordUseCase>(),
         gh<_i804.RevokeTokenUseCase>(),
         gh<_i989.BiometricLoginUseCase>(),
+      ),
+    );
+    gh.factory<_i612.CategoryArticlesCubit>(
+      () => _i612.CategoryArticlesCubit(
+        gh<_i875.GetArticlesByCategoryUseCase>(),
+        gh<_i875.SaveArticleUseCase>(),
+        gh<_i875.UnsaveArticleUseCase>(),
+        gh<_i839.WatchArticleSaveStatusUseCase>(),
       ),
     );
     return this;

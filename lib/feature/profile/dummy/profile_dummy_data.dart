@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/profile/data/models/profile_model.dart';
 
@@ -54,29 +54,31 @@ class ProfileDummyData {
         ),
       ],
       savedArticles: [
-        ArticleModel(
-          id: "a1",
-          category: "NUTRITION",
+        Article(
+          articleId: 1,
+          categoryName: "NUTRITION",
           title: "7 useful meals for postpartum moms",
-          authorName: "Dr. Jane",
-          date: "Oct 12",
-          readTime: "5 min",
+          sourceName: "Dr. Jane",
+          publishedDate: "Oct 12",
+          readingTimeMinutes: 5,
           imageUrl: "https://picsum.photos/seed/nutrition/300/200",
-          overview: "A comprehensive guide on what to eat.",
-          sections: [],
+          shortDescription: "A comprehensive guide on what to eat.",
+          content: "Content",
           isSaved: true,
+          categoryId: 1,
         ),
-        ArticleModel(
-          id: "a2",
-          category: "WELLNESS",
+        Article(
+          articleId: 2,
+          categoryName: "WELLNESS",
           title: "Understanding sleep cycles",
-          authorName: "Dr. Smith",
-          date: "Oct 10",
-          readTime: "8 min",
+          sourceName: "Dr. Smith",
+          publishedDate: "Oct 10",
+          readingTimeMinutes: 8,
           imageUrl: "https://picsum.photos/seed/sleep/300/200",
-          overview: "Learn how to match your sleep with your baby's.",
-          sections: [],
+          shortDescription: "Learn how to match your sleep with your baby's.",
+          content: "Content",
           isSaved: true,
+          categoryId: 2,
         ),
       ],
       accountSupportItems: [

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
-import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
+import 'package:new_mama/feature/articles/domain/entities/article.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/article_detail/article_detail_cubit.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/article_detail/article_detail_state.dart';
 import 'package:new_mama/feature/articles/presentation/widgets/article_details_body.dart';
 
 class ArticleDetailsView extends StatefulWidget {
-  final ArticleModel article;
+  final Article article;
 
   const ArticleDetailsView({super.key, required this.article});
 
@@ -21,6 +25,10 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    // Delay fetching to allow UI to build with initial article summary
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ArticleDetailCubit>().loadArticle(widget.article.articleId);
+    });
   }
 
   @override
@@ -57,7 +65,14 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.network(widget.article.imageUrl, fit: BoxFit.cover),
+                Image.network(
+                  widget.article.imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: context.theme.colorScheme.surfaceContainerHighest,
+                    child: const Center(child: Icon(Icons.image_not_supported)),
+                  ),
+                ),
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -105,7 +120,28 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                         top: Radius.circular(30.r),
                       ),
                     ),
-                    child: ArticleDetailsBody(article: widget.article),
+                    child: BlocBuilder<ArticleDetailCubit, ArticleDetailState>(
+                      builder: (context, state) {
+                        if (state is ArticleDetailLoading) {
+                          return Padding(
+                            padding: EdgeInsets.all(40.h),
+                            child: const Center(
+                              child: CustomLoadingIndicator(),
+                            ),
+                          );
+                        }
+                        if (state is ArticleDetailFailure) {
+                          return Padding(
+                            padding: EdgeInsets.all(40.h),
+                            child: Center(child: Text(state.message)),
+                          );
+                        }
+                        final displayArticle = (state is ArticleDetailSuccess)
+                            ? state.article
+                            : widget.article;
+                        return ArticleDetailsBody(article: displayArticle);
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -119,13 +155,15 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
             child: CircleAvatar(
               backgroundColor: Colors.white,
               child: Transform.translate(
-                offset: const Offset(-4, -1),
+                // offset: const Offset(-4, -1),
+                offset: const Offset(-2, 0),
                 child: IconButton(
                   onPressed: () => context.pop(),
                   icon: Icon(
+                    //  Icons.arrow_back_ios_rounded,
                     Icons.arrow_back_ios_new_rounded,
                     color: context.ext.colors.primaryDark,
-                    size: 20.sp,
+                    size: 25.sp,
                   ),
                 ),
               ),

@@ -5,11 +5,11 @@ import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:new_mama/core/widgets/custom_network_image.dart';
 
 class ProfileArticlePreviewCard extends StatelessWidget {
-  final ArticleModel article;
+  final Article article;
 
   const ProfileArticlePreviewCard({super.key, required this.article});
 
@@ -64,7 +64,7 @@ class ProfileArticlePreviewCard extends StatelessWidget {
                   ),
                   8.height,
                   Text(
-                    article.category,
+                    article.categoryName,
                     style: context.text.bodySmall!.copyWith(
                       fontWeight: FontWeight.w600,
                       color: context.colors.onSurfaceVariant,

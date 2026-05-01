@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
-import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class ArticlesSliverHeader extends StatelessWidget {
-  final ArticleModel article;
+  final Article article;
 
   const ArticlesSliverHeader({super.key, required this.article});
 
@@ -45,6 +45,12 @@ class ArticlesSliverHeader extends StatelessWidget {
             width: double.infinity,
             height: 250.h,
             fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Container(
+              width: double.infinity,
+              height: 250.h,
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              child: const Icon(Icons.image_not_supported),
+            ),
           ),
           PositionedDirectional(
             bottom: 16,

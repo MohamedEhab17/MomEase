@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:animate_to/animate_to.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
-import 'package:new_mama/feature/articles/data/models/article_model.dart';
-import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
+import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 
 class CustomArticleCategoryItem extends StatelessWidget {
-  final ArticleModel article;
-  final AnimateToController controller;
+  final Article article;
+  final AnimateToController? controller;
+  final VoidCallback? onSave;
 
   const CustomArticleCategoryItem({
     super.key,
     required this.article,
-    required this.controller,
+    this.controller,
+    this.onSave,
   });
 
   @override
@@ -31,14 +30,14 @@ class CustomArticleCategoryItem extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        margin: 20.hPadding,
+        // margin: 20.hPadding,
         decoration: BoxDecoration(
           color: context.theme.cardColor,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
               blurRadius: 8,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
               color: context.theme.colorScheme.onSurface.withAlpha(38),
               spreadRadius: 0,
               blurStyle: BlurStyle.outer,
@@ -57,6 +56,12 @@ class CustomArticleCategoryItem extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: 200.h,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: double.infinity,
+                  height: 200.h,
+                  color: context.theme.colorScheme.surfaceContainerHighest,
+                  child: const Icon(Icons.image_not_supported),
+                ),
               ),
             ),
             16.height,
@@ -73,14 +78,18 @@ class CustomArticleCategoryItem extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsetsDirectional.only(start: 20, end: 20, bottom: 10),
+              padding: const EdgeInsetsDirectional.only(
+                start: 20,
+                end: 20,
+                bottom: 10,
+              ),
               child: Row(
                 spacing: 6.w,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Text(
-                      article.overview,
+                      article.shortDescription,
                       style: context.text.bodySmall!,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
@@ -89,26 +98,35 @@ class CustomArticleCategoryItem extends StatelessWidget {
 
                   GestureDetector(
                     onTap: () {
-                      context.read<ArticleCubit>().toggleSaveArticle(
-                        article.id,
-                      );
-                      if (!article.isSaved) {
-                        controller.animateTag('save_${article.id}');
+                      onSave?.call();
+                      if (!article.isSaved && controller != null) {
+                        controller!.animateTag('save_${article.articleId}');
                       }
                     },
-                    child: AnimateFrom(
-                      key: controller.tag('save_${article.id}'),
-                      child: SvgPicture.asset(
-                        article.isSaved
-                            ? AppIcons.iconsFilledSave
-                            : AppIcons.iconsUnfilledSave,
-                        width: 15.w,
-                        colorMapper: AppSvgColorMapper(
-                          from: Color(0xffFF3381),
-                          to: context.ext.colors.primaryDark,
-                        ),
-                      ),
-                    ),
+                    child: controller != null
+                        ? AnimateFrom(
+                            key: controller!.tag('save_${article.articleId}'),
+                            child: SvgPicture.asset(
+                              article.isSaved
+                                  ? AppIcons.iconsFilledSave
+                                  : AppIcons.iconsUnfilledSave,
+                              width: 18.w,
+                              colorMapper: AppSvgColorMapper(
+                                from: const Color(0xffFF3381),
+                                to: context.ext.colors.primaryDark,
+                              ),
+                            ),
+                          )
+                        : SvgPicture.asset(
+                            article.isSaved
+                                ? AppIcons.iconsFilledSave
+                                : AppIcons.iconsUnfilledSave,
+                            width: 15.w,
+                            colorMapper: AppSvgColorMapper(
+                              from: const Color(0xffFF3381),
+                              to: context.ext.colors.primaryDark,
+                            ),
+                          ),
                   ),
                 ],
               ),

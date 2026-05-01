@@ -68,7 +68,13 @@
     "saved": "تم الحفظ",
     "empty": "لا توجد مقالات حالياً",
     "no_saved": "لم يتم حفظ أي مقالات بعد",
-    "search_hint": "ابحثي عن مقالات..."
+    "search_hint": "ابحثي عن مقالات...",
+    "search_no_results": "لا توجد مقالات عن \"{query}\".",
+    "search_title": "ابحث عن مقالات",
+    "search_empty": "ابحثي عن ما تريدين",
+    "read_minutes": "{minutes} دقيقة قراءة",
+     "clear_all" : "مسح الكل",
+    "recent_searches": "البحثات الحديثة" 
   },
 
   "baby": {

@@ -77,7 +77,12 @@ class TK {
   static const articlesEmpty = 'articles.empty';
   static const articlesNoSaved = 'articles.no_saved';
   static const articlesSearchHint = 'articles.search_hint';
-
+  static const searchNoResults = 'articles.search_no_results';
+  static const searchTitle= 'articles.search_title';
+  static const  searchEmpty = 'articles.search_empty';
+  static const articleReadMinutes = 'articles.read_minutes';
+  static const clearAll = 'articles.clear_all';
+  static const recentSearches = 'articles.recent_searches';
   // 🔹 Baby
   static const babyTracking = 'baby.tracking';
   static const babyActivity = 'baby.activity';

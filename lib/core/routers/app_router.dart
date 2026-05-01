@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_mama/core/enums/verification_type.dart'
     show VerificationType;
-import 'package:new_mama/feature/articles/data/models/article_model.dart';
+import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/feature/articles/domain/entities/article_category.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/views/baby_profile_onboarding_layout.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/views/baby_profile_onboarding_view.dart';
@@ -28,7 +29,7 @@ import 'package:new_mama/feature/articles/presentation/view/article_category_vie
 import 'package:new_mama/feature/articles/presentation/view/article_details_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/articles_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/saved_articles_view.dart';
-import 'package:new_mama/feature/articles/presentation/view_model/article_cubit.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/categories_cubit/category_cubit.dart';
 import 'package:new_mama/feature/children/domain/entities/child.dart';
 import 'package:new_mama/feature/children/presentation/cubit/children_cubit.dart';
 import 'package:new_mama/feature/children/presentation/views/add_edit_child_view.dart';
@@ -65,6 +66,11 @@ import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_c
 import 'package:new_mama/feature/baby_track/presentation/views/baby_track_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/insights_view.dart';
 
+import 'package:new_mama/feature/articles/presentation/view/article_search_view.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/article_detail/article_detail_cubit.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/category_articles/category_articles_cubit.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/saved_articles/saved_articles_cubit.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/search_articles/search_articles_cubit.dart';
 import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
 
 class AppRouter {
@@ -194,16 +200,19 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.articlesView,
           name: 'articlesView',
-          builder: (context, state) => BlocProvider(
-            create: (_) => getIt<ArticleCubit>(),
-            child: const ArticlesView(),
-          ),
+          builder: (context, state) {
+            final category = state.extra as ArticleCategory;
+            return BlocProvider(
+              create: (_) => getIt<CategoryArticlesCubit>(),
+              child: ArticlesView(categoryId: category.id),
+            );
+          },
         ),
         GoRoute(
           path: AppRoutesPaths.articleCategoryView,
           name: 'articleCategoryView',
           builder: (context, state) => BlocProvider(
-            create: (_) => getIt<ArticleCubit>(),
+            create: (_) => getIt<CategoryCubit>()..fetchArticlesCategory(),
             child: const ArticleCategoryView(),
           ),
         ),
@@ -211,9 +220,9 @@ class AppRouter {
           path: AppRoutesPaths.articleDetailsView,
           name: 'articleDetailsView',
           builder: (context, state) {
-            final article = state.extra as ArticleModel;
+            final article = state.extra as Article;
             return BlocProvider(
-              create: (_) => getIt<ArticleCubit>(),
+              create: (_) => getIt<ArticleDetailCubit>(),
               child: ArticleDetailsView(article: article),
             );
           },
@@ -222,8 +231,16 @@ class AppRouter {
           path: AppRoutesPaths.savedArticlesView,
           name: 'savedArticlesView',
           builder: (context, state) => BlocProvider(
-            create: (_) => getIt<ArticleCubit>(),
+            create: (_) => getIt<SavedArticlesCubit>(),
             child: const SavedArticlesView(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.articleSearchView,
+          name: 'articleSearchView',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<SearchArticlesCubit>(),
+            child: const ArticleSearchView(),
           ),
         ),
         GoRoute(

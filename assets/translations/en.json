@@ -63,7 +63,14 @@
     "saved": "Saved",
     "empty": "No articles found.",
     "no_saved": "No saved articles yet.",
-    "search_hint": "Search articles..."
+    "search_hint": "Search articles...",
+    "search_no_results": "No articles found for \"{query}\".",
+    "search_title": "Search Results",
+    "search_empty": "Find what you're looking for",
+    "read_minutes": "{minutes} min read",
+    "clear_all": "Clear all",
+    "recent_searches": "Recent Searches"
+
   },
 
   "baby": {

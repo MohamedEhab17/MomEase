@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/feature/articles/data/models/article_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/feature/articles/domain/entities/article_category.dart';
 
 class ArticleCategoryCard extends StatelessWidget {
-  final ArticleModel article;
-  const ArticleCategoryCard({super.key, required this.article});
+  final ArticleCategory category;
+  final EdgeInsetsGeometry? margin;
+  const ArticleCategoryCard({super.key, required this.category, this.margin});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push(AppRoutesPaths.articlesView, extra: article),
+      onTap: () => context.push(AppRoutesPaths.articlesView, extra: category),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
-        margin: 20.hPadding,
+        margin: margin ?? 20.hPadding,
         width: double.infinity,
         height: 128.h,
         decoration: BoxDecoration(
@@ -25,7 +26,7 @@ class ArticleCategoryCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               blurRadius: 8,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
               color: context.colors.onSurface.withAlpha(38),
               spreadRadius: 0,
               blurStyle: BlurStyle.outer,
@@ -33,32 +34,42 @@ class ArticleCategoryCard extends StatelessWidget {
           ],
         ),
         child: Row(
-          spacing: 10,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
               child: Image.network(
-                article.imageUrl,
+                category.image,
                 fit: BoxFit.cover,
                 width: 100.w,
                 height: 100.h,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 100.w,
+                    height: 100.h,
+                    color: context.colors.surfaceContainerHighest,
+                    child: Icon(Icons.image_not_supported,
+                        color: context.colors.onSurfaceVariant),
+                  );
+                },
               ),
             ),
-
+            SizedBox(width: 10.w),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 6.h,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    article.title,
-                    style: context.text.bodyMedium!,
+                    category.name,
+                    style: context.text.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
+                  SizedBox(height: 6.h),
                   Text(
-                    article.overview,
+                    category.description,
                     style: context.text.bodySmall!.copyWith(
                       color: context.colors.onSurface.withAlpha(179),
                     ),
