@@ -13,6 +13,11 @@ import 'package:new_mama/feature/community/presentation/view/community_view.dart
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
 import 'package:new_mama/feature/notifications/presentation/view/notification_view.dart';
 import 'package:new_mama/feature/profile/presentation/view/profile_view.dart';
+import 'package:new_mama/feature/articles/presentation/view_model/categories_cubit/category_cubit.dart';
+import 'package:new_mama/feature/home/presentation/view_model/home_articles/home_articles_cubit.dart';
+import 'package:new_mama/core/localization/cubit/language_cubit.dart';
+import 'package:new_mama/core/di/injection.dart';
+import 'package:new_mama/feature/app_section/presentation/view_model/logout_cubit/logout_cubit.dart';
 import '../view_model/cubit/bottom_nav_cubit.dart';
 
 class AppSectionView extends StatefulWidget {
@@ -79,9 +84,20 @@ class _AppSectionViewState extends State<AppSectionView>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => BottomNavCubit(),
-      child: BlocBuilder<BottomNavCubit, BottomNavState>(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => BottomNavCubit()),
+        BlocProvider(create: (_) => getIt<CategoryCubit>()..fetchArticlesCategory()),
+        BlocProvider(create: (_) => getIt<HomeArticlesCubit>()..loadHomeArticles()),
+        BlocProvider(create: (_) => getIt<LogoutCubit>()),
+      ],
+      child: BlocListener<LanguageCubit, Locale>(
+        listener: (context, locale) {
+          // Refetch data when language changes
+          context.read<CategoryCubit>().fetchArticlesCategory();
+          context.read<HomeArticlesCubit>().loadHomeArticles();
+        },
+        child: BlocBuilder<BottomNavCubit, BottomNavState>(
         builder: (context, state) {
           return Scaffold(
             backgroundColor: context.theme.scaffoldBackgroundColor,
@@ -129,7 +145,7 @@ class _AppSectionViewState extends State<AppSectionView>
             ),
           );
         },
-      ),
+      ),)
     );
   }
 }

@@ -12,6 +12,7 @@ class Api {
   static const String googleLogin = 'Auth/google-login';
   static const String changePassword = 'Auth/change-password';
   static const String revokeToken = 'Auth/revoke-token';
+  static const String logout = 'Auth/logout';
 
   // Depression endpoints
   static const String getAssessments = 'assessments';
@@ -38,4 +39,5 @@ class Api {
   // Search History endpoints
   static const String searchHistory = 'search/history';
   static String deleteSearchTerm(String term) => 'search/history/$term';
+  
 }

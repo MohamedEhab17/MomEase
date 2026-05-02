@@ -18,6 +18,21 @@ import 'package:local_auth/local_auth.dart' as _i152;
 import 'package:record/record.dart' as _i1039;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../feature/app_section/data/datasources/app_section_local_datasource_contract.dart'
+    as _i435;
+import '../../feature/app_section/data/datasources/app_section_local_datasource_impl.dart'
+    as _i95;
+import '../../feature/app_section/data/datasources/app_section_remote_datasource_contract.dart'
+    as _i663;
+import '../../feature/app_section/data/datasources/app_section_remote_datasource_impl.dart'
+    as _i250;
+import '../../feature/app_section/data/repositories/app_section_repository_impl.dart'
+    as _i67;
+import '../../feature/app_section/domain/repositories/app_section_repository_contract.dart'
+    as _i417;
+import '../../feature/app_section/domain/usecases/logout_usecase.dart' as _i480;
+import '../../feature/app_section/presentation/view_model/logout_cubit/logout_cubit.dart'
+    as _i434;
 import '../../feature/articles/data/datasource/article_local_datasource.dart'
     as _i921;
 import '../../feature/articles/data/datasource/article_remote_datasource_contract.dart'
@@ -145,6 +160,8 @@ import '../../feature/depression/presentation/view_model/questions_cubit/questio
     as _i458;
 import '../../feature/depression/presentation/view_model/submit_cubit/submit_cubit.dart'
     as _i562;
+import '../../feature/home/presentation/view_model/home_articles/home_articles_cubit.dart'
+    as _i850;
 import '../../feature/notifications/data/datasource/notification_local_datasource.dart'
     as _i967;
 import '../../feature/notifications/data/repository/notification_repository.dart'
@@ -227,11 +244,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i0.AudioRepository>(
       () => _i636.AudioRepositoryImpl(gh<_i96.AudioLocalDataSource>()),
     );
+    gh.lazySingleton<_i435.AppSectionLocalDatasourceContract>(
+      () => _i95.AppSectionLocalDatasourceImpl(gh<_i790.SecureStorageHelper>()),
+    );
     gh.factory<_i589.SoundRecordingCubit>(
       () => _i589.SoundRecordingCubit(gh<_i0.AudioRepository>()),
     );
     gh.lazySingleton<_i766.AssessmentRemoteDataSourceContract>(
       () => _i730.AssessmentRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
+    gh.lazySingleton<_i663.AppSectionRemoteDatasourceContract>(
+      () => _i250.AppSectionRemoteDatasourceImpl(gh<_i557.ApiClient>()),
     );
     gh.lazySingleton<_i159.ArticleRemoteDataSourceContract>(
       () => _i867.ArticleRemoteDatasourceImpl(gh<_i557.ApiClient>()),
@@ -274,6 +297,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i660.NotificationRepository>(),
       ),
     );
+    gh.lazySingleton<_i417.AppSectionRepositoryContract>(
+      () => _i67.AppSectionRepositoryImpl(
+        gh<_i663.AppSectionRemoteDatasourceContract>(),
+      ),
+    );
     gh.lazySingleton<_i488.AuthRepository>(
       () => _i263.AuthRepositoryImpl(
         gh<_i961.AuthRemoteDataSource>(),
@@ -307,6 +335,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i159.ArticleRemoteDataSourceContract>(),
         gh<_i932.NetworkInfo>(),
       ),
+    );
+    gh.factory<_i480.LogoutUseCase>(
+      () => _i480.LogoutUseCase(gh<_i417.AppSectionRepositoryContract>()),
     );
     gh.factory<_i473.NotificationCubit>(
       () => _i473.NotificationCubit(
@@ -359,6 +390,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i989.BiometricLoginUseCase(
         gh<_i488.AuthRepository>(),
         gh<_i792.BiometricHelper>(),
+      ),
+    );
+    gh.factory<_i434.LogoutCubit>(
+      () => _i434.LogoutCubit(
+        gh<_i480.LogoutUseCase>(),
+        gh<_i435.AppSectionLocalDatasourceContract>(),
       ),
     );
     gh.factory<_i292.CreateChildUseCase>(
@@ -460,6 +497,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i964.CategoryCubit>(
       () => _i964.CategoryCubit(gh<_i537.GetArticlesCategoryUsecase>()),
+    );
+    gh.factory<_i850.HomeArticlesCubit>(
+      () => _i850.HomeArticlesCubit(
+        gh<_i537.GetArticlesCategoryUsecase>(),
+        gh<_i875.GetArticlesByCategoryUseCase>(),
+      ),
     );
     gh.factory<_i973.SavedArticlesCubit>(
       () => _i973.SavedArticlesCubit(

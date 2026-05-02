@@ -10,7 +10,9 @@ import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/feature/home/presentation/widgets/articles_card.dart';
 import 'package:new_mama/feature/home/presentation/widgets/custom_quick_access_card.dart';
 import 'package:new_mama/feature/home/presentation/widgets/depression_test_widget.dart';
-import 'package:new_mama/feature/articles/dummy/article_dummy_data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_mama/feature/home/presentation/view_model/home_articles/home_articles_cubit.dart';
+import 'package:new_mama/feature/home/presentation/view_model/home_articles/home_articles_state.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -105,17 +107,50 @@ class HomeView extends StatelessWidget {
             ],
           ),
 
-          SizedBox(
-            height: 114.h,
-            child: ListView.separated(
-              clipBehavior: Clip.none,
-              scrollDirection: Axis.horizontal,
-              itemCount: dummyArticles.length,
-              separatorBuilder: (context, index) => 16.width,
-              itemBuilder: (context, index) {
-                return ArticlesCard(article: dummyArticles[index]);
-              },
-            ),
+          BlocBuilder<HomeArticlesCubit, HomeArticlesState>(
+            builder: (context, state) {
+              if (state is HomeArticlesLoading) {
+                return SizedBox(
+                  height: 114.h,
+                  child: const Center(child: CircularProgressIndicator()),
+                );
+              } else if (state is HomeArticlesSuccess) {
+                if (state.articles.isEmpty) {
+                  return SizedBox(
+                    height: 114.h,
+                    child: Center(
+                      child: Text(
+                        'No articles found.',
+                        style: context.text.bodyMedium,
+                      ),
+                    ),
+                  );
+                }
+                return SizedBox(
+                  height: 114.h,
+                  child: ListView.separated(
+                    clipBehavior: Clip.none,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.articles.length,
+                    separatorBuilder: (context, index) => 16.width,
+                    itemBuilder: (context, index) {
+                      return ArticlesCard(article: state.articles[index]);
+                    },
+                  ),
+                );
+              } else if (state is HomeArticlesFailure) {
+                return SizedBox(
+                  height: 114.h,
+                  child: Center(
+                    child: Text(
+                      state.message,
+                      style: context.text.bodyMedium!.copyWith(color: Colors.red),
+                    ),
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
           32.height,
         ],
