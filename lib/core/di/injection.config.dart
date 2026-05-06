@@ -81,6 +81,8 @@ import '../../feature/children/domain/usecases/manage_child_photo_use_case.dart'
     as _i157;
 import '../../feature/children/domain/usecases/update_child_use_case.dart'
     as _i178;
+import '../../feature/children/presentation/cubit/active_child_cubit.dart'
+    as _i449;
 import '../../feature/children/presentation/cubit/children_cubit.dart' as _i555;
 import '../../feature/community/data/datasource/community_local_datasource.dart'
     as _i97;
@@ -100,6 +102,8 @@ import '../../feature/depression/data/repositories/assessments_repository_impl.d
     as _i501;
 import '../../feature/depression/domain/repositories/assessment_repository.dart'
     as _i121;
+import '../../feature/depression/domain/usecase/delete_assessment_result_usecase.dart'
+    as _i772;
 import '../../feature/depression/domain/usecase/get_assessment_by_id_usecase.dart'
     as _i812;
 import '../../feature/depression/domain/usecase/get_assessment_result_usecase.dart'
@@ -112,12 +116,16 @@ import '../../feature/depression/domain/usecase/get_question_by_id_usecase.dart'
     as _i552;
 import '../../feature/depression/domain/usecase/get_questions_usecase.dart'
     as _i670;
+import '../../feature/depression/domain/usecase/get_user_assessment_results_usecase.dart'
+    as _i1019;
 import '../../feature/depression/domain/usecase/submit_assessment_usecase.dart'
     as _i331;
 import '../../feature/depression/presentation/view_model/assessment_result_cubit/assessment_result_cubit.dart'
     as _i712;
 import '../../feature/depression/presentation/view_model/assessments_cubit/assessments_cubit.dart'
     as _i550;
+import '../../feature/depression/presentation/view_model/depression_history_cubit/depression_history_cubit.dart'
+    as _i712;
 import '../../feature/depression/presentation/view_model/questions_cubit/questions_cubit.dart'
     as _i458;
 import '../../feature/depression/presentation/view_model/submit_cubit/submit_cubit.dart'
@@ -134,6 +142,24 @@ import '../../feature/notifications/presentation/view_model/notification_cubit.d
     as _i473;
 import '../../feature/profile/presentation/view_model/profile_cubit.dart'
     as _i386;
+import '../../feature/skin_diagnosis/data/datasources/skin_analysis_remote_data_source.dart'
+    as _i393;
+import '../../feature/skin_diagnosis/data/datasources/skin_analysis_remote_data_source_impl.dart'
+    as _i935;
+import '../../feature/skin_diagnosis/data/repositories/skin_analysis_repository_impl.dart'
+    as _i608;
+import '../../feature/skin_diagnosis/domain/repositories/skin_analysis_repository.dart'
+    as _i1059;
+import '../../feature/skin_diagnosis/domain/usecases/analyze_skin_image_usecase.dart'
+    as _i820;
+import '../../feature/skin_diagnosis/domain/usecases/delete_skin_analysis_usecase.dart'
+    as _i517;
+import '../../feature/skin_diagnosis/domain/usecases/get_child_skin_analyses_usecase.dart'
+    as _i543;
+import '../../feature/skin_diagnosis/domain/usecases/get_user_skin_analyses_usecase.dart'
+    as _i782;
+import '../../feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart'
+    as _i846;
 import '../helper/biometric_helper.dart' as _i792;
 import '../helper/google_auth_helper.dart' as _i375;
 import '../helper/secure_storage_helper.dart' as _i790;
@@ -162,6 +188,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i152.LocalAuthentication>(() => appModule.localAuth);
     gh.lazySingleton<_i375.GoogleAuthHelper>(() => _i375.GoogleAuthHelper());
     gh.lazySingleton<_i866.LanguageCubit>(() => _i866.LanguageCubit());
+    gh.lazySingleton<_i449.ActiveChildCubit>(() => _i449.ActiveChildCubit());
     gh.lazySingleton<_i921.ArticleLocalDataSource>(
       () => _i921.ArticleLocalDataSourceImpl(),
     );
@@ -212,6 +239,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i766.AssessmentRemoteDataSourceContract>(
       () => _i730.AssessmentRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
+    gh.lazySingleton<_i393.SkinAnalysisRemoteDataSource>(
+      () => _i935.SkinAnalysisRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i121.AssessmentRepository>(
       () => _i501.AssessmentRepositoryImpl(
         gh<_i766.AssessmentRemoteDataSourceContract>(),
@@ -229,6 +259,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i875.ToggleSaveArticleUseCase>(
       () => _i875.ToggleSaveArticleUseCase(gh<_i95.ArticleRepository>()),
+    );
+    gh.lazySingleton<_i772.DeleteAssessmentResultUseCase>(
+      () =>
+          _i772.DeleteAssessmentResultUseCase(gh<_i121.AssessmentRepository>()),
+    );
+    gh.lazySingleton<_i1019.GetUserAssessmentResultsUseCase>(
+      () => _i1019.GetUserAssessmentResultsUseCase(
+        gh<_i121.AssessmentRepository>(),
+      ),
     );
     gh.lazySingleton<_i622.AuthLocalDataSource>(
       () => _i557.AuthLocalDataSourceImpl(
@@ -254,6 +293,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1042.ClearAllNotificationsUseCase>(
       () => _i1042.ClearAllNotificationsUseCase(
         gh<_i660.NotificationRepository>(),
+      ),
+    );
+    gh.factory<_i712.DepressionHistoryCubit>(
+      () => _i712.DepressionHistoryCubit(
+        gh<_i1019.GetUserAssessmentResultsUseCase>(),
+        gh<_i772.DeleteAssessmentResultUseCase>(),
       ),
     );
     gh.lazySingleton<_i488.AuthRepository>(
@@ -289,6 +334,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1038.CreatePostUseCase>(
       () => _i1038.CreatePostUseCase(gh<_i963.CommunityRepository>()),
+    );
+    gh.lazySingleton<_i1059.SkinAnalysisRepository>(
+      () => _i608.SkinAnalysisRepositoryImpl(
+        gh<_i393.SkinAnalysisRemoteDataSource>(),
+        gh<_i932.NetworkInfo>(),
+      ),
     );
     gh.factory<_i473.NotificationCubit>(
       () => _i473.NotificationCubit(
@@ -343,9 +394,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i792.BiometricHelper>(),
       ),
     );
-    gh.factory<_i562.SubmitCubit>(
-      () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
-    );
     gh.factory<_i292.CreateChildUseCase>(
       () => _i292.CreateChildUseCase(gh<_i889.ChildrenRepository>()),
     );
@@ -366,6 +414,25 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i178.UpdateChildUseCase>(
       () => _i178.UpdateChildUseCase(gh<_i889.ChildrenRepository>()),
+    );
+    gh.factory<_i562.SubmitCubit>(
+      () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
+    );
+    gh.factory<_i820.AnalyzeSkinImageUseCase>(
+      () => _i820.AnalyzeSkinImageUseCase(gh<_i1059.SkinAnalysisRepository>()),
+    );
+    gh.factory<_i517.DeleteSkinAnalysisUseCase>(
+      () =>
+          _i517.DeleteSkinAnalysisUseCase(gh<_i1059.SkinAnalysisRepository>()),
+    );
+    gh.factory<_i543.GetChildSkinAnalysesUseCase>(
+      () => _i543.GetChildSkinAnalysesUseCase(
+        gh<_i1059.SkinAnalysisRepository>(),
+      ),
+    );
+    gh.factory<_i782.GetUserSkinAnalysesUseCase>(
+      () =>
+          _i782.GetUserSkinAnalysesUseCase(gh<_i1059.SkinAnalysisRepository>()),
     );
     gh.lazySingleton<_i849.ChangePasswordUseCase>(
       () => _i849.ChangePasswordUseCase(gh<_i488.AuthRepository>()),
@@ -394,12 +461,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i352.VerifyEmailUseCase>(
       () => _i352.VerifyEmailUseCase(gh<_i488.AuthRepository>()),
     );
-    gh.factory<_i550.AssessmentsCubit>(
-      () => _i550.AssessmentsCubit(gh<_i9.GetAssessmentsUseCase>()),
-    );
-    gh.factory<_i712.AssessmentResultCubit>(
-      () => _i712.AssessmentResultCubit(gh<_i156.GetAssessmentResultUseCase>()),
-    );
     gh.lazySingleton<_i555.ChildrenCubit>(
       () => _i555.ChildrenCubit(
         gh<_i1057.GetChildrenUseCase>(),
@@ -408,6 +469,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i103.DeleteChildUseCase>(),
         gh<_i157.UploadChildPhotoUseCase>(),
         gh<_i157.DeleteChildPhotoUseCase>(),
+      ),
+    );
+    gh.factory<_i550.AssessmentsCubit>(
+      () => _i550.AssessmentsCubit(gh<_i9.GetAssessmentsUseCase>()),
+    );
+    gh.factory<_i712.AssessmentResultCubit>(
+      () => _i712.AssessmentResultCubit(gh<_i156.GetAssessmentResultUseCase>()),
+    );
+    gh.factory<_i846.SkinDiagnosisCubit>(
+      () => _i846.SkinDiagnosisCubit(
+        gh<_i820.AnalyzeSkinImageUseCase>(),
+        gh<_i782.GetUserSkinAnalysesUseCase>(),
+        gh<_i543.GetChildSkinAnalysesUseCase>(),
+        gh<_i517.DeleteSkinAnalysisUseCase>(),
       ),
     );
     gh.factory<_i47.AuthCubit>(

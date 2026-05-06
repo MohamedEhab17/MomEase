@@ -62,6 +62,7 @@ class DepressionResultView extends StatelessWidget {
               onPressed: () {
                 context.go(AppRoutesPaths.appSectionView);
               },
+              trailingAction: const SizedBox.shrink(),
             ),
             body: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 33.h),

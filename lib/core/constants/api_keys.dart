@@ -21,9 +21,17 @@ class Api {
       'assessments/{assessmentId}/questions/{questionId}';
   static const String getOptionsByQuestionId = 'questions/{questionId}/options';
   static const String getAssessmentResult = "assessment-results/{id}";
+  static const String assessmentResultsHistory = 'assessment-results';
+  static String deleteAssessmentResult(int id) => 'assessment-results/$id';
 
   /// Children (Baby) endpoints.
   static const String children = 'Children';
   static String childById(int id) => 'Children/$id';
   static String childPhoto(int id) => 'Children/$id/photo';
+
+  /// Skin Analysis endpoints.
+  static const String skinAnalyze = 'skin-analysis/analyze';
+  static const String skinUserAnalyses = 'skin-analysis/user';
+  static String skinChildAnalyses(int childId) => 'skin-analysis/child/$childId';
+  static String skinAnalysisById(int id) => 'skin-analysis/$id';
 }
