@@ -51,6 +51,8 @@ import 'package:new_mama/feature/depression/presentation/views/depression_result
 import 'package:new_mama/feature/depression/presentation/views/depression_test_options_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_test_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_view.dart';
+import 'package:new_mama/feature/depression/presentation/views/depression_history_view.dart';
+import 'package:new_mama/feature/depression/presentation/view_model/depression_history_cubit/depression_history_cubit.dart';
 import 'package:new_mama/feature/community/presentation/view/community_view.dart';
 import 'package:new_mama/feature/community/presentation/view/create_post_view.dart';
 import 'package:new_mama/feature/community/presentation/view/saved_posts_view.dart';
@@ -58,10 +60,12 @@ import 'package:new_mama/feature/community/presentation/view_model/community_cub
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
 import 'package:new_mama/feature/onboarding/presentation/view/onboarding_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_analyzing_view.dart';
+import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_history_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_insight_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_photo_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_result_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
+import 'package:new_mama/feature/skin_diagnosis/domain/entities/skin_analysis.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/baby_track_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/insights_view.dart';
@@ -290,6 +294,14 @@ class AppRouter {
             ),
           ],
         ),
+        GoRoute(
+          path: AppRoutesPaths.depressionHistoryView,
+          name: 'depressionHistoryView',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<DepressionHistoryCubit>(),
+            child: const DepressionHistoryView(),
+          ),
+        ),
 
         GoRoute(
           path: AppRoutesPaths.cryingInsightView,
@@ -316,32 +328,44 @@ class AppRouter {
           name: 'cryAnalyzingView',
           builder: (context, state) => CryAnalyzingView(),
         ),
-        GoRoute(
-          path: AppRoutesPaths.skinDiagnosisInsightView,
-          name: 'skinDiagnosisInsightView',
-          builder: (context, state) => const SkinDiagnosisInsightView(),
-        ),
-        GoRoute(
-          path: AppRoutesPaths.skinDiagnosisAnalyzingView,
-          name: 'skinDiagnosisAnalyzingView',
-          builder: (context, state) => const SkinDiagnosisAnalyzingView(),
-        ),
-        GoRoute(
-          path: AppRoutesPaths.skinDiagnosisPhotoView,
-          name: 'skinDiagnosisPhoto',
-          builder: (context, state) => BlocProvider(
-            create: (context) => SkinDiagnosisCubit(),
-            child: const SkinDiagnosisPhotoView(),
+        // Shell gives insight → photo → analyzing → result → history a shared cubit
+        ShellRoute(
+          builder: (context, state, child) => BlocProvider(
+            create: (_) => getIt<SkinDiagnosisCubit>(),
+            child: child,
           ),
-        ),
-        GoRoute(
-          path: AppRoutesPaths.skinDiagnosisResultView,
-          name: 'skinDiagnosisResultView',
-          builder: (context, state) {
-            final advices = state.extra as List<String>;
-
-            return SkinDiagnosisResultView(advices: advices);
-          },
+          routes: [
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisInsightView,
+              name: 'skinDiagnosisInsightView',
+              builder: (context, state) => const SkinDiagnosisInsightView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisPhotoView,
+              name: 'skinDiagnosisPhoto',
+              builder: (context, state) => const SkinDiagnosisPhotoView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisAnalyzingView,
+              name: 'skinDiagnosisAnalyzingView',
+              builder: (context, state) =>
+                  const SkinDiagnosisAnalyzingView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisResultView,
+              name: 'skinDiagnosisResultView',
+              builder: (context, state) {
+                final analysis = state.extra as SkinAnalysis;
+                return SkinDiagnosisResultView(analysis: analysis);
+              },
+            ),
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisHistoryView,
+              name: 'skinDiagnosisHistoryView',
+              builder: (context, state) =>
+                  const SkinDiagnosisHistoryView(),
+            ),
+          ],
         ),
         GoRoute(
           path: AppRoutesPaths.babyTrackView,

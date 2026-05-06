@@ -56,6 +56,7 @@ class _DepressionTestViewState extends State<DepressionTestView> {
       child: Scaffold(
         appBar: FeaturesHeader(
           title: context.trContext(TK.depressionAppBarTitle),
+          trailingAction: const SizedBox.shrink(),
         ),
         body: Padding(
           padding: EdgeInsetsDirectional.only(

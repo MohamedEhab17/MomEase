@@ -16,4 +16,6 @@ abstract class AssessmentRepository {
   Future<Either<Failure, AssessmentResult>> submitAssessment(int assessmentId, SubmitRequest body);
 
   Future<Either<Failure, AssessmentResult>> getAssessmentResult(int id);
+  Future<Either<Failure, List<AssessmentResult>>> getUserAssessmentResults();
+  Future<Either<Failure, void>> deleteAssessmentResult(int id);
 }

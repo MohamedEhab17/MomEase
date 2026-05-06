@@ -20,6 +20,8 @@ class InsightViewScaffold extends StatelessWidget {
   final String instructionsTitle;
   final String ctaText;
   final VoidCallback onCtaPressed;
+  /// Optional widget shown in the AppBar trailing slot (replaces the Luna icon).
+  final Widget? trailingAction;
 
   const InsightViewScaffold({
     super.key,
@@ -31,12 +33,28 @@ class InsightViewScaffold extends StatelessWidget {
     required this.instructionsTitle,
     required this.ctaText,
     required this.onCtaPressed,
+    this.trailingAction,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: FeaturesHeader(title: appBarTitle),
+      appBar: FeaturesHeader(
+        title: appBarTitle,
+        trailingAction: trailingAction,
+      ),
+      // ── CTA pinned at bottom — always visible, never scrolled away ────────
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 16.h),
+          child: CustomElevatedButton(
+            text: ctaText,
+            onPressed: onCtaPressed,
+            minimumSize: Size(double.infinity, 52.h),
+          ),
+        ),
+      ),
+      // ── Scrollable content ────────────────────────────────────────────────
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 32.h),
         child: Column(
@@ -65,13 +83,7 @@ class InsightViewScaffold extends StatelessWidget {
               title: instructionsTitle,
               advices: instructions,
             ),
-            56.h.height,
-            CustomElevatedButton(
-              text: ctaText,
-              onPressed: onCtaPressed,
-              minimumSize: Size(double.infinity, 52.h),
-            ),
-            16.h.height,
+            24.h.height,
             Padding(
               padding: 12.w.hPadding,
               child: Text(

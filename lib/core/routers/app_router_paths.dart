@@ -18,6 +18,7 @@ class AppRoutesPaths {
   static const String depressionTestView = '/depressionTestView';
   static const String depressionTestOptionsView = '/depressionTestOptionsView';
   static const String depressionResultView = '/depressionResultView';
+  static const String depressionHistoryView = '/depressionHistoryView';
   static const String cryingInsightView = '/cryingInsightView';
   static const String cryingResultView = '/cryingResultView';
   static const String cryingRecordingSessionView =
@@ -31,6 +32,7 @@ class AppRoutesPaths {
   static const String skinDiagnosisAnalyzingView =
       '/skinDiagnosisAnalyzingView';
   static const String skinDiagnosisResultView = '/skinDiagnosisResultView';
+  static const String skinDiagnosisHistoryView = '/skinDiagnosisHistoryView';
   static const String babyProfileOnboardingView = '/babyProfileOnboardingView';
   static const String firstTimeMama = '/firstTimeMama';
   static const String babyCount = '/babyCount';

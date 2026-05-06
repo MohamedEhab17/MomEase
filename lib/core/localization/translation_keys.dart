@@ -466,6 +466,15 @@ class TK {
   static const skinTip2 = 'skin_diagnosis.tip_2';
   static const skinTip3 = 'skin_diagnosis.tip_3';
   static const skinTip4 = 'skin_diagnosis.tip_4';
+  static const skinDisclaimerText = 'skin_diagnosis.disclaimer_text';
+  static const skinViewHistory = 'skin_diagnosis.view_history';
+  static const skinHistoryTitle = 'skin_diagnosis.history_title';
+  static const skinHistoryEmpty = 'skin_diagnosis.history_empty';
+  static const skinHistoryEmptySubtitle = 'skin_diagnosis.history_empty_subtitle';
+  static const skinDeleteRecord = 'skin_diagnosis.delete_record';
+  static const skinDeleteConfirmTitle = 'skin_diagnosis.delete_confirm_title';
+  static const skinDeleteConfirmBody = 'skin_diagnosis.delete_confirm_body';
+  static const skinSelectChild = 'skin_diagnosis.select_child';
 
   // 🔹 Notifications
   static const notificationsTitle = 'notifications.title';

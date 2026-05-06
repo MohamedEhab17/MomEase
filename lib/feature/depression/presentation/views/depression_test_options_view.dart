@@ -25,6 +25,17 @@ class DepressionTestOptionsView extends StatelessWidget {
         onPressed: () {
           context.go(AppRoutesPaths.appSectionView);
         },
+        trailingAction: IconButton(
+          onPressed: () {
+            context.push(AppRoutesPaths.depressionHistoryView);
+          },
+          icon: Icon(
+            Icons.history_rounded,
+            color: context.ext.colors.primaryDark,
+            size: 26.w,
+          ),
+          tooltip: context.trContext(TK.skinHistoryTitle),
+        ),
       ),
       body: BlocBuilder<AssessmentsCubit, AssessmentsState>(
         builder: (context, state) {

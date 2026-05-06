@@ -22,6 +22,7 @@ class DepressionView extends StatelessWidget {
     return Scaffold(
       appBar: FeaturesHeader(
         title: context.trContext(TK.depressionAppBarTitle),
+        trailingAction: const SizedBox.shrink(),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),

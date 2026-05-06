@@ -26,12 +26,13 @@ class DepressionTestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-     clipBehavior: Clip.none,
+      clipBehavior: Clip.none,
       // margin: EdgeInsets.symmetric(horizontal: 20.w),
       padding: EdgeInsets.symmetric(horizontal: 33, vertical: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
-        color: context.colors.onPrimary,
+        color: context.theme.cardColor,
+        
         boxShadow: [
           BoxShadow(
             blurRadius: 8,

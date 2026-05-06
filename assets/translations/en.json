@@ -433,7 +433,16 @@
     "tip_1": "Gently massage baby's scalp with your fingers",
     "tip_2": "Wash hair regularly with gentle baby shampoo",
     "tip_3": "Use a soft brush to loosen flakes",
-    "tip_4": "Apply baby oil before washing if very crusty"
+    "tip_4": "Apply baby oil before washing if very crusty",
+    "disclaimer_text": "This is an AI-powered tool for guidance only. Always consult a qualified healthcare professional for medical advice.",
+    "view_history": "View History",
+    "history_title": "Skin Analysis History",
+    "history_empty": "No analyses yet",
+    "history_empty_subtitle": "Your previous skin analyses will appear here after you analyze a photo.",
+    "delete_record": "Delete record",
+    "delete_confirm_title": "Delete Record?",
+    "delete_confirm_body": "Are you sure you want to delete this skin analysis record?",
+    "select_child": "Please select a child first"
   },
 
   "notifications": {
