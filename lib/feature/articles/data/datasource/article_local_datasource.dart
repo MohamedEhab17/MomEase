@@ -1,7 +1,5 @@
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../domain/entities/article.dart';
-import '../../dummy/article_dummy_data.dart';
 
 abstract class ArticleLocalDataSource {
   // Future<List<Article>> getArticles();
