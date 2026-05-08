@@ -47,5 +47,9 @@ class AppRoutesPaths {
   static const String childrenListView = '/childrenListView';
   static const String childDetailView = '/childDetailView';
   static const String addChildView = '/addChildView';
-}
+  static const String manageProfileView = '/manageProfileView';
+  static const String changePasswordView = '/changePasswordView';
 
+  // ── Notification feature ─────────────────────────────────────────────────────
+  static const String notificationView = '/notificationView';
+}

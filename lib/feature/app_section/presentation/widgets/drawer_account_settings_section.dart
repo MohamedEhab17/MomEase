@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/theme/cubit/theme_cubit.dart';
 import 'package:new_mama/core/localization/cubit/language_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -27,7 +29,9 @@ class DrawerAccountSettingsSection extends StatelessWidget {
             color: context.ext.colors.primaryDark,
           ),
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
-          onTap: () {},
+          onTap: () {
+            context.push(AppRoutesPaths.manageProfileView);
+          },
         ),
         DrawerListTile(
           title: context.trContext(TK.drawerSecurity),
@@ -36,7 +40,9 @@ class DrawerAccountSettingsSection extends StatelessWidget {
             color: context.ext.colors.primaryDark,
           ),
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
-          onTap: () {},
+          onTap: () {
+            context.push(AppRoutesPaths.changePasswordView);
+          },
         ),
         DrawerListTile(
           title: context.trContext(TK.drawerNotifications),
@@ -45,7 +51,9 @@ class DrawerAccountSettingsSection extends StatelessWidget {
             color: context.ext.colors.primaryDark,
           ),
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
-          onTap: () {},
+          onTap: () {
+            context.push(AppRoutesPaths.notificationView);
+          },
         ),
         BlocBuilder<LanguageCubit, Locale>(
           builder: (context, locale) {

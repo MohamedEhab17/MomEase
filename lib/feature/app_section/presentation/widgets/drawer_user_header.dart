@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/widgets/custom_network_image.dart';
+import 'package:new_mama/feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart';
+import 'package:new_mama/feature/app_section/presentation/view_model/profile_cubit/profile_state.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class DrawerUserHeader extends StatelessWidget {
   final Animation<double> animation;
@@ -57,57 +62,77 @@ class DrawerUserHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Row(
-                children: [
-                  Stack(
-                    alignment: AlignmentDirectional.bottomEnd,
-                    children: [
-                      CircleAvatar(
-                        radius: 30.r,
-                        backgroundImage: const NetworkImage(
-                          'https://i.pravatar.cc/150?img=11',
-                        ),
-                        backgroundColor: context.theme.cardColor,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(4.w),
-                        decoration: BoxDecoration(
-                          color: context.theme.cardColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.edit,
-                          size: 12.sp,
-                          color: context.colors.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 16.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              child: BlocBuilder<ProfileCubit, ProfileState>(
+                builder: (context, state) {
+                  bool isLoading =
+                      state is ProfileLoading || state is ProfileInitial;
+                  String name = isLoading ? 'Loading Name' : 'Guest User';
+                  String email = isLoading
+                      ? 'loading.email@example.com'
+                      : 'Could not load profile';
+                  String? imageUrl;
+
+                  if (state is ProfileLoaded) {
+                    name = '${state.user.firstName} ${state.user.lastName}';
+                    email = state.user.email;
+
+                    if (state.user.profilePictureUrl != null &&
+                        state.user.profilePictureUrl!.isNotEmpty) {
+                      imageUrl =
+                          'http://momease.runasp.net${state.user.profilePictureUrl}';
+                    }
+                  }
+
+                  return Skeletonizer(
+                    enabled: isLoading,
+                    child: Row(
                       children: [
-                        Text(
-                          'Ana Soso',
-                          style: context.text.displaySmall!.copyWith(
-                            color: context.ext.colors.lightTextPrimary,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w700,
+                        ClipOval(
+                          child: Container(
+                            width: 60.r,
+                            height: 60.r,
+                            color: context.theme.cardColor,
+                            child: (imageUrl != null && imageUrl.isNotEmpty)
+                                ? CustomNetworkImage(
+                                    imageUrl: imageUrl,
+                                    width: 60.r,
+                                    height: 60.r,
+                                  )
+                                : Icon(
+                                    Icons.person,
+                                    size: 30.sp,
+                                    color: context.colors.primary,
+                                  ),
                           ),
                         ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          'ana.soso@example.com',
-                          style: context.text.titleSmall!.copyWith(
-                            color: context.ext.colors.lightTextPrimary,
-                            fontSize: 12.sp,
+                        SizedBox(width: 16.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                name,
+                                style: context.text.displaySmall!.copyWith(
+                                  color: context.ext.colors.lightTextPrimary,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              SizedBox(height: 4.h),
+                              Text(
+                                email,
+                                style: context.text.titleSmall!.copyWith(
+                                  color: context.ext.colors.lightTextPrimary,
+                                  fontSize: 12.sp,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ),

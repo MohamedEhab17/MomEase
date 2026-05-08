@@ -35,6 +35,7 @@ class ArticlesCard extends StatelessWidget {
                 imageUrl: article.imageUrl,
                 fit: BoxFit.cover,
                 errorWidget: (context, error, stackTrace) =>
+
                     Image.asset(AppImages.imagesArticles, fit: BoxFit.cover),
               ),
             ),

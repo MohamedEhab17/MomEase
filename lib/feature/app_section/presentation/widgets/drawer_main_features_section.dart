@@ -37,19 +37,34 @@ class DrawerMainFeaturesSection extends StatelessWidget {
             AppIcons.iconsActiveProfile,
           ),
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
-          onTap: () {},
+          onTap: () {
+            onClose();
+            context.push(AppRoutesPaths.depressionView);
+          },
         ),
         DrawerListTile(
           title: context.trContext(TK.drawerBabyCry),
-          leading: buildDrawerIcon(color: context.ext.colors.primaryDark, AppIcons.iconsSound),
+          leading: buildDrawerIcon(
+            color: context.ext.colors.primaryDark,
+            AppIcons.iconsSound,
+          ),
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
-          onTap: () {},
+          onTap: () {
+            onClose();
+            context.push(AppRoutesPaths.cryingInsightView);
+          },
         ),
         DrawerListTile(
           title: context.trContext(TK.drawerSkinDiagnosis),
-          leading: buildDrawerIcon(color: context.ext.colors.primaryDark, AppIcons.iconsSkin),
+          leading: buildDrawerIcon(
+            color: context.ext.colors.primaryDark,
+            AppIcons.iconsSkin,
+          ),
           trailing: buildDrawerChevron(color: context.ext.colors.primaryDark),
-          onTap: () {},
+          onTap: () {
+            onClose();
+            context.push(AppRoutesPaths.skinDiagnosisInsightView);
+          },
         ),
       ],
     );

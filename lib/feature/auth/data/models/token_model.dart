@@ -10,10 +10,14 @@ class TokenModel extends AuthTokens {
 
   factory TokenModel.fromJson(Map<String, dynamic> json) {
     return TokenModel(
-      accessToken: json['accessToken'],
-      refreshToken: json['refreshToken'],
-      accessTokenExpiration: DateTime.parse(json['accessTokenExpiration']),
-      refreshTokenExpiration: DateTime.parse(json['refreshTokenExpiration']),
+      accessToken: json['accessToken'] ?? '',
+      refreshToken: json['refreshToken'] ?? '',
+      accessTokenExpiration: json['accessTokenExpiration'] != null 
+          ? DateTime.tryParse(json['accessTokenExpiration']) ?? DateTime.now()
+          : DateTime.now(),
+      refreshTokenExpiration: json['refreshTokenExpiration'] != null 
+          ? DateTime.tryParse(json['refreshTokenExpiration']) ?? DateTime.now()
+          : DateTime.now(),
     );
   }
 

@@ -10,6 +10,8 @@ import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/feature/app_section/presentation/view_model/logout_cubit/logout_cubit.dart';
 import 'package:new_mama/feature/app_section/presentation/view_model/logout_cubit/logout_state.dart';
+import 'package:new_mama/core/widgets/logout_confirmation_dialog.dart';
+
 
 class DrawerLogoutSection extends StatelessWidget {
   final Animation<double> animation;
@@ -70,8 +72,16 @@ class DrawerLogoutSection extends StatelessWidget {
                                 color: context.ext.colors.primaryDark,
                                 fontWeight: FontWeight.w600,
                               ),
-                              onPressed: onLogout ?? () {
-                                context.read<LogoutCubit>().logout();
+                              onPressed: () async {
+                                final confirm = await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) =>
+                                      const LogoutConfirmationDialog(),
+                                );
+                                if (confirm == true && context.mounted) {
+                                  onLogout ??
+                                      context.read<LogoutCubit>().logout();
+                                }
                               },
                             ),
                     ),

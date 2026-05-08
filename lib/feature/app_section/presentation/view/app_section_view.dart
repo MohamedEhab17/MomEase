@@ -18,6 +18,7 @@ import 'package:new_mama/feature/home/presentation/view_model/home_articles/home
 import 'package:new_mama/core/localization/cubit/language_cubit.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/app_section/presentation/view_model/logout_cubit/logout_cubit.dart';
+import 'package:new_mama/feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart';
 import '../view_model/cubit/bottom_nav_cubit.dart';
 
 class AppSectionView extends StatefulWidget {
@@ -90,6 +91,7 @@ class _AppSectionViewState extends State<AppSectionView>
         BlocProvider(create: (_) => getIt<CategoryCubit>()..fetchArticlesCategory()),
         BlocProvider(create: (_) => getIt<HomeArticlesCubit>()..loadHomeArticles()),
         BlocProvider(create: (_) => getIt<LogoutCubit>()),
+        BlocProvider(create: (_) => getIt<ProfileCubit>()..getProfile()),
       ],
       child: BlocListener<LanguageCubit, Locale>(
         listener: (context, locale) {

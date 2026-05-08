@@ -30,9 +30,19 @@ import '../../feature/app_section/data/repositories/app_section_repository_impl.
     as _i67;
 import '../../feature/app_section/domain/repositories/app_section_repository_contract.dart'
     as _i417;
+import '../../feature/app_section/domain/usecases/change_password_usecase.dart'
+    as _i139;
+import '../../feature/app_section/domain/usecases/get_profile_usecase.dart'
+    as _i319;
 import '../../feature/app_section/domain/usecases/logout_usecase.dart' as _i480;
+import '../../feature/app_section/domain/usecases/update_profile_usecase.dart'
+    as _i84;
 import '../../feature/app_section/presentation/view_model/logout_cubit/logout_cubit.dart'
     as _i434;
+import '../../feature/app_section/presentation/view_model/manage_profile_cubit/manage_profile_cubit.dart'
+    as _i650;
+import '../../feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart'
+    as _i580;
 import '../../feature/articles/data/datasource/article_local_datasource.dart'
     as _i921;
 import '../../feature/articles/data/datasource/article_remote_datasource_contract.dart'
@@ -43,13 +53,13 @@ import '../../feature/articles/data/repository/article_repository_impl.dart'
     as _i625;
 import '../../feature/articles/domain/repositories/articles_repository.dart'
     as _i18;
-import '../../feature/articles/domain/usecase/search_articles_usecase.dart'
-    as _i148;
-import '../../feature/articles/domain/usecase/search_history_usecases.dart'
-    as _i961;
 import '../../feature/articles/domain/usecases/article_usecases.dart' as _i875;
 import '../../feature/articles/domain/usecases/get_articles_category_usecase.dart'
     as _i537;
+import '../../feature/articles/domain/usecases/search_articles_usecase.dart'
+    as _i695;
+import '../../feature/articles/domain/usecases/search_history_usecases.dart'
+    as _i361;
 import '../../feature/articles/domain/usecases/watch_article_save_status_usecase.dart'
     as _i839;
 import '../../feature/articles/presentation/view_model/article_detail/article_detail_cubit.dart'
@@ -300,6 +310,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i417.AppSectionRepositoryContract>(
       () => _i67.AppSectionRepositoryImpl(
         gh<_i663.AppSectionRemoteDatasourceContract>(),
+        gh<_i622.AuthLocalDataSource>(),
       ),
     );
     gh.lazySingleton<_i488.AuthRepository>(
@@ -422,6 +433,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i562.SubmitCubit>(
       () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
     );
+    gh.factory<_i139.ChangePasswordUsecase>(
+      () =>
+          _i139.ChangePasswordUsecase(gh<_i417.AppSectionRepositoryContract>()),
+    );
+    gh.factory<_i319.GetProfileUsecase>(
+      () => _i319.GetProfileUsecase(gh<_i417.AppSectionRepositoryContract>()),
+    );
+    gh.factory<_i84.UpdateProfileUsecase>(
+      () => _i84.UpdateProfileUsecase(gh<_i417.AppSectionRepositoryContract>()),
+    );
+    gh.factory<_i650.ManageProfileCubit>(
+      () => _i650.ManageProfileCubit(
+        gh<_i84.UpdateProfileUsecase>(),
+        gh<_i139.ChangePasswordUsecase>(),
+      ),
+    );
     gh.lazySingleton<_i849.ChangePasswordUseCase>(
       () => _i849.ChangePasswordUseCase(gh<_i488.AuthRepository>()),
     );
@@ -449,21 +476,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i352.VerifyEmailUseCase>(
       () => _i352.VerifyEmailUseCase(gh<_i488.AuthRepository>()),
     );
-    gh.factory<_i148.SearchArticlesUseCase>(
-      () => _i148.SearchArticlesUseCase(gh<_i18.ArticlesRepository>()),
-    );
-    gh.factory<_i961.GetSearchHistoryUseCase>(
-      () => _i961.GetSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
-    );
-    gh.factory<_i961.SaveSearchQueryUseCase>(
-      () => _i961.SaveSearchQueryUseCase(gh<_i18.ArticlesRepository>()),
-    );
-    gh.factory<_i961.ClearSearchHistoryUseCase>(
-      () => _i961.ClearSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
-    );
-    gh.factory<_i961.RemoveSearchTermUseCase>(
-      () => _i961.RemoveSearchTermUseCase(gh<_i18.ArticlesRepository>()),
-    );
     gh.factory<_i875.GetArticlesByCategoryUseCase>(
       () => _i875.GetArticlesByCategoryUseCase(gh<_i18.ArticlesRepository>()),
     );
@@ -481,6 +493,21 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i537.GetArticlesCategoryUsecase>(
       () => _i537.GetArticlesCategoryUsecase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i695.SearchArticlesUseCase>(
+      () => _i695.SearchArticlesUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i361.GetSearchHistoryUseCase>(
+      () => _i361.GetSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i361.SaveSearchQueryUseCase>(
+      () => _i361.SaveSearchQueryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i361.ClearSearchHistoryUseCase>(
+      () => _i361.ClearSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i361.RemoveSearchTermUseCase>(
+      () => _i361.RemoveSearchTermUseCase(gh<_i18.ArticlesRepository>()),
     );
     gh.factory<_i839.WatchArticleSaveStatusUseCase>(
       () => _i839.WatchArticleSaveStatusUseCase(gh<_i18.ArticlesRepository>()),
@@ -528,15 +555,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i982.SearchArticlesCubit>(
       () => _i982.SearchArticlesCubit(
-        gh<_i148.SearchArticlesUseCase>(),
-        gh<_i961.GetSearchHistoryUseCase>(),
-        gh<_i961.SaveSearchQueryUseCase>(),
-        gh<_i961.ClearSearchHistoryUseCase>(),
-        gh<_i961.RemoveSearchTermUseCase>(),
+        gh<_i695.SearchArticlesUseCase>(),
+        gh<_i361.GetSearchHistoryUseCase>(),
+        gh<_i361.SaveSearchQueryUseCase>(),
+        gh<_i361.ClearSearchHistoryUseCase>(),
+        gh<_i361.RemoveSearchTermUseCase>(),
         gh<_i875.SaveArticleUseCase>(),
         gh<_i875.UnsaveArticleUseCase>(),
         gh<_i839.WatchArticleSaveStatusUseCase>(),
       ),
+    );
+    gh.lazySingleton<_i580.ProfileCubit>(
+      () => _i580.ProfileCubit(gh<_i319.GetProfileUsecase>()),
     );
     gh.factory<_i47.AuthCubit>(
       () => _i47.AuthCubit(

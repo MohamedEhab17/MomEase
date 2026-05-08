@@ -17,22 +17,32 @@ class ArticleModel extends Article {
   });
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) {
+    final String shortDescription = json['shortDescription'] as String? ?? '';
+    final String? content = json['content'] as String?;
+
     return ArticleModel(
       articleId: json['articleId'] as int? ?? 0,
       title: json['title'] as String? ?? '',
       imageUrl: json['imageUrl'] as String? ?? '',
-      shortDescription: json['shortDescription'] as String? ?? '',
+      shortDescription: shortDescription.isEmpty
+          ? (content != null
+              ? (content.length > 150
+                  ? '${content.substring(0, 150)}...'
+                  : content)
+              : '')
+          : shortDescription,
       categoryName: json['categoryName'] as String? ?? '',
       categoryId: json['categoryId'] as int? ?? 0,
       readingTimeMinutes: json['readingTimeMinutes'] as int? ?? 0,
       isSaved: json['isSaved'] as bool? ?? false,
-      content: json['content'] as String?,
+      content: content ?? shortDescription,
       publishedDate: json['publishedDate'] as String?,
       sourceUrl: json['sourceUrl'] as String?,
       sourceName: json['sourceName'] as String?,
     );
   }
 
+  @override
   ArticleModel copyWith({
     int? articleId,
     String? title,
