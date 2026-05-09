@@ -210,6 +210,7 @@ class AuthInterceptor extends QueuedInterceptor {
   Future<void> _forceLogout(AuthLocalDataSource localDataSource) async {
     await localDataSource.clearAll();
     // Navigate to login and clear the entire navigation stack
-    AppRouter.router.go(AppRoutesPaths.login);
+    // Wrap in microtask to avoid issues during Dio request lifecycle
+    Future.microtask(() => AppRouter.router.go(AppRoutesPaths.login));
   }
 }

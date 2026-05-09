@@ -91,7 +91,7 @@ class _AppSectionViewState extends State<AppSectionView>
         BlocProvider(create: (_) => getIt<CategoryCubit>()..fetchArticlesCategory()),
         BlocProvider(create: (_) => getIt<HomeArticlesCubit>()..loadHomeArticles()),
         BlocProvider(create: (_) => getIt<LogoutCubit>()),
-        BlocProvider(create: (_) => getIt<ProfileCubit>()..getProfile()),
+        BlocProvider.value(value: getIt<ProfileCubit>()..getProfile()),
       ],
       child: BlocListener<LanguageCubit, Locale>(
         listener: (context, locale) {

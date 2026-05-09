@@ -251,6 +251,7 @@ class TK {
   static const drawerHelpCenter = 'drawer.support_info.help_center';
   static const drawerContactUs = 'drawer.support_info.contact_us';
   static const drawerAboutMomEase = 'drawer.support_info.about_momease';
+  static const drawerPrivacyPolicy = 'drawer.support_info.privacy_policy';
   static const drawerRateApp = 'drawer.general.rate_momease';
   static const drawerShareApp = 'drawer.general.share_with_friends';
   static const drawerSendFeedback = 'drawer.general.send_feedback';
