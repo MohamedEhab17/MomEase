@@ -183,6 +183,8 @@ class TK {
   static const communityCopyLink = 'community.copy_link';
   static const communityReportPost = 'community.report_post';
   static const communityRemovePost = 'community.remove_post';
+  static const communityDeletePostTitle = 'community.delete_post_title';
+  static const communityDeletePostContent = 'community.delete_post_content';
   static const communityShare = 'community.share';
   static const communityShareMoment = 'community.share_moment';
   static const communityWriteComment = 'community.write_comment';
@@ -200,6 +202,13 @@ class TK {
   static const communityEditImage = 'community.edit_image';
   static const communitySavedPostsOnePost = 'community.saved_posts_one_post';
   static const communitySavedPostsNPosts = 'community.saved_posts_n_posts';
+  static const communityUnsavePostTitle = 'community.unsave_post_title';
+  static const communityUnsavePostContent = 'community.unsave_post_content';
+  static const communityReportReasonHint = 'community.report_reason_hint';
+  static const communityReportCancel = 'community.report_cancel';
+  static const communityReportSend = 'community.report_send';
+  static const communityReportError = 'community.report_error';
+  static const communityMaxImagesError = 'community.max_images_error';
 
   // 🔹 Home
   static const homeWelcome = 'home.welcome';
@@ -237,6 +246,7 @@ class TK {
   static const profileHelpCenter = 'profile.help_center';
   static const profileEnglish = 'profile.english_us';
   static const profilePink = 'profile.pastel_pink';
+  static const profileLoadError = 'profile.load_error';
 
   // 🔹 Drawer
   static const drawerBabyTracking = 'drawer.baby_tracking';
@@ -510,4 +520,5 @@ class TK {
   static const toastError = 'common.toast.error';
   static const toastWarning = 'common.toast.warning';
   static const toastInfo = 'common.toast.info';
+  static const toastActionFailed = 'common.toast.action_failed';
 }

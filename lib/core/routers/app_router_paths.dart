@@ -26,6 +26,7 @@ class AppRoutesPaths {
   static const String cryAnalyzingView = '/cryAnalyzingView';
   static const String communityView = '/communityView';
   static const String createPostCommunityView = '/createPostCommunityView';
+  static const String postDetailsView = '/posts/:postId';
   static const String savedPostsView = '/savedPostsView';
   static const String skinDiagnosisInsightView = '/skinDiagnosisInsightView';
   static const String skinDiagnosisPhotoView = '/skinDiagnosisPhotoView';

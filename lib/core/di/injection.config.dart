@@ -107,14 +107,20 @@ import '../../feature/children/presentation/cubit/active_child_cubit.dart'
 import '../../feature/children/presentation/cubit/children_cubit.dart' as _i555;
 import '../../feature/community/data/datasource/community_local_datasource.dart'
     as _i97;
-import '../../feature/community/data/repository/community_repository.dart'
-    as _i963;
+import '../../feature/community/data/datasource/community_remote_datasource.dart'
+    as _i108;
 import '../../feature/community/data/repository/community_repository_impl.dart'
     as _i272;
-import '../../feature/community/domain/usecases/community_usecases.dart'
-    as _i1038;
+import '../../feature/community/domain/repository/community_repository.dart'
+    as _i59;
+import '../../feature/community/domain/usecase/community_usecases.dart'
+    as _i728;
+import '../../feature/community/presentation/view_model/comments_cubit.dart'
+    as _i37;
 import '../../feature/community/presentation/view_model/community_cubit.dart'
     as _i1026;
+import '../../feature/community/presentation/view_model/post_details_cubit/post_details_cubit.dart'
+    as _i585;
 import '../../feature/depression/data/datasources/assessment_remote_data_source_contract.dart'
     as _i766;
 import '../../feature/depression/data/datasources/assessment_remote_data_source_impl.dart'
@@ -245,17 +251,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i792.BiometricHelper>(
       () => _i792.BiometricHelper(gh<_i152.LocalAuthentication>()),
     );
-    gh.lazySingleton<_i963.CommunityRepository>(
-      () => _i272.CommunityRepositoryImpl(gh<_i97.CommunityLocalDataSource>()),
-    );
     gh.lazySingleton<_i0.AudioRepository>(
       () => _i636.AudioRepositoryImpl(gh<_i96.AudioLocalDataSource>()),
     );
     gh.factory<_i589.SoundRecordingCubit>(
       () => _i589.SoundRecordingCubit(gh<_i0.AudioRepository>()),
     );
+    gh.lazySingleton<_i108.CommunityRemoteDataSource>(
+      () => _i108.CommunityRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i766.AssessmentRemoteDataSourceContract>(
       () => _i730.AssessmentRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
+    gh.lazySingleton<_i59.CommunityRepository>(
+      () =>
+          _i272.CommunityRepositoryImpl(gh<_i108.CommunityRemoteDataSource>()),
     );
     gh.lazySingleton<_i393.SkinAnalysisRemoteDataSource>(
       () => _i935.SkinAnalysisRemoteDataSourceImpl(gh<_i557.ApiClient>()),
@@ -323,27 +333,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i932.NetworkInfo>(),
       ),
     );
-    gh.factory<_i1038.GetPostsUseCase>(
-      () => _i1038.GetPostsUseCase(gh<_i963.CommunityRepository>()),
-    );
-    gh.factory<_i1038.LoadMorePostsUseCase>(
-      () => _i1038.LoadMorePostsUseCase(gh<_i963.CommunityRepository>()),
-    );
-    gh.factory<_i1038.ToggleLikeUseCase>(
-      () => _i1038.ToggleLikeUseCase(gh<_i963.CommunityRepository>()),
-    );
-    gh.factory<_i1038.ToggleSaveUseCase>(
-      () => _i1038.ToggleSaveUseCase(gh<_i963.CommunityRepository>()),
-    );
-    gh.factory<_i1038.ToggleCommentUseCase>(
-      () => _i1038.ToggleCommentUseCase(gh<_i963.CommunityRepository>()),
-    );
-    gh.factory<_i1038.DeletePostUseCase>(
-      () => _i1038.DeletePostUseCase(gh<_i963.CommunityRepository>()),
-    );
-    gh.factory<_i1038.CreatePostUseCase>(
-      () => _i1038.CreatePostUseCase(gh<_i963.CommunityRepository>()),
-    );
     gh.lazySingleton<_i1059.SkinAnalysisRepository>(
       () => _i608.SkinAnalysisRepositoryImpl(
         gh<_i393.SkinAnalysisRemoteDataSource>(),
@@ -363,17 +352,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1042.MarkAsReadUseCase>(),
         gh<_i1042.DeleteNotificationUseCase>(),
         gh<_i1042.ClearAllNotificationsUseCase>(),
-      ),
-    );
-    gh.factory<_i1026.CommunityCubit>(
-      () => _i1026.CommunityCubit(
-        gh<_i1038.GetPostsUseCase>(),
-        gh<_i1038.LoadMorePostsUseCase>(),
-        gh<_i1038.ToggleLikeUseCase>(),
-        gh<_i1038.ToggleSaveUseCase>(),
-        gh<_i1038.ToggleCommentUseCase>(),
-        gh<_i1038.DeletePostUseCase>(),
-        gh<_i1038.CreatePostUseCase>(),
       ),
     );
     gh.factory<_i812.GetAssessmentByIdUseCase>(
@@ -409,6 +387,78 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i792.BiometricHelper>(),
       ),
     );
+    gh.factory<_i728.GetPostsUseCase>(
+      () => _i728.GetPostsUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.GetMyPostsUseCase>(
+      () => _i728.GetMyPostsUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.GetPostByIdUseCase>(
+      () => _i728.GetPostByIdUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.CreatePostUseCase>(
+      () => _i728.CreatePostUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.UpdatePostUseCase>(
+      () => _i728.UpdatePostUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.DeletePostUseCase>(
+      () => _i728.DeletePostUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.AddReactionUseCase>(
+      () => _i728.AddReactionUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.UpdateReactionUseCase>(
+      () => _i728.UpdateReactionUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.RemoveReactionUseCase>(
+      () => _i728.RemoveReactionUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.ToggleSavePostUseCase>(
+      () => _i728.ToggleSavePostUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.GetSavedPostsUseCase>(
+      () => _i728.GetSavedPostsUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.ReportPostUseCase>(
+      () => _i728.ReportPostUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.GetPostReactionsUseCase>(
+      () => _i728.GetPostReactionsUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.GetCommentsUseCase>(
+      () => _i728.GetCommentsUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.AddCommentUseCase>(
+      () => _i728.AddCommentUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.UpdateCommentUseCase>(
+      () => _i728.UpdateCommentUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.DeleteCommentUseCase>(
+      () => _i728.DeleteCommentUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.AddCommentReactionUseCase>(
+      () => _i728.AddCommentReactionUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.UpdateCommentReactionUseCase>(
+      () => _i728.UpdateCommentReactionUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.RemoveCommentReactionUseCase>(
+      () => _i728.RemoveCommentReactionUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.GetRepliesUseCase>(
+      () => _i728.GetRepliesUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.AddReplyUseCase>(
+      () => _i728.AddReplyUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.UpdateReplyUseCase>(
+      () => _i728.UpdateReplyUseCase(gh<_i59.CommunityRepository>()),
+    );
+    gh.factory<_i728.DeleteReplyUseCase>(
+      () => _i728.DeleteReplyUseCase(gh<_i59.CommunityRepository>()),
+    );
     gh.factory<_i292.CreateChildUseCase>(
       () => _i292.CreateChildUseCase(gh<_i889.ChildrenRepository>()),
     );
@@ -432,6 +482,21 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i562.SubmitCubit>(
       () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
+    );
+    gh.factory<_i37.CommentsCubit>(
+      () => _i37.CommentsCubit(
+        gh<_i728.GetCommentsUseCase>(),
+        gh<_i728.AddCommentUseCase>(),
+        gh<_i728.UpdateCommentUseCase>(),
+        gh<_i728.DeleteCommentUseCase>(),
+        gh<_i728.GetRepliesUseCase>(),
+        gh<_i728.AddReplyUseCase>(),
+        gh<_i728.UpdateReplyUseCase>(),
+        gh<_i728.DeleteReplyUseCase>(),
+        gh<_i728.AddCommentReactionUseCase>(),
+        gh<_i728.UpdateCommentReactionUseCase>(),
+        gh<_i728.RemoveCommentReactionUseCase>(),
+      ),
     );
     gh.factory<_i820.AnalyzeSkinImageUseCase>(
       () => _i820.AnalyzeSkinImageUseCase(gh<_i1059.SkinAnalysisRepository>()),
@@ -475,6 +540,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i352.VerifyEmailUseCase>(
       () => _i352.VerifyEmailUseCase(gh<_i488.AuthRepository>()),
+    );
+    gh.factory<_i585.PostDetailsCubit>(
+      () => _i585.PostDetailsCubit(gh<_i728.GetPostByIdUseCase>()),
     );
     gh.factory<_i148.SearchArticlesUseCase>(
       () => _i148.SearchArticlesUseCase(gh<_i18.ArticlesRepository>()),
@@ -533,6 +601,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i839.WatchArticleSaveStatusUseCase>(),
       ),
     );
+    gh.factory<_i1026.CommunityCubit>(
+      () => _i1026.CommunityCubit(
+        gh<_i728.GetPostsUseCase>(),
+        gh<_i728.GetMyPostsUseCase>(),
+        gh<_i728.CreatePostUseCase>(),
+        gh<_i728.DeletePostUseCase>(),
+        gh<_i728.AddReactionUseCase>(),
+        gh<_i728.UpdateReactionUseCase>(),
+        gh<_i728.RemoveReactionUseCase>(),
+        gh<_i728.ToggleSavePostUseCase>(),
+        gh<_i728.GetSavedPostsUseCase>(),
+        gh<_i728.ReportPostUseCase>(),
+      ),
+    );
     gh.factory<_i550.AssessmentsCubit>(
       () => _i550.AssessmentsCubit(gh<_i9.GetAssessmentsUseCase>()),
     );
@@ -567,7 +649,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i517.DeleteSkinAnalysisUseCase>(),
       ),
     );
-    gh.factory<_i47.AuthCubit>(
+    gh.lazySingleton<_i47.AuthCubit>(
       () => _i47.AuthCubit(
         gh<_i398.LoginUseCase>(),
         gh<_i584.RegisterUseCase>(),

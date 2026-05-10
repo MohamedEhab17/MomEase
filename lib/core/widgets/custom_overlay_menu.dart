@@ -160,14 +160,12 @@ class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 12,
           children: [
-            Icon(
-              item.icon,
-              size: 20,
-              color: context.colors.onSurface,
-            ),
+            Icon(item.icon, size: 20, color: context.colors.onSurface),
             Text(
               item.text,
-              style: context.text.titleLarge!.copyWith(fontWeight: FontWeight.w600),
+              style: context.text.titleLarge!.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
               softWrap: false,
             ),
           ],

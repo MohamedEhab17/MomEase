@@ -11,6 +11,7 @@ import 'package:new_mama/core/theme/cubit/theme_cubit.dart';
 import 'package:new_mama/core/localization/cubit/language_cubit.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/feature/children/presentation/cubit/children_cubit.dart';
+import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:toastification/toastification.dart';
 
 void main() async {
@@ -43,6 +44,7 @@ class NewMama extends StatelessWidget {
         BlocProvider(create: (context) => getIt<LanguageCubit>()..loadSavedLanguage()),
         BlocProvider(create: (context) => ActiveChildCubit()),
         BlocProvider.value(value: getIt<ChildrenCubit>()..loadChildren()),
+        BlocProvider(create: (context) => getIt<AuthCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(411, 899),

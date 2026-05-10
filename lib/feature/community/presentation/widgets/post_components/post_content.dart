@@ -1,10 +1,12 @@
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_actions.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_body.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_header.dart';
+import 'package:new_mama/feature/community/presentation/widgets/post_components/post_reactions_summary.dart';
 
 class PostContent extends StatelessWidget {
   final PostModel post;
@@ -12,6 +14,7 @@ class PostContent extends StatelessWidget {
   final Color? backgroundColor;
   final List<BoxShadow>? boxShadow;
   final bool showDivider;
+  final bool removeOnUnsave;
 
   const PostContent({
     super.key,
@@ -20,6 +23,7 @@ class PostContent extends StatelessWidget {
     this.backgroundColor,
     this.boxShadow,
     this.showDivider = true,
+    this.removeOnUnsave = false,
   });
 
   @override
@@ -33,12 +37,32 @@ class PostContent extends StatelessWidget {
         boxShadow: boxShadow,
       ),
       child: Column(
-        crossAxisAlignment: .start,
-        spacing: 12,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PostHeader(post: post),
           PostBody(post: post),
-          PostActions(post: post, controller: controller),
+          // ── Facebook-style summary bar ─────────────────────────
+          if (post.reactionsCount > 0 || post.commentsCount > 0) ...[
+            SizedBox(height: 8.h),
+            Padding(
+              padding: EdgeInsetsDirectional.only(start: 0, end: 0),
+              child: PostReactionsSummary(post: post),
+            ),
+          ],
+          // ── Thin separator ────────────────────────────────────
+          Divider(
+            height: 1,
+            color: context.ext.colors.primaryLighter.withAlpha(102),
+          ),
+          // ── Action buttons row ────────────────────────────────
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4.h),
+            child: PostActions(
+              post: post,
+              controller: controller,
+              removeOnUnsave: removeOnUnsave,
+            ),
+          ),
           if (showDivider)
             Divider(color: context.ext.colors.primaryLighter, height: 1),
         ],

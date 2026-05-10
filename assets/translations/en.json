@@ -166,6 +166,8 @@
     "copy_link": "Copy Link",
     "report_post": "Report",
     "remove_post": "Remove",
+    "delete_post_title": "Delete Post",
+    "delete_post_content": "Are you sure you want to delete this post? This action cannot be undone.",
     "share": "Share",
     "share_moment": "Share your moment with community",
     "write_comment": "Write a comment",
@@ -181,8 +183,15 @@
     "likes_count": "{count} Likes",
     "view_all_posts": "View All My Posts",
     "edit_image": "Edit Image",
-    "saved_posts_one_post": "1 post",
-    "saved_posts_n_posts": "{count} posts"
+    "saved_posts_one_post": "1 Post",
+    "saved_posts_n_posts": "{count} Posts",
+    "unsave_post_title": "Unsave Post",
+    "unsave_post_content": "Are you sure you want to remove this post from your saved list?",
+    "report_reason_hint": "Write your reason here...",
+    "report_cancel": "Cancel",
+    "report_send": "Send",
+    "report_error": "Sorry, an error occurred while sending the report",
+    "max_images_error": "Sorry, you can select up to 10 images only"
   },
 
   "home": {
@@ -223,7 +232,8 @@
     "theme_label": "Theme",
     "help_center": "Help Center",
     "english_us": "English (US)",
-    "pastel_pink": "Pastel Pink"
+    "pastel_pink": "Pastel Pink",
+    "load_error": "Sorry, failed to load profile data"
   },
 
   "onboarding": {
@@ -480,7 +490,8 @@
       "success": "Success",
       "error": "Error",
       "warning": "Warning",
-      "info": "Info"
+      "info": "Info",
+      "action_failed": "Sorry, the action could not be completed"
     }
   },
 

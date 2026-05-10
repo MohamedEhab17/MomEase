@@ -1,28 +1,29 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/widgets/custom_network_image.dart';
 import 'package:new_mama/core/widgets/full_screen_image_gallery.dart';
+import 'package:new_mama/feature/community/data/models/post_model.dart';
 
 class PostImageGrid extends StatelessWidget {
-  final List<String> images;
+  final List<PostMedia> media;
 
-  const PostImageGrid({super.key, required this.images});
+  const PostImageGrid({super.key, required this.media});
 
   @override
   Widget build(BuildContext context) {
-    if (images.isEmpty) return const SizedBox.shrink();
+    if (media.isEmpty) return const SizedBox.shrink();
 
-    final count = images.length;
+    final count = media.length;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(16.r),
       child: Container(
         height: count > 1
             ? count == 2
-                  ? 220.h
-                  : 280.h
-            : null,
+                ? 220.h
+                : 280.h
+            : 250.h,
         width: double.infinity,
         color: context.ext.colors.backgroundPink,
         child: _buildGrid(context, count),
@@ -33,14 +34,14 @@ class PostImageGrid extends StatelessWidget {
   Widget _buildGrid(BuildContext context, int count) {
     switch (count) {
       case 1:
-        return _buildImage(context, images[0], index: 0, fit: BoxFit.cover);
+        return _buildImage(context, media[0].mediaUrl, index: 0, fit: BoxFit.cover);
       case 2:
         return Row(
           children: [
             Expanded(
               child: _buildImage(
                 context,
-                images[0],
+                media[0].mediaUrl,
                 index: 0,
                 fit: BoxFit.cover,
               ),
@@ -49,7 +50,7 @@ class PostImageGrid extends StatelessWidget {
             Expanded(
               child: _buildImage(
                 context,
-                images[1],
+                media[1].mediaUrl,
                 index: 1,
                 fit: BoxFit.cover,
               ),
@@ -59,15 +60,15 @@ class PostImageGrid extends StatelessWidget {
       case 3:
         return Row(
           children: [
-            Expanded(flex: 2, child: _buildImage(context, images[0], index: 0)),
+            Expanded(flex: 2, child: _buildImage(context, media[0].mediaUrl, index: 0)),
             2.horizontalSpace,
             Expanded(
               flex: 1,
               child: Column(
                 children: [
-                  Expanded(child: _buildImage(context, images[1], index: 1)),
+                  Expanded(child: _buildImage(context, media[1].mediaUrl, index: 1)),
                   2.verticalSpace,
-                  Expanded(child: _buildImage(context, images[2], index: 2)),
+                  Expanded(child: _buildImage(context, media[2].mediaUrl, index: 2)),
                 ],
               ),
             ),
@@ -79,9 +80,9 @@ class PostImageGrid extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  Expanded(child: _buildImage(context, images[0], index: 0)),
+                  Expanded(child: _buildImage(context, media[0].mediaUrl, index: 0)),
                   2.horizontalSpace,
-                  Expanded(child: _buildImage(context, images[1], index: 1)),
+                  Expanded(child: _buildImage(context, media[1].mediaUrl, index: 1)),
                 ],
               ),
             ),
@@ -89,9 +90,9 @@ class PostImageGrid extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  Expanded(child: _buildImage(context, images[2], index: 2)),
+                  Expanded(child: _buildImage(context, media[2].mediaUrl, index: 2)),
                   2.horizontalSpace,
-                  Expanded(child: _buildImage(context, images[3], index: 3)),
+                  Expanded(child: _buildImage(context, media[3].mediaUrl, index: 3)),
                 ],
               ),
             ),
@@ -104,9 +105,9 @@ class PostImageGrid extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  Expanded(child: _buildImage(context, images[0], index: 0)),
+                  Expanded(child: _buildImage(context, media[0].mediaUrl, index: 0)),
                   2.horizontalSpace,
-                  Expanded(child: _buildImage(context, images[1], index: 1)),
+                  Expanded(child: _buildImage(context, media[1].mediaUrl, index: 1)),
                 ],
               ),
             ),
@@ -114,7 +115,7 @@ class PostImageGrid extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  Expanded(child: _buildImage(context, images[2], index: 2)),
+                  Expanded(child: _buildImage(context, media[2].mediaUrl, index: 2)),
                   2.horizontalSpace,
                   Expanded(
                     child: GestureDetector(
@@ -124,7 +125,7 @@ class PostImageGrid extends StatelessWidget {
                         children: [
                           _buildImage(
                             context,
-                            images[3],
+                            media[3].mediaUrl,
                             index: 3,
                             interactive: false,
                           ),
@@ -155,8 +156,11 @@ class PostImageGrid extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            FullScreenImageGallery(images: images, initialIndex: initialIndex),
+        builder: (_) => FullScreenImageGallery(
+          images: media.map((e) => e.mediaUrl).toList(),
+          initialIndex: initialIndex,
+          showDownloadButton: true, // Enable download for community posts
+        ),
       ),
     );
   }
@@ -168,12 +172,11 @@ class PostImageGrid extends StatelessWidget {
     int index = 0,
     bool interactive = true,
   }) {
-    final imageWidget = CachedNetworkImage(
+    final imageWidget = CustomNetworkImage(
       imageUrl: url,
       fit: fit,
       width: double.infinity,
-      errorWidget: (_, _, _) =>
-          Center(child: Icon(Icons.error, color: context.colors.primary)),
+      height: double.infinity,
     );
 
     if (!interactive) return imageWidget;

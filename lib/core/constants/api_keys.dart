@@ -47,4 +47,20 @@ class Api {
   static String skinChildAnalyses(int childId) =>
       'skin-analysis/child/$childId';
   static String skinAnalysisById(int id) => 'skin-analysis/$id';
+
+  // Community endpoints
+  static const String communityPosts = 'community/posts';
+  static String communityPostById(int id) => 'community/posts/$id';
+  static const String myPosts = 'community/posts/my-posts';
+  static String toggleSavePost(int id) => 'community/posts/$id/save';
+  static const String savedPosts = 'community/saved-posts';
+  static String reportPost(int id) => 'community/posts/$id/reports';
+  static String postReactions(int id) => 'community/posts/$id/reactions';
+  // Comment endpoints
+  static String postComments(int postId) => 'community/posts/$postId/comments';
+  static String postCommentById(int postId, int commentId) => 'community/posts/$postId/comments/$commentId';
+  static String commentReactions(int postId, int commentId) => 'community/posts/$postId/comments/$commentId/reactions';
+  // Reply endpoints
+  static String commentReplies(int postId, int commentId) => 'community/posts/$postId/comments/$commentId/replies';
+  static String replyById(int postId, int commentId, int replyId) => 'community/posts/$postId/comments/$commentId/replies/$replyId';
 }

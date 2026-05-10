@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
+import 'package:new_mama/core/widgets/custom_network_image.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 
 class ProfilePostPreviewCard extends StatelessWidget {
@@ -30,9 +31,19 @@ class ProfilePostPreviewCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                radius: 18.r,
-                backgroundImage: NetworkImage(post.userImage),
+              ClipOval(
+                child: CustomNetworkImage(
+                  imageUrl: post.userPhoto ?? '',
+                  width: 36.r,
+                  height: 36.r,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => Container(
+                    width: 36.r,
+                    height: 36.r,
+                    color: context.ext.colors.greyExtraLight,
+                    child: Icon(Icons.person, color: context.colors.primary, size: 18.r),
+                  ),
+                ),
               ),
               8.width,
               Expanded(
@@ -67,18 +78,15 @@ class ProfilePostPreviewCard extends StatelessWidget {
               height: 1.5,
             ),
           ),
-          if (post.images.isNotEmpty) ...[
+          if (post.media.isNotEmpty) ...[
             12.height,
-            Container(
-              height: 120.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: context.ext.colors.greyExtraLight.withAlpha(100),
-                borderRadius: BorderRadius.circular(16.r),
-                image: DecorationImage(
-                  image: NetworkImage(post.images.first),
-                  fit: BoxFit.cover,
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16.r),
+              child: CustomNetworkImage(
+                imageUrl: post.media.first.mediaUrl,
+                height: 120.h,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
           ],
@@ -95,7 +103,7 @@ class ProfilePostPreviewCard extends StatelessWidget {
               ),
               6.width,
               Text(
-                post.likes.toString(),
+                post.reactionsCount.toString(),
                 style: context.text.bodySmall!.copyWith(
                   color: context.colors.onSurfaceVariant,
                 ),
@@ -111,7 +119,7 @@ class ProfilePostPreviewCard extends StatelessWidget {
               ),
               6.width,
               Text(
-                post.comments.toString(),
+                post.commentsCount.toString(),
                 style: context.text.bodySmall!.copyWith(
                   color: context.colors.onSurfaceVariant,
                 ),

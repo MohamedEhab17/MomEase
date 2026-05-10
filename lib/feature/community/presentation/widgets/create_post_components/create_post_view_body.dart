@@ -10,7 +10,6 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
-import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/community/presentation/widgets/create_post_components/create_post_header.dart';
 import 'package:new_mama/feature/community/presentation/widgets/create_post_components/upload_post_image.dart';
@@ -80,19 +79,9 @@ class _CreatePostViewBodyState extends State<CreatePostViewBody> {
                     ),
                   );
                   context.read<CommunityCubit>().createPost(
-                    PostModel(
-                      id: DateTime.now().millisecondsSinceEpoch.toString(),
-                      userName: "Mohamed",
-                      userImage: "https://i.pravatar.cc/150?img=2",
-                      text: _postContentController.text,
-                      images: postImages.map((e) => e.path).toList(),
-                      likes: 0,
-                      comments: 0,
-                      saves: 0,
-                      isLiked: false,
-                      isSaved: false,
-                    ),
-                  );
+                        text: _postContentController.text,
+                        mediaFiles: postImages.map((e) => e.path).toList(),
+                      );
                   _postContentController.clear();
                   context.pop(context);
                 },

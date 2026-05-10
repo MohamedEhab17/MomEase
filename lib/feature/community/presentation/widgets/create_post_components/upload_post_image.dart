@@ -2,8 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/helper/pick_image_helper.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/full_screen_local_gallery.dart';
 import 'package:new_mama/feature/community/presentation/widgets/upload_post_image_components/add_more_image_tile.dart';
 import 'package:new_mama/feature/community/presentation/widgets/upload_post_image_components/empty_upload_placeholder.dart';
@@ -21,10 +24,24 @@ class _UploadPostImageState extends State<UploadPostImage> {
   List<File> selectedImages = [];
 
   Future<void> _pickImages() async {
+    if (selectedImages.length >= 10) {
+      AppToast.error(context, message: context.trContext(TK.communityMaxImagesError));
+      return;
+    }
+
     final images = await ImagePickerHelper.pickMultipleFromGallery();
     if (images.isNotEmpty) {
+      final availableSlots = 10 - selectedImages.length;
+      final imagesToAdd = images.length > availableSlots 
+          ? images.sublist(0, availableSlots) 
+          : images;
+          
+      if (images.length > availableSlots) {
+        AppToast.warning(context, message: context.trContext(TK.communityMaxImagesError));
+      }
+
       setState(() {
-        selectedImages.addAll(images);
+        selectedImages.addAll(imagesToAdd);
       });
       widget.onImagesChanged(selectedImages);
     }
@@ -82,7 +99,7 @@ class _UploadPostImageState extends State<UploadPostImage> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
-        itemCount: selectedImages.length + 1,
+        itemCount: selectedImages.length >= 10 ? selectedImages.length : selectedImages.length + 1,
         separatorBuilder: (_, _) => SizedBox(width: 12.w),
         itemBuilder: (context, index) {
           if (index == selectedImages.length) {

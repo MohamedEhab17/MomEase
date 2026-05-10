@@ -176,6 +176,8 @@
     "copy_link": "نسخ الرابط",
     "report_post": "إبلاغ",
     "remove_post": "حذف",
+    "delete_post_title": "حذف المنشور",
+    "delete_post_content": "هل أنتِ متأكدة من رغبتك في حذف هذا المنشور؟ لا يمكن التراجع عن هذا الإجراء.",
     "share": "مشاركة",
     "share_moment": "شاركي لحظتك مع المجتمع",
     "write_comment": "اكتبي تعليق",
@@ -192,7 +194,14 @@
     "view_all_posts": "عرض كل منشوراتي",
     "edit_image": "تعديل الصورة",
     "saved_posts_one_post": "منشور واحد",
-    "saved_posts_n_posts": "{count} منشورات"
+    "saved_posts_n_posts": "{count} منشورات",
+    "unsave_post_title": "إلغاء الحفظ",
+    "unsave_post_content": "هل أنتِ متأكدة من رغبتك في إزالة هذا المنشور من قائمة المحفوظات؟",
+    "report_reason_hint": "اكتبي سبب البلاغ هنا...",
+    "report_cancel": "إلغاء",
+    "report_send": "إرسال",
+    "report_error": "عذراً، حدث خطأ أثناء إرسال البلاغ",
+    "max_images_error": "عذراً، يمكنك اختيار 10 صور بحد أقصى"
   },
 
   "home": {
@@ -236,7 +245,8 @@
     "theme_label": "المظهر",
     "help_center": "مركز المساعدة",
     "english_us": "الإنجليزية",
-    "pastel_pink": "وردي هادئ"
+    "pastel_pink": "وردي هادئ",
+    "load_error": "عذراً، فشل تحميل بيانات الملف الشخصي"
   },
 
   "onboarding": {
@@ -477,7 +487,8 @@
       "success": "تم بنجاح",
       "error": "خطأ",
       "warning": "تحذير",
-      "info": "تنبيه"
+      "info": "تنبيه",
+      "action_failed": "عذراً، فشل تنفيذ الإجراء"
     }
   },
 

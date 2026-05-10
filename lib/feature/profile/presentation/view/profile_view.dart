@@ -25,7 +25,7 @@ class ProfileView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<ProfileCubit>()..loadProfile()),
-        BlocProvider(create: (_) => getIt<CommunityCubit>()..loadPosts()),
+        BlocProvider(create: (_) => getIt<CommunityCubit>()..loadMyPosts()),
       ],
       child: const _ProfileBody(),
     );
@@ -46,7 +46,7 @@ class _ProfileBody extends StatelessWidget {
               child: CustomLoadingIndicator(color: context.colors.primary),
             );
           } else if (state is ProfileError) {
-            return Center(child: Text(state.message));
+            return Center(child: Text(context.trContext(state.message)));
           } else if (state is ProfileLoaded) {
             final profile = state.profile;
             return SingleChildScrollView(
@@ -76,7 +76,7 @@ class _ProfileBody extends StatelessWidget {
                   ProfileSectionTitle(
                     title: context.trContext(TK.profileCommunityPosts),
                   ),
-                  CommunityPostsSection(posts: profile.recentPosts),
+                  const CommunityPostsSection(),
                   24.height,
 
                   // Saved Articles

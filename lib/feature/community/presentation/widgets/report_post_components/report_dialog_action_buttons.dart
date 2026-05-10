@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 
 class ReportDialogActionButtons extends StatelessWidget {
@@ -16,7 +18,7 @@ class ReportDialogActionButtons extends StatelessWidget {
       children: [
         Expanded(
           child: CustomElevatedButton(
-            text: "Cancel",
+            text: context.trContext(TK.communityReportCancel),
             onPressed: () => context.pop(),
             backgroundColor: context.colors.surface,
             padding: 14.vPadding,
@@ -29,7 +31,7 @@ class ReportDialogActionButtons extends StatelessWidget {
         16.width,
         Expanded(
           child: CustomElevatedButton(
-            text: "Send",
+            text: context.trContext(TK.communityReportSend),
             backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
             padding: 14.vPadding,
             textStyle: context.text.bodyLarge!.copyWith(

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
+import 'package:new_mama/core/widgets/custom_network_image.dart';
 import 'package:new_mama/core/widgets/custom_overlay_menu.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_action_handler.dart';
+import 'package:new_mama/core/extensions/date_time_ex.dart';
 
 class PostHeader extends StatelessWidget {
   final PostModel post;
@@ -17,9 +20,23 @@ class PostHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        CircleAvatar(
-          radius: 25, 
-          backgroundImage: post.userImage.isNotEmpty ? NetworkImage(post.userImage) : null,
+        ClipOval(
+          child: CustomNetworkImage(
+            imageUrl: post.userPhoto == null
+                ? ''
+                : post.userPhoto!.startsWith('http')
+                    ? post.userPhoto!
+                    : 'http://momease.runasp.net${post.userPhoto!}',
+            width: 50.r,
+            height: 50.r,
+            fit: BoxFit.cover,
+            errorWidget: (context, url, error) => Container(
+              width: 50.r,
+              height: 50.r,
+              color: context.ext.colors.greyExtraLight,
+              child: Icon(Icons.person, color: context.colors.primary, size: 25.r),
+            ),
+          ),
         ),
         7.width,
         Expanded(
@@ -34,7 +51,7 @@ class PostHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                context.trContext(TK.communityJustNow),
+                post.createdAt.toRelativeTime(context),
                 style: context.text.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w400,
                   color: context.ext.colors.lightTextDisabled,
@@ -57,16 +74,18 @@ class PostHeader extends StatelessWidget {
               text: context.trContext(TK.communityShare),
               value: "Share",
             ),
-            OverlayMenuItem(
-              icon: Icons.report,
-              text: context.trContext(TK.communityReportPost),
-              value: "Report",
-            ),
-            OverlayMenuItem(
-              icon: Icons.bookmark_remove,
-              text: context.trContext(TK.communityRemovePost),
-              value: "Remove",
-            ),
+            if (!post.isMyPost)
+              OverlayMenuItem(
+                icon: Icons.report,
+                text: context.trContext(TK.communityReportPost),
+                value: "Report",
+              ),
+            if (post.isMyPost)
+              OverlayMenuItem(
+                icon: Icons.delete_outline,
+                text: context.trContext(TK.communityRemovePost),
+                value: "Remove",
+              ),
           ],
           builder: (context, showMenu) => IconButton(
             icon: Icon(

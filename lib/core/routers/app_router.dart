@@ -56,7 +56,9 @@ import 'package:new_mama/feature/depression/presentation/view_model/depression_h
 import 'package:new_mama/feature/community/presentation/view/community_view.dart';
 import 'package:new_mama/feature/community/presentation/view/create_post_view.dart';
 import 'package:new_mama/feature/community/presentation/view/saved_posts_view.dart';
+import 'package:new_mama/feature/community/presentation/view/post_details_view.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
+import 'package:new_mama/feature/community/presentation/view_model/post_details_cubit/post_details_cubit.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
 import 'package:new_mama/feature/onboarding/presentation/view/onboarding_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_analyzing_view.dart';
@@ -139,9 +141,27 @@ class AppRouter {
           path: AppRoutesPaths.savedPostsView,
           name: 'savedPostsView',
           builder: (context, state) => BlocProvider(
-            create: (_) => getIt<CommunityCubit>(),
+            create: (_) => getIt<CommunityCubit>()..loadSavedPosts(),
             child: const SavedPostsView(),
           ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.postDetailsView,
+          name: 'postDetailsView',
+          builder: (context, state) {
+            final postIdStr = state.pathParameters['postId'];
+            final postId = int.tryParse(postIdStr ?? '');
+            if (postId == null) {
+              return const Scaffold(body: Center(child: Text('Invalid post ID')));
+            }
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (_) => getIt<CommunityCubit>()),
+                BlocProvider(create: (_) => getIt<PostDetailsCubit>()..fetchPostDetails(postId)),
+              ],
+              child: PostDetailsView(postId: postId),
+            );
+          },
         ),
         GoRoute(
           path: AppRoutesPaths.signup,
