@@ -1,11 +1,13 @@
 import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
@@ -38,21 +40,32 @@ class _CommunityPostsSectionState extends State<CommunityPostsSection> {
             return const Center(child: CustomLoadingIndicator());
           }
 
-          if (state.status == CommunityStatus.success && state.posts.isEmpty) {
+          if (state.status == CommunityStatus.error && state.posts.isEmpty) {
             return Center(
               child: Text(
-                context.trContext(TK.communityNoSavedPosts), // Reuse empty state key or use a specific one
+                state.errorMessage ?? "Error",
                 style: context.text.bodyMedium,
               ),
             );
           }
 
+          if (state.status == CommunityStatus.success && state.posts.isEmpty) {
+            return Center(
+              child: Text(
+                context.trContext(TK.communityNoSavedPosts), 
+                style: context.text.bodyMedium,
+              ),
+            );
+          }
+
+          final postsToShow = state.posts.take(3).toList();
+
           return Column(
             children: [
-              ...state.posts.map(
+              ...postsToShow.map(
                 (post) => PostItem(post: post, controller: _controller),
               ),
-              if (state.posts.isNotEmpty) ...[
+              if (state.posts.length > 3) ...[
                 16.height,
                 CustomElevatedButton(
                   textStyle: context.text.titleSmall!.copyWith(
@@ -62,7 +75,7 @@ class _CommunityPostsSectionState extends State<CommunityPostsSection> {
                   minimumSize: Size(double.infinity, 52.h),
                   text: context.trContext(TK.communityViewAllPosts),
                   onPressed: () {
-                    // This could navigate to a dedicated My Posts screen if needed
+                    context.push(AppRoutesPaths.myPostsView);
                   },
                 ),
                 16.height,

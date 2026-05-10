@@ -27,6 +27,7 @@ class AppRoutesPaths {
   static const String communityView = '/communityView';
   static const String createPostCommunityView = '/createPostCommunityView';
   static const String postDetailsView = '/posts/:postId';
+  static const String myPostsView = '/myPostsView';
   static const String savedPostsView = '/savedPostsView';
   static const String skinDiagnosisInsightView = '/skinDiagnosisInsightView';
   static const String skinDiagnosisPhotoView = '/skinDiagnosisPhotoView';
@@ -50,5 +51,9 @@ class AppRoutesPaths {
   static const String childrenListView = '/childrenListView';
   static const String childDetailView = '/childDetailView';
   static const String addChildView = '/addChildView';
-}
+  static const String manageProfileView = '/manageProfileView';
+  static const String changePasswordView = '/changePasswordView';
 
+  // ── Notification feature ─────────────────────────────────────────────────────
+  static const String notificationView = '/notificationView';
+}

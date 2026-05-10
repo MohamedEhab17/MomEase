@@ -8,15 +8,24 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/feature/profile/data/models/profile_model.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/parenting_journey_item_tile.dart';
 
 class ParentingJourneySection extends StatelessWidget {
-  final ParentingJourney journey;
+  final String? lastMoodEmoji;
+  final String? lastMoodStatus;
+  final String? depressionTestStatus;
+  final String? babyTrackingStatus;
 
-  const ParentingJourneySection({super.key, required this.journey});
+  const ParentingJourneySection({
+    super.key,
+    this.lastMoodEmoji,
+    this.lastMoodStatus,
+    this.depressionTestStatus,
+    this.babyTrackingStatus,
+  });
 
-  String _getLocalizedStatus(BuildContext context, String status) {
+  String _getLocalizedStatus(BuildContext context, String? status) {
+    if (status == null || status.isEmpty) return '---';
     switch (status) {
       case "Calm":
         return context.trContext(TK.babyCalm);
@@ -49,12 +58,12 @@ class ParentingJourneySection extends StatelessWidget {
           8.height,
           ParentingJourneyItemTile(
             leadingIcon: Text(
-              journey.lastMoodEmoji,
+              lastMoodEmoji ?? "😊",
               style: TextStyle(fontSize: 18.sp),
             ),
             title: context.trContext(TK.profileLastMood),
-            statusText: _getLocalizedStatus(context, journey.lastMoodStatus),
-            statusColor: journey.lastMoodColor,
+            statusText: _getLocalizedStatus(context, lastMoodStatus),
+            statusColor: context.colors.primary,
           ),
           ParentingJourneyItemTile(
             leadingIcon: Icon(
@@ -63,8 +72,8 @@ class ParentingJourneySection extends StatelessWidget {
               color: context.ext.colors.greyPrimary,
             ),
             title: context.trContext(TK.profileDepression),
-            statusText: _getLocalizedStatus(context, journey.depressionTestStatus),
-            statusColor: journey.depressionTestColor,
+            statusText: _getLocalizedStatus(context, depressionTestStatus),
+            statusColor: context.colors.primary,
             onTap: () {
               context.push(AppRoutesPaths.depressionView);
             },
@@ -79,10 +88,10 @@ class ParentingJourneySection extends StatelessWidget {
               ),
             ),
             title: context.trContext(TK.profileTracking),
-            statusText: _getLocalizedStatus(context, journey.babyTrackingStatus),
-            statusColor: journey.babyTrackingColor,
+            statusText: _getLocalizedStatus(context, babyTrackingStatus),
+            statusColor: context.colors.primary,
             onTap: () {
-              // Assuming no specific view is ready yet or navigate to home?
+              context.push(AppRoutesPaths.babyTrackView);
             },
           ),
           8.height,

@@ -89,22 +89,20 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
   void _updateTextDirection(String text) {
     if (text.isEmpty) return;
     final isArabic = RegExp(r'^[\u0600-\u06FF]').hasMatch(text);
-    setState(() {
-      _textDirection = isArabic ? TextDirection.rtl : TextDirection.ltr;
-    });
+    final newDirection = isArabic ? TextDirection.rtl : TextDirection.ltr;
+    
+    if (_textDirection != newDirection) {
+      setState(() {
+        _textDirection = newDirection;
+      });
+    }
   }
 
   String? _validator(String? value) {
     final result = widget.onValidate?.call(value);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && _hasError != (result != null)) {
-        setState(() {
-          _hasError = result != null;
-        });
-      }
-    });
-
+    
+    // Avoid setState during validation to prevent infinite rebuild loops or ANRs
+    // We can track error state via onChanged or just keep the shadow
     return result;
   }
 

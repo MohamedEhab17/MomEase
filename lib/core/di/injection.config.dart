@@ -18,6 +18,31 @@ import 'package:local_auth/local_auth.dart' as _i152;
 import 'package:record/record.dart' as _i1039;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../feature/app_section/data/datasources/app_section_local_datasource_contract.dart'
+    as _i435;
+import '../../feature/app_section/data/datasources/app_section_local_datasource_impl.dart'
+    as _i95;
+import '../../feature/app_section/data/datasources/app_section_remote_datasource_contract.dart'
+    as _i663;
+import '../../feature/app_section/data/datasources/app_section_remote_datasource_impl.dart'
+    as _i250;
+import '../../feature/app_section/data/repositories/app_section_repository_impl.dart'
+    as _i67;
+import '../../feature/app_section/domain/repositories/app_section_repository_contract.dart'
+    as _i417;
+import '../../feature/app_section/domain/usecases/change_password_usecase.dart'
+    as _i139;
+import '../../feature/app_section/domain/usecases/get_profile_usecase.dart'
+    as _i319;
+import '../../feature/app_section/domain/usecases/logout_usecase.dart' as _i480;
+import '../../feature/app_section/domain/usecases/update_profile_usecase.dart'
+    as _i84;
+import '../../feature/app_section/presentation/view_model/logout_cubit/logout_cubit.dart'
+    as _i434;
+import '../../feature/app_section/presentation/view_model/manage_profile_cubit/manage_profile_cubit.dart'
+    as _i650;
+import '../../feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart'
+    as _i580;
 import '../../feature/articles/data/datasource/article_local_datasource.dart'
     as _i921;
 import '../../feature/articles/data/datasource/article_remote_datasource_contract.dart'
@@ -28,13 +53,13 @@ import '../../feature/articles/data/repository/article_repository_impl.dart'
     as _i625;
 import '../../feature/articles/domain/repositories/articles_repository.dart'
     as _i18;
-import '../../feature/articles/domain/usecase/search_articles_usecase.dart'
-    as _i148;
-import '../../feature/articles/domain/usecase/search_history_usecases.dart'
-    as _i961;
 import '../../feature/articles/domain/usecases/article_usecases.dart' as _i875;
 import '../../feature/articles/domain/usecases/get_articles_category_usecase.dart'
     as _i537;
+import '../../feature/articles/domain/usecases/search_articles_usecase.dart'
+    as _i695;
+import '../../feature/articles/domain/usecases/search_history_usecases.dart'
+    as _i361;
 import '../../feature/articles/domain/usecases/watch_article_save_status_usecase.dart'
     as _i839;
 import '../../feature/articles/presentation/view_model/article_detail/article_detail_cubit.dart'
@@ -157,6 +182,8 @@ import '../../feature/depression/presentation/view_model/questions_cubit/questio
     as _i458;
 import '../../feature/depression/presentation/view_model/submit_cubit/submit_cubit.dart'
     as _i562;
+import '../../feature/home/presentation/view_model/home_articles/home_articles_cubit.dart'
+    as _i850;
 import '../../feature/notifications/data/datasource/notification_local_datasource.dart'
     as _i967;
 import '../../feature/notifications/data/repository/notification_repository.dart'
@@ -167,6 +194,13 @@ import '../../feature/notifications/domain/usecases/notification_usecases.dart'
     as _i1042;
 import '../../feature/notifications/presentation/view_model/notification_cubit.dart'
     as _i473;
+import '../../feature/profile/data/datasource/profile_remote_datasource.dart'
+    as _i936;
+import '../../feature/profile/data/repository/profile_repository_impl.dart'
+    as _i681;
+import '../../feature/profile/domain/repository/profile_repository.dart'
+    as _i244;
+import '../../feature/profile/domain/usecase/profile_usecases.dart' as _i132;
 import '../../feature/profile/presentation/view_model/profile_cubit.dart'
     as _i386;
 import '../../feature/skin_diagnosis/data/datasources/skin_analysis_remote_data_source.dart'
@@ -207,7 +241,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.sharedPreferences,
       preResolve: true,
     );
-    gh.factory<_i386.ProfileCubit>(() => _i386.ProfileCubit());
     gh.lazySingleton<_i1039.AudioRecorder>(() => appModule.audioRecorder);
     gh.lazySingleton<_i895.Connectivity>(() => appModule.connectivity);
     gh.lazySingleton<_i361.Dio>(() => appModule.dio);
@@ -224,6 +257,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i97.CommunityLocalDataSource>(
       () => _i97.CommunityLocalDataSourceImpl(),
+    );
+    gh.lazySingleton<_i936.ProfileRemoteDataSource>(
+      () => _i936.ProfileRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
     gh.lazySingleton<_i967.NotificationLocalDataSource>(
       () => _i967.NotificationLocalDataSourceImpl(),
@@ -248,11 +284,29 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i96.AudioLocalDataSource>(
       () => _i881.AudioLocalDataSourceImpl(gh<_i1039.AudioRecorder>()),
     );
+    gh.lazySingleton<_i244.ProfileRepository>(
+      () => _i681.ProfileRepositoryImpl(gh<_i936.ProfileRemoteDataSource>()),
+    );
     gh.lazySingleton<_i792.BiometricHelper>(
       () => _i792.BiometricHelper(gh<_i152.LocalAuthentication>()),
     );
+    gh.factory<_i132.GetMotherProfileUseCase>(
+      () => _i132.GetMotherProfileUseCase(gh<_i244.ProfileRepository>()),
+    );
+    gh.factory<_i132.UpdateMotherProfileUseCase>(
+      () => _i132.UpdateMotherProfileUseCase(gh<_i244.ProfileRepository>()),
+    );
+    gh.factory<_i132.UploadProfilePhotoUseCase>(
+      () => _i132.UploadProfilePhotoUseCase(gh<_i244.ProfileRepository>()),
+    );
+    gh.factory<_i132.DeleteProfilePhotoUseCase>(
+      () => _i132.DeleteProfilePhotoUseCase(gh<_i244.ProfileRepository>()),
+    );
     gh.lazySingleton<_i0.AudioRepository>(
       () => _i636.AudioRepositoryImpl(gh<_i96.AudioLocalDataSource>()),
+    );
+    gh.lazySingleton<_i435.AppSectionLocalDatasourceContract>(
+      () => _i95.AppSectionLocalDatasourceImpl(gh<_i790.SecureStorageHelper>()),
     );
     gh.factory<_i589.SoundRecordingCubit>(
       () => _i589.SoundRecordingCubit(gh<_i0.AudioRepository>()),
@@ -267,8 +321,19 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i272.CommunityRepositoryImpl(gh<_i108.CommunityRemoteDataSource>()),
     );
+    gh.lazySingleton<_i386.ProfileCubit>(
+      () => _i386.ProfileCubit(
+        gh<_i132.GetMotherProfileUseCase>(),
+        gh<_i132.UpdateMotherProfileUseCase>(),
+        gh<_i132.UploadProfilePhotoUseCase>(),
+        gh<_i132.DeleteProfilePhotoUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i393.SkinAnalysisRemoteDataSource>(
       () => _i935.SkinAnalysisRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
+    gh.lazySingleton<_i663.AppSectionRemoteDatasourceContract>(
+      () => _i250.AppSectionRemoteDatasourceImpl(gh<_i557.ApiClient>()),
     );
     gh.lazySingleton<_i159.ArticleRemoteDataSourceContract>(
       () => _i867.ArticleRemoteDatasourceImpl(gh<_i557.ApiClient>()),
@@ -320,6 +385,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i660.NotificationRepository>(),
       ),
     );
+    gh.lazySingleton<_i417.AppSectionRepositoryContract>(
+      () => _i67.AppSectionRepositoryImpl(
+        gh<_i663.AppSectionRemoteDatasourceContract>(),
+        gh<_i622.AuthLocalDataSource>(),
+      ),
+    );
     gh.factory<_i712.DepressionHistoryCubit>(
       () => _i712.DepressionHistoryCubit(
         gh<_i1019.GetUserAssessmentResultsUseCase>(),
@@ -344,6 +415,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i159.ArticleRemoteDataSourceContract>(),
         gh<_i932.NetworkInfo>(),
       ),
+    );
+    gh.factory<_i480.LogoutUseCase>(
+      () => _i480.LogoutUseCase(gh<_i417.AppSectionRepositoryContract>()),
     );
     gh.factory<_i473.NotificationCubit>(
       () => _i473.NotificationCubit(
@@ -459,6 +533,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i728.DeleteReplyUseCase>(
       () => _i728.DeleteReplyUseCase(gh<_i59.CommunityRepository>()),
     );
+    gh.factory<_i434.LogoutCubit>(
+      () => _i434.LogoutCubit(
+        gh<_i480.LogoutUseCase>(),
+        gh<_i435.AppSectionLocalDatasourceContract>(),
+      ),
+    );
     gh.factory<_i292.CreateChildUseCase>(
       () => _i292.CreateChildUseCase(gh<_i889.ChildrenRepository>()),
     );
@@ -483,6 +563,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i562.SubmitCubit>(
       () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
     );
+    gh.factory<_i139.ChangePasswordUsecase>(
+      () =>
+          _i139.ChangePasswordUsecase(gh<_i417.AppSectionRepositoryContract>()),
+    );
+    gh.factory<_i319.GetProfileUsecase>(
+      () => _i319.GetProfileUsecase(gh<_i417.AppSectionRepositoryContract>()),
+    );
+    gh.factory<_i84.UpdateProfileUsecase>(
+      () => _i84.UpdateProfileUsecase(gh<_i417.AppSectionRepositoryContract>()),
+    );
     gh.factory<_i37.CommentsCubit>(
       () => _i37.CommentsCubit(
         gh<_i728.GetCommentsUseCase>(),
@@ -496,6 +586,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i728.AddCommentReactionUseCase>(),
         gh<_i728.UpdateCommentReactionUseCase>(),
         gh<_i728.RemoveCommentReactionUseCase>(),
+      ),
+    );
+    gh.factory<_i650.ManageProfileCubit>(
+      () => _i650.ManageProfileCubit(
+        gh<_i84.UpdateProfileUsecase>(),
+        gh<_i139.ChangePasswordUsecase>(),
       ),
     );
     gh.factory<_i820.AnalyzeSkinImageUseCase>(
@@ -544,21 +640,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i585.PostDetailsCubit>(
       () => _i585.PostDetailsCubit(gh<_i728.GetPostByIdUseCase>()),
     );
-    gh.factory<_i148.SearchArticlesUseCase>(
-      () => _i148.SearchArticlesUseCase(gh<_i18.ArticlesRepository>()),
-    );
-    gh.factory<_i961.GetSearchHistoryUseCase>(
-      () => _i961.GetSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
-    );
-    gh.factory<_i961.SaveSearchQueryUseCase>(
-      () => _i961.SaveSearchQueryUseCase(gh<_i18.ArticlesRepository>()),
-    );
-    gh.factory<_i961.ClearSearchHistoryUseCase>(
-      () => _i961.ClearSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
-    );
-    gh.factory<_i961.RemoveSearchTermUseCase>(
-      () => _i961.RemoveSearchTermUseCase(gh<_i18.ArticlesRepository>()),
-    );
     gh.factory<_i875.GetArticlesByCategoryUseCase>(
       () => _i875.GetArticlesByCategoryUseCase(gh<_i18.ArticlesRepository>()),
     );
@@ -577,6 +658,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i537.GetArticlesCategoryUsecase>(
       () => _i537.GetArticlesCategoryUsecase(gh<_i18.ArticlesRepository>()),
     );
+    gh.factory<_i695.SearchArticlesUseCase>(
+      () => _i695.SearchArticlesUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i361.GetSearchHistoryUseCase>(
+      () => _i361.GetSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i361.SaveSearchQueryUseCase>(
+      () => _i361.SaveSearchQueryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i361.ClearSearchHistoryUseCase>(
+      () => _i361.ClearSearchHistoryUseCase(gh<_i18.ArticlesRepository>()),
+    );
+    gh.factory<_i361.RemoveSearchTermUseCase>(
+      () => _i361.RemoveSearchTermUseCase(gh<_i18.ArticlesRepository>()),
+    );
     gh.factory<_i839.WatchArticleSaveStatusUseCase>(
       () => _i839.WatchArticleSaveStatusUseCase(gh<_i18.ArticlesRepository>()),
     );
@@ -593,14 +689,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i964.CategoryCubit>(
       () => _i964.CategoryCubit(gh<_i537.GetArticlesCategoryUsecase>()),
     );
-    gh.factory<_i973.SavedArticlesCubit>(
-      () => _i973.SavedArticlesCubit(
-        gh<_i875.GetSavedArticlesUseCase>(),
-        gh<_i875.SaveArticleUseCase>(),
-        gh<_i875.UnsaveArticleUseCase>(),
-        gh<_i839.WatchArticleSaveStatusUseCase>(),
-      ),
-    );
     gh.factory<_i1026.CommunityCubit>(
       () => _i1026.CommunityCubit(
         gh<_i728.GetPostsUseCase>(),
@@ -613,6 +701,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i728.ToggleSavePostUseCase>(),
         gh<_i728.GetSavedPostsUseCase>(),
         gh<_i728.ReportPostUseCase>(),
+      ),
+    );
+    gh.factory<_i850.HomeArticlesCubit>(
+      () => _i850.HomeArticlesCubit(
+        gh<_i537.GetArticlesCategoryUsecase>(),
+        gh<_i875.GetArticlesByCategoryUseCase>(),
+      ),
+    );
+    gh.factory<_i973.SavedArticlesCubit>(
+      () => _i973.SavedArticlesCubit(
+        gh<_i875.GetSavedArticlesUseCase>(),
+        gh<_i875.SaveArticleUseCase>(),
+        gh<_i875.UnsaveArticleUseCase>(),
+        gh<_i839.WatchArticleSaveStatusUseCase>(),
       ),
     );
     gh.factory<_i550.AssessmentsCubit>(
@@ -631,15 +733,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i982.SearchArticlesCubit>(
       () => _i982.SearchArticlesCubit(
-        gh<_i148.SearchArticlesUseCase>(),
-        gh<_i961.GetSearchHistoryUseCase>(),
-        gh<_i961.SaveSearchQueryUseCase>(),
-        gh<_i961.ClearSearchHistoryUseCase>(),
-        gh<_i961.RemoveSearchTermUseCase>(),
+        gh<_i695.SearchArticlesUseCase>(),
+        gh<_i361.GetSearchHistoryUseCase>(),
+        gh<_i361.SaveSearchQueryUseCase>(),
+        gh<_i361.ClearSearchHistoryUseCase>(),
+        gh<_i361.RemoveSearchTermUseCase>(),
         gh<_i875.SaveArticleUseCase>(),
         gh<_i875.UnsaveArticleUseCase>(),
         gh<_i839.WatchArticleSaveStatusUseCase>(),
       ),
+    );
+    gh.lazySingleton<_i580.ProfileCubit>(
+      () => _i580.ProfileCubit(gh<_i319.GetProfileUsecase>()),
     );
     gh.factory<_i846.SkinDiagnosisCubit>(
       () => _i846.SkinDiagnosisCubit(

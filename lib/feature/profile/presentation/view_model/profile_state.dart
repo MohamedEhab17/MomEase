@@ -1,31 +1,31 @@
 import 'package:equatable/equatable.dart';
-import 'package:new_mama/feature/profile/data/models/profile_model.dart';
+import '../../domain/entity/mother_profile.dart';
 
-abstract class ProfileState extends Equatable {
-  const ProfileState();
+enum ProfileStatus { initial, loading, loaded, error, updating, uploadingPhoto, deletingPhoto }
+
+class ProfileState extends Equatable {
+  final ProfileStatus status;
+  final MotherProfile? profile;
+  final String? errorMessage;
+
+  const ProfileState({
+    this.status = ProfileStatus.initial,
+    this.profile,
+    this.errorMessage,
+  });
+
+  ProfileState copyWith({
+    ProfileStatus? status,
+    MotherProfile? profile,
+    String? errorMessage,
+  }) {
+    return ProfileState(
+      status: status ?? this.status,
+      profile: profile ?? this.profile,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
 
   @override
-  List<Object?> get props => [];
-}
-
-class ProfileInitial extends ProfileState {}
-
-class ProfileLoading extends ProfileState {}
-
-class ProfileLoaded extends ProfileState {
-  final ProfileModel profile;
-
-  const ProfileLoaded({required this.profile});
-
-  @override
-  List<Object?> get props => [profile];
-}
-
-class ProfileError extends ProfileState {
-  final String message;
-
-  const ProfileError({required this.message});
-
-  @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [status, profile, errorMessage];
 }

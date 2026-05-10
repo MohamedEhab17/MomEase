@@ -5,8 +5,8 @@ import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:new_mama/core/widgets/custom_network_image.dart';
+import 'package:new_mama/feature/articles/domain/entities/article.dart';
 
 class ProfileArticlePreviewCard extends StatelessWidget {
   final Article article;

@@ -12,11 +12,15 @@ import 'drawer_user_header.dart';
 
 class CustomDrawerMenu extends StatelessWidget {
   final VoidCallback onClose;
+  final VoidCallback? onProfileTap;
+  final VoidCallback? onNotificationsTap;
   final Animation<double> animation;
 
   const CustomDrawerMenu({
     super.key,
     required this.onClose,
+    this.onProfileTap,
+    this.onNotificationsTap,
     required this.animation,
   });
 
@@ -28,7 +32,11 @@ class CustomDrawerMenu extends StatelessWidget {
       child: Column(
         children: [
           // User Info Header
-          DrawerUserHeader(animation: animation),
+          GestureDetector(
+            onTap: onProfileTap,
+            behavior: HitTestBehavior.opaque,
+            child: DrawerUserHeader(animation: animation),
+          ),
 
           // Scrollable Menu Items
           Expanded(
@@ -49,7 +57,9 @@ class CustomDrawerMenu extends StatelessWidget {
                   animation: animation,
                   start: 0.3,
                   end: 0.7,
-                  child: const DrawerAccountSettingsSection(),
+                  child: DrawerAccountSettingsSection(
+                    onNotificationsTap: onNotificationsTap,
+                  ),
                 ),
                 SizedBox(height: 24.h),
 

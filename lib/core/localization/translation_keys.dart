@@ -171,6 +171,7 @@ class TK {
   static const communitySavedPosts = 'community.saved_posts';
   static const communityNoSavedPosts = 'community.no_saved_posts';
   static const communityAddPhotos = 'community.add_photos';
+  static const communityGallery = 'community.gallery';
   static const communityAddMore = 'community.add_more';
   static const communityLinkCopied = 'community.link_copied';
   static const communityShareSoon = 'community.share_soon';
@@ -247,6 +248,8 @@ class TK {
   static const profileEnglish = 'profile.english_us';
   static const profilePink = 'profile.pastel_pink';
   static const profileLoadError = 'profile.load_error';
+  static const profileDeletePhotoTitle = 'profile.delete_photo_title';
+  static const profileDeletePhotoContent = 'profile.delete_photo_content';
 
   // 🔹 Drawer
   static const drawerBabyTracking = 'drawer.baby_tracking';
@@ -261,6 +264,7 @@ class TK {
   static const drawerHelpCenter = 'drawer.support_info.help_center';
   static const drawerContactUs = 'drawer.support_info.contact_us';
   static const drawerAboutMomEase = 'drawer.support_info.about_momease';
+  static const drawerPrivacyPolicy = 'drawer.support_info.privacy_policy';
   static const drawerRateApp = 'drawer.general.rate_momease';
   static const drawerShareApp = 'drawer.general.share_with_friends';
   static const drawerSendFeedback = 'drawer.general.send_feedback';

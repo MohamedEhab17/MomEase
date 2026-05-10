@@ -50,11 +50,15 @@ class AuthRepositoryImpl implements AuthRepository {
           final user = response.data?.user;
           final tokens = response.data?.tokens;
 
-          if (user != null) {
-            await _localDataSource.saveUser(user);
-          }
-          if (tokens != null) {
-            await _localDataSource.saveTokens(tokens);
+          try {
+            if (user != null) {
+              await _localDataSource.saveUser(user);
+            }
+            if (tokens != null) {
+              await _localDataSource.saveTokens(tokens);
+            }
+          } catch (e) {
+            return Left(CacheFailure('Failed to save session: ${e.toString()}'));
           }
 
           if (user != null) {

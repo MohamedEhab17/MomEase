@@ -12,8 +12,9 @@ class Api {
   static const String googleLogin = 'Auth/google-login';
   static const String changePassword = 'Auth/change-password';
   static const String revokeToken = 'Auth/revoke-token';
+  static const String logout = 'Auth/logout';
 
-  // Depression endpoints
+  /// Depression endpoints
   static const String getAssessments = 'assessments';
   static const String getQuestions = 'assessments/{assessmentId}/questions';
   static const String submitAssessment = 'assessments/{assessmentId}/submit';
@@ -37,7 +38,7 @@ class Api {
   static const String savedArticles = 'saved-articles';
   static String deleteSavedArticle(int id) => 'saved-articles/$id';
 
-  // Search History endpoints
+  /// Search History endpoints
   static const String searchHistory = 'search/history';
   static String deleteSearchTerm(String term) => 'search/history/$term';
 
@@ -63,4 +64,12 @@ class Api {
   // Reply endpoints
   static String commentReplies(int postId, int commentId) => 'community/posts/$postId/comments/$commentId/replies';
   static String replyById(int postId, int commentId, int replyId) => 'community/posts/$postId/comments/$commentId/replies/$replyId';
+
+  /// AppSection endpoints
+  static const String getUser = 'Users/profile';
+  static const String updateProfile = 'Users/profile';
+  static const String changeUserPassword = 'Users/change-password';
+
+  /// profile endpoints
+  static const String motherProfile  = 'MotherProfile'; 
 }
