@@ -120,8 +120,25 @@
       "completed_label": "تم:",
       "next_due": "الموعد القادم",
       "in_days": "بعد {days} يوم",
-      "babys_log": "سجل الطفل",
-      "official_schedule": "الجدول الرسمي"
+      "babys_log": "سجل التطعيمات",
+      "official_schedule": "جدول التطعيمات",
+      "overdue_missed": "متأخرة / فائتة",
+      "pending": "معلقة",
+      "mark_taken_title": "تسجيل أخذ التطعيم",
+      "mark_taken_desc": "تأكيد إعطاء تطعيم {vaccine} لطفلك.",
+      "vaccination_date": "تاريخ التطعيم",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد",
+      "select_child_msg": "من فضلك أضيفي أو اختاري طفلاً لمتابعة التطعيمات.",
+      "retrieving_msg": "جاري تحميل بيانات التطعيمات...",
+      "no_logged_vaccines": "لم يتم تسجيل أي تطعيمات بعد.",
+      "no_schedule_available": "لا يوجد جدول تطعيمات رسمي متاح.",
+      "disease_prevented": "المرض المستهدف",
+      "way_of_injection": "طريقة الإعطاء",
+      "scheduled_date": "التاريخ المحدد",
+      "taken_date": "تاريخ الأخذ",
+      "mark_as_taken_btn": "تحديد كمكتمل",
+      "months_suffix": "{months} أشهر"
     },
 
     "insights_screen": {

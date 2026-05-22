@@ -126,6 +126,23 @@ class TK {
   static const babyVaccineInDays = 'baby.vaccine.in_days';
   static const babyVaccineLog = 'baby.vaccine.babys_log';
   static const babyVaccineSchedule = 'baby.vaccine.official_schedule';
+  static const babyVaccineOverdueMissed = 'baby.vaccine.overdue_missed';
+  static const babyVaccinePending = 'baby.vaccine.pending';
+  static const babyVaccineMarkTakenTitle = 'baby.vaccine.mark_taken_title';
+  static const babyVaccineMarkTakenDesc = 'baby.vaccine.mark_taken_desc';
+  static const babyVaccineDate = 'baby.vaccine.vaccination_date';
+  static const babyVaccineCancel = 'baby.vaccine.cancel';
+  static const babyVaccineConfirm = 'baby.vaccine.confirm';
+  static const babyVaccineSelectChildMsg = 'baby.vaccine.select_child_msg';
+  static const babyVaccineRetrievingMsg = 'baby.vaccine.retrieving_msg';
+  static const babyVaccineNoLoggedVaccines = 'baby.vaccine.no_logged_vaccines';
+  static const babyVaccineNoScheduleAvailable = 'baby.vaccine.no_schedule_available';
+  static const babyVaccineDiseasePrevented = 'baby.vaccine.disease_prevented';
+  static const babyVaccineWayOfInjection = 'baby.vaccine.way_of_injection';
+  static const babyVaccineScheduledDate = 'baby.vaccine.scheduled_date';
+  static const babyVaccineTakenDate = 'baby.vaccine.taken_date';
+  static const babyVaccineMarkAsTakenBtn = 'baby.vaccine.mark_as_taken_btn';
+  static const babyVaccineMonthsSuffix = 'baby.vaccine.months_suffix';
 
   // Insights Screen
   static const babyInsightsTitle = 'baby.insights_screen.title';

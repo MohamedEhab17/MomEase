@@ -68,7 +68,7 @@ class VaccineProgressHeader extends StatelessWidget {
                       child: Text(
                         '$percentage%',
                         style: context.text.bodySmall!.copyWith(
-                          color: Colors.white,
+                          color: context.ext.colors.primaryExtraLight,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

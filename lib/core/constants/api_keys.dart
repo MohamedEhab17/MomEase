@@ -29,6 +29,12 @@ class Api {
   static const String children = 'Children';
   static String childById(int id) => 'Children/$id';
   static String childPhoto(int id) => 'Children/$id/photo';
+  static String childVaccinations(int childId) => 'children/$childId/vaccinations';
+  static String childVaccinationById(int childId, int id) => 'children/$childId/vaccinations/$id';
+  static String childUpcomingVaccinations(int childId) => 'children/$childId/vaccinations/upcoming';
+  static String childOverdueVaccinations(int childId) => 'children/$childId/vaccinations/overdue';
+  static String childCompletedVaccinations(int childId) => 'children/$childId/vaccinations/completed';
+  static String markVaccinationTaken(int childId, int id) => 'children/$childId/vaccinations/$id/mark-taken';
 
   /// Articles endpoints.
   static const String articleCategories = 'articles/categories';

@@ -107,6 +107,30 @@ import '../../feature/baby_cry/data/repository/audio_repository_impl.dart'
     as _i636;
 import '../../feature/baby_cry/presentation/view_model/cubit/sound_recording_cubit.dart'
     as _i589;
+import '../../feature/baby_track/data/datasources/vaccination_remote_data_source_contract.dart'
+    as _i450;
+import '../../feature/baby_track/data/datasources/vaccination_remote_data_source_impl.dart'
+    as _i3;
+import '../../feature/baby_track/data/repositories/vaccination_repository_impl.dart'
+    as _i767;
+import '../../feature/baby_track/domain/repositories/vaccination_repository.dart'
+    as _i378;
+import '../../feature/baby_track/domain/usecase/get_completed_vaccinations_usecase.dart'
+    as _i413;
+import '../../feature/baby_track/domain/usecase/get_overdue_vaccinations_usecase.dart'
+    as _i227;
+import '../../feature/baby_track/domain/usecase/get_upcoming_vaccinations_usecase.dart'
+    as _i120;
+import '../../feature/baby_track/domain/usecase/get_vaccination_details_usecase.dart'
+    as _i340;
+import '../../feature/baby_track/domain/usecase/get_vaccinations_usecase.dart'
+    as _i1023;
+import '../../feature/baby_track/domain/usecase/mark_vaccination_taken_usecase.dart'
+    as _i1015;
+import '../../feature/baby_track/domain/usecase/update_vaccination_status_usecase.dart'
+    as _i976;
+import '../../feature/baby_track/presentation/view_model/vaccinations_cubit/vaccinations_cubit.dart'
+    as _i423;
 import '../../feature/children/data/datasources/children_remote_data_source.dart'
     as _i1010;
 import '../../feature/children/data/datasources/children_remote_data_source_impl.dart'
@@ -317,6 +341,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i766.AssessmentRemoteDataSourceContract>(
       () => _i730.AssessmentRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
+    gh.lazySingleton<_i450.VaccinationRemoteDataSourceContract>(
+      () => _i3.VaccinationRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i59.CommunityRepository>(
       () =>
           _i272.CommunityRepositoryImpl(gh<_i108.CommunityRemoteDataSource>()),
@@ -426,6 +453,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1042.MarkAsReadUseCase>(),
         gh<_i1042.DeleteNotificationUseCase>(),
         gh<_i1042.ClearAllNotificationsUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i378.VaccinationRepository>(
+      () => _i767.VaccinationRepositoryImpl(
+        gh<_i450.VaccinationRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
       ),
     );
     gh.factory<_i812.GetAssessmentByIdUseCase>(
@@ -676,6 +709,37 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i839.WatchArticleSaveStatusUseCase>(
       () => _i839.WatchArticleSaveStatusUseCase(gh<_i18.ArticlesRepository>()),
     );
+    gh.factory<_i413.GetCompletedVaccinationsUseCase>(
+      () => _i413.GetCompletedVaccinationsUseCase(
+        gh<_i378.VaccinationRepository>(),
+      ),
+    );
+    gh.factory<_i227.GetOverdueVaccinationsUseCase>(
+      () => _i227.GetOverdueVaccinationsUseCase(
+        gh<_i378.VaccinationRepository>(),
+      ),
+    );
+    gh.factory<_i120.GetUpcomingVaccinationsUseCase>(
+      () => _i120.GetUpcomingVaccinationsUseCase(
+        gh<_i378.VaccinationRepository>(),
+      ),
+    );
+    gh.factory<_i340.GetVaccinationDetailsUseCase>(
+      () =>
+          _i340.GetVaccinationDetailsUseCase(gh<_i378.VaccinationRepository>()),
+    );
+    gh.factory<_i1023.GetVaccinationsUseCase>(
+      () => _i1023.GetVaccinationsUseCase(gh<_i378.VaccinationRepository>()),
+    );
+    gh.factory<_i1015.MarkVaccinationTakenUseCase>(
+      () =>
+          _i1015.MarkVaccinationTakenUseCase(gh<_i378.VaccinationRepository>()),
+    );
+    gh.factory<_i976.UpdateVaccinationStatusUseCase>(
+      () => _i976.UpdateVaccinationStatusUseCase(
+        gh<_i378.VaccinationRepository>(),
+      ),
+    );
     gh.lazySingleton<_i555.ChildrenCubit>(
       () => _i555.ChildrenCubit(
         gh<_i1057.GetChildrenUseCase>(),
@@ -752,6 +816,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i782.GetUserSkinAnalysesUseCase>(),
         gh<_i543.GetChildSkinAnalysesUseCase>(),
         gh<_i517.DeleteSkinAnalysisUseCase>(),
+      ),
+    );
+    gh.factory<_i423.VaccinationsCubit>(
+      () => _i423.VaccinationsCubit(
+        gh<_i1023.GetVaccinationsUseCase>(),
+        gh<_i976.UpdateVaccinationStatusUseCase>(),
+        gh<_i120.GetUpcomingVaccinationsUseCase>(),
+        gh<_i227.GetOverdueVaccinationsUseCase>(),
+        gh<_i413.GetCompletedVaccinationsUseCase>(),
+        gh<_i1015.MarkVaccinationTakenUseCase>(),
       ),
     );
     gh.lazySingleton<_i47.AuthCubit>(
