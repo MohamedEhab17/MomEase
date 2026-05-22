@@ -78,8 +78,8 @@ class TK {
   static const articlesNoSaved = 'articles.no_saved';
   static const articlesSearchHint = 'articles.search_hint';
   static const searchNoResults = 'articles.search_no_results';
-  static const searchTitle= 'articles.search_title';
-  static const  searchEmpty = 'articles.search_empty';
+  static const searchTitle = 'articles.search_title';
+  static const searchEmpty = 'articles.search_empty';
   static const articleReadMinutes = 'articles.read_minutes';
   static const clearAll = 'articles.clear_all';
   static const recentSearches = 'articles.recent_searches';
@@ -351,7 +351,8 @@ class TK {
   static const childrenPhotoSuccess = 'children.photo_success';
   static const childrenPhotoDeleteSuccess = 'children.photo_delete_success';
   static const childrenAddFirstBaby = 'children.add_first_baby';
-  static const childrenAddFirstBabySubtitle = 'children.add_first_baby_subtitle';
+  static const childrenAddFirstBabySubtitle =
+      'children.add_first_baby_subtitle';
   static const childrenNoBabiesYet = 'children.no_babies_yet';
   static const childrenAddYourBaby = 'children.add_your_baby';
 
@@ -473,6 +474,7 @@ class TK {
   static const notificationsEmptyTitle = 'notifications.empty_title';
   static const notificationsEmptySubtitle = 'notifications.empty_subtitle';
   static const notificationsViewPost = 'notifications.view_post';
+  static const notificationReadAll = 'notifications.mark_all_as_read';
 
   // 🔹 Common
   static const commonViewAll = 'common.view_all';

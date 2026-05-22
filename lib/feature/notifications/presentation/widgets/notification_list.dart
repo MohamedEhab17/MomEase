@@ -36,12 +36,8 @@ class _NotificationListState extends State<NotificationList> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.9) {
-      context.read<NotificationCubit>().loadMore();
+      // Pagination logic can be added here
     }
-  }
-
-  void _onDelete(int index) {
-    context.read<NotificationCubit>().deleteNotification(index);
   }
 
   @override
@@ -61,33 +57,21 @@ class _NotificationListState extends State<NotificationList> {
 
         return RefreshIndicator(
           onRefresh: () =>
-              context.read<NotificationCubit>().loadNotifications(),
+              context.read<NotificationCubit>().getNotifications(),
           color: context.ext.colors.primaryDark,
           child: ListView.separated(
             controller: _scrollController,
             padding: EdgeInsetsDirectional.only(bottom: 20.h, top: 4.h),
-            itemCount:
-                state.notifications.length + (state.hasReachedMax ? 0 : 1),
+            itemCount: state.notifications.length,
             separatorBuilder: (context, index) => 16.h.height,
             itemBuilder: (context, index) {
-              if (index >= state.notifications.length) {
-                return Center(
-                  child: Padding(
-                    padding: 16.hPadding,
-                    child: CircularProgressIndicator(
-                      color: context.ext.colors.primaryDark,
-                      strokeWidth: 3,
-                    ),
-                  ),
-                );
-              }
 
               final notification = state.notifications[index];
               return NotificationItem(
                 notification: notification,
                 onTap: () =>
-                    context.read<NotificationCubit>().markAsRead(index),
-                onDelete: () => _onDelete(index),
+                    context.read<NotificationCubit>().markAsRead(notification.notificationId),
+                onDelete: () => context.read<NotificationCubit>().deleteNotification(notification.notificationId),
                 onViewPost: () {},
               );
             },

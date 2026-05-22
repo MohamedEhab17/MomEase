@@ -38,4 +38,11 @@ class Api {
   // Search History endpoints
   static const String searchHistory = 'search/history';
   static String deleteSearchTerm(String term) => 'search/history/$term';
+
+  // Notifications endpoints
+  static const String notifications = 'notifications';
+  static const String notificationsUnreadCount = 'notifications/unread-count';
+  static String notificationRead(int id) => 'notifications/$id/read';
+  static const String markAllNotificationsRead = 'notifications/mark-all-read';
+  static String notificationById(int id) => 'notifications/$id';
 }

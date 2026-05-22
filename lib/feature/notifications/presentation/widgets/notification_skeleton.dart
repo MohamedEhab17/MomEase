@@ -4,7 +4,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
-import '../../data/model/notification_model.dart';
+import 'package:new_mama/feature/notifications/data/model/notification_model.dart';
 import 'notification_item.dart';
 
 class NotificationSkeleton extends StatelessWidget {
@@ -13,11 +13,13 @@ class NotificationSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dummyItem = NotificationModel(
-      id: 'skeleton',
+      notificationId: 0,
       title: '...',
       body: '...',
-      time: context.trContext(TK.communityJustNow),
-      isUnread: false,
+      type: 'SkeletonType',
+      relatedEntityId: 0,
+      isRead: false,
+      createdAt: DateTime.now().toIso8601String(),
     );
 
     return Skeletonizer(
@@ -29,7 +31,6 @@ class NotificationSkeleton extends StatelessWidget {
         itemBuilder: (context, index) {
           return NotificationItem(
             notification: dummyItem,
-
             onTap: () {},
             onDelete: () {},
             onViewPost: () {},

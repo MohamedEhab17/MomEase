@@ -14,7 +14,9 @@ class NotificationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<NotificationCubit>()..loadNotifications(),
+      create: (context) => getIt<NotificationCubit>()
+        ..getNotifications()
+        ..getUnreadCount(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

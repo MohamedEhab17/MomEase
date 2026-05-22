@@ -441,7 +441,8 @@
     "clear_all": "Clear all",
     "empty_title": "You Don’t have notifications",
     "empty_subtitle": "When you get notifications, they'll show up here",
-    "view_post": "View Post"
+    "view_post": "View Post",
+    "mark_all_as_read": "Mark all as read"
   },
 
   "common": {

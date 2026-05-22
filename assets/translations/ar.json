@@ -428,7 +428,8 @@
     "clear_all": "مسح الكل",
     "empty_title": "لا توجد إشعارات",
     "empty_subtitle": "هتظهر هنا أول ما توصلك إشعارات",
-    "view_post": "عرض المنشور"
+    "view_post": "عرض المنشور",
+    "mark_all_as_read": "تحديد الكل كمقروء"
   },
 
   "common": {
