@@ -28,7 +28,9 @@ class ProfileView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<CommunityCubit>()..loadMyPosts()),
-        BlocProvider(create: (_) => getIt<SavedArticlesCubit>()..loadSavedArticles()),
+        BlocProvider(
+          create: (_) => getIt<SavedArticlesCubit>()..loadSavedArticles(),
+        ),
       ],
       child: const _ProfileBody(),
     );
@@ -48,7 +50,8 @@ class _ProfileBody extends StatelessWidget {
             return Center(
               child: CustomLoadingIndicator(color: context.colors.primary),
             );
-          } else if (state.status == ProfileStatus.error && state.profile == null) {
+          } else if (state.status == ProfileStatus.error &&
+              state.profile == null) {
             return Center(child: Text(state.errorMessage ?? 'Error'));
           }
 
@@ -67,11 +70,13 @@ class _ProfileBody extends StatelessWidget {
 
                   // Parenting Journey
                   ProfileSectionTitle(
-                    title: context.trContext(TK.profileParentingJourney), onSeeAll: () {  },
+                    title: context.trContext(TK.profileParentingJourney),
+                    onSeeAll: () {},
                   ),
                   ParentingJourneySection(
                     lastMoodStatus: profile.mentalHealthStatus,
-                    depressionTestStatus: profile.mentalHealthStatus, // Mapping mental health to depression status for now
+                    depressionTestStatus: profile
+                        .mentalHealthStatus, // Mapping mental health to depression status for now
                     babyTrackingStatus: profile.healthStatus,
                   ),
                   24.height,
@@ -79,10 +84,11 @@ class _ProfileBody extends StatelessWidget {
                   // ── My Children (live from API) ──────────────────
                   const ChildrenSection(),
                   24.height,
-
+                  
                   // Community Posts
                   ProfileSectionTitle(
-                    title: context.trContext(TK.profileCommunityPosts), onSeeAll: () {  },
+                    title: context.trContext(TK.profileCommunityPosts),
+                    onSeeAll: () {},
                   ),
                   const CommunityPostsSection(),
                   24.height,
