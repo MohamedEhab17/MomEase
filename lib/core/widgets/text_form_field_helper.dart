@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 class TextFormFieldHelper extends StatefulWidget {
   final TextEditingController? controller;
@@ -22,9 +21,14 @@ class TextFormFieldHelper extends StatefulWidget {
 
   final BorderRadius? borderRadius;
   final bool? isMobile;
+  final bool? isReadOnly;
   final TextStyle? hintStyle;
   final Color? borderColor;
   final Color? fillColor;
+  final Iterable<String>? autoFillHint;
+  final bool enableShadow;
+  /// Legacy parameter kept for chatbot compatibility.
+  /// When provided, overrides [enableShadow] and uses a BoxShadow with this radius.
   final double? blurShadowRadius;
 
   const TextFormFieldHelper({
@@ -58,7 +62,10 @@ class TextFormFieldHelper extends StatefulWidget {
     this.isMobile,
     this.hintStyle,
     this.borderColor,
-    this.fillColor = AppColors.primarySoft2,
+    this.fillColor,
+    this.isReadOnly,
+    this.enableShadow = true,
+    this.autoFillHint,
     this.blurShadowRadius,
   });
 
@@ -69,6 +76,8 @@ class TextFormFieldHelper extends StatefulWidget {
 class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
   late bool obscureText;
   TextDirection _textDirection = TextDirection.ltr;
+
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -83,111 +92,130 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
   void _updateTextDirection(String text) {
     if (text.isEmpty) return;
     final isArabic = RegExp(r'^[\u0600-\u06FF]').hasMatch(text);
-    setState(() {
-      _textDirection = isArabic ? TextDirection.rtl : TextDirection.ltr;
-    });
+    final newDirection = isArabic ? TextDirection.rtl : TextDirection.ltr;
+
+    if (_textDirection != newDirection) {
+      setState(() {
+        _textDirection = newDirection;
+      });
+    }
+  }
+
+  String? _validator(String? value) {
+    final result = widget.onValidate?.call(value);
+
+    // Avoid setState during validation to prevent infinite rebuild loops or ANRs
+    // We can track error state via onChanged or just keep the shadow
+    return result;
   }
 
   @override
   Widget build(BuildContext context) {
+    final borderRadius = widget.borderRadius ?? BorderRadius.circular(8.r);
+
+    // Support legacy blurShadowRadius (chatbot uses it)
+    final bool showShadow =
+        widget.blurShadowRadius != null ? true : (widget.enableShadow && !_hasError);
+    final double shadowBlur = widget.blurShadowRadius ?? (showShadow ? 6 : 0);
+
     return Column(
-      crossAxisAlignment: .start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Visibility(
-          visible: widget.isVisible,
-          child: Text(
-            widget.label ?? "",
-            // style: AppStyles.styleInter14Grey
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: widget.borderRadius ?? BorderRadius.circular(8.r),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.lightTextPrimary.withAlpha(38),
-                blurRadius: widget.blurShadowRadius ?? 0,
-                offset: const Offset(0, 0),
-                spreadRadius: 0,
-                blurStyle: BlurStyle.outer,
-              ),
-            ],
-          ),
+        Visibility(visible: widget.isVisible, child: Text(widget.label ?? "")),
 
-          child: TextFormField(
-            controller: widget.controller,
-            validator: widget.onValidate,
-            onChanged: (text) {
-              widget.onChanged?.call(text);
-              _updateTextDirection(text);
-            },
-            onEditingComplete: widget.onEditingComplete,
-            onFieldSubmitted: widget.onFieldSubmitted,
-            onSaved: widget.onSaved,
-            onTap: widget.onTap,
-            maxLines: widget.maxLines,
-            minLines: widget.minLines,
-            maxLength: widget.maxLength,
-            obscureText: obscureText,
-            obscuringCharacter: widget.obscuringCharacter ?? '*',
-            cursorColor: AppColors.primary,
-            keyboardType: widget.keyboardType,
-            // inputFormatters: widget.inputFormatters,
-            enabled: widget.enabled,
-            textInputAction: widget.action ?? TextInputAction.next,
-            focusNode: widget.focusNode,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-
-            // style: AppStyles.styleInter12Grey,
-            textAlign: widget.isMobile != null
-                ? TextAlign.left
-                : TextAlign.start,
-
-            textDirection: widget.isMobile != null
-                ? TextDirection.ltr
-                : _textDirection,
-            textAlignVertical: TextAlignVertical.center,
-            decoration: InputDecoration(
-              fillColor: widget.fillColor,
-              filled: true,
-              hintText: widget.hint,
-              hintStyle:
-                  widget.hintStyle ??
-                  AppStyles.styleRoboto12.copyWith(fontWeight: FontWeight.w400),
-              errorMaxLines: 4,
-              errorStyle: const TextStyle(color: Colors.red),
-              prefixIcon: widget.prefixIcon,
-              prefix: widget.prefix,
-              suffixIcon: widget.isPassword
-                  ? GestureDetector(
-                      onTap: _toggleObscureText,
-                      child: Icon(
-                        obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: AppColors.lightTextDisabled,
-                        size: 27,
+        Material(
+          color: Colors.transparent,
+          borderRadius: borderRadius,
+          elevation: (widget.blurShadowRadius == null && showShadow) ? 6 : 0,
+          shadowColor: context.ext.colors.lightTextPrimary.withAlpha(26),
+          child: Container(
+            decoration: widget.blurShadowRadius != null
+                ? BoxDecoration(
+                    borderRadius: borderRadius,
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.ext.colors.lightTextPrimary.withAlpha(38),
+                        blurRadius: shadowBlur,
+                        offset: const Offset(0, 0),
+                        spreadRadius: 0,
+                        blurStyle: BlurStyle.outer,
                       ),
-                    )
-                  : widget.suffixWidget,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 19,
-              ),
-              border: outlineInputBorder(
-                color: widget.borderColor ?? AppColors.primarySoft3,
-                width: 1,
-              ),
-              enabledBorder: outlineInputBorder(
-                color: widget.borderColor ?? AppColors.primarySoft3,
-                width: 1,
-              ),
-              focusedBorder: outlineInputBorder(
-                color: widget.borderColor ?? AppColors.primarySoft3,
-                width: 1,
-              ),
-              errorBorder: outlineInputBorder(color: Colors.red, width: 1),
-              focusedErrorBorder: outlineInputBorder(
-                color: Colors.red,
-                width: 1,
+                    ],
+                  )
+                : null,
+            child: TextFormField(
+              controller: widget.controller,
+              validator: _validator,
+              onChanged: (text) {
+                widget.onChanged?.call(text);
+                _updateTextDirection(text);
+              },
+              onEditingComplete: widget.onEditingComplete,
+              onFieldSubmitted: widget.onFieldSubmitted,
+              onSaved: widget.onSaved,
+              onTap: widget.onTap,
+              maxLines: widget.maxLines,
+              minLines: widget.minLines,
+              maxLength: widget.maxLength,
+              obscureText: obscureText,
+              obscuringCharacter: widget.obscuringCharacter ?? '*',
+              cursorColor: context.ext.colors.primaryDark,
+              keyboardType: widget.keyboardType,
+              enabled: widget.enabled,
+              textInputAction: widget.action ?? TextInputAction.next,
+              focusNode: widget.focusNode,
+              autofillHints: widget.autoFillHint?.toList(),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              textAlign: widget.isMobile != null
+                  ? TextAlign.left
+                  : TextAlign.start,
+              textDirection: widget.isMobile != null
+                  ? TextDirection.ltr
+                  : _textDirection,
+              readOnly: widget.isReadOnly ?? false,
+              textAlignVertical: TextAlignVertical.center,
+              style: context.text.titleSmall!,
+              decoration: InputDecoration(
+                fillColor: widget.fillColor ?? context.ext.colors.primaryTint,
+                filled: true,
+                hintText: widget.hint,
+                hintStyle:
+                    widget.hintStyle ??
+                    context.text.bodyLarge!.copyWith(fontWeight: FontWeight.w400),
+                errorMaxLines: 4,
+                errorStyle: const TextStyle(color: Colors.red),
+                prefixIcon: widget.prefixIcon,
+                prefix: widget.prefix,
+                suffixIcon: widget.isPassword
+                    ? IconButton(
+                        onPressed: _toggleObscureText,
+                        icon: Icon(
+                          obscureText ? Icons.visibility_off : Icons.visibility,
+                          color: context.ext.colors.lightTextDisabled,
+                        ),
+                      )
+                    : widget.suffixWidget,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 19,
+                ),
+                border: outlineInputBorder(
+                  color: widget.borderColor ?? context.ext.colors.primaryLighter,
+                  width: 1,
+                ),
+                enabledBorder: outlineInputBorder(
+                  color: widget.borderColor ?? context.ext.colors.primaryLighter,
+                  width: 1,
+                ),
+                focusedBorder: outlineInputBorder(
+                  color: widget.borderColor ?? context.ext.colors.primaryDark,
+                  width: 1,
+                ),
+                errorBorder: outlineInputBorder(color: Colors.red, width: 1),
+                focusedErrorBorder: outlineInputBorder(
+                  color: Colors.red,
+                  width: 1,
+                ),
               ),
             ),
           ),

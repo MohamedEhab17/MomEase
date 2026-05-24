@@ -1,0 +1,252 @@
+import 'package:flutter/material.dart';
+
+class AppColors {
+  // Brand
+  final Color primaryDark;
+  final Color primary;
+  final Color primaryLighter;
+  final Color primaryAccent;
+  final Color primaryTint;
+  final Color primaryExtraLight;
+  final Color primaryBackground;
+  final Color primaryLight;
+
+  // Greys
+  final Color greyPrimary;
+  final Color greyLight;
+  final Color greyExtraLight;
+  final Color greyMedium;
+
+  // Functional
+  final Color mentionBlue;
+  final Color lighterBorder;
+
+  // Accent
+  final Color accent;
+  final Color accentSoft;
+
+  // Backgrounds
+  final Color lightBackground;
+  final Color backgroundPink;
+  final Color darkBackground;
+  final Color backgroundGreen;
+  final Color backgroundBlue;
+  final Color backgroundBlueDarker;
+
+  // Text
+  final Color lightTextPrimary;
+  final Color lightTextSecondary;
+  final Color lightTextDisabled;
+  final Color textDisabledLighter;
+  final Color greenText;
+
+  // Severity
+  final Color severityMinimal;
+  final Color severityMild;
+  final Color severityModerate;
+  final Color severityHigh;
+  final Color severitySevere;
+  final Color severityMinimalBg;
+  final Color severityMildBg;
+  final Color severityModerateBg;
+  final Color severityHighBg;
+  final Color severitySevereBg;
+
+
+  final Color darkTextPrimary;
+  final Color darkTextSecondary;
+
+  const AppColors({
+    required this.primaryDark,
+    required this.primary,
+    required this.primaryLighter,
+    required this.primaryAccent,
+    required this.primaryTint,
+    required this.primaryExtraLight,
+    required this.primaryBackground,
+    required this.primaryLight,
+    required this.greyPrimary,
+    required this.greyLight,
+    required this.greyExtraLight,
+    required this.greyMedium,
+    required this.mentionBlue,
+    required this.lighterBorder,
+    required this.accent,
+    required this.accentSoft,
+    required this.lightBackground,
+    required this.backgroundPink,
+    required this.darkBackground,
+    required this.backgroundGreen,
+    required this.backgroundBlue,
+    required this.backgroundBlueDarker,
+    required this.lightTextPrimary,
+    required this.lightTextSecondary,
+    required this.lightTextDisabled,
+    required this.textDisabledLighter,
+    required this.greenText,
+    required this.severityMinimal,
+    required this.severityMild,
+    required this.severityModerate,
+    required this.severityHigh,
+    required this.severitySevere,
+    required this.severityMinimalBg,
+    required this.severityMildBg,
+    required this.severityModerateBg,
+    required this.severityHighBg,
+    required this.severitySevereBg,
+    required this.darkTextPrimary,
+    required this.darkTextSecondary,
+  });
+
+  /// 💗 Pink Colors
+  static const AppColors pink = AppColors(
+    primaryDark: Color(0xFFFF3381),
+    primary: Color(0xFFFF66A1),
+    primaryLighter: Color(0xffFFC8DD),
+    primaryAccent: Color(0xffFF8CB8),
+    primaryTint: Color(0xFFFFF0F6),
+    primaryExtraLight: Color(0xFFFFE5EF),
+    primaryBackground: Color(0xFFFFEFF5),
+    primaryLight: Color(0xFFFF9BBC),
+    greyPrimary: Color(0xff9E9E9E),
+    greyLight: Color(0xffCECECE),
+    greyExtraLight: Color(0xFFE0E0E0),
+    greyMedium: Color(0xFFC7C7C7),
+    mentionBlue: Color(0xFF1877F2),
+    lighterBorder: Color(0xFFFDF2F8),
+    accent: Color(0xFFA2D2FF),
+    accentSoft: Color(0xFFCCE6FF),
+    lightBackground: Color(0xFFFFFFFF),
+    backgroundPink: Color(0xffFFF4F8),
+    darkBackground: Color(0xFF121212),
+    backgroundGreen: Color(0xFF92E3A9),
+    backgroundBlue: Color(0xFFA2D2FF),
+    backgroundBlueDarker: Color(0xFF76B4EB),
+    lightTextPrimary: Color(0xFF000000),
+    lightTextSecondary: Color(0xFF9E9E9E),
+    lightTextDisabled: Color(0xFF999999),
+    textDisabledLighter: Color(0xffB2B2B2),
+    greenText: Color(0xFF31B042),
+    severityMinimal: Color(0xFF31B042),
+    severityMild: Color(0xFF5B8DEF),
+    severityModerate: Color(0xFFE8943A),
+    severityHigh: Color(0xFFE05C3A),
+    severitySevere: Color(0xFFD63B3B),
+    severityMinimalBg: Color(0xFFE8F8EC),
+    severityMildBg: Color(0xFFE6EFFE),
+    severityModerateBg: Color(0xFFFFF3E6),
+    severityHighBg: Color(0xFFFDE8E3),
+    severitySevereBg: Color(0xFFFDE3E3),
+    darkTextPrimary: Color(0xFFFFFFFF),
+    darkTextSecondary: Color(0xFFCECECE),
+  );
+
+  /// 💙 Blue Colors
+  static const AppColors blue = AppColors(
+    primaryDark: Color(0xFF2F6FE4),
+    primary: Color(0xFF4C8DFF),
+    primaryLighter: Color(0xFFCFE0FF),
+    primaryAccent: Color(0xFF7AAEFF),
+
+    primaryTint: Color(0xFFEAF2FF),
+    primaryExtraLight: Color(0xFFF5F8FF),
+    primaryBackground: Color(0xFFEFF5FF),
+    primaryLight: Color(0xFF9BBCFF),
+
+    greyPrimary: Color(0xff9E9E9E),
+    greyLight: Color(0xffCECECE),
+    greyExtraLight: Color(0xFFE0E0E0),
+    greyMedium: Color(0xFFC7C7C7),
+
+    mentionBlue: Color(0xFF1877F2),
+
+    lighterBorder: Color(0xFFE3ECFF),
+
+    accent: Color(0xFFA2D2FF),
+    accentSoft: Color(0xFFCCE6FF),
+
+    lightBackground: Color(0xFFFFFFFF),
+    backgroundPink: Color(0xFFF4F8FF),
+    darkBackground: Color(0xFF121212),
+
+    backgroundGreen: Color(0xFF92E3A9),
+    backgroundBlue: Color(0xFFA2D2FF),
+    backgroundBlueDarker: Color(0xFF76B4EB),
+
+    lightTextPrimary: Color(0xFF1A1A1A),
+    lightTextSecondary: Color(0xFF6B7280),
+    lightTextDisabled: Color(0xFF9CA3AF),
+    textDisabledLighter: Color(0xFFB2B2B2),
+
+    greenText: Color(0xFF31B042),
+    severityMinimal: Color(0xFF2DA44E),
+    severityMild: Color(0xFF4C8DFF),
+    severityModerate: Color(0xFFD4881F),
+    severityHigh: Color(0xFFCF5035),
+    severitySevere: Color(0xFFC93535),
+    severityMinimalBg: Color(0xFFE4F6EA),
+    severityMildBg: Color(0xFFE1EDFF),
+    severityModerateBg: Color(0xFFFFF1E0),
+    severityHighBg: Color(0xFFFCE5DF),
+    severitySevereBg: Color(0xFFFCDFDF),
+
+    darkTextPrimary: Color(0xFFFFFFFF),
+    darkTextSecondary: Color(0xFFCECECE),
+  );
+
+  /// 🌙 Dark Colors
+  static const AppColors dark = AppColors(
+    // 1. Primary Colors
+    primaryDark: Color(0xFF6B7A99),
+    primary: Color(0xFF8DA4C8),
+    primaryLighter: Color(0xFFA9BEE0),
+    primaryAccent: Color(0xFFC4D6F2),
+
+    // Surface & Background Colors
+    primaryTint: Color(0xFF1E2532),
+    primaryExtraLight: Color(0xFF2A3446),
+    primaryBackground: Color(0xFF0D1017),
+    primaryLight: Color(0xFFD6E3F8),
+
+    // 2. Greys
+    greyPrimary: Color(0xFFE2E8F0),
+    greyLight: Color(0xFFCBD5E1),
+    greyMedium: Color(0xFF94A3B8),
+    greyExtraLight: Color(0xFF475569),
+
+    mentionBlue: Color(0xFF60A5FA),
+
+    lighterBorder: Color(0xFF334155),
+
+    accent: Color(0xFF60A5FA),
+    accentSoft: Color(0xFF1E293B),
+
+    // 3. Environment Backgrounds
+    lightBackground: Color(0xFF151923),
+    backgroundPink: Color(0xFF1F2937),
+    backgroundGreen: Color(0xFF142C1F),
+    backgroundBlue: Color(0xFF162438),
+    backgroundBlueDarker: Color(0xFF0B121F),
+    darkBackground: Color(0xFF07090C),
+    // 4. Text Colors
+    lightTextPrimary: Color(0xFFF8FAFC),
+    lightTextSecondary: Color(0xFFCBD5E1),
+    lightTextDisabled: Color(0xFF64748B),
+    textDisabledLighter: Color(0xFF475569),
+
+    greenText: Color(0xFF4ADE80),
+    severityMinimal: Color(0xFF4ADE80),
+    severityMild: Color(0xFF60A5FA),
+    severityModerate: Color(0xFFFBBF24),
+    severityHigh: Color(0xFFFB923C),
+    severitySevere: Color(0xFFF87171),
+    severityMinimalBg: Color(0xFF142C1F),
+    severityMildBg: Color(0xFF162438),
+    severityModerateBg: Color(0xFF2D2612),
+    severityHighBg: Color(0xFF2D1A12),
+    severitySevereBg: Color(0xFF2D1414),
+
+    darkTextPrimary: Color(0xFFFFFFFF),
+    darkTextSecondary: Color(0xFFE2E8F0),
+  );
+}

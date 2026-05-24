@@ -1,30 +1,27 @@
-//! data onboarding
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/onboarding/data/onboarding_model.dart';
 
 List<OnBoardingModel> dataOnboarding() {
   return [
     OnBoardingModel(
       imgPath: 'assets/images/onboarding1.png',
-      title: 'You\’re not alone anymore',
-      description:
-          'Get emotional support and expert guidance throughout your postpartum journey.',
+      title: TK.onboardingScreen1Title,
+      description: TK.onboardingScreen1Desc,
     ),
     OnBoardingModel(
       imgPath: 'assets/images/onboarding2.png',
-      title: 'Breastfeeding support made simple',
-      description: 'Access trusted tips, answers, and step-by-step guides.',
+      title: TK.onboardingScreen2Title,
+      description: TK.onboardingScreen2Desc,
     ),
     OnBoardingModel(
       imgPath: 'assets/images/onboarding3.png',
-      title: 'Everything you need, in one place',
-      description:
-          'Read expert articles about health, sleep, nutrition, and baby care.',
+      title: TK.onboardingScreen3Title,
+      description: TK.onboardingScreen3Desc,
     ),
     OnBoardingModel(
       imgPath: 'assets/images/onboarding4.png',
-      title: 'Your Support Starts Here',
-      description:
-          'Helpful tools, trusted information, and a caring community—right at your fingertips',
+      title: TK.onboardingScreen4Title,
+      description: TK.onboardingScreen4Desc,
     ),
   ];
 }
