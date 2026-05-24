@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
 class ChatbotMessageWidget extends StatelessWidget {
   const ChatbotMessageWidget({
@@ -35,7 +35,7 @@ class ChatbotMessageWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
-          color: isUser ? AppColors.primary : AppColors.primarySoft,
+          color: isUser ? context.ext.colors.primary : context.ext.colors.primaryLight,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(radius),
             topRight: Radius.circular(radius),
@@ -56,6 +56,10 @@ class ChatbotMessageWidget extends StatelessWidget {
                 AppIcons.iconsLunaBlue,
                 width: 24.w,
                 height: 24.h,
+                colorMapper: AppSvgColorMapper(
+                  from: const Color(0xff7AA2C2),
+                  to: context.ext.colors.primaryLight,
+                ),
               ),
               // Icon(icon, color: AppColors.primary, size: 20.sp),
               SizedBox(width: 8.w),
@@ -63,10 +67,10 @@ class ChatbotMessageWidget extends StatelessWidget {
             Flexible(
               child: Text(
                 text,
-                style: AppStyles.styleRoboto16.copyWith(
+                style: context.text.titleLarge!.copyWith(
                   color: isUser
-                      ? AppColors.lightBackground
-                      : AppColors.lightTextPrimary,
+                      ? context.ext.colors.lightBackground
+                      : context.ext.colors.lightTextPrimary,
                 ),
               ),
             ),

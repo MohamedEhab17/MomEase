@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
 class TypingIndicatorWidget extends StatefulWidget {
   const TypingIndicatorWidget({super.key});
@@ -38,7 +39,7 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         decoration: BoxDecoration(
-          color: AppColors.primarySoft3,
+          color: context.ext.colors.primaryTint,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.r),
             topRight: Radius.circular(20.r),
@@ -49,7 +50,14 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(AppIcons.iconsLunaBlue, height: 20.h),
+            SvgPicture.asset(
+              AppIcons.iconsLunaBlue,
+              height: 20.h,
+              colorMapper: AppSvgColorMapper(
+                from: const Color(0xff7AA2C2),
+                to: context.ext.colors.primaryLight,
+              ),
+            ),
             SizedBox(width: 12.w),
             _AnimatedDot(controller: _controller, delay: 0),
             SizedBox(width: 4.w),
@@ -82,7 +90,7 @@ class _AnimatedDot extends StatelessWidget {
             width: 8.w,
             height: 8.w,
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: context.ext.colors.primary,
               shape: BoxShape.circle,
             ),
           ),

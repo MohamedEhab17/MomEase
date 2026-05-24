@@ -522,5 +522,15 @@
       "security": "Security",
       "notifications": "Notifications"
     }
+  },
+  "chatbot": {
+    "title": "Luna AI Assistant",
+    "subtitle": "Ask anything you want",
+    "welcome_first": "Hi, ",
+    "welcome_second": "Mama!",
+    "help_prompt": "What can I help you with?",
+    "input_hint": "Type your message here..",
+    "disclaimer": "AI can make mistakes. please double-check responses",
+    "error": "An error occurred. Please try again."
   }
 }

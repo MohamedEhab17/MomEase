@@ -77,7 +77,7 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
   late bool obscureText;
   TextDirection _textDirection = TextDirection.ltr;
 
-  bool _hasError = false;
+  final bool _hasError = false;
 
   @override
   void initState() {

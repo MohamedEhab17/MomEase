@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:genui/genui.dart';
+import 'package:new_mama/core/base/safe_cubit.dart';
 import '../../data/repositories/chatbot_repository.dart';
 
 part 'chatbot_state.dart';
 
 /// Cubit for managing chatbot state
 /// Handles all business logic for the chatbot feature
-class ChatbotCubit extends Cubit<ChatbotState> {
+class ChatbotCubit extends SafeCubit<ChatbotState> {
   ChatbotCubit(this._repository) : super(ChatbotInitial()) {
     _initialize();
   }
@@ -94,7 +94,9 @@ class ChatbotCubit extends Cubit<ChatbotState> {
   Future<void> close() {
     _textResponseSubscription?.cancel();
     _errorSubscription?.cancel();
-    _repository.dispose();
+    Future.microtask(() {
+      _repository.dispose();
+    });
     return super.close();
   }
 }

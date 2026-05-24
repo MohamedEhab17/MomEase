@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/utils/app_images.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
-import 'package:new_mama/feature/auth/widgets/custom_rich_text.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
+import 'package:new_mama/feature/auth/presentation/widgets/custom_rich_text.dart';
 
 class EmptyChatbotWidget extends StatelessWidget {
   const EmptyChatbotWidget({super.key});
@@ -19,21 +20,28 @@ class EmptyChatbotWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(AppImages.imagesLuna, height: 256.h),
+            SvgPicture.asset(
+              AppImages.imagesLuna,
+              height: 256.h,
+              colorMapper: AppSvgColorMapper(
+                from: const Color(0xffFF9BBC),
+                to: context.ext.colors.primaryLight,
+              ),
+            ),
             49.height,
 
             CustomRichText(
-              firstText: "Hi, ",
-              secondText: "Mama!",
-              firstTextStyle: AppStyles.styleInter32,
-              secondTextStyle: AppStyles.styleScriptMT32,
+              firstText: context.trContext('chatbot.welcome_first'),
+              secondText: context.trContext('chatbot.welcome_second'),
+              firstTextStyle: context.text.displayLarge!,
+              secondTextStyle: context.text.headlineLarge!,
             ),
             21.height,
             Text(
-              "What can I help you with?",
+              context.trContext('chatbot.help_prompt'),
               textAlign: TextAlign.center,
-              style: AppStyles.styleInter20.copyWith(
-                color: AppColors.lightTextPrimary.withAlpha(179),
+              style: context.text.headlineSmall!.copyWith(
+                color: context.ext.colors.lightTextPrimary.withAlpha(179),
               ),
             ),
           ],

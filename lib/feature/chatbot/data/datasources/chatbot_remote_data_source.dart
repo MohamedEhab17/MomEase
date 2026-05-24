@@ -85,7 +85,12 @@ class ChatbotRemoteDataSourceImpl implements ChatbotRemoteDataSource {
 
   @override
   void dispose() {
-    _uiConversation.dispose();
+    // We intentionally do not call _uiConversation.dispose() here.
+    // _uiConversation contains the conversation and isProcessing ValueNotifiers.
+    // During route transitions (e.g. popping the chatbot view), the widget tree's ValueListenableBuilders
+    // are still active and will access these notifiers.
+    // Disposing them here prematurely causes a FlutterError.
+    // Leaving them to be naturally garbage collected by Dart is completely safe and leak-free.
     _contentGenerator.dispose();
   }
 

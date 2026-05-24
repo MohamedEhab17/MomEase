@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
 class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatbotAppBar({super.key});
@@ -14,7 +15,7 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: AppColors.lightTextPrimary.withAlpha(38),
+            color: context.ext.colors.lightTextPrimary.withAlpha(38),
             blurRadius: 15,
             offset: const Offset(0, 0),
             spreadRadius: 0,
@@ -23,13 +24,13 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       child: AppBar(
-        backgroundColor: AppColors.lightBackground,
+        backgroundColor: context.ext.colors.lightBackground,
         leadingWidth: 24.w,
         scrolledUnderElevation: 0,
         elevation: 0,
         clipBehavior: Clip.none,
         title: Row(
-          mainAxisAlignment: .start,
+          mainAxisAlignment: MainAxisAlignment.start,
           spacing: 12,
           children: [
             Container(
@@ -37,12 +38,12 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
               height: 56.h,
               padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 8.h),
               decoration: BoxDecoration(
-                color: AppColors.primarySoft.withAlpha(51),
+                color: context.ext.colors.primaryLight.withAlpha(51),
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.transparent, width: 1.w),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primarySoft,
+                    color: context.ext.colors.primaryLight,
                     blurRadius: 4,
                     offset: const Offset(0, 0),
                     spreadRadius: 0,
@@ -54,15 +55,19 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
                 AppIcons.iconsLuna,
                 width: 34.w,
                 height: 34.h,
+                colorMapper: AppSvgColorMapper(
+                  from: const Color(0xffFF9BBC),
+                  to: context.ext.colors.primaryLight,
+                ),
               ),
             ),
             //icon
             Column(
-              crossAxisAlignment: .start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 4.h,
               children: [
-                Text('Luna AI Assistant', style: AppStyles.styleInter16),
-                Text('Ask anything you want', style: AppStyles.styleInter10),
+                Text(context.trContext('chatbot.title'), style: context.text.titleMedium),
+                Text(context.trContext('chatbot.subtitle'), style: context.text.bodySmall),
               ],
             ),
           ],
@@ -71,7 +76,7 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: AppColors.lightTextPrimary,
+            color: context.ext.colors.lightTextPrimary,
             size: 24.sp,
           ),
           onPressed: () => Navigator.of(context).pop(),

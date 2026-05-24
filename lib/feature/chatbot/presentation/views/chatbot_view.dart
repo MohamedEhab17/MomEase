@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genui/genui.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/chatbot/presentation/cubit/chatbot_cubit.dart';
 import 'package:new_mama/feature/chatbot/presentation/widgets/chat_input_bar.dart';
 import 'package:new_mama/feature/chatbot/presentation/widgets/chat_message_list.dart';
@@ -22,7 +21,7 @@ class ChatbotView extends StatefulWidget {
 class _ChatbotViewState extends State<ChatbotView> {
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<ChatbotCubit>();
+    final cubit = _cubit;
     final repository = cubit.repository;
 
     return BlocListener<ChatbotCubit, ChatbotState>(
@@ -32,7 +31,7 @@ class _ChatbotViewState extends State<ChatbotView> {
             SnackBar(
               content: Text(
                 state.message,
-                style: AppStyles.styleRoboto16.copyWith(color: Colors.white),
+                style: context.text.titleLarge!.copyWith(color: Colors.white),
               ),
               backgroundColor: Colors.red,
               behavior: SnackBarBehavior.floating,
@@ -44,7 +43,7 @@ class _ChatbotViewState extends State<ChatbotView> {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.lightBackground,
+        backgroundColor: context.ext.colors.lightBackground,
         resizeToAvoidBottomInset: false,
         appBar: ChatbotAppBar(),
         body: Stack(
@@ -114,6 +113,7 @@ class _ChatbotViewState extends State<ChatbotView> {
     );
   }
 
+  late final ChatbotCubit _cubit;
   late final TextEditingController _textController;
   late final ScrollController _scrollController;
   StreamSubscription<String>? _textResponseSubscription;
@@ -123,22 +123,19 @@ class _ChatbotViewState extends State<ChatbotView> {
   @override
   void initState() {
     super.initState();
-    _textController = .new();
-    _scrollController = .new();
-    // Set up listener for conversation changes to auto-scroll
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final cubit = context.read<ChatbotCubit>();
-      _conversationListener = () {
-        _scrollToBottom();
-      };
-      cubit.repository.conversation.addListener(_conversationListener!);
-    });
+    _textController = TextEditingController();
+    _scrollController = ScrollController();
+    _cubit = context.read<ChatbotCubit>();
+    _conversationListener = () {
+      _scrollToBottom();
+    };
+    _cubit.repository.conversation.addListener(_conversationListener!);
   }
 
   @override
   void dispose() {
     if (_conversationListener != null) {
-      context.read<ChatbotCubit>().repository.conversation.removeListener(
+      _cubit.repository.conversation.removeListener(
         _conversationListener!,
       );
     }
@@ -164,7 +161,7 @@ class _ChatbotViewState extends State<ChatbotView> {
   void _sendMessage() {
     final text = _textController.text.trim();
     if (text.isNotEmpty) {
-      context.read<ChatbotCubit>().sendMessage(text);
+      _cubit.sendMessage(text);
       _textController.clear();
       // Scroll immediately after sending
       _scrollToBottom();

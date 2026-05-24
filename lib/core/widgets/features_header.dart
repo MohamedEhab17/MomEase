@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
@@ -45,7 +46,7 @@ class FeaturesHeader extends StatelessWidget implements PreferredSizeWidget {
           trailingAction!
         else
           IconButton(
-            onPressed: () {},
+            onPressed: () => context.push(AppRoutesPaths.chatbot),
             icon: Container(
               padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
               decoration: BoxDecoration(

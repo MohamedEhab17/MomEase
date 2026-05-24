@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
-import 'package:new_mama/core/utils/app_styles.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 
 class ChatInputBar extends StatelessWidget {
@@ -29,7 +30,7 @@ class ChatInputBar extends StatelessWidget {
 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: .min,
+        mainAxisSize: MainAxisSize.min,
         spacing: 6,
         children: [
           TextFormFieldHelper(
@@ -37,12 +38,12 @@ class ChatInputBar extends StatelessWidget {
             enabled: !isProcessing,
             borderRadius: BorderRadius.circular(64),
             blurShadowRadius: 6,
-            fillColor: AppColors.darkTextPrimary,
-            hint: 'Type your message here..',
-            hintStyle: AppStyles.styleInter10.copyWith(
+            fillColor: context.ext.colors.darkTextPrimary,
+            hint: context.trContext('chatbot.input_hint'),
+            hintStyle: context.text.bodySmall!.copyWith(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
-              color: AppColors.lightTextDisabled,
+              color: context.ext.colors.lightTextDisabled,
             ),
             onFieldSubmitted: (_) => onSend(),
             suffixWidget: InkWell(
@@ -56,27 +57,34 @@ class ChatInputBar extends StatelessWidget {
                     ? SizedBox(
                         width: 24.w,
                         height: 24.w,
-                        child: const CircularProgressIndicator(
+                        child: CircularProgressIndicator(
                           strokeWidth: 2,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.primarySoft2,
+                            context.ext.colors.primaryExtraLight,
                           ),
                         ),
                       )
-                    : SvgPicture.asset(
-                        AppIcons.iconsSend,
-                        width: 24.w,
-                        height: 24.h,
+                    : Transform.flip(
+                        flipX: context.isAr,
+                        child: SvgPicture.asset(
+                          AppIcons.iconsSend,
+                          width: 24.w,
+                          height: 24.h,
+                          colorMapper: AppSvgColorMapper(
+                            from: const Color(0xffFFC8DD),
+                            to: context.ext.colors.primaryDark,
+                          ),
+                        ),
                       ),
               ),
             ),
           ),
           FittedBox(
             child: Text(
-              "AI can make mistakes. please double-check responses",
+              context.trContext('chatbot.disclaimer'),
               textAlign: TextAlign.center,
               maxLines: 1,
-              style: AppStyles.styleInter10,
+              style: context.text.bodySmall,
             ),
           ),
         ],
