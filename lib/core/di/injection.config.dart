@@ -107,14 +107,34 @@ import '../../feature/baby_cry/data/repository/audio_repository_impl.dart'
     as _i636;
 import '../../feature/baby_cry/presentation/view_model/cubit/sound_recording_cubit.dart'
     as _i589;
+import '../../feature/baby_track/data/datasources/feeding_remote_data_source_contract.dart'
+    as _i520;
+import '../../feature/baby_track/data/datasources/feeding_remote_data_source_impl.dart'
+    as _i316;
+import '../../feature/baby_track/data/datasources/sleep_remote_data_source_contract.dart'
+    as _i247;
+import '../../feature/baby_track/data/datasources/sleep_remote_data_source_impl.dart'
+    as _i187;
 import '../../feature/baby_track/data/datasources/vaccination_remote_data_source_contract.dart'
     as _i450;
 import '../../feature/baby_track/data/datasources/vaccination_remote_data_source_impl.dart'
     as _i3;
+import '../../feature/baby_track/data/repositories/feeding_repository_impl.dart'
+    as _i506;
+import '../../feature/baby_track/data/repositories/sleep_repository_impl.dart'
+    as _i851;
 import '../../feature/baby_track/data/repositories/vaccination_repository_impl.dart'
     as _i767;
+import '../../feature/baby_track/domain/repositories/feeding_repository.dart'
+    as _i1017;
+import '../../feature/baby_track/domain/repositories/sleep_repository.dart'
+    as _i820;
 import '../../feature/baby_track/domain/repositories/vaccination_repository.dart'
     as _i378;
+import '../../feature/baby_track/domain/usecase/add_feeding_record_usecase.dart'
+    as _i388;
+import '../../feature/baby_track/domain/usecase/add_sleep_record_usecase.dart'
+    as _i41;
 import '../../feature/baby_track/domain/usecase/get_completed_vaccinations_usecase.dart'
     as _i413;
 import '../../feature/baby_track/domain/usecase/get_overdue_vaccinations_usecase.dart'
@@ -129,6 +149,8 @@ import '../../feature/baby_track/domain/usecase/mark_vaccination_taken_usecase.d
     as _i1015;
 import '../../feature/baby_track/domain/usecase/update_vaccination_status_usecase.dart'
     as _i976;
+import '../../feature/baby_track/presentation/view_model/baby_track_cubit.dart'
+    as _i18;
 import '../../feature/baby_track/presentation/view_model/vaccinations_cubit/vaccinations_cubit.dart'
     as _i423;
 import '../../feature/children/data/datasources/children_remote_data_source.dart'
@@ -282,8 +304,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i97.CommunityLocalDataSource>(
       () => _i97.CommunityLocalDataSourceImpl(),
     );
+    gh.lazySingleton<_i247.SleepRemoteDataSourceContract>(
+      () => _i187.SleepRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i936.ProfileRemoteDataSource>(
       () => _i936.ProfileRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
+    gh.lazySingleton<_i520.FeedingRemoteDataSourceContract>(
+      () => _i316.FeedingRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
     gh.lazySingleton<_i967.NotificationLocalDataSource>(
       () => _i967.NotificationLocalDataSourceImpl(),
@@ -311,6 +339,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i244.ProfileRepository>(
       () => _i681.ProfileRepositoryImpl(gh<_i936.ProfileRemoteDataSource>()),
     );
+    gh.lazySingleton<_i820.SleepRepository>(
+      () => _i851.SleepRepositoryImpl(
+        gh<_i247.SleepRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
+      ),
+    );
     gh.lazySingleton<_i792.BiometricHelper>(
       () => _i792.BiometricHelper(gh<_i152.LocalAuthentication>()),
     );
@@ -325,6 +359,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i132.DeleteProfilePhotoUseCase>(
       () => _i132.DeleteProfilePhotoUseCase(gh<_i244.ProfileRepository>()),
+    );
+    gh.factory<_i41.AddSleepRecordUseCase>(
+      () => _i41.AddSleepRecordUseCase(gh<_i820.SleepRepository>()),
     );
     gh.lazySingleton<_i0.AudioRepository>(
       () => _i636.AudioRepositoryImpl(gh<_i96.AudioLocalDataSource>()),
@@ -431,6 +468,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i932.NetworkInfo>(),
       ),
     );
+    gh.lazySingleton<_i1017.FeedingRepository>(
+      () => _i506.FeedingRepositoryImpl(
+        gh<_i520.FeedingRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
+      ),
+    );
     gh.lazySingleton<_i1059.SkinAnalysisRepository>(
       () => _i608.SkinAnalysisRepositoryImpl(
         gh<_i393.SkinAnalysisRemoteDataSource>(),
@@ -493,6 +536,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i488.AuthRepository>(),
         gh<_i792.BiometricHelper>(),
       ),
+    );
+    gh.factory<_i388.AddFeedingRecordUseCase>(
+      () => _i388.AddFeedingRecordUseCase(gh<_i1017.FeedingRepository>()),
     );
     gh.factory<_i728.GetPostsUseCase>(
       () => _i728.GetPostsUseCase(gh<_i59.CommunityRepository>()),
@@ -642,6 +688,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i782.GetUserSkinAnalysesUseCase>(
       () =>
           _i782.GetUserSkinAnalysesUseCase(gh<_i1059.SkinAnalysisRepository>()),
+    );
+    gh.factory<_i18.BabyTrackCubit>(
+      () => _i18.BabyTrackCubit(
+        gh<_i41.AddSleepRecordUseCase>(),
+        gh<_i388.AddFeedingRecordUseCase>(),
+      ),
     );
     gh.lazySingleton<_i849.ChangePasswordUseCase>(
       () => _i849.ChangePasswordUseCase(gh<_i488.AuthRepository>()),

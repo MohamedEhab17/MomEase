@@ -13,8 +13,20 @@ class FeedingTimerState extends BabyTrackState {
 
 class FeedingSessionSaved extends BabyTrackState {}
 
+class FeedingRecordLoading extends BabyTrackState {}
+class FeedingRecordSaved extends BabyTrackState {}
+class FeedingRecordError extends BabyTrackState {
+  final String errorMessage;
+  FeedingRecordError({required this.errorMessage});
+}
+
 // ---- Sleep States ----
+class SleepRecordLoading extends BabyTrackState {}
 class SleepRecordSaved extends BabyTrackState {}
+class SleepRecordError extends BabyTrackState {
+  final String errorMessage;
+  SleepRecordError({required this.errorMessage});
+}
 
 // ---- Vaccine States ----
 class VaccineTabState extends BabyTrackState {

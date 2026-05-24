@@ -104,7 +104,8 @@
       "save_record": "Save Sleeping record",
       "fill_required": "Please fill all required fields",
       "duration_hours": "Sleep Duration (hrs)",
-      "daily_avg": "Daily Avg"
+      "daily_avg": "Daily Avg",
+      "invalid_duration": "Sleep duration cannot exceed 16 hours. Please check your start and end times."
     },
     "vaccine": {
       "title": "Vaccinations",

@@ -9,6 +9,7 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
+import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/feeding_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/sleep_tab_view.dart';
@@ -58,7 +59,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => BabyTrackCubit(),
+      create: (_) => getIt<BabyTrackCubit>(),
       child: BlocBuilder<BabyTrackCubit, BabyTrackState>(
         builder: (context, state) {
           final cubit = context.read<BabyTrackCubit>();

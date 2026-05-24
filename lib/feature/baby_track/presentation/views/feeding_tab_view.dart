@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
-import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
-import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
+import 'package:new_mama/feature/baby_track/data/models/add_feeding_record_request_model.dart';
 import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/date_picker_field.dart';
-import 'package:new_mama/feature/baby_track/presentation/widgets/duration_timer_display.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_type_chip_selector.dart';
+import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
+import 'package:new_mama/core/helper/app_toast.dart';
 
 class FeedingTabView extends StatefulWidget {
   const FeedingTabView({super.key});
@@ -25,8 +24,8 @@ class FeedingTabView extends StatefulWidget {
 
 class _FeedingTabViewState extends State<FeedingTabView> {
   FeedingType _selectedType = FeedingType.breastfeeding;
-
   DateTime? _selectedDate;
+  int _feedingTimesPerDay = 1;
   final _notesController = TextEditingController();
 
   @override
@@ -35,37 +34,50 @@ class _FeedingTabViewState extends State<FeedingTabView> {
     super.dispose();
   }
 
+  String _mapFeedingTypeToString(FeedingType type) {
+    switch (type) {
+      case FeedingType.breastfeeding:
+        return 'Breastfeeding';
+      case FeedingType.formulaFeeding:
+        return 'Formula';
+      case FeedingType.solidfood:
+        return 'SolidFood';
+    }
+  }
+
   void _save(BabyTrackCubit cubit) {
     if (_selectedDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.trContext(TK.babyFeedingSelectDate)),
-          backgroundColor: context.ext.colors.primaryDark,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+      AppToast.warning(
+        context,
+        message: context.trContext(TK.babyFeedingSelectDate),
       );
       return;
     }
-    cubit.saveFeedingSession(
-      FeedingSession(
-        id: DateTime.now().toIso8601String(),
-        type: _selectedType,
-        date: _selectedDate!,
-        durationSeconds: cubit.elapsedSeconds,
+
+    final activeChild = context.read<ActiveChildCubit>().state;
+    if (activeChild == null) {
+      AppToast.warning(
+        context,
+        message: context.trContext(TK.babyVaccineSelectChildMsg),
+      );
+      return;
+    }
+
+    if (_feedingTimesPerDay < 1 || _feedingTimesPerDay > 20) {
+      AppToast.warning(
+        context,
+        message: 'Feeding times per day must be between 1 and 20.',
+      );
+      return;
+    }
+
+    cubit.saveFeedingRecord(
+      childId: activeChild.childId,
+      request: AddFeedingRecordRequestModel(
+        feedingDate: _selectedDate!,
+        feedingTimesPerDay: _feedingTimesPerDay,
+        feedingTypeForBaby: _mapFeedingTypeToString(_selectedType),
         notes: _notesController.text,
-      ),
-    );
-    _notesController.clear();
-    setState(() => _selectedDate = null);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.trContext(TK.babyFeedingSaved)),
-        backgroundColor: context.ext.colors.greenText,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -73,119 +85,145 @@ class _FeedingTabViewState extends State<FeedingTabView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<BabyTrackCubit, BabyTrackState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is FeedingRecordSaved) {
+          _notesController.clear();
+          setState(() {
+            _selectedDate = null;
+            _feedingTimesPerDay = 1;
+            _selectedType = FeedingType.breastfeeding;
+          });
+          AppToast.success(
+            context,
+            message: context.trContext(TK.babyFeedingSaved),
+          );
+        } else if (state is FeedingRecordError) {
+          AppToast.error(
+            context,
+            message: state.errorMessage,
+          );
+        }
+      },
       builder: (context, state) {
         final cubit = context.read<BabyTrackCubit>();
-        final elapsed = state is FeedingTimerState ? state.elapsedSeconds : 0;
-        final isRunning = state is FeedingTimerState ? state.isRunning : false;
+        final isLoading = state is FeedingRecordLoading;
 
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Timer
+              // Premium Frequency Counter Card
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 14.h),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
                 decoration: BoxDecoration(
-                  color: context.ext.colors.primaryLighter.withAlpha(51),
-                  borderRadius: BorderRadius.circular(16.r),
-
+                  color: context.ext.colors.backgroundPink.withAlpha(51),
+                  borderRadius: BorderRadius.circular(24.r),
                   border: Border.all(
                     color: context.ext.colors.primaryLighter.withAlpha(77),
                   ),
                 ),
                 child: Column(
                   children: [
-                    Center(
-                      child: DurationTimerDisplay(elapsedSeconds: elapsed),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(8.r),
+                          decoration: BoxDecoration(
+                            color: context.ext.colors.backgroundPink,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.cookie_outlined,
+                            color: context.ext.colors.primaryDark,
+                            size: 20.sp,
+                          ),
+                        ),
+                        8.w.width,
+                        Text(
+                          context.trContext(TK.babyFeedingFrequency),
+                          style: context.text.titleMedium!.copyWith(
+                            color: context.ext.colors.primaryDark,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
                     20.h.height,
-                    // Start/Stop button with spinner
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        spacing: 12.w,
-                        children: [
-                          Expanded(
-                            child: CustomElevatedButton(
-                              text: isRunning
-                                  ? context.trContext(TK.babyFeedingStopSession)
-                                  : context.trContext(TK.babyFeedingStartSession),
-                              onPressed: () {
-                                if (isRunning) {
-                                  cubit.stopFeedingTimer();
-                                } else {
-                                  cubit.startFeedingTimer();
-                                }
-                              },
-                              backgroundColor: isRunning
-                                  ? context
-                                        .theme
-                                        .buttonTheme
-                                        .colorScheme!
-                                        .tertiary
-                                  : context
-                                        .theme
-                                        .buttonTheme
-                                        .colorScheme!
-                                        .primary,
-                              // minimumSize: Size(220.w, 48.h),
-                              textStyle: context.text.titleLarge!.copyWith(
-                                color: context
-                                    .theme
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .onPrimary,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              icon: isRunning
-                                  ? Icon(
-                                      Icons.stop_rounded,
-                                      color: context
-                                          .theme
-                                          .buttonTheme
-                                          .colorScheme!
-                                          .onPrimary,
-                                      size: 20.sp,
-                                    )
-                                  : Icon(
-                                      Icons.play_arrow_rounded,
-                                      color: context
-                                          .theme
-                                          .buttonTheme
-                                          .colorScheme!
-                                          .onPrimary,
-                                      size: 20.sp,
-                                    ),
-                            ),
-                          ),
-
-                          GestureDetector(
-                            onTap: () => cubit.resetFeedingTimer(),
-                            child: Container(
-                              padding: 10.allPadding,
-                              decoration: BoxDecoration(
-                                color: context.theme.cardColor,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: context.ext.colors.textDisabledLighter
-                                      .withAlpha(77),
-                                ),
-                              ),
-                              child: SvgPicture.asset(
-                                AppIcons.iconsRestart,
-                                width: 24.w,
-                                height: 24.h,
-                                colorFilter: ColorFilter.mode(
-                                  context.colors.onSurface,
-                                  BlendMode.srcIn,
-                                ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Decrement Button
+                        GestureDetector(
+                          onTap: _feedingTimesPerDay > 1
+                              ? () => setState(() => _feedingTimesPerDay--)
+                              : null,
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            width: 52.w,
+                            height: 52.h,
+                            decoration: BoxDecoration(
+                              color: _feedingTimesPerDay > 1
+                                  ? context.theme.cardColor
+                                  : context.theme.cardColor.withAlpha(100),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: _feedingTimesPerDay > 1
+                                    ? context.ext.colors.primaryDark.withAlpha(128)
+                                    : context.ext.colors.lightTextDisabled.withAlpha(50),
                               ),
                             ),
+                            child: Icon(
+                              Icons.remove_rounded,
+                              color: _feedingTimesPerDay > 1
+                                  ? context.ext.colors.primaryDark
+                                  : context.ext.colors.lightTextDisabled,
+                              size: 28.sp,
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                        40.w.width,
+                        // Large Counter Text
+                        Text(
+                          '$_feedingTimesPerDay',
+                          style: context.text.headlineLarge!.copyWith(
+                            fontSize: 48.sp,
+                            fontWeight: FontWeight.w900,
+                            color: context.ext.colors.primaryDark,
+                          ),
+                        ),
+                        40.w.width,
+                        // Increment Button
+                        GestureDetector(
+                          onTap: _feedingTimesPerDay < 20
+                              ? () => setState(() => _feedingTimesPerDay++)
+                              : null,
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            width: 52.w,
+                            height: 52.h,
+                            decoration: BoxDecoration(
+                              color: _feedingTimesPerDay < 20
+                                  ? context.theme.cardColor
+                                  : context.theme.cardColor.withAlpha(100),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: _feedingTimesPerDay < 20
+                                    ? context.ext.colors.primaryDark.withAlpha(128)
+                                    : context.ext.colors.lightTextDisabled.withAlpha(50),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.add_rounded,
+                              color: _feedingTimesPerDay < 20
+                                  ? context.ext.colors.primaryDark
+                                  : context.ext.colors.lightTextDisabled,
+                              size: 28.sp,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -193,7 +231,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
 
               28.h.height,
 
-              // Feeding Type
+              // Feeding Type Section
               Text(
                 context.trContext(TK.babyFeedingType),
                 style: context.text.titleMedium!.copyWith(
@@ -207,7 +245,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
               ),
               20.h.height,
 
-              // Feeding Date
+              // Feeding Date Section
               Text(
                 context.trContext(TK.babyFeedingDate),
                 style: context.text.titleMedium!.copyWith(
@@ -222,7 +260,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
               ),
               20.h.height,
 
-              // Notes
+              // Notes Section
               Text(
                 context.trContext(TK.commonNotes),
                 style: context.text.titleMedium!.copyWith(
@@ -244,10 +282,9 @@ class _FeedingTabViewState extends State<FeedingTabView> {
 
               // Save button
               CustomElevatedButton(
-                text: context.trContext(TK.babyFeedingSaveSession),
-                onPressed: () => _save(cubit),
+                text: isLoading ? 'Saving...' : context.trContext(TK.babyFeedingSaveSession),
+                onPressed: isLoading ? null : () => _save(cubit),
                 backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
-                // context.ext.colors.primaryDark,
                 minimumSize: Size(double.infinity, 52.h),
                 textStyle: context.text.titleLarge!.copyWith(
                   color: context.theme.buttonTheme.colorScheme!.onPrimary,

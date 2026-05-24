@@ -116,6 +116,7 @@ class TK {
   static const babySleepRequired = 'baby.sleep.fill_required';
   static const babySleepHours = 'baby.sleep.duration_hours';
   static const babySleepAvg = 'baby.sleep.daily_avg';
+  static const babySleepInvalidDuration = 'baby.sleep.invalid_duration';
 
   // Vaccine
   static const babyVaccineTitle = 'baby.vaccine.title';

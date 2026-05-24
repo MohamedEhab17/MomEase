@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
 
 class FeedingTypeChipSelector extends StatelessWidget {
@@ -24,13 +26,13 @@ class FeedingTypeChipSelector extends StatelessWidget {
         String label = '';
         switch (type) {
           case FeedingType.breastfeeding:
-            label = 'Breastfeeding';
+            label = context.trContext(TK.babyFeedingBreastfeeding);
             break;
           case FeedingType.formulaFeeding:
-            label = 'Formula Feeding';
+            label = context.trContext(TK.babyFeedingFormulaFeeding);
             break;
-          case FeedingType.mixedFeeding:
-            label = 'Mixed';
+          case FeedingType.solidfood:
+            label = context.trContext(TK.childrenSolidFood);
             break;
         }
 

@@ -203,29 +203,49 @@ class VaccinationsCubit extends SafeCubit<VaccinationsState> {
       return group.copyWith(vaccines: vaccines);
     }).toList();
 
+    final isDone = updated.status.toLowerCase() == 'done' || 
+                   updated.status.toLowerCase() == 'completed' || 
+                   updated.takenDate != null;
+
     // 2. Map upcoming list
-    final updatedUpcoming = currentState.upcomingVaccines.map((v) {
-      if (v.childVaccineId == updated.childVaccineId) {
-        return updated;
-      }
-      return v;
-    }).toList();
+    final List<VaccineEntity> updatedUpcoming;
+    if (isDone) {
+      updatedUpcoming = currentState.upcomingVaccines.where((v) => v.childVaccineId != updated.childVaccineId).toList();
+    } else {
+      updatedUpcoming = currentState.upcomingVaccines.map((v) {
+        if (v.childVaccineId == updated.childVaccineId) {
+          return updated;
+        }
+        return v;
+      }).toList();
+    }
 
     // 3. Map overdue list
-    final updatedOverdue = currentState.overdueVaccines.map((v) {
-      if (v.childVaccineId == updated.childVaccineId) {
-        return updated;
-      }
-      return v;
-    }).toList();
+    final List<VaccineEntity> updatedOverdue;
+    if (isDone) {
+      updatedOverdue = currentState.overdueVaccines.where((v) => v.childVaccineId != updated.childVaccineId).toList();
+    } else {
+      updatedOverdue = currentState.overdueVaccines.map((v) {
+        if (v.childVaccineId == updated.childVaccineId) {
+          return updated;
+        }
+        return v;
+      }).toList();
+    }
 
     // 4. Map completed list
-    final updatedCompleted = currentState.completedVaccines.map((v) {
-      if (v.childVaccineId == updated.childVaccineId) {
-        return updated;
-      }
-      return v;
-    }).toList();
+    final List<VaccineEntity> updatedCompleted;
+    if (isDone) {
+      final baseList = currentState.completedVaccines.where((v) => v.childVaccineId != updated.childVaccineId).toList();
+      updatedCompleted = [...baseList, updated];
+    } else {
+      updatedCompleted = currentState.completedVaccines.map((v) {
+        if (v.childVaccineId == updated.childVaccineId) {
+          return updated;
+        }
+        return v;
+      }).toList();
+    }
 
     return currentState.copyWith(
       vaccineGroups: updatedGroups,

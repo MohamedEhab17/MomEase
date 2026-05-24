@@ -7,10 +7,12 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
-import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
+import 'package:new_mama/feature/baby_track/data/models/add_sleep_record_request_model.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/date_picker_field.dart';
 import 'package:new_mama/core/widgets/time_picker_field.dart';
+import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
+import 'package:new_mama/core/helper/app_toast.dart';
 
 class SleepTabView extends StatefulWidget {
   const SleepTabView({super.key});
@@ -33,148 +35,186 @@ class _SleepTabViewState extends State<SleepTabView> {
 
   void _save(BabyTrackCubit cubit) {
     if (_selectedDate == null || _startTime == null || _endTime == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.trContext(TK.babySleepRequired)),
-          backgroundColor: context.ext.colors.primaryDark,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+      AppToast.warning(
+        context,
+        message: context.trContext(TK.babySleepRequired),
       );
       return;
     }
+
+    final activeChild = context.read<ActiveChildCubit>().state;
+    if (activeChild == null) {
+      AppToast.warning(
+        context,
+        message: context.trContext(TK.babyVaccineSelectChildMsg),
+      );
+      return;
+    }
+
+    // Calculate total sleep hours formatted as "HH:mm:ss"
+    int startMinutes = _startTime!.hour * 60 + _startTime!.minute;
+    int endMinutes = _endTime!.hour * 60 + _endTime!.minute;
+    int diffMinutes = endMinutes - startMinutes;
+    if (diffMinutes < 0) {
+      diffMinutes += 24 * 60; // Spanning midnight
+    }
+
+    // Enforce that duration is greater than 0 and does not exceed 16 hours.
+    // This allows natural overnight sleep (e.g. 10 PM to 6 AM = 8 hours)
+    // but flags mistakes like (Start: 4 PM, End: 2 PM = 22 hours).
+    if (diffMinutes == 0 || diffMinutes > 16 * 60) {
+      AppToast.warning(
+        context,
+        message: context.trContext(TK.babySleepInvalidDuration),
+      );
+      return;
+    }
+
+    int hours = diffMinutes ~/ 60;
+    int minutes = diffMinutes % 60;
+    String hoursStr = hours.toString().padLeft(2, '0');
+    String minutesStr = minutes.toString().padLeft(2, '0');
+    String sleepHoursTotal = '$hoursStr:$minutesStr:00';
+
     cubit.saveSleepRecord(
-      SleepSession(
-        id: DateTime.now().toIso8601String(),
-        date: _selectedDate!,
-        startTime: _startTime!,
-        endTime: _endTime!,
+      childId: activeChild.childId,
+      request: AddSleepRecordRequestModel(
+        sleepDate: _selectedDate!,
+        sleepHoursTotal: sleepHoursTotal,
         notes: _notesController.text,
-      ),
-    );
-    _notesController.clear();
-    setState(() {
-      _selectedDate = null;
-      _startTime = null;
-      _endTime = null;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.trContext(TK.babySleepSaved)),
-        backgroundColor: context.ext.colors.greenText,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<BabyTrackCubit>();
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Sleeping Date
-          Text(
-            context.trContext(TK.babySleepDate),
-            style: context.text.titleMedium!.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          8.h.height,
-          DatePickerField(
-            selectedDate: _selectedDate,
-            onDateSelected: (d) => setState(() => _selectedDate = d),
-            fillColor: context.theme.cardColor,
-          ),
-          20.h.height,
+    return BlocConsumer<BabyTrackCubit, BabyTrackState>(
+      listener: (context, state) {
+        if (state is SleepRecordSaved) {
+          _notesController.clear();
+          setState(() {
+            _selectedDate = null;
+            _startTime = null;
+            _endTime = null;
+          });
+          AppToast.success(
+            context,
+            message: context.trContext(TK.babySleepSaved),
+          );
+        } else if (state is SleepRecordError) {
+          AppToast.error(
+            context,
+            message: state.errorMessage,
+          );
+        }
+      },
+      builder: (context, state) {
+        final cubit = context.read<BabyTrackCubit>();
+        final isLoading = state is SleepRecordLoading;
 
-          // Time row
-          Row(
+        return SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      context.trContext(TK.babySleepStart),
-                      style: context.text.titleMedium!.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    8.h.height,
-                    TimePickerField(
-                      selectedTime: _startTime,
-                      hint: '7:12 am',
-                      onTimeSelected: (t) => setState(() => _startTime = t),
-                      fillColor: context.theme.cardColor,
-                    ),
-                  ],
+              // Sleeping Date
+              Text(
+                context.trContext(TK.babySleepDate),
+                style: context.text.titleMedium!.copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              16.w.width,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      context.trContext(TK.babySleepEnd),
-                      style: context.text.titleMedium!.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+              8.h.height,
+              DatePickerField(
+                selectedDate: _selectedDate,
+                onDateSelected: (d) => setState(() => _selectedDate = d),
+                fillColor: context.theme.cardColor,
+              ),
+              20.h.height,
+
+              // Time row
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.trContext(TK.babySleepStart),
+                          style: context.text.titleMedium!.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        8.h.height,
+                        TimePickerField(
+                          selectedTime: _startTime,
+                          hint: '7:12 am',
+                          onTimeSelected: (t) => setState(() => _startTime = t),
+                          fillColor: context.theme.cardColor,
+                        ),
+                      ],
                     ),
-                    8.h.height,
-                    TimePickerField(
-                      selectedTime: _endTime,
-                      hint: '10:52 am',
-                      onTimeSelected: (t) => setState(() => _endTime = t),
-                      fillColor: context.theme.cardColor,
+                  ),
+                  16.w.width,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.trContext(TK.babySleepEnd),
+                          style: context.text.titleMedium!.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        8.h.height,
+                        TimePickerField(
+                          selectedTime: _endTime,
+                          hint: '10:52 am',
+                          onTimeSelected: (t) => setState(() => _endTime = t),
+                          fillColor: context.theme.cardColor,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              20.h.height,
+
+              // Notes
+              Text(
+                context.trContext(TK.commonNotes),
+                style: context.text.titleMedium!.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              8.h.height,
+              TextFormFieldHelper(
+                controller: _notesController,
+                hint: context.trContext(TK.babySleepNotes),
+                maxLines: 10,
+                minLines: 3,
+                enableShadow: false,
+                fillColor: context.theme.cardColor,
+                borderRadius: BorderRadius.circular(16.r),
+                borderColor: context.ext.colors.primaryDark,
+              ),
+              28.h.height,
+
+              // Save button
+              CustomElevatedButton(
+                text: isLoading ? 'Saving...' : context.trContext(TK.babySleepSaveRecord),
+                onPressed: isLoading ? null : () => _save(cubit),
+                backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
+                minimumSize: Size(double.infinity, 52.h),
+                textStyle: context.text.titleMedium!.copyWith(
+                  color: context.theme.buttonTheme.colorScheme!.onPrimary,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
-          20.h.height,
-
-          // Notes
-          Text(
-            context.trContext(TK.commonNotes),
-            style: context.text.titleMedium!.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          8.h.height,
-          TextFormFieldHelper(
-            controller: _notesController,
-            hint: context.trContext(TK.babySleepNotes),
-            maxLines: 10,
-            minLines: 3,
-            enableShadow: false,
-            fillColor: context.theme.cardColor,
-            borderRadius: BorderRadius.circular(16.r),
-            borderColor: context.ext.colors.primaryDark,
-          ),
-          28.h.height,
-
-          // Save button
-          CustomElevatedButton(
-            text: context.trContext(TK.babySleepSaveRecord),
-            onPressed: () => _save(cubit),
-            backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
-
-            minimumSize: Size(double.infinity, 52.h),
-            textStyle: context.text.titleMedium!.copyWith(
-              color: context.theme.buttonTheme.colorScheme!.onPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

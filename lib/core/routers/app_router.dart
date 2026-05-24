@@ -440,7 +440,7 @@ class AppRouter {
           path: AppRoutesPaths.babyTrackView,
           name: 'babyTrackView',
           builder: (context, state) => BlocProvider(
-            create: (_) => BabyTrackCubit(),
+            create: (_) => getIt<BabyTrackCubit>(),
             child: const BabyTrackView(),
           ),
         ),
