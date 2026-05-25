@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'shared/shared_widgets.dart';
 
 final _schema = S.object(
+  description: 'An interactive card displaying a self-care reflection prompt, encouraging postpartum emotional checking and journaling responses.',
   properties: {
     'prompt': S.object(
-      description: 'Reflection prompt. Use {"literalString": "..."}',
+      description: 'The meditative self-care reflection prompt text. Must use {"literalString": "..."} format.',
     ),
     'action': S.object(
-      description:
-          'Action when user responds. Use {"name": "...", "context": [...]}',
+      description: 'The interactive event triggered when the mom initiates the reflection. Must use {"name": "...", "context": [...]} structure.',
     ),
   },
   required: ['prompt', 'action'],
@@ -26,6 +27,21 @@ extension type _ReflectionCardData.fromMap(Map<String, Object?> _json) {
 final reflectionCard = CatalogItem(
   name: 'ReflectionCard',
   dataSchema: _schema,
+  exampleData: [
+    () => '''
+      [
+        {
+          "id": "root",
+          "component": {
+            "ReflectionCard": {
+              "prompt": {"literalString": "What are three things you feel grateful for today, even if they are very small?"},
+              "action": {"name": "start_reflection_dialog", "context": []}
+            }
+          }
+        }
+      ]
+    ''',
+  ],
   widgetBuilder: (itemContext) {
     final cardData = _ReflectionCardData.fromMap(
       itemContext.data as Map<String, Object?>,
@@ -57,70 +73,111 @@ class _ReflectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.ext.colors;
     final promptNotifier = dataContext.subscribeToString(prompt);
 
-    return Container(
-      margin: EdgeInsets.all(16.w),
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.75,
-      ),
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: AppColors.primarySoft3,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.primarySoft),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return GenUIEntranceAnimation(
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.8,
+        ),
+        child: GenUICard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.self_improvement,
-                color: AppColors.primary,
-                size: 24.sp,
+              // Meditative Header
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      color: colors.primary.withAlpha(26),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.self_improvement_rounded,
+                      color: colors.primary,
+                      size: 24.sp,
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: Text(
+                      'Self-Care Reflection',
+                      style: AppStyles.styleRoboto16.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: colors.primaryDark,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(width: 8.w),
-              Text(
-                'Self-Care Reflection',
-                style: AppStyles.styleRoboto16.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+              Padding(
+                padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
+                child: const Divider(),
+              ),
+
+              // Meditative Prompt
+              ValueListenableBuilder<String?>(
+                valueListenable: promptNotifier,
+                builder: (context, promptText, child) {
+                  if (promptText == null || promptText.isEmpty) {
+                    return const GenUIEmptyState(
+                      message: 'No reflection prompt defined.',
+                      icon: Icons.chat_bubble_outline_rounded,
+                    );
+                  }
+                  return Text(
+                    promptText,
+                    style: AppStyles.styleRoboto16.copyWith(
+                      height: 1.5,
+                      color: colors.lightTextPrimary.withAlpha(220),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
+                },
+              ),
+              SizedBox(height: 16.h),
+
+              // Reflect Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => GenUIActionHelper.dispatch(
+                    context: context,
+                    action: action,
+                    widgetId: widgetId,
+                    dispatchEvent: dispatchEvent,
+                    dataContext: dataContext,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colors.primary,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    elevation: 1.5,
+                  ),
+                  icon: Icon(
+                    Icons.favorite_rounded,
+                    size: 16.sp,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    'Reflect Now',
+                    style: AppStyles.styleRoboto16.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 12.h),
-          ValueListenableBuilder<String?>(
-            valueListenable: promptNotifier,
-            builder: (_, promptText, _) =>
-                Text(promptText ?? '', style: AppStyles.styleRoboto16),
-          ),
-          SizedBox(height: 12.h),
-          ElevatedButton(
-            onPressed: () {
-              final name = action['name'] as String;
-              final List<Object?> contextDefinition =
-                  (action['context'] as List<Object?>?) ?? <Object?>[];
-              final JsonMap resolvedContext = resolveContext(
-                dataContext,
-                contextDefinition,
-              );
-              dispatchEvent(
-                UserActionEvent(
-                  name: name,
-                  sourceComponentId: widgetId,
-                  context: resolvedContext,
-                ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-            ),
-            child: Text('Reflect', style: AppStyles.styleRoboto16),
-          ),
-        ],
+        ),
       ),
     );
   }

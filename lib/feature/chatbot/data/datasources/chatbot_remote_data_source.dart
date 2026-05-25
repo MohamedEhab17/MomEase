@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:genui/genui.dart';
 import '../catalog/postpartum_catalog.dart';
-import 'throttled_content_generator.dart';
 import 'backend_content_generator.dart';
+import 'throttled_content_generator.dart';
 
 /// Handles communication with the AI service
 abstract class ChatbotRemoteDataSource {
@@ -38,7 +38,7 @@ class ChatbotRemoteDataSourceImpl implements ChatbotRemoteDataSource {
     _contentGenerator = ThrottledContentGenerator(baseGenerator);
     _uiConversation = GenUiConversation(
       a2uiMessageProcessor: A2uiMessageProcessor(
-        catalogs: [postpartumCareCatalog],
+        catalogs: [postpartumChatCatalog],
       ),
       contentGenerator: _contentGenerator,
     );

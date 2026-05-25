@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:new_mama/core/base/safe_cubit.dart';
+import 'package:new_mama/core/helpers/child_image_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:new_mama/feature/children/domain/entities/child.dart';
 import 'package:new_mama/feature/children/domain/repositories/children_repository.dart';
@@ -125,11 +126,7 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
                   ageInDays: c.ageInDays,
                   deliveryType: c.deliveryType,
                   feedingTypeForBaby: c.feedingTypeForBaby,
-                  photoUrl: photoUrl.isNotEmpty
-                      ? photoUrl.startsWith('http')
-                          ? photoUrl
-                          : 'http://momease.runasp.net$photoUrl'
-                      : c.photoUrl,
+                  photoUrl: _resolvePhotoUrl(photoUrl, fallback: c.photoUrl),
                 );
               }
               return c;
@@ -177,5 +174,12 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
   /// Restores the loaded state after a success (UI can call after showing toast).
   void restoreLoaded() {
     emit(ChildrenLoaded(_currentChildren));
+  }
+
+  /// Resolves a raw [rawUrl] (from API) into an absolute URL.
+  /// Returns [fallback] when [rawUrl] is empty or unresolvable.
+  String? _resolvePhotoUrl(String rawUrl, {String? fallback}) {
+    final resolved = ChildImageHelper.getChildImageUrl(rawUrl);
+    return resolved.isEmpty ? fallback : resolved;
   }
 }

@@ -1,12 +1,57 @@
 import 'dart:async';
+import 'dart:collection';
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:genui/genui.dart';
+
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/network/api_client.dart';
 import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
 
-/// A custom [ContentGenerator] that routes chatbot queries
-/// to the custom backend endpoint instead of calling Gemini directly.
+import '../models/chatbot_response_model.dart';
+import '../catalog/catalog_items/shared/genui_response_parser.dart';
+import '../catalog/catalog_items/shared/fallback_ui_factory.dart';
+import 'message_extractor.dart';
+
+// ─── UUID Generator ──────────────────────────────────────────────────────────
+
+/// Cryptographically-secure RFC 4122 v4 UUID generator.
+class UuidGenerator {
+  static String generateV4() {
+    final random = Random.secure();
+    final bytes = List<int>.generate(16, (_) => random.nextInt(256));
+    // Set version 4
+    bytes[6] = (bytes[6] & 0x0F) | 0x40;
+    // Set RFC 4122 variant
+    bytes[8] = (bytes[8] & 0x3F) | 0x80;
+
+    final buffer = StringBuffer();
+    for (int i = 0; i < 16; i++) {
+      if (i == 4 || i == 6 || i == 8 || i == 10) buffer.write('-');
+      buffer.write(bytes[i].toRadixString(16).padLeft(2, '0'));
+    }
+    return buffer.toString();
+  }
+}
+
+// ─── BackendContentGenerator ─────────────────────────────────────────────────
+
+/// A lightweight, strictly-typed [ContentGenerator] that routes chatbot queries
+/// to the postpartum backend.
+///
+/// ### Key guarantees
+/// - **Message Queue**: All inbound responses are enqueued and dispatched
+///   sequentially to avoid interleaved renders.
+/// - **Race condition fix**: A 40 ms gap is inserted between [SurfaceUpdate]
+///   and [BeginRendering] so the renderer has time to register the components.
+/// - **Deduplication**: A SHA-256-free, simple content hash guards against
+///   re-rendering identical payloads within a session.
+/// - **Text suppression**: The text stream is suppressed when a valid UI
+///   payload is rendered.
+/// - **Error recovery UI**: Network / parsing errors yield a graceful fallback
+///   card instead of crashing the chat.
 class BackendContentGenerator implements ContentGenerator {
   BackendContentGenerator() {
     _apiClient = getIt<ApiClient>();
@@ -16,13 +61,27 @@ class BackendContentGenerator implements ContentGenerator {
   late final ApiClient _apiClient;
   late final AuthLocalDataSource _localDataSource;
 
-  final _a2uiMessageController = StreamController<A2uiMessage>.broadcast();
+  // ── Streams ──────────────────────────────────────────────────────────────
+  final _a2uiController = StreamController<A2uiMessage>.broadcast();
   final _errorController = StreamController<ContentGeneratorError>.broadcast();
-  final _textResponseController = StreamController<String>.broadcast();
+  final _textController = StreamController<String>.broadcast();
   final _isProcessing = ValueNotifier<bool>(false);
 
+  // ── Message queue ─────────────────────────────────────────────────────────
+  /// FIFO queue of [A2uiMessage] batches waiting for emission.
+  final Queue<List<A2uiMessage>> _messageQueue = Queue();
+  bool _isDispatching = false;
+
+  // ── Deduplication ─────────────────────────────────────────────────────────
+  /// Stores lightweight hashes of already-rendered payloads.
+  final Set<int> _renderedPayloadHashes = {};
+
+  // ── Session ───────────────────────────────────────────────────────────────
+  String? _conversationId;
+
+  // ── ContentGenerator contract ─────────────────────────────────────────────
   @override
-  Stream<A2uiMessage> get a2uiMessageStream => _a2uiMessageController.stream;
+  Stream<A2uiMessage> get a2uiMessageStream => _a2uiController.stream;
 
   @override
   Stream<ContentGeneratorError> get errorStream => _errorController.stream;
@@ -31,7 +90,9 @@ class BackendContentGenerator implements ContentGenerator {
   ValueListenable<bool> get isProcessing => _isProcessing;
 
   @override
-  Stream<String> get textResponseStream => _textResponseController.stream;
+  Stream<String> get textResponseStream => _textController.stream;
+
+  // ── Public sendRequest ────────────────────────────────────────────────────
 
   @override
   Future<void> sendRequest(
@@ -42,65 +103,235 @@ class BackendContentGenerator implements ContentGenerator {
     _isProcessing.value = true;
 
     try {
-      // 1. Retrieve the currently logged in user's ID
+      // 1. User identity
       final user = await _localDataSource.getUser();
-      final userId = user?.userId ?? 51; // Default fallback to 51
+      final int userId = user?.userId ?? 51;
 
-      // 2. Extract message text content from the ChatMessage parts safely
-      String text = '';
-      final msg = message;
-      if (msg is UserMessage) {
-        text = msg.parts.whereType<TextPart>().map((part) => part.text).join('\n');
-      } else if (msg is AiTextMessage) {
-        text = msg.parts.whereType<TextPart>().map((part) => part.text).join('\n');
-      } else {
-        text = msg.toString();
+      // 2. Extract text safely
+      final String text = MessageExtractor.extract(message);
+
+      // 3. Locale detection
+      final String rawLocale = PlatformDispatcher.instance.locale.languageCode;
+      final String locale = rawLocale == 'ar' ? 'ar' : 'en';
+
+      // 4. Session management – regenerate if new conversation
+      if (history == null || history.isEmpty || _conversationId == null) {
+        _conversationId = UuidGenerator.generateV4();
+        debugPrint('[Chatbot Session] New session: $_conversationId');
       }
 
-      // 3. Make HTTP POST call to the backend chatbot endpoint
-      final response = await _apiClient.post(
-        'ChatBot/send',
-        data: {
-          'userId': userId,
-          'message': text,
-        },
+      // 5. Build minimal request payload
+      final Map<String, dynamic> payload = {
+        'userId': userId,
+        'message': text,
+        'conversationId': _conversationId,
+        'language': locale,
+      };
+
+      debugPrint(
+        '[Chatbot Network] Sending request — userId=$userId locale=$locale session=$_conversationId',
       );
 
-      if (response.statusCode == 200 && response.data != null) {
-        final body = response.data as Map<String, dynamic>;
-        final success = body['success'] == true;
-        
-        if (success && body['data'] != null) {
-          final data = body['data'] as Map<String, dynamic>;
-          final reply = data['reply'] as String;
+      // 6. Single-retry boundary
+      final dynamic response = await _fetchWithRetry(payload);
 
-          // 4. Emit the reply text. GenUiConversation automatically listens to this
-          // stream and handles parsing GenUI codeblocks or standard text.
-          _textResponseController.add(reply);
+      // 7. Parse response
+      if (response.statusCode == 200 && response.data != null) {
+        debugPrint('[Chatbot Network] Response 200 OK.');
+
+        final ChatbotResponseModel model = ChatbotResponseModel.fromJson(
+          response.data as Map<String, dynamic>,
+        );
+
+        if (model.success && model.data != null) {
+          await _processSuccessResponse(
+            model.data!,
+            locale: locale,
+            text: text,
+          );
         } else {
-          final errorMessage = body['message'] as String? ?? 'Failed to get response';
-          throw Exception(errorMessage);
+          final msg = model.message ?? 'Server failed to process request.';
+          _emitErrorRecoveryUi(msg, locale: locale);
         }
       } else {
-        throw Exception('Server responded with status code ${response.statusCode}');
+        _emitErrorRecoveryUi(
+          'Server responded with status ${response.statusCode}.',
+          locale: locale,
+        );
       }
     } catch (e, stackTrace) {
-      final error = ContentGeneratorError(
-        e.toString(),
-        stackTrace,
-      );
-      _errorController.add(error);
+      debugPrint('[Chatbot Network] Unhandled error: $e');
+      _emitErrorRecoveryUi(e.toString());
+      _errorController.add(ContentGeneratorError(e.toString(), stackTrace));
       rethrow;
     } finally {
       _isProcessing.value = false;
     }
   }
 
+  // ── Internals ─────────────────────────────────────────────────────────────
+
+  /// One-retry boundary for transient network failures.
+  Future<dynamic> _fetchWithRetry(Map<String, dynamic> payload) async {
+    try {
+      return await _apiClient.post('ChatBot/send', data: payload);
+    } catch (e) {
+      debugPrint('[Chatbot Network] Transient failure. Retrying once...');
+      try {
+        final result = await _apiClient.post('ChatBot/send', data: payload);
+        debugPrint('[Chatbot Network] Retry succeeded.');
+        return result;
+      } catch (retryError) {
+        debugPrint('[Chatbot Network] Retry failed.');
+        rethrow;
+      }
+    }
+  }
+
+  /// Processes a successful [ChatbotDataModel].
+  Future<void> _processSuccessResponse(
+    ChatbotDataModel data, {
+    required String locale,
+    required String text,
+  }) async {
+    final String replyText = data.replyText ?? '';
+    final UiPayloadModel? uiPayload = data.uiPayload;
+
+    if (uiPayload != null && uiPayload.calls.isNotEmpty) {
+      // ── Structured UI payload ─────────────────────────────────────────
+      debugPrint('[Chatbot Processing] UI payload detected.');
+
+      final int payloadHash = _hashPayload(uiPayload.calls);
+
+      if (_renderedPayloadHashes.contains(payloadHash)) {
+        debugPrint(
+          '[Chatbot Processing] Duplicate payload hash — skipping render.',
+        );
+        // Still emit text if available and we're skipping the UI render
+        if (replyText.isNotEmpty) _textController.add(replyText);
+        return;
+      }
+
+      _renderedPayloadHashes.add(payloadHash);
+
+      final List<A2uiMessage> msgs = GenUiResponseParser.parse(
+        uiPayload,
+        'chatbot',
+      );
+
+      if (msgs.isNotEmpty) {
+        // Enqueue for sequential dispatch; text is suppressed
+        _enqueue(msgs);
+        debugPrint(
+          '[Chatbot Processing] Enqueued ${msgs.length} UI messages. Text suppressed.',
+        );
+        return;
+      }
+
+      // Parser yielded nothing valid — fall through to text/fallback
+      debugPrint(
+        '[Chatbot Processing] Parser produced 0 messages. Falling back.',
+      );
+    }
+
+    if (replyText.isNotEmpty) {
+      // ── Text-only response ────────────────────────────────────────────
+      debugPrint(
+        '[Chatbot Processing] Text-only response. Creating fallback UI.',
+      );
+
+      final List<A2uiMessage> fallback = FallbackUiFactory.create(
+        text: replyText,
+        language: locale,
+        surfaceId: 'chatbot',
+      );
+
+      if (fallback.isNotEmpty) {
+        _enqueue(fallback);
+      }
+
+      _textController.add(replyText);
+    }
+  }
+
+  /// Emits an error-recovery UI (InformationCard + Trailhead) instead of crashing.
+  void _emitErrorRecoveryUi(String reason, {String locale = 'en'}) {
+    debugPrint(
+      '[Chatbot Error Recovery] Emitting recovery UI. reason="$reason"',
+    );
+    final bool isArabic = locale == 'ar';
+    final String body = isArabic
+        ? 'عذراً، حدث خطأ مؤقت. يرجى المحاولة مرة أخرى. 🙏'
+        : 'Apologies, a temporary error occurred. Please try again. 🙏';
+
+    final List<A2uiMessage> recovery = FallbackUiFactory.create(
+      text: body,
+      language: locale,
+      surfaceId: 'chatbot',
+    );
+
+    if (recovery.isNotEmpty) {
+      _enqueue(recovery);
+    }
+  }
+
+  // ── Message Queue ─────────────────────────────────────────────────────────
+
+  /// Adds a batch of messages to the queue and starts dispatch if idle.
+  void _enqueue(List<A2uiMessage> messages) {
+    _messageQueue.addLast(messages);
+    if (!_isDispatching) _dispatchNext();
+  }
+
+  /// Sequentially dispatches queued message batches with the race-condition guard.
+  Future<void> _dispatchNext() async {
+    if (_messageQueue.isEmpty) {
+      _isDispatching = false;
+      return;
+    }
+
+    _isDispatching = true;
+    final List<A2uiMessage> batch = _messageQueue.removeFirst();
+
+    for (int i = 0; i < batch.length; i++) {
+      final msg = batch[i];
+      _a2uiController.add(msg);
+      debugPrint('[Chatbot Queue] Dispatched: ${msg.runtimeType}');
+
+      // ── Race condition fix ───────────────────────────────────────────────
+      // Insert a 40 ms gap between SurfaceUpdate and BeginRendering so the
+      // GenUI renderer has time to register components before rendering starts.
+      if (msg is SurfaceUpdate &&
+          i + 1 < batch.length &&
+          batch[i + 1] is BeginRendering) {
+        await Future<void>.delayed(const Duration(milliseconds: 40));
+      }
+    }
+
+    // Process the next batch
+    _dispatchNext();
+  }
+
+  // ── Payload hashing ───────────────────────────────────────────────────────
+
+  /// Produces a lightweight collision-resistant hash for a list of UI calls.
+  int _hashPayload(List<UiCallModel> calls) {
+    final StringBuffer sb = StringBuffer();
+    for (final call in calls) {
+      sb.write(call.name);
+      sb.write(jsonEncode(call.arguments));
+    }
+    return sb.toString().hashCode;
+  }
+
+  // ── Dispose ───────────────────────────────────────────────────────────────
+
   @override
   void dispose() {
-    _a2uiMessageController.close();
+    _a2uiController.close();
     _errorController.close();
-    _textResponseController.close();
+    _textController.close();
     _isProcessing.dispose();
+    _messageQueue.clear();
   }
 }

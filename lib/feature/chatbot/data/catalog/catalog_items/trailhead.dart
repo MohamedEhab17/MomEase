@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'shared/shared_widgets.dart';
 
 final _schema = S.object(
+  description: 'Presents a list of follow-up topics as premium interactive chips. Selecting a chip automatically dispatches a prompt action with the selected topic.',
   properties: {
     'topics': S.list(
-      description:
-          'A list of topics or follow-up suggestions to display as chips.',
-      items: A2uiSchemas.stringReference(description: 'A topic to explore.'),
+      description: 'A list of follow-up suggestion strings to display as chips.',
+      items: A2uiSchemas.stringReference(description: 'A suggested prompt to explore.'),
     ),
     'action': A2uiSchemas.action(
-      description:
-          'The action when a topic is selected. The selected topic '
-          'will be added to the context with the key "topic".',
+      description: 'The tap action description. Tapped chip sends action and automatically appends "topic" to context.',
     ),
   },
   required: ['topics', 'action'],
@@ -27,11 +26,11 @@ extension type _TrailheadData.fromMap(Map<String, Object?> _json) {
     required JsonMap action,
   }) => _TrailheadData.fromMap({'topics': topics, 'action': action});
 
-  List<JsonMap> get topics => (_json['topics'] as List).cast<JsonMap>();
+  List<JsonMap> get topics =>
+      ((_json['topics'] as List?) ?? const <Object?>[]).cast<JsonMap>();
   JsonMap get action => _json['action'] as JsonMap;
 }
 
-/// Presents follow-up topics as chips. When tapped, sends a new prompt to the AI.
 final trailhead = CatalogItem(
   name: 'Trailhead',
   dataSchema: _schema,
@@ -43,11 +42,11 @@ final trailhead = CatalogItem(
           "component": {
             "Trailhead": {
               "topics": [
-                {"literalString": "Log today's feeding"},
-                {"literalString": "Check my mood"},
-                {"literalString": "Postpartum recovery tips"}
+                {"literalString": "Track Baby's Feeding"},
+                {"literalString": "Postpartum Fatigue Tips"},
+                {"literalString": "Ask a Lactation Expert"}
               ],
-              "action": {"name": "select_topic"}
+              "action": {"name": "select_topic", "context": []}
             }
           }
         }
@@ -85,61 +84,63 @@ class _Trailhead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      child: Wrap(
-        spacing: 8.w,
-        runSpacing: 8.h,
-        children: topics.map((topicRef) {
-          final ValueNotifier<String?> notifier = dataContext.subscribeToString(
-            topicRef,
-          );
+    if (topics.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
-          return ValueListenableBuilder<String?>(
-            valueListenable: notifier,
-            builder: (context, topic, child) {
-              if (topic == null) return const SizedBox.shrink();
-              return InputChip(
-                label: Text(
-                  topic,
-                  style: AppStyles.styleRoboto16.copyWith(
-                    color: AppColors.lightTextPrimary.withAlpha(179),
+    final colors = context.ext.colors;
+
+    return GenUIEntranceAnimation(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        child: Wrap(
+          spacing: 8.w,
+          runSpacing: 8.h,
+          children: topics.map((topicRef) {
+            final ValueNotifier<String?> notifier = dataContext.subscribeToString(
+              topicRef,
+            );
+
+            return ValueListenableBuilder<String?>(
+              valueListenable: notifier,
+              builder: (context, topic, child) {
+                if (topic == null || topic.isEmpty) return const SizedBox.shrink();
+                return InputChip(
+                  label: Text(
+                    topic,
+                    style: AppStyles.styleRoboto16.copyWith(
+                      color: colors.primaryDark,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                labelStyle: AppStyles.styleRoboto16.copyWith(
-                  color: AppColors.primarySoft,
-                ),
-                backgroundColor: AppColors.primarySoft,
-                selectedColor: AppColors.primarySoft2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                  side: const BorderSide(color: AppColors.primarySoft3),
-                ),
-                onPressed: () {
-                  try {
-                    final name = action['name'] as String;
-                    final List<Object?> contextDefinition =
-                        (action['context'] as List<Object?>?) ?? <Object?>[];
-                    final JsonMap resolvedContext = resolveContext(
-                      dataContext,
-                      contextDefinition,
-                    );
-                    resolvedContext['topic'] = topic;
-                    dispatchEvent(
-                      UserActionEvent(
-                        name: name,
-                        sourceComponentId: widgetId,
-                        context: resolvedContext,
-                      ),
-                    );
-                  } catch (e) {
-                    debugPrint('Error dispatching topic event: $e');
-                  }
-                },
-              );
-            },
-          );
-        }).toList(),
+                  labelStyle: AppStyles.styleRoboto16.copyWith(
+                    color: colors.primaryDark,
+                  ),
+                  backgroundColor: colors.primaryExtraLight.withAlpha(128),
+                  selectedColor: colors.primaryExtraLight,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
+                    side: BorderSide(
+                      color: colors.primary.withAlpha(64),
+                      width: 1.2.w,
+                    ),
+                  ),
+                  shadowColor: colors.primary.withAlpha(20),
+                  elevation: 1.5,
+                  pressElevation: 3.0,
+                  onPressed: () => GenUIActionHelper.dispatch(
+                    context: context,
+                    action: action,
+                    widgetId: widgetId,
+                    dispatchEvent: dispatchEvent,
+                    dataContext: dataContext,
+                    additionalContext: {'topic': topic},
+                  ),
+                );
+              },
+            );
+          }).toList(),
+        ),
       ),
     );
   }

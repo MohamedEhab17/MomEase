@@ -8,6 +8,7 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/helpers/child_image_helper.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
 import 'package:new_mama/core/widgets/full_screen_image_gallery.dart';
@@ -128,37 +129,41 @@ class _ChildDetailViewState extends State<ChildDetailView> {
                     child: currentChild,
                     onImageTap: () {
                       if (currentChild.photoUrl != null) {
-                        final url = currentChild.photoUrl!.startsWith('http')
-                            ? currentChild.photoUrl!
-                            : 'http://momease.runasp.net${currentChild.photoUrl}';
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => FullScreenImageGallery(
-                              images: [url],
-                              showDownloadButton: true,
-                            ),
-                          ),
+                        final url = ChildImageHelper.getChildImageUrl(
+                          currentChild.photoUrl,
                         );
+                        if (url.isNotEmpty) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => FullScreenImageGallery(
+                                images: [url],
+                                showDownloadButton: true,
+                              ),
+                            ),
+                          );
+                        }
                       }
                     },
                     onActionTap: () async {
                       if (currentChild.photoUrl != null) {
+                        final cubit = context.read<ChildrenCubit>();
                         final confirm = await _showDeleteAction(currentChild, true);
                         if (confirm && mounted) {
-                          context.read<ChildrenCubit>().deletePhoto(currentChild.childId);
+                          cubit.deletePhoto(currentChild.childId);
                         }
                       } else {
                         _pickAndUploadPhoto(currentChild.childId);
                       }
                     },
                     onDelete: () async {
+                      final cubit = context.read<ChildrenCubit>();
                       final confirm = await _showDeleteAction(
                         currentChild,
                         false,
                       );
                       if (confirm && mounted) {
-                        context.read<ChildrenCubit>().deleteChild(
+                        cubit.deleteChild(
                           currentChild.childId,
                         );
                       }
