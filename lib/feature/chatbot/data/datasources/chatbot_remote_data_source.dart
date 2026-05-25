@@ -1,12 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:genui/genui.dart';
-import 'package:genui_google_generative_ai/genui_google_generative_ai.dart';
 import '../catalog/postpartum_catalog.dart';
-import '../constants/chatbot_config.dart';
-import '../constants/postpartum_care_prompt.dart';
 import 'throttled_content_generator.dart';
+import 'backend_content_generator.dart';
 
-/// Remote data source for chatbot functionality
 /// Handles communication with the AI service
 abstract class ChatbotRemoteDataSource {
   /// Sends a message to the AI and returns the response
@@ -34,17 +31,10 @@ abstract class ChatbotRemoteDataSource {
   A2uiMessageProcessor get a2uiMessageProcessor;
 }
 
-/// Implementation of ChatbotRemoteDataSource using Google Generative AI
+/// Implementation of ChatbotRemoteDataSource using custom postpartum backend endpoint
 class ChatbotRemoteDataSourceImpl implements ChatbotRemoteDataSource {
-  ChatbotRemoteDataSourceImpl({String? apiKey, String? systemInstruction})
-    : _apiKey = apiKey ?? ChatbotConfig.apiKey,
-      _systemInstruction = systemInstruction ?? postpartumCareSystemPrompt {
-    final baseGenerator = GoogleGenerativeAiContentGenerator(
-      catalog: postpartumCareCatalog,
-      systemInstruction: _systemInstruction,
-      modelName: ChatbotConfig.modelName,
-      apiKey: _apiKey,
-    );
+  ChatbotRemoteDataSourceImpl({String? apiKey, String? systemInstruction}) {
+    final baseGenerator = BackendContentGenerator();
     _contentGenerator = ThrottledContentGenerator(baseGenerator);
     _uiConversation = GenUiConversation(
       a2uiMessageProcessor: A2uiMessageProcessor(
@@ -53,9 +43,6 @@ class ChatbotRemoteDataSourceImpl implements ChatbotRemoteDataSource {
       contentGenerator: _contentGenerator,
     );
   }
-
-  final String _apiKey;
-  final String _systemInstruction;
 
   late final ContentGenerator _contentGenerator;
   late final GenUiConversation _uiConversation;
@@ -85,12 +72,6 @@ class ChatbotRemoteDataSourceImpl implements ChatbotRemoteDataSource {
 
   @override
   void dispose() {
-    // We intentionally do not call _uiConversation.dispose() here.
-    // _uiConversation contains the conversation and isProcessing ValueNotifiers.
-    // During route transitions (e.g. popping the chatbot view), the widget tree's ValueListenableBuilders
-    // are still active and will access these notifiers.
-    // Disposing them here prematurely causes a FlutterError.
-    // Leaving them to be naturally garbage collected by Dart is completely safe and leak-free.
     _contentGenerator.dispose();
   }
 
