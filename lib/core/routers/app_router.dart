@@ -74,6 +74,7 @@ import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
 import 'package:new_mama/feature/skin_diagnosis/domain/entities/skin_analysis.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
+import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/baby_track_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/insights_view.dart';
 
@@ -447,7 +448,10 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.babyTrackInsightsView,
           name: 'babyTrackInsightsView',
-          builder: (context, state) => const InsightsView(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => getIt<FeedingInsightsCubit>(),
+            child: const InsightsView(),
+          ),
         ),
         ShellRoute(
           builder: (context, state, child) {

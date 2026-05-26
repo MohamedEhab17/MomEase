@@ -10,6 +10,9 @@ import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/baby_track/data/datasources/feeding_remote_data_source_contract.dart';
 import 'package:new_mama/feature/baby_track/data/models/feeding_record_model.dart';
 import 'package:new_mama/feature/baby_track/data/models/add_feeding_record_request_model.dart';
+import 'package:new_mama/feature/baby_track/data/models/weekly_feeding_records_model.dart';
+import 'package:new_mama/feature/baby_track/data/models/monthly_feeding_records_model.dart';
+import 'package:new_mama/feature/baby_track/data/models/feeding_statistics_model.dart';
 
 @LazySingleton(as: FeedingRemoteDataSourceContract)
 class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
@@ -68,6 +71,72 @@ class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
 
       if (data is Map<String, dynamic> && data['success'] == true && data['data'] != null) {
         return FeedingRecordModel.fromJson(data['data'] as Map<String, dynamic>);
+      }
+      throw ServerException(_extractErrorMessage(data));
+    } on DioException catch (e) {
+      final data = _normalizeData(e.response?.data);
+      throw ServerException(_extractErrorMessage(data ?? e.message));
+    } catch (e) {
+      if (e is ServerException) rethrow;
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<WeeklyFeedingRecordsModel> getWeeklyFeedingRecords(int childId) async {
+    try {
+      final response = await _apiClient.get(
+        Api.childFeedingRecordsWeekly(childId),
+        options: _headers,
+      );
+      final data = _normalizeData(response.data);
+
+      if (data is Map<String, dynamic> && data['success'] == true && data['data'] != null) {
+        return WeeklyFeedingRecordsModel.fromJson(data['data'] as Map<String, dynamic>);
+      }
+      throw ServerException(_extractErrorMessage(data));
+    } on DioException catch (e) {
+      final data = _normalizeData(e.response?.data);
+      throw ServerException(_extractErrorMessage(data ?? e.message));
+    } catch (e) {
+      if (e is ServerException) rethrow;
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<MonthlyFeedingRecordsModel> getMonthlyFeedingRecords(int childId) async {
+    try {
+      final response = await _apiClient.get(
+        Api.childFeedingRecordsMonthly(childId),
+        options: _headers,
+      );
+      final data = _normalizeData(response.data);
+
+      if (data is Map<String, dynamic> && data['success'] == true && data['data'] != null) {
+        return MonthlyFeedingRecordsModel.fromJson(data['data'] as Map<String, dynamic>);
+      }
+      throw ServerException(_extractErrorMessage(data));
+    } on DioException catch (e) {
+      final data = _normalizeData(e.response?.data);
+      throw ServerException(_extractErrorMessage(data ?? e.message));
+    } catch (e) {
+      if (e is ServerException) rethrow;
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<FeedingStatisticsModel> getFeedingStatistics(int childId) async {
+    try {
+      final response = await _apiClient.get(
+        Api.childFeedingRecordsStatistics(childId),
+        options: _headers,
+      );
+      final data = _normalizeData(response.data);
+
+      if (data is Map<String, dynamic> && data['success'] == true && data['data'] != null) {
+        return FeedingStatisticsModel.fromJson(data['data'] as Map<String, dynamic>);
       }
       throw ServerException(_extractErrorMessage(data));
     } on DioException catch (e) {
