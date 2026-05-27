@@ -35,7 +35,11 @@ abstract class FallbackUiFactory {
 
     return [
       SurfaceUpdate(surfaceId: surfaceId, components: components),
-      BeginRendering(surfaceId: surfaceId, root: 'root_fallback_column'),
+      BeginRendering(
+        surfaceId: surfaceId,
+        root: 'root_fallback_column',
+        catalogId: 'newmama.com:postpartum_chat_v1',
+      ),
     ];
   }
 

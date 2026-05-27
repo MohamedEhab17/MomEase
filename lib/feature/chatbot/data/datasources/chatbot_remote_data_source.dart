@@ -42,6 +42,42 @@ class ChatbotRemoteDataSourceImpl implements ChatbotRemoteDataSource {
       ),
       contentGenerator: _contentGenerator,
     );
+
+    // Bulletproof manual binding layer & hard debug tracing
+    _contentGenerator.a2uiMessageStream.listen((msg) {
+      if (msg is SurfaceUpdate) {
+        debugPrint('[GENUI FLOW] SurfaceUpdate received: ${msg.surfaceId} with ${msg.components.length} components');
+      } else if (msg is BeginRendering) {
+        debugPrint('[GENUI FLOW] BeginRendering received: ${msg.surfaceId}');
+        final String surfaceId = msg.surfaceId;
+
+        // Brief delay to allow the processor to fully handle BeginRendering first
+        Future.delayed(const Duration(milliseconds: 10), () {
+          final definition = _uiConversation.a2uiMessageProcessor
+              .getSurfaceNotifier(surfaceId)
+              .value;
+
+          if (definition != null) {
+            final conversationNotifier = _uiConversation.conversation as ValueNotifier<List<ChatMessage>>;
+            final bool alreadyExists = conversationNotifier.value.any(
+              (m) => m is AiUiMessage && m.surfaceId == surfaceId,
+            );
+
+            if (!alreadyExists) {
+              debugPrint('[GENUI FLOW] Conversation injected: surfaceId=$surfaceId, root=${definition.rootComponentId}');
+              conversationNotifier.value = [
+                ...conversationNotifier.value,
+                AiUiMessage(definition: definition, surfaceId: surfaceId),
+              ];
+            } else {
+              debugPrint('[GENUI FLOW] AiUiMessage already present in conversation list.');
+            }
+          } else {
+            debugPrint('[GENUI FLOW] WARNING: Definition is null for surfaceId=$surfaceId');
+          }
+        });
+      }
+    });
   }
 
   late final ContentGenerator _contentGenerator;

@@ -127,6 +127,18 @@ class _ChatbotViewState extends State<ChatbotView> {
     _scrollController = ScrollController();
     _cubit = context.read<ChatbotCubit>();
     _conversationListener = () {
+      final list = _cubit.repository.conversation.value;
+      debugPrint('[GENUI FLOW] Conversation updated: ${list.length} messages in total');
+      for (int idx = 0; idx < list.length; idx++) {
+        final m = list[idx];
+        if (m is AiUiMessage) {
+          debugPrint('  -> Message #$idx: AiUiMessage (surfaceId=${m.surfaceId})');
+        } else if (m is AiTextMessage) {
+          debugPrint('  -> Message #$idx: AiTextMessage (length=${m.text.length})');
+        } else if (m is UserMessage) {
+          debugPrint('  -> Message #$idx: UserMessage (length=${m.text.length})');
+        }
+      }
       _scrollToBottom();
     };
     _cubit.repository.conversation.addListener(_conversationListener!);

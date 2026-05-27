@@ -137,11 +137,19 @@ class BackendContentGenerator implements ContentGenerator {
 
       // 7. Parse response
       if (response.statusCode == 200 && response.data != null) {
-        debugPrint('[Chatbot Network] Response 200 OK.');
+        debugPrint('[GENUI FLOW] Response received');
 
-        final ChatbotResponseModel model = ChatbotResponseModel.fromJson(
-          response.data as Map<String, dynamic>,
-        );
+        ChatbotResponseModel model;
+        try {
+          model = ChatbotResponseModel.fromJson(
+            response.data as Map<String, dynamic>,
+          );
+        } catch (e, stackTrace) {
+          debugPrint('[Chatbot Network] Malformed or truncated JSON structure in response: $e');
+          debugPrint(stackTrace.toString());
+          _emitErrorRecoveryUi('Invalid response structure from server.');
+          return;
+        }
 
         if (model.success && model.data != null) {
           await _processSuccessResponse(
@@ -197,60 +205,40 @@ class BackendContentGenerator implements ContentGenerator {
     final String replyText = data.replyText ?? '';
     final UiPayloadModel? uiPayload = data.uiPayload;
 
-    if (uiPayload != null && uiPayload.calls.isNotEmpty) {
-      // ── Structured UI payload ─────────────────────────────────────────
-      debugPrint('[Chatbot Processing] UI payload detected.');
+    final bool hasUiPayload = uiPayload != null && uiPayload.calls.isNotEmpty;
+    List<A2uiMessage> msgs = [];
 
+    if (hasUiPayload) {
+      debugPrint('[Chatbot Processing] UI payload detected.');
       final int payloadHash = _hashPayload(uiPayload.calls);
 
-      if (_renderedPayloadHashes.contains(payloadHash)) {
-        debugPrint(
-          '[Chatbot Processing] Duplicate payload hash — skipping render.',
-        );
-        // Still emit text if available and we're skipping the UI render
-        if (replyText.isNotEmpty) _textController.add(replyText);
-        return;
+      if (!_renderedPayloadHashes.contains(payloadHash)) {
+        _renderedPayloadHashes.add(payloadHash);
+        msgs = GenUiResponseParser.parse(uiPayload, 'chatbot');
+      } else {
+        debugPrint('[Chatbot Processing] Duplicate payload hash — skipping render.');
       }
-
-      _renderedPayloadHashes.add(payloadHash);
-
-      final List<A2uiMessage> msgs = GenUiResponseParser.parse(
-        uiPayload,
-        'chatbot',
-      );
-
-      if (msgs.isNotEmpty) {
-        // Enqueue for sequential dispatch; text is suppressed
-        _enqueue(msgs);
-        debugPrint(
-          '[Chatbot Processing] Enqueued ${msgs.length} UI messages. Text suppressed.',
-        );
-        return;
-      }
-
-      // Parser yielded nothing valid — fall through to text/fallback
-      debugPrint(
-        '[Chatbot Processing] Parser produced 0 messages. Falling back.',
-      );
     }
 
-    if (replyText.isNotEmpty) {
-      // ── Text-only response ────────────────────────────────────────────
-      debugPrint(
-        '[Chatbot Processing] Text-only response. Creating fallback UI.',
-      );
-
-      final List<A2uiMessage> fallback = FallbackUiFactory.create(
-        text: replyText,
-        language: locale,
-        surfaceId: 'chatbot',
-      );
-
-      if (fallback.isNotEmpty) {
-        _enqueue(fallback);
+    if (msgs.isNotEmpty) {
+      // Emit UI only! Suppress any text fallbacks
+      debugPrint('[GENUI FLOW] Parsing successful');
+      debugPrint('[Chatbot Processing] Emitting GenUI payload only (Text suppressed).');
+      _enqueue(msgs);
+    } else {
+      // Emit Text only (and its fallback card if needed)
+      if (replyText.isNotEmpty) {
+        debugPrint('[Chatbot Processing] Emitting Text fallback only.');
+        final List<A2uiMessage> fallback = FallbackUiFactory.create(
+          text: replyText,
+          language: locale,
+          surfaceId: 'chatbot',
+        );
+        if (fallback.isNotEmpty) {
+          _enqueue(fallback);
+        }
+        _textController.add(replyText);
       }
-
-      _textController.add(replyText);
     }
   }
 
@@ -296,7 +284,13 @@ class BackendContentGenerator implements ContentGenerator {
     for (int i = 0; i < batch.length; i++) {
       final msg = batch[i];
       _a2uiController.add(msg);
-      debugPrint('[Chatbot Queue] Dispatched: ${msg.runtimeType}');
+      if (msg is SurfaceUpdate) {
+        debugPrint('[GENUI FLOW] SurfaceUpdate emitted with ${msg.components.length} components');
+      } else if (msg is BeginRendering) {
+        debugPrint('[GENUI FLOW] BeginRendering emitted for root "${msg.root}"');
+      } else {
+        debugPrint('[Chatbot Queue] Dispatched: ${msg.runtimeType}');
+      }
 
       // ── Race condition fix ───────────────────────────────────────────────
       // Insert a 40 ms gap between SurfaceUpdate and BeginRendering so the

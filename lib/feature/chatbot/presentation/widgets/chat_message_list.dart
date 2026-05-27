@@ -41,6 +41,7 @@ class ChatMessagesList extends StatelessWidget {
         }
 
         if (message is AiUiMessage) {
+          debugPrint('[GENUI FLOW] UI mounted for surfaceId=${message.surfaceId}');
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
             child: ConstrainedBox(

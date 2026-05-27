@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:genui/genui.dart';
 import '../../../models/chatbot_response_model.dart';
@@ -15,6 +16,19 @@ abstract class GenUiResponseParser {
   /// Returns an empty list on validation failure; never throws.
   static List<A2uiMessage> parse(UiPayloadModel uiPayload, String surfaceId) {
     final List<A2uiMessage> messages = [];
+
+    debugPrint('[GENUI] Parsing started');
+    
+    // Detailed Raw JSON encoding log as requested
+    try {
+      final List<Map<String, dynamic>> rawCalls = uiPayload.calls.map((call) => {
+        'name': call.name,
+        'arguments': call.arguments,
+      }).toList();
+      debugPrint('[GENUI RAW PAYLOAD] ${jsonEncode({'calls': rawCalls})}');
+    } catch (e) {
+      debugPrint('[GENUI RAW PAYLOAD ENCODE ERROR] $e');
+    }
 
     if (uiPayload.calls.isEmpty) {
       debugPrint('[GenUiResponseParser] UI payload has no calls — skipping.');
@@ -76,9 +90,11 @@ abstract class GenUiResponseParser {
           try {
             final component = Component.fromJson(raw);
             validComponents.add(component);
-            debugPrint('[GenUiResponseParser] Parsed component: id="$id" type="$typeName"');
-          } catch (e) {
-            debugPrint('[GenUiResponseParser] Skipped malformed component "$id" ($typeName): $e');
+            debugPrint('[GENUI COMPONENT] Parsed: $id type="$typeName"');
+          } catch (e, stackTrace) {
+            // Full stacktrace logging on component parsing failure
+            debugPrint('[GENUI COMPONENT PARSING FAILURE] Skipped component "$id" ($typeName): $e');
+            debugPrint(stackTrace.toString());
           }
         }
       } else if (name == 'beginRendering') {
@@ -86,7 +102,7 @@ abstract class GenUiResponseParser {
             (call.arguments['rootComponentId'] as String?)?.trim() ?? '';
         if (rootId.isNotEmpty) {
           rootComponentId = rootId;
-          debugPrint('[GenUiResponseParser] Root component: "$rootComponentId"');
+          debugPrint('[GENUI ROOT] $rootComponentId');
         } else {
           debugPrint('[GenUiResponseParser] beginRendering: missing rootComponentId.');
         }
@@ -101,11 +117,15 @@ abstract class GenUiResponseParser {
     }
 
     messages.add(SurfaceUpdate(surfaceId: surfaceId, components: validComponents));
-    debugPrint('[GenUiResponseParser] Created SurfaceUpdate with ${validComponents.length} components.');
+    debugPrint('[GENUI FLOW] SurfaceUpdate emitted with ${validComponents.length} components');
 
     if (rootComponentId != null) {
-      messages.add(BeginRendering(surfaceId: surfaceId, root: rootComponentId));
-      debugPrint('[GenUiResponseParser] Rendering started for root "$rootComponentId".');
+      messages.add(BeginRendering(
+        surfaceId: surfaceId,
+        root: rootComponentId,
+        catalogId: 'newmama.com:postpartum_chat_v1',
+      ));
+      debugPrint('[GENUI FLOW] BeginRendering emitted for root "$rootComponentId"');
     }
 
     return messages;
