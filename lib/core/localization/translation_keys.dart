@@ -178,6 +178,39 @@ class TK {
   static const babyFeedingSugBody =
       'baby.insights_screen.feeding_reminder_body';
 
+  static const babySleepWeekly = 'baby.insights_screen.sleep_weekly';
+  static const babySleepMonthly = 'baby.insights_screen.sleep_monthly';
+  static const babySleepPeriodOverview = 'baby.insights_screen.sleep_period_overview';
+  static const babySleepAvgSleep = 'baby.insights_screen.sleep_avg_sleep';
+  static const babySleepLoggedDays = 'baby.insights_screen.sleep_logged_days';
+  static const babySleepGoodDays = 'baby.insights_screen.sleep_good_days';
+  static const babySleepPoorDays = 'baby.insights_screen.sleep_poor_days';
+  static const babySleepDaysSuffix = 'baby.insights_screen.sleep_days_suffix';
+  static const babySleepPediatricianRef = 'baby.insights_screen.sleep_pediatrician_ref';
+  static const babySleepRecommendedRange = 'baby.insights_screen.sleep_recommended_range';
+  static const babySleepOverallAvg = 'baby.insights_screen.sleep_overall_avg';
+  static const babySleepLast7Days = 'baby.insights_screen.sleep_last_7_days';
+  static const babySleepQualityScore = 'baby.insights_screen.sleep_quality_score';
+  static const babySleepNoData = 'baby.insights_screen.sleep_no_data';
+  static const babySleepStatusGood = 'baby.insights_screen.sleep_status_good';
+  static const babySleepStatusNormal = 'baby.insights_screen.sleep_status_normal';
+  static const babySleepStatusPoor = 'baby.insights_screen.sleep_status_poor';
+  static const babySleepStatusUnknown = 'baby.insights_screen.sleep_status_unknown';
+
+  static const babyFeedingSevereUnder = 'baby.insights_screen.feeding_severe_under';
+  static const babyFeedingUnder = 'baby.insights_screen.feeding_under';
+  static const babyFeedingNormal = 'baby.insights_screen.feeding_normal';
+  static const babyFeedingOver = 'baby.insights_screen.feeding_over';
+  static const babyFeedingTimesSuffix = 'baby.insights_screen.feeding_times_suffix';
+  static const babyFeedingTimesPerDaySuffix = 'baby.insights_screen.feeding_times_per_day_suffix';
+  static const babyFeedingAbnormalDays = 'baby.insights_screen.feeding_abnormal_days';
+  static const babyFeedingNormalDays = 'baby.insights_screen.feeding_normal_days';
+  static const babyFeedingTypePrefix = 'baby.insights_screen.feeding_type_prefix';
+  static const babyFeedingMostCommon = 'baby.insights_screen.feeding_most_common';
+  static const babyFeedingLast7DaysAvg = 'baby.insights_screen.feeding_last_7_days_avg';
+  static const babyFeedingOverallAvg = 'baby.insights_screen.feeding_overall_avg';
+  static const babyFeedingAvgFeeding = 'baby.insights_screen.feeding_avg_feeding';
+
   // 🔹 Community
   static const communityTitle = 'community.title';
   static const communityCreatePost = 'community.create_post';
@@ -536,6 +569,19 @@ class TK {
   static const commonDayThu = 'common.day_labels.thu';
   static const commonDayFri = 'common.day_labels.fri';
   static const commonDaySat = 'common.day_labels.sat';
+
+  static const commonMonthJan = 'common.months.jan';
+  static const commonMonthFeb = 'common.months.feb';
+  static const commonMonthMar = 'common.months.mar';
+  static const commonMonthApr = 'common.months.apr';
+  static const commonMonthMay = 'common.months.may';
+  static const commonMonthJun = 'common.months.jun';
+  static const commonMonthJul = 'common.months.jul';
+  static const commonMonthAug = 'common.months.aug';
+  static const commonMonthSep = 'common.months.sep';
+  static const commonMonthOct = 'common.months.oct';
+  static const commonMonthNov = 'common.months.nov';
+  static const commonMonthDec = 'common.months.dec';
 
   // 🔹 Toast
   static const toastSuccess = 'common.toast.success';

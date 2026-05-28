@@ -6,9 +6,10 @@ import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
-import 'package:new_mama/feature/baby_track/data/dummy/baby_track_dummy_data.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insights_state.dart';
+import 'package:new_mama/feature/baby_track/presentation/view_model/sleep_insights_cubit.dart';
+import 'package:new_mama/feature/baby_track/presentation/view_model/sleep_insights_state.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_frequency_chart.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_section_card.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/sleep_duration_chart.dart';
@@ -30,6 +31,8 @@ class InsightsBabyActivitySection extends StatelessWidget {
           ),
         ),
         20.h.height,
+
+        // ── Feeding Frequency Chart ──
         BlocBuilder<FeedingInsightsCubit, FeedingInsightsState>(
           builder: (context, state) {
             if (state is FeedingInsightsLoading || state is FeedingInsightsInitial) {
@@ -43,21 +46,38 @@ class InsightsBabyActivitySection extends StatelessWidget {
                 ),
               );
             } else if (state is FeedingInsightsError) {
-              return _buildErrorWidget(context, state.errorMessage);
+              return _buildFeedingErrorWidget(context, state.errorMessage);
             }
             return const SizedBox.shrink();
           },
         ),
         16.h.height,
-        InsightsSectionCard(
-          child: SleepDurationChart(points: sleepDurationPoints),
+
+        // ── Sleep Duration Chart ──
+        BlocBuilder<SleepInsightsCubit, SleepInsightsState>(
+          builder: (context, state) {
+            if (state is SleepInsightsLoading || state is SleepInsightsInitial) {
+              return _buildLoadingSkeleton(context);
+            } else if (state is SleepInsightsLoaded) {
+              return InsightsSectionCard(
+                child: SleepDurationChart(
+                  weeklyRecords: state.weeklyRecords,
+                  monthlyRecords: state.monthlyRecords,
+                  statistics: state.statistics,
+                ),
+              );
+            } else if (state is SleepInsightsError) {
+              return _buildSleepErrorWidget(context, state.errorMessage);
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ],
     );
   }
 
   Widget _buildLoadingSkeleton(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = context.theme.brightness == Brightness.dark;
     final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
     final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
 
@@ -70,7 +90,7 @@ class InsightsBabyActivitySection extends StatelessWidget {
             width: double.infinity,
             height: 240.h,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.theme.cardColor,
               borderRadius: BorderRadius.circular(16.r),
             ),
           ),
@@ -79,14 +99,49 @@ class InsightsBabyActivitySection extends StatelessWidget {
     );
   }
 
-  Widget _buildErrorWidget(BuildContext context, String message) {
+  Widget _buildFeedingErrorWidget(BuildContext context, String message) {
+    return _buildErrorWidget(
+      context,
+      message,
+      onRetry: () {
+        final activeChild = context.read<ActiveChildCubit>().state;
+        if (activeChild != null) {
+          context
+              .read<FeedingInsightsCubit>()
+              .loadFeedingInsights(activeChild.childId);
+        }
+      },
+    );
+  }
+
+  Widget _buildSleepErrorWidget(BuildContext context, String message) {
+    return _buildErrorWidget(
+      context,
+      message,
+      onRetry: () {
+        final activeChild = context.read<ActiveChildCubit>().state;
+        if (activeChild != null) {
+          context
+              .read<SleepInsightsCubit>()
+              .loadSleepInsights(activeChild.childId);
+        }
+      },
+    );
+  }
+
+  Widget _buildErrorWidget(
+    BuildContext context,
+    String message, {
+    required VoidCallback onRetry,
+  }) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: context.ext.colors.severitySevereBg,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: context.ext.colors.severitySevere.withAlpha(50)),
+        border: Border.all(
+            color: context.ext.colors.severitySevere.withAlpha(50)),
       ),
       child: Column(
         children: [
@@ -112,17 +167,13 @@ class InsightsBabyActivitySection extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.r),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              padding:
+                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             ),
-            onPressed: () {
-              final activeChild = context.read<ActiveChildCubit>().state;
-              if (activeChild != null) {
-                context.read<FeedingInsightsCubit>().loadFeedingInsights(activeChild.childId);
-              }
-            },
+            onPressed: onRetry,
             icon: Icon(Icons.refresh_rounded, size: 18.sp),
             label: Text(
-              'Retry',
+              context.trContext(TK.commonRetry),
               style: context.text.bodyMedium!.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

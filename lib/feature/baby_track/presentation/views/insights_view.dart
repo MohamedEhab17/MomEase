@@ -6,24 +6,40 @@ import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
+import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insights_cubit.dart';
+import 'package:new_mama/feature/baby_track/presentation/view_model/sleep_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_baby_activity_section.dart';
-import 'package:new_mama/feature/baby_track/presentation/widgets/insights_health_section.dart';
-import 'package:new_mama/feature/baby_track/presentation/widgets/insights_helpful_suggestions_section.dart';
-import 'package:new_mama/feature/baby_track/presentation/widgets/insights_mother_wellness_section.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_stat_card.dart';
 import 'package:new_mama/feature/children/domain/entities/child.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/feature/children/presentation/widgets/premium_child_selector.dart';
 
-class InsightsView extends StatefulWidget {
+class InsightsView extends StatelessWidget {
   const InsightsView({super.key});
 
   @override
-  State<InsightsView> createState() => _InsightsViewState();
+  Widget build(BuildContext context) {
+    return BlocProvider<SleepInsightsCubit>(
+      create: (ctx) {
+        final cubit = getIt<SleepInsightsCubit>();
+        final activeChild = ctx.read<ActiveChildCubit>().state;
+        if (activeChild != null) {
+          cubit.loadSleepInsights(activeChild.childId);
+        }
+        return cubit;
+      },
+      child: _InsightsViewBody(),
+    );
+  }
 }
 
-class _InsightsViewState extends State<InsightsView> {
+class _InsightsViewBody extends StatefulWidget {
+  @override
+  State<_InsightsViewBody> createState() => _InsightsViewBodyState();
+}
+
+class _InsightsViewBodyState extends State<_InsightsViewBody> {
   @override
   void initState() {
     super.initState();
@@ -39,6 +55,7 @@ class _InsightsViewState extends State<InsightsView> {
       listener: (context, activeChild) {
         if (activeChild != null) {
           context.read<FeedingInsightsCubit>().loadFeedingInsights(activeChild.childId);
+          context.read<SleepInsightsCubit>().loadSleepInsights(activeChild.childId);
         }
       },
       child: Scaffold(
@@ -104,14 +121,14 @@ class _InsightsViewState extends State<InsightsView> {
               const InsightsBabyActivitySection(),
               24.h.height,
 
-              const InsightsHealthSection(),
+              // const InsightsHealthSection(),
+              // 24.h.height,
+
+              // const InsightsMotherWellnessSection(),
               24.h.height,
 
-              const InsightsMotherWellnessSection(),
-              24.h.height,
-
-              const InsightsHelpfulSuggestionsSection(),
-              20.h.height,
+              // const InsightsHelpfulSuggestionsSection(),
+              // 20.h.height,
             ],
           ),
         ),

@@ -141,8 +141,12 @@ import '../../feature/baby_track/domain/usecase/get_feeding_statistics_usecase.d
     as _i167;
 import '../../feature/baby_track/domain/usecase/get_monthly_feeding_records_usecase.dart'
     as _i223;
+import '../../feature/baby_track/domain/usecase/get_monthly_sleep_records_usecase.dart'
+    as _i705;
 import '../../feature/baby_track/domain/usecase/get_overdue_vaccinations_usecase.dart'
     as _i227;
+import '../../feature/baby_track/domain/usecase/get_sleep_statistics_usecase.dart'
+    as _i32;
 import '../../feature/baby_track/domain/usecase/get_upcoming_vaccinations_usecase.dart'
     as _i120;
 import '../../feature/baby_track/domain/usecase/get_vaccination_details_usecase.dart'
@@ -151,6 +155,8 @@ import '../../feature/baby_track/domain/usecase/get_vaccinations_usecase.dart'
     as _i1023;
 import '../../feature/baby_track/domain/usecase/get_weekly_feeding_records_usecase.dart'
     as _i1059;
+import '../../feature/baby_track/domain/usecase/get_weekly_sleep_records_usecase.dart'
+    as _i829;
 import '../../feature/baby_track/domain/usecase/mark_vaccination_taken_usecase.dart'
     as _i1015;
 import '../../feature/baby_track/domain/usecase/update_vaccination_status_usecase.dart'
@@ -159,6 +165,8 @@ import '../../feature/baby_track/presentation/view_model/baby_track_cubit.dart'
     as _i18;
 import '../../feature/baby_track/presentation/view_model/feeding_insights_cubit.dart'
     as _i66;
+import '../../feature/baby_track/presentation/view_model/sleep_insights_cubit.dart'
+    as _i47;
 import '../../feature/baby_track/presentation/view_model/vaccinations_cubit/vaccinations_cubit.dart'
     as _i423;
 import '../../feature/children/data/datasources/children_remote_data_source.dart'
@@ -371,6 +379,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i41.AddSleepRecordUseCase>(
       () => _i41.AddSleepRecordUseCase(gh<_i820.SleepRepository>()),
     );
+    gh.factory<_i705.GetMonthlySleepRecordsUseCase>(
+      () => _i705.GetMonthlySleepRecordsUseCase(gh<_i820.SleepRepository>()),
+    );
+    gh.factory<_i32.GetSleepStatisticsUseCase>(
+      () => _i32.GetSleepStatisticsUseCase(gh<_i820.SleepRepository>()),
+    );
+    gh.factory<_i829.GetWeeklySleepRecordsUseCase>(
+      () => _i829.GetWeeklySleepRecordsUseCase(gh<_i820.SleepRepository>()),
+    );
     gh.lazySingleton<_i0.AudioRepository>(
       () => _i636.AudioRepositoryImpl(gh<_i96.AudioLocalDataSource>()),
     );
@@ -379,6 +396,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i589.SoundRecordingCubit>(
       () => _i589.SoundRecordingCubit(gh<_i0.AudioRepository>()),
+    );
+    gh.factory<_i47.SleepInsightsCubit>(
+      () => _i47.SleepInsightsCubit(
+        gh<_i829.GetWeeklySleepRecordsUseCase>(),
+        gh<_i705.GetMonthlySleepRecordsUseCase>(),
+        gh<_i32.GetSleepStatisticsUseCase>(),
+      ),
     );
     gh.lazySingleton<_i108.CommunityRemoteDataSource>(
       () => _i108.CommunityRemoteDataSourceImpl(gh<_i557.ApiClient>()),

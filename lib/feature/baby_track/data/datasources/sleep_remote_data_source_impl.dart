@@ -10,6 +10,9 @@ import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/baby_track/data/datasources/sleep_remote_data_source_contract.dart';
 import 'package:new_mama/feature/baby_track/data/models/sleep_record_model.dart';
 import 'package:new_mama/feature/baby_track/data/models/add_sleep_record_request_model.dart';
+import 'package:new_mama/feature/baby_track/data/models/weekly_sleep_records_model.dart';
+import 'package:new_mama/feature/baby_track/data/models/monthly_sleep_records_model.dart';
+import 'package:new_mama/feature/baby_track/data/models/sleep_statistics_model.dart';
 
 @LazySingleton(as: SleepRemoteDataSourceContract)
 class SleepRemoteDataSourceImpl implements SleepRemoteDataSourceContract {
@@ -32,7 +35,9 @@ class SleepRemoteDataSourceImpl implements SleepRemoteDataSourceContract {
 
   String _extractErrorMessage(dynamic data) {
     if (data is Map) {
-      if (data.containsKey('message') && data['message'] != null && data['message'].toString().isNotEmpty) {
+      if (data.containsKey('message') &&
+          data['message'] != null &&
+          data['message'].toString().isNotEmpty) {
         return data['message'].toString();
       }
       if (data.containsKey('errors')) {
@@ -66,8 +71,85 @@ class SleepRemoteDataSourceImpl implements SleepRemoteDataSourceContract {
       );
       final data = _normalizeData(response.data);
 
-      if (data is Map<String, dynamic> && data['success'] == true && data['data'] != null) {
+      if (data is Map<String, dynamic> &&
+          data['success'] == true &&
+          data['data'] != null) {
         return SleepRecordModel.fromJson(data['data'] as Map<String, dynamic>);
+      }
+      throw ServerException(_extractErrorMessage(data));
+    } on DioException catch (e) {
+      final data = _normalizeData(e.response?.data);
+      throw ServerException(_extractErrorMessage(data ?? e.message));
+    } catch (e) {
+      if (e is ServerException) rethrow;
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<WeeklySleepRecordsModel> getWeeklySleepRecords(int childId) async {
+    try {
+      final response = await _apiClient.get(
+        Api.childSleepRecordsWeekly(childId),
+        options: _headers,
+      );
+      final data = _normalizeData(response.data);
+
+      if (data is Map<String, dynamic> &&
+          data['success'] == true &&
+          data['data'] != null) {
+        return WeeklySleepRecordsModel.fromJson(
+            data['data'] as Map<String, dynamic>);
+      }
+      throw ServerException(_extractErrorMessage(data));
+    } on DioException catch (e) {
+      final data = _normalizeData(e.response?.data);
+      throw ServerException(_extractErrorMessage(data ?? e.message));
+    } catch (e) {
+      if (e is ServerException) rethrow;
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<MonthlySleepRecordsModel> getMonthlySleepRecords(int childId) async {
+    try {
+      final response = await _apiClient.get(
+        Api.childSleepRecordsMonthly(childId),
+        options: _headers,
+      );
+      final data = _normalizeData(response.data);
+
+      if (data is Map<String, dynamic> &&
+          data['success'] == true &&
+          data['data'] != null) {
+        return MonthlySleepRecordsModel.fromJson(
+            data['data'] as Map<String, dynamic>);
+      }
+      throw ServerException(_extractErrorMessage(data));
+    } on DioException catch (e) {
+      final data = _normalizeData(e.response?.data);
+      throw ServerException(_extractErrorMessage(data ?? e.message));
+    } catch (e) {
+      if (e is ServerException) rethrow;
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<SleepStatisticsModel> getSleepStatistics(int childId) async {
+    try {
+      final response = await _apiClient.get(
+        Api.childSleepRecordsStatistics(childId),
+        options: _headers,
+      );
+      final data = _normalizeData(response.data);
+
+      if (data is Map<String, dynamic> &&
+          data['success'] == true &&
+          data['data'] != null) {
+        return SleepStatisticsModel.fromJson(
+            data['data'] as Map<String, dynamic>);
       }
       throw ServerException(_extractErrorMessage(data));
     } on DioException catch (e) {

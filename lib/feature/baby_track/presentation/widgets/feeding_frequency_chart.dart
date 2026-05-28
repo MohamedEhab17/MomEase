@@ -67,8 +67,9 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
   }
 
   List<ChartItem> _getChartItems() {
-    final dailyRecords =
-        _isWeekly ? widget.weeklyRecords.dailyRecords : widget.monthlyRecords.dailyRecords;
+    final dailyRecords = _isWeekly
+        ? widget.weeklyRecords.dailyRecords
+        : widget.monthlyRecords.dailyRecords;
 
     return dailyRecords.map((record) {
       int times = 0;
@@ -89,8 +90,21 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
   }
 
   String _getMonthName(int month) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return months[month - 1];
+    final keys = [
+      TK.commonMonthJan,
+      TK.commonMonthFeb,
+      TK.commonMonthMar,
+      TK.commonMonthApr,
+      TK.commonMonthMay,
+      TK.commonMonthJun,
+      TK.commonMonthJul,
+      TK.commonMonthAug,
+      TK.commonMonthSep,
+      TK.commonMonthOct,
+      TK.commonMonthNov,
+      TK.commonMonthDec,
+    ];
+    return context.trContext(keys[month - 1]);
   }
 
   Color _getStatusColor(String status) {
@@ -124,13 +138,13 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
   String _formatStatusLabel(String status) {
     switch (status.toLowerCase()) {
       case 'severeunder':
-        return 'Severe Under';
+        return context.trContext(TK.babyFeedingSevereUnder);
       case 'under':
-        return 'Underfeeding';
+        return context.trContext(TK.babyFeedingUnder);
       case 'normal':
-        return 'Normal';
+        return context.trContext(TK.babyFeedingNormal);
       case 'over':
-        return 'Overfeeding';
+        return context.trContext(TK.babyFeedingOver);
       default:
         return status;
     }
@@ -179,26 +193,34 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
               ),
               child: Row(
                 children: [
-                  _buildToggleTab(label: 'Weekly', isActive: _isWeekly, onTap: () {
-                    if (!_isWeekly) {
-                      setState(() {
-                        _isWeekly = true;
-                        _selectedIndex = -1;
-                        _animationController.reset();
-                        _animationController.forward();
-                      });
-                    }
-                  }),
-                  _buildToggleTab(label: 'Monthly', isActive: !_isWeekly, onTap: () {
-                    if (_isWeekly) {
-                      setState(() {
-                        _isWeekly = false;
-                        _selectedIndex = -1;
-                        _animationController.reset();
-                        _animationController.forward();
-                      });
-                    }
-                  }),
+                  _buildToggleTab(
+                    label: context.trContext(TK.babySleepWeekly),
+                    isActive: _isWeekly,
+                    onTap: () {
+                      if (!_isWeekly) {
+                        setState(() {
+                          _isWeekly = true;
+                          _selectedIndex = -1;
+                          _animationController.reset();
+                          _animationController.forward();
+                        });
+                      }
+                    },
+                  ),
+                  _buildToggleTab(
+                    label: context.trContext(TK.babySleepMonthly),
+                    isActive: !_isWeekly,
+                    onTap: () {
+                      if (_isWeekly) {
+                        setState(() {
+                          _isWeekly = false;
+                          _selectedIndex = -1;
+                          _animationController.reset();
+                          _animationController.forward();
+                        });
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
@@ -223,7 +245,9 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                       final int index = (localX / barSpacing).floor();
                       if (index >= 0 && index < items.length) {
                         setState(() {
-                          _selectedIndex = (_selectedIndex == index) ? -1 : index;
+                          _selectedIndex = (_selectedIndex == index)
+                              ? -1
+                              : index;
                         });
                       }
                     }
@@ -250,7 +274,8 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                 if (_selectedIndex != -1 && _selectedIndex < items.length) ...[
                   (() {
                     final selectedItem = items[_selectedIndex];
-                    final double barCenterX = 25 + (_selectedIndex * barSpacing) + (barSpacing / 2);
+                    final double barCenterX =
+                        25 + (_selectedIndex * barSpacing) + (barSpacing / 2);
                     final double tooltipWidth = 145.w;
                     double left = barCenterX - (tooltipWidth / 2);
                     if (left < 0) left = 4;
@@ -269,12 +294,17 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                         ),
                         child: Container(
                           width: tooltipWidth,
-                          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 8.h,
+                          ),
                           decoration: BoxDecoration(
                             color: context.theme.cardColor,
                             borderRadius: BorderRadius.circular(12.r),
                             border: Border.all(
-                              color: colors.primaryLighter.withValues(alpha: 100),
+                              color: colors.primaryLighter.withValues(
+                                alpha: 100,
+                              ),
                               width: 1,
                             ),
                           ),
@@ -291,10 +321,16 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                               ),
                               4.h.height,
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '${selectedItem.timesPerDay} times',
+                                    context.trContext(
+                                      TK.babyFeedingTimesSuffix,
+                                      namedArgs: {
+                                        'count': '${selectedItem.timesPerDay}',
+                                      },
+                                    ),
                                     style: context.text.titleSmall!.copyWith(
                                       fontWeight: FontWeight.w800,
                                       color: colors.primaryDark,
@@ -302,17 +338,26 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                                   ),
                                   if (selectedItem.timesPerDay > 0)
                                     Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 5.w,
+                                        vertical: 2.h,
+                                      ),
                                       decoration: BoxDecoration(
-                                        color: _getStatusBgColor(selectedItem.status),
-                                        borderRadius: BorderRadius.circular(6.r),
+                                        color: _getStatusBgColor(
+                                          selectedItem.status,
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          6.r,
+                                        ),
                                       ),
                                       child: Text(
                                         _formatStatusLabel(selectedItem.status),
                                         style: context.text.bodySmall!.copyWith(
                                           fontSize: 9.sp,
                                           fontWeight: FontWeight.w700,
-                                          color: _getStatusColor(selectedItem.status),
+                                          color: _getStatusColor(
+                                            selectedItem.status,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -321,7 +366,12 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                               if (selectedItem.timesPerDay > 0) ...[
                                 4.h.height,
                                 Text(
-                                  'Type: ${selectedItem.primaryFeedingType}',
+                                  context.trContext(
+                                    TK.babyFeedingTypePrefix,
+                                    namedArgs: {
+                                      'type': selectedItem.primaryFeedingType,
+                                    },
+                                  ),
                                   style: context.text.bodySmall!.copyWith(
                                     fontSize: 10.sp,
                                     color: colors.lightTextPrimary,
@@ -349,8 +399,18 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: _isWeekly
                 ? items.map((item) {
-                    final List<String> weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                    final label = weekdays[item.date.weekday - 1];
+                    final weekdayKeys = [
+                      TK.commonDayMon,
+                      TK.commonDayTue,
+                      TK.commonDayWed,
+                      TK.commonDayThu,
+                      TK.commonDayFri,
+                      TK.commonDaySat,
+                      TK.commonDaySun,
+                    ];
+                    final label = context.trContext(
+                      weekdayKeys[item.date.weekday - 1],
+                    );
                     return Expanded(
                       child: Center(
                         child: Text(
@@ -397,7 +457,7 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Period Overview',
+                context.trContext(TK.babySleepPeriodOverview),
                 style: context.text.titleSmall!.copyWith(
                   fontWeight: FontWeight.w700,
                   color: colors.lightTextPrimary,
@@ -409,20 +469,46 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                   Expanded(
                     child: _buildMetricItem(
                       icon: Icons.date_range_rounded,
-                      label: 'Average Frequency',
+                      label: context.trContext(TK.babyFeedingAvgFeeding),
                       value: _isWeekly
-                          ? '${widget.weeklyRecords.weeklyAverage.toStringAsFixed(1)} /day'
-                          : '${widget.monthlyRecords.monthlyAverageTimesPerDay.toStringAsFixed(1)} /day',
+                          ? context.trContext(
+                              TK.babyFeedingTimesPerDaySuffix,
+                              namedArgs: {
+                                'count': widget.weeklyRecords.weeklyAverage
+                                    .toStringAsFixed(1),
+                              },
+                            )
+                          : context.trContext(
+                              TK.babyFeedingTimesPerDaySuffix,
+                              namedArgs: {
+                                'count': widget
+                                    .monthlyRecords
+                                    .monthlyAverageTimesPerDay
+                                    .toStringAsFixed(1),
+                              },
+                            ),
                       color: colors.primaryDark,
                     ),
                   ),
                   Expanded(
                     child: _buildMetricItem(
                       icon: Icons.equalizer_rounded,
-                      label: _isWeekly ? 'Logged Feedings' : 'Logged Days',
+                      label: context.trContext(TK.babySleepLoggedDays),
                       value: _isWeekly
-                          ? '${items.where((i) => i.timesPerDay > 0).length} days'
-                          : '${widget.monthlyRecords.totalRecords} days',
+                          ? context.trContext(
+                              TK.babySleepDaysSuffix,
+                              namedArgs: {
+                                'count':
+                                    '${items.where((i) => i.timesPerDay > 0).length}',
+                              },
+                            )
+                          : context.trContext(
+                              TK.babySleepDaysSuffix,
+                              namedArgs: {
+                                'count':
+                                    '${widget.monthlyRecords.totalRecords}',
+                              },
+                            ),
                       color: colors.primaryAccent,
                     ),
                   ),
@@ -430,23 +516,36 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
               ),
               if (!_isWeekly) ...[
                 12.h.height,
-                const Divider(height: 1, color: Colors.grey),
+                Divider(
+                  height: 1,
+                  color: colors.primaryLighter.withValues(alpha: 60),
+                ),
                 12.h.height,
                 Row(
                   children: [
                     Expanded(
                       child: _buildMetricItem(
                         icon: Icons.check_circle_outline_rounded,
-                        label: 'Normal Days',
-                        value: '${widget.monthlyRecords.normalDays} days',
+                        label: context.trContext(TK.babyFeedingNormalDays),
+                        value: context.trContext(
+                          TK.babySleepDaysSuffix,
+                          namedArgs: {
+                            'count': '${widget.monthlyRecords.normalDays}',
+                          },
+                        ),
                         color: colors.greenText,
                       ),
                     ),
                     Expanded(
                       child: _buildMetricItem(
                         icon: Icons.warning_amber_rounded,
-                        label: 'Abnormal Days',
-                        value: '${widget.monthlyRecords.abnormalDays} days',
+                        label: context.trContext(TK.babyFeedingAbnormalDays),
+                        value: context.trContext(
+                          TK.babySleepDaysSuffix,
+                          namedArgs: {
+                            'count': '${widget.monthlyRecords.abnormalDays}',
+                          },
+                        ),
                         color: colors.severityHigh,
                       ),
                     ),
@@ -466,7 +565,9 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
             color: _getStatusBgColor(widget.statistics.currentFeedingStatus),
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
-              color: _getStatusColor(widget.statistics.currentFeedingStatus).withValues(alpha: 40),
+              color: _getStatusColor(
+                widget.statistics.currentFeedingStatus,
+              ).withValues(alpha: 40),
               width: 1,
             ),
           ),
@@ -480,27 +581,38 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                     children: [
                       Icon(
                         Icons.health_and_safety_rounded,
-                        color: _getStatusColor(widget.statistics.currentFeedingStatus),
+                        color: _getStatusColor(
+                          widget.statistics.currentFeedingStatus,
+                        ),
                         size: 20.sp,
                       ),
                       8.width,
                       Text(
-                        'Pediatrician Reference',
+                        context.trContext(TK.babySleepPediatricianRef),
                         style: context.text.titleSmall!.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: _getStatusColor(widget.statistics.currentFeedingStatus),
+                          color: _getStatusColor(
+                            widget.statistics.currentFeedingStatus,
+                          ),
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 4.h,
+                    ),
                     decoration: BoxDecoration(
-                      color: _getStatusColor(widget.statistics.currentFeedingStatus),
+                      color: _getStatusColor(
+                        widget.statistics.currentFeedingStatus,
+                      ),
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Text(
-                      _formatStatusLabel(widget.statistics.currentFeedingStatus).toUpperCase(),
+                      _formatStatusLabel(
+                        widget.statistics.currentFeedingStatus,
+                      ).toUpperCase(),
                       style: context.text.bodySmall!.copyWith(
                         fontSize: 9.sp,
                         fontWeight: FontWeight.w800,
@@ -515,13 +627,14 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildStatLabel(
-                    label: 'Recommended Range',
+                    label: context.trContext(TK.babySleepRecommendedRange),
                     value:
                         '${widget.statistics.comparisonWithReference.recommendedMin} - ${widget.statistics.comparisonWithReference.recommendedMax} times/day',
                   ),
                   _buildStatLabel(
-                    label: 'Overall Average',
-                    value: '${widget.statistics.averageTimesPerDay.toStringAsFixed(1)} times/day',
+                    label: context.trContext(TK.babyFeedingOverallAvg),
+                    value:
+                        '${widget.statistics.averageTimesPerDay.toStringAsFixed(1)} times/day',
                   ),
                 ],
               ),
@@ -530,16 +643,21 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildStatLabel(
-                    label: 'Most Common Feeding',
+                    label: context.trContext(TK.babyFeedingMostCommon),
                     value: widget.statistics.mostCommonFeedingType,
                   ),
                   _buildStatLabel(
-                    label: 'Last 7 Days Avg',
-                    value: '${widget.statistics.last7DaysAverage.toStringAsFixed(1)} times/day',
+                    label: context.trContext(TK.babyFeedingLast7DaysAvg),
+                    value:
+                        '${widget.statistics.last7DaysAverage.toStringAsFixed(1)} times/day',
                   ),
                 ],
               ),
-              if (widget.statistics.comparisonWithReference.message.isNotEmpty) ...[
+              if (widget
+                  .statistics
+                  .comparisonWithReference
+                  .message
+                  .isNotEmpty) ...[
                 12.h.height,
                 Container(
                   padding: EdgeInsets.all(10.w),
@@ -591,7 +709,7 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                     color: Colors.black.withValues(alpha: 8),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
-                  )
+                  ),
                 ]
               : null,
         ),
@@ -691,7 +809,10 @@ class _BarChartPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (items.isEmpty) return;
 
-    final maxVal = items.fold<int>(0, (max, item) => item.timesPerDay > max ? item.timesPerDay : max);
+    final maxVal = items.fold<int>(
+      0,
+      (max, item) => item.timesPerDay > max ? item.timesPerDay : max,
+    );
     final double scaleMax = maxVal < 8 ? 8.0 : maxVal.toDouble();
 
     // Draw background horizontal lines
@@ -700,11 +821,10 @@ class _BarChartPainter extends CustomPainter {
       ..strokeWidth = 0.5
       ..style = PaintingStyle.stroke;
 
-    final textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-    );
+    final textPainter = TextPainter(textDirection: TextDirection.ltr);
 
-    final double chartHeight = size.height - 20; // reserve space for bottom labels
+    final double chartHeight =
+        size.height - 20; // reserve space for bottom labels
     final double step = scaleMax / 4;
     for (int i = 0; i <= 4; i++) {
       final double val = step * i;
@@ -728,7 +848,9 @@ class _BarChartPainter extends CustomPainter {
     final double chartWidth = size.width - 25;
     final int count = items.length;
     final double barSpacing = chartWidth / count;
-    final double barWidth = count > 10 ? (barSpacing * 0.6) : (barSpacing * 0.4);
+    final double barWidth = count > 10
+        ? (barSpacing * 0.6)
+        : (barSpacing * 0.4);
 
     for (int i = 0; i < count; i++) {
       final item = items[i];
@@ -747,7 +869,10 @@ class _BarChartPainter extends CustomPainter {
           ..shader = LinearGradient(
             colors: isSelected
                 ? [primaryDark, primaryDark.withValues(alpha: 150)]
-                : [primaryAccent.withValues(alpha: 160), primaryAccent.withValues(alpha: 80)],
+                : [
+                    primaryAccent.withValues(alpha: 160),
+                    primaryAccent.withValues(alpha: 80),
+                  ],
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
           ).createShader(Rect.fromLTWH(x, y, barWidth, barHeight))

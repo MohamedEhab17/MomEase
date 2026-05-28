@@ -6,6 +6,9 @@ import 'package:new_mama/core/network/network_info.dart';
 import 'package:new_mama/feature/baby_track/data/datasources/sleep_remote_data_source_contract.dart';
 import 'package:new_mama/feature/baby_track/data/models/add_sleep_record_request_model.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/sleep_record_entity.dart';
+import 'package:new_mama/feature/baby_track/domain/entities/weekly_sleep_records_entity.dart';
+import 'package:new_mama/feature/baby_track/domain/entities/monthly_sleep_records_entity.dart';
+import 'package:new_mama/feature/baby_track/domain/entities/sleep_statistics_entity.dart';
 import 'package:new_mama/feature/baby_track/domain/repositories/sleep_repository.dart';
 
 @LazySingleton(as: SleepRepository)
@@ -27,6 +30,51 @@ class SleepRepositoryImpl implements SleepRepository {
       try {
         final model = await _remoteDataSource.addSleepRecord(childId, request);
         return Right(model.toEntity());
+      } catch (e) {
+        return Left(ErrorHandler.handle(e));
+      }
+    } else {
+      return const Left(ServerFailure('No internet connection.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, WeeklySleepRecordsEntity>> getWeeklySleepRecords(
+      int childId) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final model = await _remoteDataSource.getWeeklySleepRecords(childId);
+        return Right(model);
+      } catch (e) {
+        return Left(ErrorHandler.handle(e));
+      }
+    } else {
+      return const Left(ServerFailure('No internet connection.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MonthlySleepRecordsEntity>> getMonthlySleepRecords(
+      int childId) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final model = await _remoteDataSource.getMonthlySleepRecords(childId);
+        return Right(model);
+      } catch (e) {
+        return Left(ErrorHandler.handle(e));
+      }
+    } else {
+      return const Left(ServerFailure('No internet connection.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SleepStatisticsEntity>> getSleepStatistics(
+      int childId) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final model = await _remoteDataSource.getSleepStatistics(childId);
+        return Right(model);
       } catch (e) {
         return Left(ErrorHandler.handle(e));
       }
