@@ -18,7 +18,7 @@ import 'package:new_mama/feature/children/presentation/widgets/detail_components
 import 'package:new_mama/feature/children/presentation/widgets/detail_components/child_info_grid.dart';
 import 'package:new_mama/feature/children/presentation/widgets/children_ui_components.dart';
 import 'package:new_mama/feature/children/presentation/widgets/premium_child_components.dart';
-import 'package:new_mama/feature/children/presentation/widgets/detail_components/delete_confirmation_dialog.dart';
+import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
 
 class ChildDetailView extends StatefulWidget {
   final Child child;

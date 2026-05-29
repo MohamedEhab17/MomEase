@@ -171,6 +171,7 @@ class TK {
   static const communitySavedPosts = 'community.saved_posts';
   static const communityNoSavedPosts = 'community.no_saved_posts';
   static const communityAddPhotos = 'community.add_photos';
+  static const communityGallery = 'community.gallery';
   static const communityAddMore = 'community.add_more';
   static const communityLinkCopied = 'community.link_copied';
   static const communityShareSoon = 'community.share_soon';
@@ -183,6 +184,8 @@ class TK {
   static const communityCopyLink = 'community.copy_link';
   static const communityReportPost = 'community.report_post';
   static const communityRemovePost = 'community.remove_post';
+  static const communityDeletePostTitle = 'community.delete_post_title';
+  static const communityDeletePostContent = 'community.delete_post_content';
   static const communityShare = 'community.share';
   static const communityShareMoment = 'community.share_moment';
   static const communityWriteComment = 'community.write_comment';
@@ -200,6 +203,13 @@ class TK {
   static const communityEditImage = 'community.edit_image';
   static const communitySavedPostsOnePost = 'community.saved_posts_one_post';
   static const communitySavedPostsNPosts = 'community.saved_posts_n_posts';
+  static const communityUnsavePostTitle = 'community.unsave_post_title';
+  static const communityUnsavePostContent = 'community.unsave_post_content';
+  static const communityReportReasonHint = 'community.report_reason_hint';
+  static const communityReportCancel = 'community.report_cancel';
+  static const communityReportSend = 'community.report_send';
+  static const communityReportError = 'community.report_error';
+  static const communityMaxImagesError = 'community.max_images_error';
 
   // 🔹 Home
   static const homeWelcome = 'home.welcome';
@@ -237,6 +247,9 @@ class TK {
   static const profileHelpCenter = 'profile.help_center';
   static const profileEnglish = 'profile.english_us';
   static const profilePink = 'profile.pastel_pink';
+  static const profileLoadError = 'profile.load_error';
+  static const profileDeletePhotoTitle = 'profile.delete_photo_title';
+  static const profileDeletePhotoContent = 'profile.delete_photo_content';
 
   // 🔹 Drawer
   static const drawerBabyTracking = 'drawer.baby_tracking';
@@ -251,6 +264,7 @@ class TK {
   static const drawerHelpCenter = 'drawer.support_info.help_center';
   static const drawerContactUs = 'drawer.support_info.contact_us';
   static const drawerAboutMomEase = 'drawer.support_info.about_momease';
+  static const drawerPrivacyPolicy = 'drawer.support_info.privacy_policy';
   static const drawerRateApp = 'drawer.general.rate_momease';
   static const drawerShareApp = 'drawer.general.share_with_friends';
   static const drawerSendFeedback = 'drawer.general.send_feedback';
@@ -467,6 +481,15 @@ class TK {
   static const skinTip2 = 'skin_diagnosis.tip_2';
   static const skinTip3 = 'skin_diagnosis.tip_3';
   static const skinTip4 = 'skin_diagnosis.tip_4';
+  static const skinDisclaimerText = 'skin_diagnosis.disclaimer_text';
+  static const skinViewHistory = 'skin_diagnosis.view_history';
+  static const skinHistoryTitle = 'skin_diagnosis.history_title';
+  static const skinHistoryEmpty = 'skin_diagnosis.history_empty';
+  static const skinHistoryEmptySubtitle = 'skin_diagnosis.history_empty_subtitle';
+  static const skinDeleteRecord = 'skin_diagnosis.delete_record';
+  static const skinDeleteConfirmTitle = 'skin_diagnosis.delete_confirm_title';
+  static const skinDeleteConfirmBody = 'skin_diagnosis.delete_confirm_body';
+  static const skinSelectChild = 'skin_diagnosis.select_child';
 
   // 🔹 Notifications
   static const notificationsTitle = 'notifications.title';
@@ -503,4 +526,5 @@ class TK {
   static const toastError = 'common.toast.error';
   static const toastWarning = 'common.toast.warning';
   static const toastInfo = 'common.toast.info';
+  static const toastActionFailed = 'common.toast.action_failed';
 }

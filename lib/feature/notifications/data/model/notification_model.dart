@@ -19,7 +19,7 @@ class NotificationModel extends NotificationEntity {
       title: json['title'] as String,
       body: json['body'] as String,
       type: json['type'] as String,
-      relatedEntityId: json['relatedEntityId'] as int,
+      relatedEntityId: json['relatedEntityId'] as int?,
       actionUrl: json['actionUrl'] as String?,
       isRead: json['isRead'] as bool,
       createdAt: json['createdAt'] as String,

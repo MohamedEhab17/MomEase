@@ -85,13 +85,18 @@ class _LoginViewState extends State<LoginView> {
       listenWhen: (prev, next) => next is AuthSuccess || next is AuthError,
       listener: (context, state) {
         if (state is AuthSuccess) {
-          final isBabySetupCompleted = getIt<AuthLocalDataSource>()
-              .isBabySetupCompleted();
-          if (isBabySetupCompleted) {
-            context.go(AppRoutesPaths.appSectionView);
-          } else {
-            context.go(AppRoutesPaths.babyProfileOnboardingView);
-          }
+          // Add a tiny delay to allow SecureStorage to settle before heavy navigation/API calls
+          Future.delayed(const Duration(milliseconds: 200), () {
+            if (context.mounted) {
+              final isBabySetupCompleted = getIt<AuthLocalDataSource>()
+                  .isBabySetupCompleted();
+              if (isBabySetupCompleted) {
+                context.go(AppRoutesPaths.appSectionView);
+              } else {
+                context.go(AppRoutesPaths.babyProfileOnboardingView);
+              }
+            }
+          });
         } else if (state is AuthError) {
           if (state.message.contains(
             "Please verify your email before logging in.",

@@ -125,4 +125,32 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
       return const Left(ServerFailure('No internet connection.'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<AssessmentResult>>> getUserAssessmentResults() async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final models = await _remoteDataSource.getUserAssessmentResults();
+        return Right(models.map((e) => e.toEntity()).toList());
+      } catch (e) {
+        return Left(ErrorHandler.handle(e));
+      }
+    } else {
+      return const Left(ServerFailure('No internet connection.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteAssessmentResult(int id) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        await _remoteDataSource.deleteAssessmentResult(id);
+        return const Right(null);
+      } catch (e) {
+        return Left(ErrorHandler.handle(e));
+      }
+    } else {
+      return const Left(ServerFailure('No internet connection.'));
+    }
+  }
 }

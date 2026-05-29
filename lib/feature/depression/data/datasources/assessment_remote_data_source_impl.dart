@@ -163,4 +163,47 @@ class AssessmentRemoteDataSourceImpl implements AssessmentRemoteDataSourceContra
       throw ServerException(e.toString());
     }
   }
+
+  @override
+  Future<List<AssessmentResultModel>> getUserAssessmentResults() async {
+    try {
+      final response = await _apiClient.get(
+        Api.assessmentResultsHistory,
+        options: _headers,
+      );
+
+      final data = _normalizeData(response.data);
+      if (data is Map<String, dynamic> && data['success'] == true) {
+        final list = data['data'] as List<dynamic>? ?? [];
+        return list
+            .map((e) => AssessmentResultModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+      return [];
+    } on DioException catch (e) {
+      final body = e.response?.data;
+      final message = body is Map ? body['message']?.toString() : e.message;
+      throw ServerException(message ?? 'Failed to fetch history');
+    }
+  }
+
+  @override
+  Future<void> deleteAssessmentResult(int id) async {
+    try {
+      final response = await _apiClient.delete(
+        Api.deleteAssessmentResult(id),
+        options: _headers,
+      );
+
+      final data = _normalizeData(response.data);
+      if (data is Map<String, dynamic> && data['success'] == true) return;
+
+      final message = data is Map ? data['message']?.toString() : null;
+      throw ServerException(message ?? 'Failed to delete assessment result');
+    } on DioException catch (e) {
+      final body = e.response?.data;
+      final message = body is Map ? body['message']?.toString() : e.message;
+      throw ServerException(message ?? 'Failed to delete assessment result');
+    }
+  }
 }

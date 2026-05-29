@@ -25,6 +25,9 @@ import 'package:new_mama/feature/children/data/models/child_model.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/feature/app_section/presentation/view/app_section_view.dart';
+import 'package:new_mama/feature/app_section/presentation/view/manage_profile_view.dart';
+import 'package:new_mama/feature/app_section/presentation/view/change_password_view.dart';
+import 'package:new_mama/feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart';
 import 'package:new_mama/feature/articles/presentation/view/article_category_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/article_details_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/articles_view.dart';
@@ -51,17 +54,25 @@ import 'package:new_mama/feature/depression/presentation/views/depression_result
 import 'package:new_mama/feature/depression/presentation/views/depression_test_options_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_test_view.dart';
 import 'package:new_mama/feature/depression/presentation/views/depression_view.dart';
+import 'package:new_mama/feature/depression/presentation/views/depression_history_view.dart';
+import 'package:new_mama/feature/depression/presentation/view_model/depression_history_cubit/depression_history_cubit.dart';
 import 'package:new_mama/feature/community/presentation/view/community_view.dart';
 import 'package:new_mama/feature/community/presentation/view/create_post_view.dart';
 import 'package:new_mama/feature/community/presentation/view/saved_posts_view.dart';
+import 'package:new_mama/feature/community/presentation/view/post_details_view.dart';
+import 'package:new_mama/feature/community/presentation/view/my_posts_view.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
+import 'package:new_mama/feature/community/presentation/view_model/post_details_cubit/post_details_cubit.dart';
 import 'package:new_mama/feature/home/presentation/views/home_view.dart';
+import 'package:new_mama/feature/notifications/presentation/view/notification_view.dart';
 import 'package:new_mama/feature/onboarding/presentation/view/onboarding_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_analyzing_view.dart';
+import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_history_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_insight_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_photo_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis_result_view.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
+import 'package:new_mama/feature/skin_diagnosis/domain/entities/skin_analysis.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/baby_track_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/insights_view.dart';
@@ -135,9 +146,35 @@ class AppRouter {
           path: AppRoutesPaths.savedPostsView,
           name: 'savedPostsView',
           builder: (context, state) => BlocProvider(
-            create: (_) => getIt<CommunityCubit>(),
+            create: (_) => getIt<CommunityCubit>()..loadSavedPosts(),
             child: const SavedPostsView(),
           ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.myPostsView,
+          name: 'myPostsView',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<CommunityCubit>()..loadMyPosts(),
+            child: const MyPostsView(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.postDetailsView,
+          name: 'postDetailsView',
+          builder: (context, state) {
+            final postIdStr = state.pathParameters['postId'];
+            final postId = int.tryParse(postIdStr ?? '');
+            if (postId == null) {
+              return const Scaffold(body: Center(child: Text('Invalid post ID')));
+            }
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (_) => getIt<CommunityCubit>()),
+                BlocProvider(create: (_) => getIt<PostDetailsCubit>()..fetchPostDetails(postId)),
+              ],
+              child: PostDetailsView(postId: postId),
+            );
+          },
         ),
         GoRoute(
           path: AppRoutesPaths.signup,
@@ -151,12 +188,17 @@ class AppRouter {
           path: AppRoutesPaths.emailVerification,
           name: 'emailVerification',
           builder: (context, state) {
-            final args = state.extra as Map<String, dynamic>;
-            final type = args['type'] as VerificationType;
-            final email = args['email'] as String;
-            return BlocProvider(
-              create: (_) => getIt<AuthCubit>(),
-              child: EmailVerificationView(type: type, email: email),
+            final args = state.extra;
+            if (args is Map<String, dynamic>) {
+              final type = args['type'] as VerificationType;
+              final email = args['email'] as String;
+              return BlocProvider(
+                create: (_) => getIt<AuthCubit>(),
+                child: EmailVerificationView(type: type, email: email),
+              );
+            }
+            return const Scaffold(
+              body: Center(child: Text('Invalid Verification Data')),
             );
           },
         ),
@@ -182,13 +224,18 @@ class AppRouter {
           path: AppRoutesPaths.resetPassword,
           name: 'resetPassword',
           builder: (context, state) {
-            final args = state.extra as Map<String, dynamic>;
-            return BlocProvider(
-              create: (_) => getIt<AuthCubit>(),
-              child: ResetPasswordView(
-                email: args['email'] as String,
-                resetToken: args['resetToken'] as String? ?? '',
-              ),
+            final args = state.extra;
+            if (args is Map<String, dynamic>) {
+              return BlocProvider(
+                create: (_) => getIt<AuthCubit>(),
+                child: ResetPasswordView(
+                  email: args['email'] as String,
+                  resetToken: args['resetToken'] as String? ?? '',
+                ),
+              );
+            }
+            return const Scaffold(
+              body: Center(child: Text('Invalid Reset Data')),
             );
           },
         ),
@@ -201,10 +248,16 @@ class AppRouter {
           path: AppRoutesPaths.articlesView,
           name: 'articlesView',
           builder: (context, state) {
-            final category = state.extra as ArticleCategory;
-            return BlocProvider(
-              create: (_) => getIt<CategoryArticlesCubit>(),
-              child: ArticlesView(categoryId: category.id),
+            final extra = state.extra;
+            if (extra is ArticleCategory) {
+              return BlocProvider(
+                create: (_) => getIt<CategoryArticlesCubit>(),
+                child: ArticlesView(categoryId: extra.id),
+              );
+            }
+            // Fallback: If extra is missing or wrong type, go back or show empty
+            return const Scaffold(
+              body: Center(child: Text('Invalid Category Data')),
             );
           },
         ),
@@ -220,10 +273,15 @@ class AppRouter {
           path: AppRoutesPaths.articleDetailsView,
           name: 'articleDetailsView',
           builder: (context, state) {
-            final article = state.extra as Article;
-            return BlocProvider(
-              create: (_) => getIt<ArticleDetailCubit>(),
-              child: ArticleDetailsView(article: article),
+            final extra = state.extra;
+            if (extra is Article) {
+              return BlocProvider(
+                create: (_) => getIt<ArticleDetailCubit>(),
+                child: ArticleDetailsView(article: extra),
+              );
+            }
+            return const Scaffold(
+              body: Center(child: Text('Invalid Article Data')),
             );
           },
         ),
@@ -270,25 +328,44 @@ class AppRouter {
               path: AppRoutesPaths.depressionTestView,
               name: 'depressionTestView',
               builder: (context, state) {
-                final assessment = state.extra as Assessments;
-                return DepressionTestView(assessment: assessment);
+                final extra = state.extra;
+                if (extra is Assessments) {
+                  return DepressionTestView(assessment: extra);
+                }
+                return const Scaffold(
+                  body: Center(child: Text('Invalid Assessment Data')),
+                );
               },
             ),
             GoRoute(
               path: AppRoutesPaths.depressionResultView,
               name: 'depressionResultView',
               builder: (context, state) {
-                final extra = state.extra as Map<String, dynamic>;
-                final assessment = extra['assessment'] as Assessments;
-                final resultId = extra['resultId'] as int;
+                final extra = state.extra;
+                if (extra is Map<String, dynamic>) {
+                  final assessment = extra['assessment'] as Assessments;
+                  final resultId = extra['resultId'] as int;
 
-                return BlocProvider(
-                  create: (context) => getIt<AssessmentResultCubit>()..getResult(resultId),
-                  child: DepressionResultView(assessment: assessment),
+                  return BlocProvider(
+                    create: (context) =>
+                        getIt<AssessmentResultCubit>()..getResult(resultId),
+                    child: DepressionResultView(assessment: assessment),
+                  );
+                }
+                return const Scaffold(
+                  body: Center(child: Text('Invalid Result Data')),
                 );
               },
             ),
           ],
+        ),
+        GoRoute(
+          path: AppRoutesPaths.depressionHistoryView,
+          name: 'depressionHistoryView',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<DepressionHistoryCubit>(),
+            child: const DepressionHistoryView(),
+          ),
         ),
 
         GoRoute(
@@ -306,9 +383,13 @@ class AppRouter {
           path: AppRoutesPaths.cryingResultView,
           name: 'cryingResultView',
           builder: (context, state) {
-            final advices = state.extra as List<String>;
-
-            return CryingResultView(advices: advices);
+            final extra = state.extra;
+            if (extra is List<String>) {
+              return CryingResultView(advices: extra);
+            }
+            return const Scaffold(
+              body: Center(child: Text('Invalid Advice Data')),
+            );
           },
         ),
         GoRoute(
@@ -316,32 +397,44 @@ class AppRouter {
           name: 'cryAnalyzingView',
           builder: (context, state) => CryAnalyzingView(),
         ),
-        GoRoute(
-          path: AppRoutesPaths.skinDiagnosisInsightView,
-          name: 'skinDiagnosisInsightView',
-          builder: (context, state) => const SkinDiagnosisInsightView(),
-        ),
-        GoRoute(
-          path: AppRoutesPaths.skinDiagnosisAnalyzingView,
-          name: 'skinDiagnosisAnalyzingView',
-          builder: (context, state) => const SkinDiagnosisAnalyzingView(),
-        ),
-        GoRoute(
-          path: AppRoutesPaths.skinDiagnosisPhotoView,
-          name: 'skinDiagnosisPhoto',
-          builder: (context, state) => BlocProvider(
-            create: (context) => SkinDiagnosisCubit(),
-            child: const SkinDiagnosisPhotoView(),
+        // Shell gives insight → photo → analyzing → result → history a shared cubit
+        ShellRoute(
+          builder: (context, state, child) => BlocProvider(
+            create: (_) => getIt<SkinDiagnosisCubit>(),
+            child: child,
           ),
-        ),
-        GoRoute(
-          path: AppRoutesPaths.skinDiagnosisResultView,
-          name: 'skinDiagnosisResultView',
-          builder: (context, state) {
-            final advices = state.extra as List<String>;
-
-            return SkinDiagnosisResultView(advices: advices);
-          },
+          routes: [
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisInsightView,
+              name: 'skinDiagnosisInsightView',
+              builder: (context, state) => const SkinDiagnosisInsightView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisPhotoView,
+              name: 'skinDiagnosisPhoto',
+              builder: (context, state) => const SkinDiagnosisPhotoView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisAnalyzingView,
+              name: 'skinDiagnosisAnalyzingView',
+              builder: (context, state) =>
+                  const SkinDiagnosisAnalyzingView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisResultView,
+              name: 'skinDiagnosisResultView',
+              builder: (context, state) {
+                final analysis = state.extra as SkinAnalysis;
+                return SkinDiagnosisResultView(analysis: analysis);
+              },
+            ),
+            GoRoute(
+              path: AppRoutesPaths.skinDiagnosisHistoryView,
+              name: 'skinDiagnosisHistoryView',
+              builder: (context, state) =>
+                  const SkinDiagnosisHistoryView(),
+            ),
+          ],
         ),
         GoRoute(
           path: AppRoutesPaths.babyTrackView,
@@ -468,7 +561,7 @@ class AppRouter {
             );
           },
         ),
-        GoRoute(
+         GoRoute(
           path: AppRoutesPaths.addChildView,
           name: 'addChildView',
           builder: (context, state) {
@@ -481,6 +574,24 @@ class AppRouter {
               child: AddEditChildView(child: child),
             );
           },
+        ),
+        GoRoute(
+          path: AppRoutesPaths.manageProfileView,
+          name: 'manageProfileView',
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<ProfileCubit>(),
+            child: const ManageProfileView(),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutesPaths.changePasswordView,
+          name: 'changePasswordView',
+          builder: (context, state) => const ChangePasswordView(),
+        ),
+         GoRoute(
+          path: AppRoutesPaths.notificationView,
+          name: 'notificationView',
+          builder: (context, state) => const NotificationView(),
         ),
       ],
     );

@@ -31,15 +31,24 @@ String? validateEmailOrPhone(String? value) {
   return 'Please enter a valid email or phone number';
 }
 
-  String? validateConfirmPassword(String? val, String? password) {
-    if (val == null || val.isEmpty) {
-      return 'Password cannot be empty';
-    } else if (val != password) {
-      return 'Confirm password must match the password';
-    } else {
-      return null;
-    }
+String? validatePhone(String? value) {
+  if (value == null || value.trim().isEmpty) return 'This field is required';
+  final phoneRegex = RegExp(r'^(?:\+20|20|0)?1[0125]\d{8}$');
+  if (phoneRegex.hasMatch(value.trim())) {
+    return null;
   }
+  return 'Please enter a valid  phone number';
+}
+
+String? validateConfirmPassword(String? val, String? password) {
+  if (val == null || val.isEmpty) {
+    return 'Password cannot be empty';
+  } else if (val != password) {
+    return 'Confirm password must match the password';
+  } else {
+    return null;
+  }
+}
 
 String? validateAge(String? value) {
   if (value == null || value.trim().isEmpty) {
@@ -60,6 +69,7 @@ String? validateDescription(String? value) {
   }
   return null;
 }
+
 String? validateRequired(String? value, {String fieldName = "This field"}) {
   if (value == null || value.trim().isEmpty) {
     return '$fieldName is required';

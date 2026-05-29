@@ -22,7 +22,9 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
           .toList();
     }
     throw ServerException(
-      data is Map ? (data['message'] as String? ?? 'Failed to get notifications') : 'Unexpected response',
+      data is Map
+          ? (data['message'] as String? ?? 'Failed to get notifications')
+          : 'Unexpected response',
     );
   }
 
@@ -34,7 +36,9 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
       return data['count'] as int? ?? 0;
     }
     throw ServerException(
-      data is Map ? (data['message'] as String? ?? 'Failed to get unread count') : 'Unexpected response',
+      data is Map
+          ? (data['message'] as String? ?? 'Failed to get unread count')
+          : 'Unexpected response',
     );
   }
 
@@ -46,7 +50,10 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
       return data['message'] as String? ?? 'Notification marked as read';
     }
     throw ServerException(
-      data is Map ? (data['message'] as String? ?? 'Failed to mark notification as read') : 'Unexpected response',
+      data is Map
+          ? (data['message'] as String? ??
+                'Failed to mark notification as read')
+          : 'Unexpected response',
     );
   }
 
@@ -58,7 +65,9 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
       return data['message'] as String? ?? 'All notifications marked as read';
     }
     throw ServerException(
-      data is Map ? (data['message'] as String? ?? 'Failed to mark all as read') : 'Unexpected response',
+      data is Map
+          ? (data['message'] as String? ?? 'Failed to mark all as read')
+          : 'Unexpected response',
     );
   }
 
@@ -70,7 +79,9 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
       return data['message'] as String? ?? 'Notification deleted';
     }
     throw ServerException(
-      data is Map ? (data['message'] as String? ?? 'Failed to delete notification') : 'Unexpected response',
+      data is Map
+          ? (data['message'] as String? ?? 'Failed to delete notification')
+          : 'Unexpected response',
     );
   }
 }

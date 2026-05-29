@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
 import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_detail/article_detail_cubit.dart';
@@ -154,21 +156,27 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
             start: 20.w,
             child: CircleAvatar(
               backgroundColor: Colors.white,
-              child: Transform.translate(
-                // offset: const Offset(-4, -1),
-                offset: const Offset(-2, 0),
-                child: IconButton(
-                  onPressed: () => context.pop(),
-                  icon: Icon(
-                    //  Icons.arrow_back_ios_rounded,
-                    Icons.arrow_back_ios_new_rounded,
-                    color: context.ext.colors.primaryDark,
-                    size: 25.sp,
+              radius: 25.r,
+
+              child: IconButton(
+                onPressed: () => context.pop(),
+                icon: Transform.flip(
+                  flipX: Directionality.of(context) == TextDirection.rtl
+                      ? true
+                      : false,
+                  child: SvgPicture.asset(
+                    AppIcons.iconsArrowBack,
+                    colorFilter: ColorFilter.mode(
+                      context.ext.colors.primaryDark,
+                      BlendMode.srcIn,
+                    ),
+                    height: 20.h,
                   ),
                 ),
               ),
             ),
           ),
+          // ),
         ],
       ),
     );

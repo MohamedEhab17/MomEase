@@ -3,7 +3,7 @@ class NotificationEntity {
   final String title;
   final String body;
   final String type;
-  final int relatedEntityId;
+  final int? relatedEntityId;
   final String? actionUrl;
   final bool isRead;
   final String createdAt;

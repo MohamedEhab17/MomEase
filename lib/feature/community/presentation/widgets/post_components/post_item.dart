@@ -9,15 +9,26 @@ import 'package:new_mama/feature/community/presentation/widgets/post_components/
 class PostItem extends StatelessWidget {
   final PostModel post;
   final AnimateToController controller;
-  const PostItem({super.key, required this.post, required this.controller});
+  final bool removeOnUnsave;
+
+  const PostItem({
+    super.key,
+    required this.post,
+    required this.controller,
+    this.removeOnUnsave = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<CommunityCubit, CommunityState, PostModel>(
       selector: (state) =>
-          state.posts.firstWhere((p) => p.id == post.id, orElse: () => post),
+          state.posts.firstWhere((p) => p.postId == post.postId, orElse: () => post),
       builder: (_, updatedPost) {
-        return PostContent(post: updatedPost, controller: controller);
+        return PostContent(
+          post: updatedPost,
+          controller: controller,
+          removeOnUnsave: removeOnUnsave,
+        );
       },
     );
   }

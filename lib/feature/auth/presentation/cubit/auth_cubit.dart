@@ -14,7 +14,7 @@ import 'package:new_mama/feature/auth/domain/usecases/revoke_token_use_case.dart
 import 'package:new_mama/feature/auth/domain/usecases/verify_email_use_case.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
 
-@injectable
+@lazySingleton
 class AuthCubit extends Cubit<AuthState> {
   final LoginUseCase _loginUseCase;
   final RegisterUseCase _registerUseCase;
@@ -39,6 +39,12 @@ class AuthCubit extends Cubit<AuthState> {
     this._revokeTokenUseCase,
     this._biometricLoginUseCase,
   ) : super(AuthInitial());
+
+  Future<void> checkUserAuth() async {
+    // We don't have a specific use case for this yet, but we can access repository directly if needed
+    // or just let it be Initial for now. 
+    // Ideally we'd call a 'GetCachedUserUseCase'.
+  }
 
   Future<void> login({
     required String email,

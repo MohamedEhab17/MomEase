@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:injectable/injectable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_mama/feature/articles/domain/usecase/search_articles_usecase.dart';
-import 'package:new_mama/feature/articles/domain/usecase/search_history_usecases.dart';
+import 'package:new_mama/feature/articles/domain/usecases/search_articles_usecase.dart';
+import 'package:new_mama/feature/articles/domain/usecases/search_history_usecases.dart';
 import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:new_mama/feature/articles/domain/usecases/article_usecases.dart';
 import 'package:new_mama/feature/articles/domain/usecases/watch_article_save_status_usecase.dart';

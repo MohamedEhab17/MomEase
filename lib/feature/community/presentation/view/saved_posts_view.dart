@@ -1,14 +1,13 @@
+import 'package:animate_to/animate_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_mama/core/extensions/localization_ex.dart';
-import 'package:new_mama/core/extensions/padding_ex.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
-import 'package:new_mama/core/localization/translation_keys.dart';
+import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/community/presentation/view_model/community_state.dart';
-import 'package:animate_to/animate_to.dart';
-import 'package:new_mama/feature/community/presentation/widgets/saved_posts_components/saved_posts_header.dart';
 import 'package:new_mama/feature/community/presentation/widgets/saved_posts_components/saved_posts_body.dart';
+import 'package:new_mama/feature/community/presentation/widgets/saved_posts_components/saved_posts_header.dart';
 
 class SavedPostsView extends StatefulWidget {
   const SavedPostsView({super.key});
@@ -23,49 +22,44 @@ class _SavedPostsViewState extends State<SavedPostsView> {
   @override
   void initState() {
     super.initState();
-    _animateToController = .new();
+    _animateToController = AnimateToController();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: BlocBuilder<CommunityCubit, CommunityState>(
+    return Scaffold(
+      backgroundColor: context.theme.scaffoldBackgroundColor,
+      body: SafeArea(
+        child: BlocBuilder<CommunityCubit, CommunityState>(
           builder: (context, state) {
-            final savedPosts = state.posts.where((p) => p.isSaved).toList();
+            if (state.status == CommunityStatus.loading) {
+              return const Center(child: CustomLoadingIndicator());
+            }
 
-            if (savedPosts.isEmpty) {
-              return Column(
-                children: [
-                  SavedPostsHeader(
-                    postsCount: savedPosts.length,
-                    showTrailing: false,
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        context.trContext(TK.communityNoSavedPosts),
-                        style: context.text.displaySmall!,
-                      ),
-                    ),
-                  ),
-                ],
-              );
+            if (state.status == CommunityStatus.error) {
+              return Center(child: Text(state.errorMessage ?? "Error"));
             }
 
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: 10.vPadding,
-                  child: SavedPostsHeader(postsCount: savedPosts.length),
-                ),
+                SavedPostsHeader(postsCount: state.posts.length),
+                16.height,
                 Expanded(
-                  child: SavedPostsBody(
-                    savedPosts: savedPosts,
-                    controller: _animateToController,
-                  ),
+                  child: state.posts.isEmpty
+                      ? Center(
+                          child: Text(
+                            "No saved posts",
+                            style: context.text.titleSmall!.copyWith(
+                              color: context.theme.hintColor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ) // Localized later if needed
+                      : SavedPostsBody(
+                          savedPosts: state.posts,
+                          controller: _animateToController,
+                        ),
                 ),
               ],
             );

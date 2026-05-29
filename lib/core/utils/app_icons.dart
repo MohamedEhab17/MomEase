@@ -183,4 +183,8 @@ class AppIcons {
   /// Assets for iconsQuestions
   /// assets/icons/questions.svg
   static const String iconsQuestions = "assets/icons/questions.svg";
+  
+  /// Assets for iconsArrowBack
+  /// assets/icons/arrow_back.svg
+  static const String  iconsArrowBack = "assets/icons/arrow_back.svg";
 }

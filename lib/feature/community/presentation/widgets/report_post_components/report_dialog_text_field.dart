@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 
 class ReportDialogTextField extends StatelessWidget {
@@ -12,7 +14,7 @@ class ReportDialogTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormFieldHelper(
       controller: controller,
-      hint: "Write your reason here...",
+      hint: context.trContext(TK.communityReportReasonHint),
       hintStyle: context.text.titleLarge!.copyWith(
         fontSize: 14.sp,
         color: context.colors.onSurface.withAlpha(128),

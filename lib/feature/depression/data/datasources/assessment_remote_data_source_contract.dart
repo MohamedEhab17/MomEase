@@ -14,4 +14,6 @@ abstract class AssessmentRemoteDataSourceContract {
   Future<AssessmentResultModel> submitAssessment(int assessmentId, SubmitRequestModel body);
 
   Future<AssessmentResultModel> getAssessmentResult(int id);
+  Future<List<AssessmentResultModel>> getUserAssessmentResults();
+  Future<void> deleteAssessmentResult(int id);
 }

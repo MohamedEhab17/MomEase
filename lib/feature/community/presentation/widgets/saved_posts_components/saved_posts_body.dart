@@ -24,7 +24,11 @@ class SavedPostsBody extends StatelessWidget {
         slivers: [
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (_, i) => PostItem(post: savedPosts[i], controller: controller),
+              (_, i) => PostItem(
+                post: savedPosts[i],
+                controller: controller,
+                removeOnUnsave: true, // Enable immediate removal and confirmation
+              ),
               childCount: savedPosts.length,
             ),
           ),

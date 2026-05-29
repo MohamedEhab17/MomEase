@@ -18,6 +18,7 @@ class AppRoutesPaths {
   static const String depressionTestView = '/depressionTestView';
   static const String depressionTestOptionsView = '/depressionTestOptionsView';
   static const String depressionResultView = '/depressionResultView';
+  static const String depressionHistoryView = '/depressionHistoryView';
   static const String cryingInsightView = '/cryingInsightView';
   static const String cryingResultView = '/cryingResultView';
   static const String cryingRecordingSessionView =
@@ -25,12 +26,15 @@ class AppRoutesPaths {
   static const String cryAnalyzingView = '/cryAnalyzingView';
   static const String communityView = '/communityView';
   static const String createPostCommunityView = '/createPostCommunityView';
+  static const String postDetailsView = '/posts/:postId';
+  static const String myPostsView = '/myPostsView';
   static const String savedPostsView = '/savedPostsView';
   static const String skinDiagnosisInsightView = '/skinDiagnosisInsightView';
   static const String skinDiagnosisPhotoView = '/skinDiagnosisPhotoView';
   static const String skinDiagnosisAnalyzingView =
       '/skinDiagnosisAnalyzingView';
   static const String skinDiagnosisResultView = '/skinDiagnosisResultView';
+  static const String skinDiagnosisHistoryView = '/skinDiagnosisHistoryView';
   static const String babyProfileOnboardingView = '/babyProfileOnboardingView';
   static const String firstTimeMama = '/firstTimeMama';
   static const String babyCount = '/babyCount';
@@ -47,5 +51,9 @@ class AppRoutesPaths {
   static const String childrenListView = '/childrenListView';
   static const String childDetailView = '/childDetailView';
   static const String addChildView = '/addChildView';
-}
+  static const String manageProfileView = '/manageProfileView';
+  static const String changePasswordView = '/changePasswordView';
 
+  // ── Notification feature ─────────────────────────────────────────────────────
+  static const String notificationView = '/notificationView';
+}
