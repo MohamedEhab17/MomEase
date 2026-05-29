@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -12,10 +14,25 @@ import 'package:new_mama/core/localization/cubit/language_cubit.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/feature/children/presentation/cubit/children_cubit.dart';
 import 'package:toastification/toastification.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+Future<void> getFcmToken() async {
+  final token = await FirebaseMessaging.instance.getToken();
+
+  log("-------------------------------");
+  debugPrint("FCM TOKEN:");
+  debugPrint(token);
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseMessaging.instance.requestPermission();
+
+  await getFcmToken();
   await configureDependencies();
   await AppRouter.initRouter();
 
@@ -40,7 +57,9 @@ class NewMama extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ThemeCubit()..loadSavedTheme()),
-        BlocProvider(create: (context) => getIt<LanguageCubit>()..loadSavedLanguage()),
+        BlocProvider(
+          create: (context) => getIt<LanguageCubit>()..loadSavedLanguage(),
+        ),
         BlocProvider(create: (context) => ActiveChildCubit()),
         BlocProvider.value(value: getIt<ChildrenCubit>()..loadChildren()),
       ],
@@ -69,7 +88,9 @@ class NewMama extends StatelessWidget {
                       title: 'New Mama',
                       theme: getTheme(),
                       themeAnimationCurve: Curves.fastOutSlowIn,
-                      themeAnimationDuration: const Duration(milliseconds: 1000),
+                      themeAnimationDuration: const Duration(
+                        milliseconds: 1000,
+                      ),
                       routerConfig: AppRouter.router,
                       debugShowCheckedModeBanner: false,
                       localizationsDelegates: context.localizationDelegates,

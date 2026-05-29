@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:injectable/injectable.dart';
 import 'package:new_mama/core/base/safe_cubit.dart';
-import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:new_mama/feature/articles/domain/usecases/article_usecases.dart';
 import 'package:new_mama/feature/articles/domain/usecases/watch_article_save_status_usecase.dart';
 import 'article_detail_state.dart';
