@@ -1,18 +1,27 @@
 class AddSleepRecordRequestModel {
+  final int childId;
   final DateTime sleepDate;
-  final String sleepHoursTotal; // format "HH:mm:ss"
+  final String sleepStartTime; // format "HH:mm"
+  final String sleepEndTime; // format "HH:mm"
+  final String quality;
   final String notes;
 
   const AddSleepRecordRequestModel({
+    required this.childId,
     required this.sleepDate,
-    required this.sleepHoursTotal,
+    required this.sleepStartTime,
+    required this.sleepEndTime,
+    required this.quality,
     required this.notes,
   });
 
   Map<String, dynamic> toJson() {
     return {
+      'childId': childId,
       'sleepDate': sleepDate.toIso8601String(),
-      'sleepHoursTotal': sleepHoursTotal,
+      'sleepStartTime': sleepStartTime,
+      'sleepEndTime': sleepEndTime,
+      'quality': quality,
       'notes': notes,
     };
   }

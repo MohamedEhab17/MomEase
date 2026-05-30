@@ -7,6 +7,7 @@ class MonthlySleepRecordsEntity extends Equatable {
   final String monthName;
   final List<DailySleepRecordEntity> dailySleep;
   final String monthlyAverageSleep;
+  final String? monthlyAverageSleepFormatted;
   final int totalRecords;
   final int goodDays;
   final int poorDays;
@@ -17,6 +18,7 @@ class MonthlySleepRecordsEntity extends Equatable {
     required this.monthName,
     required this.dailySleep,
     required this.monthlyAverageSleep,
+    this.monthlyAverageSleepFormatted,
     required this.totalRecords,
     required this.goodDays,
     required this.poorDays,
@@ -29,6 +31,7 @@ class MonthlySleepRecordsEntity extends Equatable {
         monthName,
         dailySleep,
         monthlyAverageSleep,
+        monthlyAverageSleepFormatted,
         totalRecords,
         goodDays,
         poorDays,

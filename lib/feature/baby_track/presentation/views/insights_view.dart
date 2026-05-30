@@ -10,7 +10,6 @@ import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/sleep_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_baby_activity_section.dart';
-import 'package:new_mama/feature/baby_track/presentation/widgets/insights_stat_card.dart';
 import 'package:new_mama/feature/children/domain/entities/child.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/feature/children/presentation/widgets/premium_child_selector.dart';
@@ -45,7 +44,9 @@ class _InsightsViewBodyState extends State<_InsightsViewBody> {
     super.initState();
     final activeChild = context.read<ActiveChildCubit>().state;
     if (activeChild != null) {
-      context.read<FeedingInsightsCubit>().loadFeedingInsights(activeChild.childId);
+      context.read<FeedingInsightsCubit>().loadFeedingInsights(
+        activeChild.childId,
+      );
     }
   }
 
@@ -54,8 +55,12 @@ class _InsightsViewBodyState extends State<_InsightsViewBody> {
     return BlocListener<ActiveChildCubit, Child?>(
       listener: (context, activeChild) {
         if (activeChild != null) {
-          context.read<FeedingInsightsCubit>().loadFeedingInsights(activeChild.childId);
-          context.read<SleepInsightsCubit>().loadSleepInsights(activeChild.childId);
+          context.read<FeedingInsightsCubit>().loadFeedingInsights(
+            activeChild.childId,
+          );
+          context.read<SleepInsightsCubit>().loadSleepInsights(
+            activeChild.childId,
+          );
         }
       },
       child: Scaffold(
@@ -86,35 +91,35 @@ class _InsightsViewBodyState extends State<_InsightsViewBody> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const PremiumChildSelector(),
-              12.h.height,
+              // 12.h.height,
               // ── Top stat cards ──
-              Row(
-                children: [
-                  InsightsStatCard(
-                    icon: Icons.favorite_rounded,
-                    iconColor: context.ext.colors.primaryDark,
-                    label: context.trContext(TK.babyHealthScore),
-                    value: context.trContext(TK.babyFeedingLabel),
-                    background: context.ext.colors.primaryDark,
-                  ),
-                  SizedBox(width: 10.w),
-                  InsightsStatCard(
-                    icon: Icons.mood_rounded,
-                    iconColor: Colors.orange,
-                    label: context.trContext(TK.babyMomMood),
-                    value: context.trContext(TK.babyCalm),
-                    background: Colors.orange,
-                  ),
-                  SizedBox(width: 10.w),
-                  InsightsStatCard(
-                    icon: Icons.check_circle_rounded,
-                    iconColor: context.ext.colors.greenText,
-                    label: context.trContext(TK.babyCopingRate),
-                    value: context.trContext(TK.babyGood),
-                    background: context.ext.colors.backgroundGreen,
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     InsightsStatCard(
+              //       icon: Icons.favorite_rounded,
+              //       iconColor: context.ext.colors.primaryDark,
+              //       label: context.trContext(TK.babyHealthScore),
+              //       value: context.trContext(TK.babyFeedingLabel),
+              //       background: context.ext.colors.primaryDark,
+              //     ),
+              //     SizedBox(width: 10.w),
+              //     InsightsStatCard(
+              //       icon: Icons.mood_rounded,
+              //       iconColor: Colors.orange,
+              //       label: context.trContext(TK.babyMomMood),
+              //       value: context.trContext(TK.babyCalm),
+              //       background: Colors.orange,
+              //     ),
+              //     SizedBox(width: 10.w),
+              //     InsightsStatCard(
+              //       icon: Icons.check_circle_rounded,
+              //       iconColor: context.ext.colors.greenText,
+              //       label: context.trContext(TK.babyCopingRate),
+              //       value: context.trContext(TK.babyGood),
+              //       background: context.ext.colors.backgroundGreen,
+              //     ),
+              //   ],
+              // ),
               24.h.height,
 
               // ── Sections ──

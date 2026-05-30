@@ -9,7 +9,6 @@ class SleepStatisticsEntity extends Equatable {
   final int goodSleepDays;
   final int normalSleepDays;
   final int poorSleepDays;
-  final double sleepQualityPercentage;
   final String last7DaysAverage;
   final String last7DaysAverageFormatted;
   final String currentSleepStatus;
@@ -25,7 +24,6 @@ class SleepStatisticsEntity extends Equatable {
     required this.goodSleepDays,
     required this.normalSleepDays,
     required this.poorSleepDays,
-    required this.sleepQualityPercentage,
     required this.last7DaysAverage,
     required this.last7DaysAverageFormatted,
     required this.currentSleepStatus,
@@ -43,7 +41,6 @@ class SleepStatisticsEntity extends Equatable {
         goodSleepDays,
         normalSleepDays,
         poorSleepDays,
-        sleepQualityPercentage,
         last7DaysAverage,
         last7DaysAverageFormatted,
         currentSleepStatus,

@@ -70,17 +70,17 @@ class _SleepTabViewState extends State<SleepTabView> {
       return;
     }
 
-    int hours = diffMinutes ~/ 60;
-    int minutes = diffMinutes % 60;
-    String hoursStr = hours.toString().padLeft(2, '0');
-    String minutesStr = minutes.toString().padLeft(2, '0');
-    String sleepHoursTotal = '$hoursStr:$minutesStr:00';
+    final String startTimeStr = '${_startTime!.hour.toString().padLeft(2, '0')}:${_startTime!.minute.toString().padLeft(2, '0')}';
+    final String endTimeStr = '${_endTime!.hour.toString().padLeft(2, '0')}:${_endTime!.minute.toString().padLeft(2, '0')}';
 
     cubit.saveSleepRecord(
       childId: activeChild.childId,
       request: AddSleepRecordRequestModel(
+        childId: activeChild.childId,
         sleepDate: _selectedDate!,
-        sleepHoursTotal: sleepHoursTotal,
+        sleepStartTime: startTimeStr,
+        sleepEndTime: endTimeStr,
+        quality: 'Good',
         notes: _notesController.text,
       ),
     );

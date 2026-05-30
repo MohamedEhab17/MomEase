@@ -8,6 +8,7 @@ class MonthlySleepRecordsModel extends MonthlySleepRecordsEntity {
     required super.monthName,
     required super.dailySleep,
     required super.monthlyAverageSleep,
+    super.monthlyAverageSleepFormatted,
     required super.totalRecords,
     required super.goodDays,
     required super.poorDays,
@@ -25,6 +26,7 @@ class MonthlySleepRecordsModel extends MonthlySleepRecordsEntity {
           [],
       monthlyAverageSleep:
           json['monthlyAverageSleep'] as String? ?? '00:00:00',
+      monthlyAverageSleepFormatted: json['monthlyAverageSleepFormatted'] as String?,
       totalRecords: json['totalRecords'] as int? ?? 0,
       goodDays: json['goodDays'] as int? ?? 0,
       poorDays: json['poorDays'] as int? ?? 0,

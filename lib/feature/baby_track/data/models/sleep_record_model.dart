@@ -23,8 +23,8 @@ class SleepRecordModel extends SleepRecordEntity {
       sleepDate: json['sleepDate'] != null
           ? DateTime.parse(json['sleepDate'] as String)
           : DateTime.now(),
-      sleepHoursTotal: _parseDuration(json['sleepHoursTotal']),
-      sleepHoursTotalFormatted: json['sleepHoursTotalFormatted'] as String? ?? '',
+      sleepHoursTotal: _parseDuration(json['sleepHoursTotal'] ?? json['sleepDuration']),
+      sleepHoursTotalFormatted: (json['sleepHoursTotalFormatted'] ?? json['sleepDurationFormatted']) as String? ?? '',
       sleepRefId: json['sleepRefId'] as int?,
       notes: json['notes'] as String? ?? '',
       status: json['status'] as String? ?? '',

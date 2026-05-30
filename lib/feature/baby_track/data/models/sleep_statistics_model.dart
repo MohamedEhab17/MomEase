@@ -10,7 +10,6 @@ class SleepStatisticsModel extends SleepStatisticsEntity {
     required super.goodSleepDays,
     required super.normalSleepDays,
     required super.poorSleepDays,
-    required super.sleepQualityPercentage,
     required super.last7DaysAverage,
     required super.last7DaysAverageFormatted,
     required super.currentSleepStatus,
@@ -29,8 +28,6 @@ class SleepStatisticsModel extends SleepStatisticsEntity {
       goodSleepDays: json['goodSleepDays'] as int? ?? 0,
       normalSleepDays: json['normalSleepDays'] as int? ?? 0,
       poorSleepDays: json['poorSleepDays'] as int? ?? 0,
-      sleepQualityPercentage:
-          (json['sleepQualityPercentage'] as num?)?.toDouble() ?? 0.0,
       last7DaysAverage: json['last7DaysAverage'] as String? ?? '00:00:00',
       last7DaysAverageFormatted:
           json['last7DaysAverageFormatted'] as String? ?? '0h 0m',

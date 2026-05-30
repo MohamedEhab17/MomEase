@@ -4,29 +4,18 @@ import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
-import 'package:new_mama/feature/baby_track/domain/entities/weekly_feeding_records_entity.dart';
-import 'package:new_mama/feature/baby_track/domain/entities/monthly_feeding_records_entity.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/feeding_statistics_entity.dart';
-
-class ChartItem {
-  final DateTime date;
-  final int timesPerDay;
-  final String primaryFeedingType;
-  final String status;
-
-  ChartItem({
-    required this.date,
-    required this.timesPerDay,
-    required this.primaryFeedingType,
-    required this.status,
-  });
-}
+import 'package:new_mama/feature/baby_track/domain/entities/monthly_feeding_records_entity.dart';
+import 'package:new_mama/feature/baby_track/domain/entities/weekly_feeding_records_entity.dart';
+import 'package:new_mama/feature/baby_track/presentation/mappers/feeding_chart_mapper.dart';
+import 'package:new_mama/feature/baby_track/presentation/models/chart_item.dart';
+import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_chart/feeding_bar_chart_painter.dart';
+import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_chart/feeding_chart_header.dart';
+import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_chart/feeding_chart_tooltip.dart';
+import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_chart/feeding_period_summary.dart';
+import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_chart/feeding_reference_card.dart';
 
 class FeedingFrequencyChart extends StatefulWidget {
-  final WeeklyFeedingRecordsEntity weeklyRecords;
-  final MonthlyFeedingRecordsEntity monthlyRecords;
-  final FeedingStatisticsEntity statistics;
-
   const FeedingFrequencyChart({
     super.key,
     required this.weeklyRecords,
@@ -34,17 +23,46 @@ class FeedingFrequencyChart extends StatefulWidget {
     required this.statistics,
   });
 
+  final WeeklyFeedingRecordsEntity weeklyRecords;
+  final MonthlyFeedingRecordsEntity monthlyRecords;
+  final FeedingStatisticsEntity statistics;
+
   @override
   State<FeedingFrequencyChart> createState() => _FeedingFrequencyChartState();
 }
 
 class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
     with SingleTickerProviderStateMixin {
+  // ── State ────────────────────────────────────────────────────────────────
   bool _isWeekly = true;
   int _selectedIndex = -1;
 
+  // ── Animation ────────────────────────────────────────────────────────────
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
+
+  // ── Chart data (computed once and cached) ────────────────────────────────
+  late final List<ChartItem> _weeklyItems;
+  late final List<ChartItem> _monthlyItems;
+
+  // ── Getters ──────────────────────────────────────────────────────────────
+
+  /// Items for whichever period is currently selected.
+  List<ChartItem> get _currentItems => _isWeekly ? _weeklyItems : _monthlyItems;
+
+  /// Human-readable date-range / period label shown in the header.
+  String get _dateRangeLabel {
+    if (_isWeekly) {
+      final records = widget.weeklyRecords.dailyRecords;
+      if (records.isEmpty) return '';
+      return '${records.first.date.day} ${_monthName(records.first.date.month)}'
+          ' - '
+          '${records.last.date.day} ${_monthName(records.last.date.month)}';
+    }
+    return widget.monthlyRecords.monthName;
+  }
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
 
   @override
   void initState() {
@@ -58,6 +76,9 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
       curve: Curves.easeIn,
     );
     _animationController.forward();
+
+    _weeklyItems = FeedingChartMapper.fromWeekly(widget.weeklyRecords);
+    _monthlyItems = FeedingChartMapper.fromMonthly(widget.monthlyRecords);
   }
 
   @override
@@ -66,199 +87,87 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
     super.dispose();
   }
 
-  List<ChartItem> _getChartItems() {
-    final dailyRecords = _isWeekly
-        ? widget.weeklyRecords.dailyRecords
-        : widget.monthlyRecords.dailyRecords;
+  // ── Private helpers ──────────────────────────────────────────────────────
 
-    return dailyRecords.map((record) {
-      int times = 0;
-      String type = 'None';
-      String status = 'Normal';
-      if (record.records.isNotEmpty) {
-        times = record.records.fold(0, (sum, r) => sum + r.timesPerDay);
-        type = record.records.first.feedingType;
-        status = record.records.first.status;
-      }
-      return ChartItem(
-        date: record.date,
-        timesPerDay: times,
-        primaryFeedingType: type,
-        status: status,
-      );
-    }).toList();
-  }
-
-  String _getMonthName(int month) {
-    final keys = [
-      TK.commonMonthJan,
-      TK.commonMonthFeb,
-      TK.commonMonthMar,
-      TK.commonMonthApr,
-      TK.commonMonthMay,
-      TK.commonMonthJun,
-      TK.commonMonthJul,
-      TK.commonMonthAug,
-      TK.commonMonthSep,
-      TK.commonMonthOct,
-      TK.commonMonthNov,
-      TK.commonMonthDec,
+  String _monthName(int month) {
+    const keys = [
+      TK.commonMonthJan, TK.commonMonthFeb, TK.commonMonthMar,
+      TK.commonMonthApr, TK.commonMonthMay, TK.commonMonthJun,
+      TK.commonMonthJul, TK.commonMonthAug, TK.commonMonthSep,
+      TK.commonMonthOct, TK.commonMonthNov, TK.commonMonthDec,
     ];
     return context.trContext(keys[month - 1]);
   }
 
-  Color _getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'severeunder':
-        return context.ext.colors.severitySevere;
-      case 'under':
-        return context.ext.colors.severityModerate;
-      case 'normal':
-        return context.ext.colors.severityMinimal;
-      case 'over':
-      default:
-        return context.ext.colors.severityHigh;
-    }
+  void _onToggleWeekly() {
+    if (!_isWeekly) _switchPeriod(weekly: true);
   }
 
-  Color _getStatusBgColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'severeunder':
-        return context.ext.colors.severitySevereBg;
-      case 'under':
-        return context.ext.colors.severityModerateBg;
-      case 'normal':
-        return context.ext.colors.severityMinimalBg;
-      case 'over':
-      default:
-        return context.ext.colors.severityHighBg;
-    }
+  void _onToggleMonthly() {
+    if (_isWeekly) _switchPeriod(weekly: false);
   }
 
-  String _formatStatusLabel(String status) {
-    switch (status.toLowerCase()) {
-      case 'severeunder':
-        return context.trContext(TK.babyFeedingSevereUnder);
-      case 'under':
-        return context.trContext(TK.babyFeedingUnder);
-      case 'normal':
-        return context.trContext(TK.babyFeedingNormal);
-      case 'over':
-        return context.trContext(TK.babyFeedingOver);
-      default:
-        return status;
-    }
+  void _switchPeriod({required bool weekly}) {
+    setState(() {
+      _isWeekly = weekly;
+      _selectedIndex = -1;
+      _animationController
+        ..reset()
+        ..forward();
+    });
   }
+
+  void _onBarTap(TapUpDetails details, double chartWidth, double barSpacing) {
+    final double localX = details.localPosition.dx - 25;
+    if (localX < 0 || localX > chartWidth) return;
+
+    final int index = (localX / barSpacing).floor();
+    if (index < 0 || index >= _currentItems.length) return;
+
+    setState(() {
+      _selectedIndex = (_selectedIndex == index) ? -1 : index;
+    });
+  }
+
+  // ── Build ────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
-    final items = _getChartItems();
+    final items = _currentItems;
     final colors = context.ext.colors;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ── Header & Segment Selector ──
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.trContext(TK.babyFeedingFrequency),
-                  style: context.text.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: colors.lightTextPrimary,
-                  ),
-                ),
-                4.h.height,
-                Text(
-                  _isWeekly
-                      ? '${widget.weeklyRecords.dailyRecords.isEmpty ? "" : "${widget.weeklyRecords.dailyRecords.first.date.day} ${_getMonthName(widget.weeklyRecords.dailyRecords.first.date.month)}"} - ${widget.weeklyRecords.dailyRecords.isEmpty ? "" : "${widget.weeklyRecords.dailyRecords.last.date.day} ${_getMonthName(widget.weeklyRecords.dailyRecords.last.date.month)}"}'
-                      : widget.monthlyRecords.monthName,
-                  style: context.text.bodySmall!.copyWith(
-                    color: colors.lightTextSecondary,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            // Custom Segmented Switch (Senior Style)
-            Container(
-              padding: EdgeInsets.all(4.w),
-              decoration: BoxDecoration(
-                color: colors.primaryLighter.withValues(alpha: 40),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Row(
-                children: [
-                  _buildToggleTab(
-                    label: context.trContext(TK.babySleepWeekly),
-                    isActive: _isWeekly,
-                    onTap: () {
-                      if (!_isWeekly) {
-                        setState(() {
-                          _isWeekly = true;
-                          _selectedIndex = -1;
-                          _animationController.reset();
-                          _animationController.forward();
-                        });
-                      }
-                    },
-                  ),
-                  _buildToggleTab(
-                    label: context.trContext(TK.babySleepMonthly),
-                    isActive: !_isWeekly,
-                    onTap: () {
-                      if (_isWeekly) {
-                        setState(() {
-                          _isWeekly = false;
-                          _selectedIndex = -1;
-                          _animationController.reset();
-                          _animationController.forward();
-                        });
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
+        FeedingChartHeader(
+          isWeekly: _isWeekly,
+          weeklyRecords: widget.weeklyRecords,
+          monthlyRecords: widget.monthlyRecords,
+          dateRangeLabel: _dateRangeLabel,
+          onToggleWeekly: _onToggleWeekly,
+          onToggleMonthly: _onToggleMonthly,
         ),
         24.h.height,
 
-        // ── Chart Area with Tooltip Overlay ──
+        // ── Chart canvas + tooltip overlay ──
         LayoutBuilder(
           builder: (context, constraints) {
             final double chartWidth = constraints.maxWidth - 25;
-            final double barSpacing = chartWidth / items.length;
+            final double barSpacing =
+                items.isNotEmpty ? chartWidth / items.length : 1;
 
             return Stack(
               clipBehavior: Clip.none,
               children: [
-                // Chart Painter
                 GestureDetector(
-                  onTapUp: (details) {
-                    final double localX = details.localPosition.dx - 25;
-                    if (localX >= 0 && localX <= chartWidth) {
-                      final int index = (localX / barSpacing).floor();
-                      if (index >= 0 && index < items.length) {
-                        setState(() {
-                          _selectedIndex = (_selectedIndex == index)
-                              ? -1
-                              : index;
-                        });
-                      }
-                    }
-                  },
+                  onTapUp: (d) => _onBarTap(d, chartWidth, barSpacing),
                   child: FadeTransition(
                     opacity: _fadeAnimation,
                     child: SizedBox(
                       height: 140.h,
                       width: double.infinity,
                       child: CustomPaint(
-                        painter: _BarChartPainter(
+                        painter: FeedingBarChartPainter(
                           items: items,
                           selectedIndex: _selectedIndex,
                           primaryDark: colors.primaryDark,
@@ -269,630 +178,126 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
                     ),
                   ),
                 ),
-
-                // Tooltip Positioning
-                if (_selectedIndex != -1 && _selectedIndex < items.length) ...[
-                  (() {
-                    final selectedItem = items[_selectedIndex];
-                    final double barCenterX =
-                        25 + (_selectedIndex * barSpacing) + (barSpacing / 2);
-                    final double tooltipWidth = 145.w;
-                    double left = barCenterX - (tooltipWidth / 2);
-                    if (left < 0) left = 4;
-                    if (left + tooltipWidth > constraints.maxWidth) {
-                      left = constraints.maxWidth - tooltipWidth - 4;
-                    }
-
-                    return Positioned(
-                      top: -65.h,
-                      left: left,
-                      child: Card(
-                        elevation: 6,
-                        shadowColor: Colors.black.withValues(alpha: 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        child: Container(
-                          width: tooltipWidth,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 8.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: context.theme.cardColor,
-                            borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(
-                              color: colors.primaryLighter.withValues(
-                                alpha: 100,
-                              ),
-                              width: 1,
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                '${selectedItem.date.day} ${_getMonthName(selectedItem.date.month)}',
-                                style: context.text.bodySmall!.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: colors.lightTextSecondary,
-                                ),
-                              ),
-                              4.h.height,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    context.trContext(
-                                      TK.babyFeedingTimesSuffix,
-                                      namedArgs: {
-                                        'count': '${selectedItem.timesPerDay}',
-                                      },
-                                    ),
-                                    style: context.text.titleSmall!.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      color: colors.primaryDark,
-                                    ),
-                                  ),
-                                  if (selectedItem.timesPerDay > 0)
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 5.w,
-                                        vertical: 2.h,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: _getStatusBgColor(
-                                          selectedItem.status,
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                          6.r,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        _formatStatusLabel(selectedItem.status),
-                                        style: context.text.bodySmall!.copyWith(
-                                          fontSize: 9.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: _getStatusColor(
-                                            selectedItem.status,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                              if (selectedItem.timesPerDay > 0) ...[
-                                4.h.height,
-                                Text(
-                                  context.trContext(
-                                    TK.babyFeedingTypePrefix,
-                                    namedArgs: {
-                                      'type': selectedItem.primaryFeedingType,
-                                    },
-                                  ),
-                                  style: context.text.bodySmall!.copyWith(
-                                    fontSize: 10.sp,
-                                    color: colors.lightTextPrimary,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }()),
-                ],
+                if (_selectedIndex >= 0 && _selectedIndex < items.length)
+                  _buildTooltip(
+                    context,
+                    items[_selectedIndex],
+                    _selectedIndex,
+                    barSpacing,
+                    constraints.maxWidth,
+                  ),
               ],
             );
           },
         ),
         12.h.height,
 
-        // ── X-Axis Labels ──
-        Padding(
-          padding: EdgeInsets.only(left: 25.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: _isWeekly
-                ? items.map((item) {
-                    final weekdayKeys = [
-                      TK.commonDayMon,
-                      TK.commonDayTue,
-                      TK.commonDayWed,
-                      TK.commonDayThu,
-                      TK.commonDayFri,
-                      TK.commonDaySat,
-                      TK.commonDaySun,
-                    ];
-                    final label = context.trContext(
-                      weekdayKeys[item.date.weekday - 1],
-                    );
-                    return Expanded(
-                      child: Center(
-                        child: Text(
-                          label,
-                          style: context.text.bodySmall!.copyWith(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600,
-                            color: colors.lightTextSecondary,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList()
-                : List.generate(5, (index) {
-                    final step = ((items.length - 1) / 4).round();
-                    final itemIndex = (step * index).clamp(0, items.length - 1);
-                    final item = items[itemIndex];
-                    return Text(
-                      '${item.date.day} ${_getMonthName(item.date.month)}',
-                      style: context.text.bodySmall!.copyWith(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w600,
-                        color: colors.lightTextSecondary,
-                      ),
-                    );
-                  }),
-          ),
+        // ── X-axis labels ──
+        _XAxisLabels(
+          isWeekly: _isWeekly,
+          items: items,
+          monthName: _monthName,
         ),
         24.h.height,
 
-        // ── Period summary stats (Slick UI Cards) ──
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(16.w),
-          decoration: BoxDecoration(
-            color: colors.primaryLighter.withValues(alpha: 20),
-            borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(
-              color: colors.primaryLighter.withValues(alpha: 60),
-              width: 1,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                context.trContext(TK.babySleepPeriodOverview),
-                style: context.text.titleSmall!.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: colors.lightTextPrimary,
-                ),
-              ),
-              12.h.height,
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildMetricItem(
-                      icon: Icons.date_range_rounded,
-                      label: context.trContext(TK.babyFeedingAvgFeeding),
-                      value: _isWeekly
-                          ? context.trContext(
-                              TK.babyFeedingTimesPerDaySuffix,
-                              namedArgs: {
-                                'count': widget.weeklyRecords.weeklyAverage
-                                    .toStringAsFixed(1),
-                              },
-                            )
-                          : context.trContext(
-                              TK.babyFeedingTimesPerDaySuffix,
-                              namedArgs: {
-                                'count': widget
-                                    .monthlyRecords
-                                    .monthlyAverageTimesPerDay
-                                    .toStringAsFixed(1),
-                              },
-                            ),
-                      color: colors.primaryDark,
-                    ),
-                  ),
-                  Expanded(
-                    child: _buildMetricItem(
-                      icon: Icons.equalizer_rounded,
-                      label: context.trContext(TK.babySleepLoggedDays),
-                      value: _isWeekly
-                          ? context.trContext(
-                              TK.babySleepDaysSuffix,
-                              namedArgs: {
-                                'count':
-                                    '${items.where((i) => i.timesPerDay > 0).length}',
-                              },
-                            )
-                          : context.trContext(
-                              TK.babySleepDaysSuffix,
-                              namedArgs: {
-                                'count':
-                                    '${widget.monthlyRecords.totalRecords}',
-                              },
-                            ),
-                      color: colors.primaryAccent,
-                    ),
-                  ),
-                ],
-              ),
-              if (!_isWeekly) ...[
-                12.h.height,
-                Divider(
-                  height: 1,
-                  color: colors.primaryLighter.withValues(alpha: 60),
-                ),
-                12.h.height,
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildMetricItem(
-                        icon: Icons.check_circle_outline_rounded,
-                        label: context.trContext(TK.babyFeedingNormalDays),
-                        value: context.trContext(
-                          TK.babySleepDaysSuffix,
-                          namedArgs: {
-                            'count': '${widget.monthlyRecords.normalDays}',
-                          },
-                        ),
-                        color: colors.greenText,
-                      ),
-                    ),
-                    Expanded(
-                      child: _buildMetricItem(
-                        icon: Icons.warning_amber_rounded,
-                        label: context.trContext(TK.babyFeedingAbnormalDays),
-                        value: context.trContext(
-                          TK.babySleepDaysSuffix,
-                          namedArgs: {
-                            'count': '${widget.monthlyRecords.abnormalDays}',
-                          },
-                        ),
-                        color: colors.severityHigh,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ],
-          ),
+        // ── Period summary ──
+        FeedingPeriodSummary(
+          isWeekly: _isWeekly,
+          weeklyRecords: widget.weeklyRecords,
+          monthlyRecords: widget.monthlyRecords,
+          items: items,
         ),
         16.h.height,
 
-        // ── Pediatrician / Reference Insights Card ──
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(16.w),
-          decoration: BoxDecoration(
-            color: _getStatusBgColor(widget.statistics.currentFeedingStatus),
-            borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(
-              color: _getStatusColor(
-                widget.statistics.currentFeedingStatus,
-              ).withValues(alpha: 40),
-              width: 1,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.health_and_safety_rounded,
-                        color: _getStatusColor(
-                          widget.statistics.currentFeedingStatus,
-                        ),
-                        size: 20.sp,
-                      ),
-                      8.width,
-                      Text(
-                        context.trContext(TK.babySleepPediatricianRef),
-                        style: context.text.titleSmall!.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: _getStatusColor(
-                            widget.statistics.currentFeedingStatus,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10.w,
-                      vertical: 4.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: _getStatusColor(
-                        widget.statistics.currentFeedingStatus,
-                      ),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Text(
-                      _formatStatusLabel(
-                        widget.statistics.currentFeedingStatus,
-                      ).toUpperCase(),
-                      style: context.text.bodySmall!.copyWith(
-                        fontSize: 9.sp,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              12.h.height,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildStatLabel(
-                    label: context.trContext(TK.babySleepRecommendedRange),
-                    value:
-                        '${widget.statistics.comparisonWithReference.recommendedMin} - ${widget.statistics.comparisonWithReference.recommendedMax} times/day',
-                  ),
-                  _buildStatLabel(
-                    label: context.trContext(TK.babyFeedingOverallAvg),
-                    value:
-                        '${widget.statistics.averageTimesPerDay.toStringAsFixed(1)} times/day',
-                  ),
-                ],
-              ),
-              12.h.height,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildStatLabel(
-                    label: context.trContext(TK.babyFeedingMostCommon),
-                    value: widget.statistics.mostCommonFeedingType,
-                  ),
-                  _buildStatLabel(
-                    label: context.trContext(TK.babyFeedingLast7DaysAvg),
-                    value:
-                        '${widget.statistics.last7DaysAverage.toStringAsFixed(1)} times/day',
-                  ),
-                ],
-              ),
-              if (widget
-                  .statistics
-                  .comparisonWithReference
-                  .message
-                  .isNotEmpty) ...[
-                12.h.height,
-                Container(
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                    color: context.theme.cardColor.withValues(alpha: 150),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          widget.statistics.comparisonWithReference.message,
-                          style: context.text.bodySmall!.copyWith(
-                            color: colors.lightTextPrimary,
-                            fontWeight: FontWeight.w500,
-                            height: 1.4,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
+        // ── Pediatrician reference card ──
+        FeedingReferenceCard(statistics: widget.statistics),
       ],
     );
   }
 
-  Widget _buildToggleTab({
-    required String label,
-    required bool isActive,
-    required VoidCallback onTap,
-  }) {
-    final colors = context.ext.colors;
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-        decoration: BoxDecoration(
-          color: isActive ? context.theme.cardColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(8.r),
-          boxShadow: isActive
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 8),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
-        ),
-        child: Text(
-          label,
-          style: context.text.bodySmall!.copyWith(
-            fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-            color: isActive ? colors.primaryDark : colors.lightTextSecondary,
-          ),
-        ),
+  /// Positions the tooltip above the selected bar, clamped to screen edges.
+  Widget _buildTooltip(
+    BuildContext context,
+    ChartItem item,
+    int index,
+    double barSpacing,
+    double maxWidth,
+  ) {
+    const double tooltipWidth = 145;
+    final double barCenterX = 25 + (index * barSpacing) + (barSpacing / 2);
+    double left = barCenterX - (tooltipWidth / 2);
+    left = left.clamp(4.0, maxWidth - tooltipWidth - 4);
+
+    return Positioned(
+      top: -65.h,
+      left: left,
+      child: FeedingChartTooltip(
+        item: item,
+        monthName: _monthName(item.date.month),
       ),
-    );
-  }
-
-  Widget _buildMetricItem({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-  }) {
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 16.r,
-          backgroundColor: color.withValues(alpha: 20),
-          child: Icon(icon, size: 16.sp, color: color),
-        ),
-        10.width,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: context.text.bodySmall!.copyWith(
-                  fontSize: 10.sp,
-                  color: context.ext.colors.lightTextSecondary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              2.h.height,
-              Text(
-                value,
-                style: context.text.bodyMedium!.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: context.ext.colors.lightTextPrimary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStatLabel({required String label, required String value}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: context.text.bodySmall!.copyWith(
-            fontSize: 9.sp,
-            color: context.ext.colors.lightTextSecondary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        4.h.height,
-        Text(
-          value,
-          style: context.text.bodyMedium!.copyWith(
-            fontWeight: FontWeight.w700,
-            color: context.ext.colors.lightTextPrimary,
-          ),
-        ),
-      ],
     );
   }
 }
 
-class _BarChartPainter extends CustomPainter {
-  final List<ChartItem> items;
-  final int selectedIndex;
-  final Color primaryDark;
-  final Color primaryAccent;
-  final Color gridColor;
+// ── Private sub-widget ───────────────────────────────────────────────────────
 
-  _BarChartPainter({
+/// X-axis label row rendered below the chart canvas.
+class _XAxisLabels extends StatelessWidget {
+  const _XAxisLabels({
+    required this.isWeekly,
     required this.items,
-    required this.selectedIndex,
-    required this.primaryDark,
-    required this.primaryAccent,
-    required this.gridColor,
+    required this.monthName,
   });
 
+  final bool isWeekly;
+  final List<ChartItem> items;
+
+  /// Callback that returns the localised month name for a 1-based [month].
+  final String Function(int month) monthName;
+
+  static const _weekdayKeys = [
+    TK.commonDayMon, TK.commonDayTue, TK.commonDayWed,
+    TK.commonDayThu, TK.commonDayFri, TK.commonDaySat, TK.commonDaySun,
+  ];
+
   @override
-  void paint(Canvas canvas, Size size) {
-    if (items.isEmpty) return;
-
-    final maxVal = items.fold<int>(
-      0,
-      (max, item) => item.timesPerDay > max ? item.timesPerDay : max,
+  Widget build(BuildContext context) {
+    final colors = context.ext.colors;
+    final labelStyle = context.text.bodySmall!.copyWith(
+      fontSize: 10.sp,
+      fontWeight: FontWeight.w600,
+      color: colors.lightTextSecondary,
     );
-    final double scaleMax = maxVal < 8 ? 8.0 : maxVal.toDouble();
 
-    // Draw background horizontal lines
-    final paintGrid = Paint()
-      ..color = gridColor.withValues(alpha: 100)
-      ..strokeWidth = 0.5
-      ..style = PaintingStyle.stroke;
-
-    final textPainter = TextPainter(textDirection: TextDirection.ltr);
-
-    final double chartHeight =
-        size.height - 20; // reserve space for bottom labels
-    final double step = scaleMax / 4;
-    for (int i = 0; i <= 4; i++) {
-      final double val = step * i;
-      final double y = chartHeight - (val / scaleMax) * chartHeight;
-      // Draw grid line
-      canvas.drawLine(Offset(25, y), Offset(size.width, y), paintGrid);
-
-      // Draw grid label
-      textPainter.text = TextSpan(
-        text: val.toInt().toString(),
-        style: TextStyle(
-          color: gridColor.withValues(alpha: 180),
-          fontSize: 9,
-          fontWeight: FontWeight.w600,
-        ),
-      );
-      textPainter.layout();
-      textPainter.paint(canvas, Offset(0, y - 6));
-    }
-
-    final double chartWidth = size.width - 25;
-    final int count = items.length;
-    final double barSpacing = chartWidth / count;
-    final double barWidth = count > 10
-        ? (barSpacing * 0.6)
-        : (barSpacing * 0.4);
-
-    for (int i = 0; i < count; i++) {
-      final item = items[i];
-      final double barHeight = (item.timesPerDay / scaleMax) * chartHeight;
-      final double x = 25 + (i * barSpacing) + (barSpacing - barWidth) / 2;
-      final double y = chartHeight - barHeight;
-
-      if (barHeight > 0) {
-        final rect = RRect.fromRectAndRadius(
-          Rect.fromLTWH(x, y, barWidth, barHeight),
-          const Radius.circular(4),
-        );
-
-        final isSelected = i == selectedIndex;
-        final paint = Paint()
-          ..shader = LinearGradient(
-            colors: isSelected
-                ? [primaryDark, primaryDark.withValues(alpha: 150)]
-                : [
-                    primaryAccent.withValues(alpha: 160),
-                    primaryAccent.withValues(alpha: 80),
-                  ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ).createShader(Rect.fromLTWH(x, y, barWidth, barHeight))
-          ..style = PaintingStyle.fill;
-
-        canvas.drawRRect(rect, paint);
-
-        // Highlight selected bar outline
-        if (isSelected) {
-          final strokePaint = Paint()
-            ..color = primaryDark
-            ..strokeWidth = 1.5
-            ..style = PaintingStyle.stroke;
-          canvas.drawRRect(rect, strokePaint);
-        }
-      }
-    }
+    return Padding(
+      padding: EdgeInsets.only(left: 25.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: isWeekly
+            ? _weeklyLabels(context, labelStyle)
+            : _monthlyLabels(labelStyle),
+      ),
+    );
   }
 
-  @override
-  bool shouldRepaint(covariant _BarChartPainter old) =>
-      old.items != items || old.selectedIndex != selectedIndex;
+  List<Widget> _weeklyLabels(BuildContext context, TextStyle style) =>
+      items.map((item) {
+        final label = context.trContext(_weekdayKeys[item.date.weekday - 1]);
+        return Expanded(
+          child: Center(child: Text(label, style: style)),
+        );
+      }).toList();
+
+  List<Widget> _monthlyLabels(TextStyle style) {
+    if (items.isEmpty) return [];
+    final int step = ((items.length - 1) / 4).round().clamp(1, items.length);
+    return List.generate(5, (i) {
+      final itemIndex = (step * i).clamp(0, items.length - 1);
+      final item = items[itemIndex];
+      return Text(
+        '${item.date.day} ${monthName(item.date.month)}',
+        style: style,
+      );
+    });
+  }
 }

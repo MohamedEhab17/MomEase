@@ -12,6 +12,7 @@ import 'package:new_mama/feature/baby_track/data/models/baby_track_models.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/date_picker_field.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_type_chip_selector.dart';
+import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_chart/feeding_frequency_counter.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/core/helper/app_toast.dart';
 
@@ -114,119 +115,9 @@ class _FeedingTabViewState extends State<FeedingTabView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Premium Frequency Counter Card
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-                decoration: BoxDecoration(
-                  color: context.ext.colors.backgroundPink.withAlpha(51),
-                  borderRadius: BorderRadius.circular(24.r),
-                  border: Border.all(
-                    color: context.ext.colors.primaryLighter.withAlpha(77),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(8.r),
-                          decoration: BoxDecoration(
-                            color: context.ext.colors.backgroundPink,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.cookie_outlined,
-                            color: context.ext.colors.primaryDark,
-                            size: 20.sp,
-                          ),
-                        ),
-                        8.w.width,
-                        Text(
-                          context.trContext(TK.babyFeedingFrequency),
-                          style: context.text.titleMedium!.copyWith(
-                            color: context.ext.colors.primaryDark,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    20.h.height,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Decrement Button
-                        GestureDetector(
-                          onTap: _feedingTimesPerDay > 1
-                              ? () => setState(() => _feedingTimesPerDay--)
-                              : null,
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
-                            width: 52.w,
-                            height: 52.h,
-                            decoration: BoxDecoration(
-                              color: _feedingTimesPerDay > 1
-                                  ? context.theme.cardColor
-                                  : context.theme.cardColor.withAlpha(100),
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: _feedingTimesPerDay > 1
-                                    ? context.ext.colors.primaryDark.withAlpha(128)
-                                    : context.ext.colors.lightTextDisabled.withAlpha(50),
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.remove_rounded,
-                              color: _feedingTimesPerDay > 1
-                                  ? context.ext.colors.primaryDark
-                                  : context.ext.colors.lightTextDisabled,
-                              size: 28.sp,
-                            ),
-                          ),
-                        ),
-                        40.w.width,
-                        // Large Counter Text
-                        Text(
-                          '$_feedingTimesPerDay',
-                          style: context.text.headlineLarge!.copyWith(
-                            fontSize: 48.sp,
-                            fontWeight: FontWeight.w900,
-                            color: context.ext.colors.primaryDark,
-                          ),
-                        ),
-                        40.w.width,
-                        // Increment Button
-                        GestureDetector(
-                          onTap: _feedingTimesPerDay < 20
-                              ? () => setState(() => _feedingTimesPerDay++)
-                              : null,
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
-                            width: 52.w,
-                            height: 52.h,
-                            decoration: BoxDecoration(
-                              color: _feedingTimesPerDay < 20
-                                  ? context.theme.cardColor
-                                  : context.theme.cardColor.withAlpha(100),
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: _feedingTimesPerDay < 20
-                                    ? context.ext.colors.primaryDark.withAlpha(128)
-                                    : context.ext.colors.lightTextDisabled.withAlpha(50),
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.add_rounded,
-                              color: _feedingTimesPerDay < 20
-                                  ? context.ext.colors.primaryDark
-                                  : context.ext.colors.lightTextDisabled,
-                              size: 28.sp,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              FeedingFrequencyCounter(
+                count: _feedingTimesPerDay,
+                onChanged: (val) => setState(() => _feedingTimesPerDay = val),
               ),
 
               28.h.height,

@@ -8,17 +8,11 @@ import 'package:new_mama/feature/baby_track/domain/entities/weekly_sleep_records
 import 'package:new_mama/feature/baby_track/domain/entities/monthly_sleep_records_entity.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/sleep_statistics_entity.dart';
 
-class SleepChartItem {
-  final DateTime date;
-  final double? sleepHours; // null if no data
-  final String status;
-
-  SleepChartItem({
-    required this.date,
-    required this.sleepHours,
-    required this.status,
-  });
-}
+import 'sleep_chart/sleep_chart_item.dart';
+import 'sleep_chart/sleep_bar_chart_painter.dart';
+import 'sleep_chart/sleep_toggle_tab.dart';
+import 'sleep_chart/sleep_metric_item.dart';
+import 'sleep_chart/sleep_stat_label.dart';
 
 class SleepDurationChart extends StatefulWidget {
   final WeeklySleepRecordsEntity weeklyRecords;
@@ -160,11 +154,11 @@ class _SleepDurationChartState extends State<SleepDurationChart>
     final stats = widget.statistics;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         // ── Header & Segment Toggle ──
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: .spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,7 +194,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
               ),
               child: Row(
                 children: [
-                  _buildToggleTab(
+                  SleepToggleTab(
                     label: context.trContext(TK.babySleepWeekly),
                     isActive: _isWeekly,
                     onTap: () {
@@ -214,7 +208,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                       }
                     },
                   ),
-                  _buildToggleTab(
+                  SleepToggleTab(
                     label: context.trContext(TK.babySleepMonthly),
                     isActive: !_isWeekly,
                     onTap: () {
@@ -228,8 +222,10 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                       }
                     },
                   ),
-           ] ),
-        )],
+                ],
+              ),
+            ),
+          ],
         ),
         24.h.height,
 
@@ -262,7 +258,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                       height: 140.h,
                       width: double.infinity,
                       child: CustomPaint(
-                        painter: _SleepBarChartPainter(
+                        painter: SleepBarChartPainter(
                           items: items,
                           selectedIndex: _selectedIndex,
                           primaryDark: colors.primaryDark,
@@ -293,7 +289,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                       left: left,
                       child: Card(
                         elevation: 6,
-                        shadowColor: Colors.black.withValues(alpha: 50),
+                        shadowColor: colors.primaryDark.withValues(alpha: 30),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.r),
                         ),
@@ -311,10 +307,11 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                             ),
                           ),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: .start,
+                            mainAxisSize: .min,
                             children: [
                               Text(
+                                softWrap: true,
                                 '${sel.date.day} ${_getMonthName(sel.date.month)}',
                                 style: context.text.bodySmall!.copyWith(
                                   fontWeight: FontWeight.w700,
@@ -325,9 +322,10 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                               if (sel.sleepHours != null) ...[
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      .spaceBetween,
                                   children: [
                                     Text(
+                                      softWrap: true,
                                       _formatHours(sel.sleepHours!),
                                       style:
                                           context.text.titleSmall!.copyWith(
@@ -344,6 +342,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                                             BorderRadius.circular(6.r),
                                       ),
                                       child: Text(
+                                        softWrap: true,
                                         _formatStatusLabel(sel.status),
                                         style:
                                             context.text.bodySmall!.copyWith(
@@ -357,6 +356,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                                 ),
                               ] else ...[
                                 Text(
+                                  softWrap: true,
                                   context.trContext(TK.babySleepNoData),
                                   style: context.text.bodySmall!.copyWith(
                                     color: colors.lightTextSecondary,
@@ -441,7 +441,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
             ),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: .start,
             children: [
               Text(
                 context.trContext(TK.babySleepPeriodOverview),
@@ -454,7 +454,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
               Row(
                 children: [
                   Expanded(
-                    child: _buildMetricItem(
+                    child: SleepMetricItem(
                       icon: Icons.bedtime_rounded,
                       label: context.trContext(TK.babySleepAvgSleep),
                       value: _isWeekly
@@ -466,7 +466,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                     ),
                   ),
                   Expanded(
-                    child: _buildMetricItem(
+                    child: SleepMetricItem(
                       icon: Icons.equalizer_rounded,
                       label: context.trContext(TK.babySleepLoggedDays),
                       value: _isWeekly
@@ -484,7 +484,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                 Row(
                   children: [
                     Expanded(
-                      child: _buildMetricItem(
+                      child: SleepMetricItem(
                         icon: Icons.check_circle_outline_rounded,
                         label: context.trContext(TK.babySleepGoodDays),
                         value: context.trContext(TK.babySleepDaysSuffix, namedArgs: {'count': widget.monthlyRecords.goodDays.toString()}),
@@ -492,7 +492,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                       ),
                     ),
                     Expanded(
-                      child: _buildMetricItem(
+                      child: SleepMetricItem(
                         icon: Icons.warning_amber_rounded,
                         label: context.trContext(TK.babySleepPoorDays),
                         value: context.trContext(TK.babySleepDaysSuffix, namedArgs: {'count': widget.monthlyRecords.poorDays.toString()}),
@@ -531,7 +531,7 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                         color: _statusColor(stats.currentSleepStatus),
                         size: 20.sp,
                       ),
-                      8.width,
+                      8.w.width,
                       Text(
                         context.trContext(TK.babySleepPediatricianRef),
                         style: context.text.titleSmall!.copyWith(
@@ -560,33 +560,28 @@ class _SleepDurationChartState extends State<SleepDurationChart>
                   ),
                 ],
               ),
-              12.h.height,
+              16.h.height,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildStatLabel(
-                    label: context.trContext(TK.babySleepRecommendedRange),
-                    value:
-                        '${stats.comparisonWithReference.recommendedMinHours}-${stats.comparisonWithReference.recommendedMaxHours} h/day',
+                  Expanded(
+                    child: SleepStatLabel(
+                      label: context.trContext(TK.babySleepRecommendedRange),
+                      value:
+                          '${stats.comparisonWithReference.recommendedMinHours}-${stats.comparisonWithReference.recommendedMaxHours} h/d',
+                    ),
                   ),
-                  _buildStatLabel(
-                    label: context.trContext(TK.babySleepOverallAvg),
-                    value: stats.averageSleepHoursFormatted,
+                  Expanded(
+                    child: SleepStatLabel(
+                      label: context.trContext(TK.babySleepOverallAvg),
+                      value: stats.averageSleepHoursFormatted,
+                    ),
                   ),
-                ],
-              ),
-              12.h.height,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildStatLabel(
-                    label: context.trContext(TK.babySleepLast7Days),
-                    value: stats.last7DaysAverageFormatted,
-                  ),
-                  _buildStatLabel(
-                    label: context.trContext(TK.babySleepQualityScore),
-                    value:
-                        '${stats.sleepQualityPercentage.toStringAsFixed(0)}%',
+                  Expanded(
+                    child: SleepStatLabel(
+                      label: context.trContext(TK.babySleepLast7Days),
+                      value: stats.last7DaysAverageFormatted,
+                    ),
                   ),
                 ],
               ),
@@ -614,214 +609,4 @@ class _SleepDurationChartState extends State<SleepDurationChart>
       ],
     );
   }
-
-  Widget _buildToggleTab({
-    required String label,
-    required bool isActive,
-    required VoidCallback onTap,
-  }) {
-    final colors = context.ext.colors;
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-        decoration: BoxDecoration(
-          color: isActive ? context.theme.cardColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(8.r),
-          boxShadow: isActive
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 8),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  )
-                ]
-              : null,
-        ),
-        child: Text(
-          label,
-          style: context.text.bodySmall!.copyWith(
-            fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-            color:
-                isActive ? colors.primaryDark : colors.lightTextSecondary,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMetricItem({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-  }) {
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 16.r,
-          backgroundColor: color.withValues(alpha: 20),
-          child: Icon(icon, size: 16.sp, color: color),
-        ),
-        10.width,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: context.text.bodySmall!.copyWith(
-                  fontSize: 10.sp,
-                  color: context.ext.colors.lightTextSecondary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              2.h.height,
-              Text(
-                value,
-                style: context.text.bodyMedium!.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: context.ext.colors.lightTextPrimary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStatLabel({required String label, required String value}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: context.text.bodySmall!.copyWith(
-            fontSize: 9.sp,
-            color: context.ext.colors.lightTextSecondary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        4.h.height,
-        Text(
-          value,
-          style: context.text.bodyMedium!.copyWith(
-            fontWeight: FontWeight.w700,
-            color: context.ext.colors.lightTextPrimary,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ── Custom Bar Chart Painter ──
-class _SleepBarChartPainter extends CustomPainter {
-  final List<SleepChartItem> items;
-  final int selectedIndex;
-  final Color primaryDark;
-  final Color primaryAccent;
-  final Color gridColor;
-  final Color poorColor;
-
-  _SleepBarChartPainter({
-    required this.items,
-    required this.selectedIndex,
-    required this.primaryDark,
-    required this.primaryAccent,
-    required this.gridColor,
-    required this.poorColor,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (items.isEmpty) return;
-
-    final double maxVal = items
-        .where((i) => i.sleepHours != null)
-        .fold<double>(8.0, (m, i) => i.sleepHours! > m ? i.sleepHours! : m);
-    final double scaleMax = maxVal < 8 ? 8.0 : maxVal;
-
-    // Grid lines
-    final paintGrid = Paint()
-      ..color = gridColor.withValues(alpha: 100)
-      ..strokeWidth = 0.5
-      ..style = PaintingStyle.stroke;
-
-    final textPainter = TextPainter(textDirection: TextDirection.ltr);
-
-    final double chartHeight = size.height - 20;
-    final double step = scaleMax / 4;
-
-    for (int i = 0; i <= 4; i++) {
-      final double val = step * i;
-      final double y = chartHeight - (val / scaleMax) * chartHeight;
-      canvas.drawLine(Offset(28, y), Offset(size.width, y), paintGrid);
-
-      textPainter.text = TextSpan(
-        text: '${val.toInt()}h',
-        style: TextStyle(
-          color: gridColor.withValues(alpha: 180),
-          fontSize: 9,
-          fontWeight: FontWeight.w600,
-        ),
-      );
-      textPainter.layout();
-      textPainter.paint(canvas, Offset(0, y - 6));
-    }
-
-    final double chartWidth = size.width - 28;
-    final int count = items.length;
-    final double barSpacing = chartWidth / count;
-    final double barWidth = count > 10 ? (barSpacing * 0.6) : (barSpacing * 0.4);
-
-    for (int i = 0; i < count; i++) {
-      final item = items[i];
-      if (item.sleepHours == null) continue;
-
-      final double barHeight = (item.sleepHours! / scaleMax) * chartHeight;
-      final double x = 28 + (i * barSpacing) + (barSpacing - barWidth) / 2;
-      final double y = chartHeight - barHeight;
-
-      if (barHeight > 0) {
-        final rect = RRect.fromRectAndRadius(
-          Rect.fromLTWH(x, y, barWidth, barHeight),
-          const Radius.circular(4),
-        );
-
-        final isSelected = i == selectedIndex;
-        final isPoor = item.status.toLowerCase() == 'poor';
-
-        final Color barColor = isPoor ? poorColor : primaryDark;
-        final Color barColorLight =
-            isPoor ? poorColor.withValues(alpha: 130) : primaryAccent;
-
-        final paint = Paint()
-          ..shader = LinearGradient(
-            colors: isSelected
-                ? [barColor, barColor.withValues(alpha: 150)]
-                : [barColorLight, barColorLight.withValues(alpha: 80)],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ).createShader(Rect.fromLTWH(x, y, barWidth, barHeight))
-          ..style = PaintingStyle.fill;
-
-        canvas.drawRRect(rect, paint);
-
-        if (isSelected) {
-          final strokePaint = Paint()
-            ..color = barColor
-            ..strokeWidth = 1.5
-            ..style = PaintingStyle.stroke;
-          canvas.drawRRect(rect, strokePaint);
-        }
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _SleepBarChartPainter old) =>
-      old.items != items || old.selectedIndex != selectedIndex;
 }

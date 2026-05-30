@@ -6,7 +6,9 @@ class WeeklySleepRecordsModel extends WeeklySleepRecordsEntity {
     required super.weekEnd,
     required super.dailySleep,
     required super.weeklyAverageSleep,
+    super.weeklyAverageSleepFormatted,
     required super.totalRecords,
+    super.totalSessions,
   });
 
   factory WeeklySleepRecordsModel.fromJson(Map<String, dynamic> json) {
@@ -23,7 +25,9 @@ class WeeklySleepRecordsModel extends WeeklySleepRecordsEntity {
               .toList() ??
           [],
       weeklyAverageSleep: json['weeklyAverageSleep'] as String? ?? '00:00:00',
+      weeklyAverageSleepFormatted: json['weeklyAverageSleepFormatted'] as String?,
       totalRecords: json['totalRecords'] as int? ?? 0,
+      totalSessions: json['totalSessions'] as int?,
     );
   }
 }
@@ -32,7 +36,9 @@ class DailySleepRecordModel extends DailySleepRecordEntity {
   const DailySleepRecordModel({
     required super.date,
     required super.sleepHours,
+    super.sleepHoursFormatted,
     required super.status,
+    super.sessionCount,
   });
 
   factory DailySleepRecordModel.fromJson(Map<String, dynamic> json) {
@@ -41,7 +47,9 @@ class DailySleepRecordModel extends DailySleepRecordEntity {
           ? DateTime.parse(json['date'] as String)
           : DateTime.now(),
       sleepHours: json['sleepHours'] as String?,
+      sleepHoursFormatted: json['sleepHoursFormatted'] as String?,
       status: json['status'] as String? ?? 'Unknown',
+      sessionCount: json['sessionCount'] as int?,
     );
   }
 }
