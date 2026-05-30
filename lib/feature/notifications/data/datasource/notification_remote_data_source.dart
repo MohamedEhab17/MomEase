@@ -6,4 +6,6 @@ abstract class NotificationRemoteDataSource {
   Future<String> markNotificationRead(int id);
   Future<String> markAllNotificationsRead();
   Future<String> deleteNotification(int id);
+  Future<String> registerDeviceToken(String token);
+  Future<String> removeDeviceToken(String token);
 }

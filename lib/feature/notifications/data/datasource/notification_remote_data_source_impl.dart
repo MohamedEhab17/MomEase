@@ -84,4 +84,38 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
           : 'Unexpected response',
     );
   }
+
+  @override
+  Future<String> registerDeviceToken(String token) async {
+    final response = await _apiClient.post(
+      Api.deviceTokens,
+      data: {'deviceToken': token},
+    );
+    final data = response.data;
+    if (data is Map<String, dynamic> && data['success'] == true) {
+      return data['message'] as String? ?? 'Device token registered';
+    }
+    throw ServerException(
+      data is Map
+          ? (data['message'] as String? ?? 'Failed to register device token')
+          : 'Unexpected response',
+    );
+  }
+
+  @override
+  Future<String> removeDeviceToken(String token) async {
+    final response = await _apiClient.delete(
+      Api.deviceTokens,
+      data: {'deviceToken': token},
+    );
+    final data = response.data;
+    if (data is Map<String, dynamic> && data['success'] == true) {
+      return data['message'] as String? ?? 'Device token removed';
+    }
+    throw ServerException(
+      data is Map
+          ? (data['message'] as String? ?? 'Failed to remove device token')
+          : 'Unexpected response',
+    );
+  }
 }

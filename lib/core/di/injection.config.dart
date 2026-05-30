@@ -194,6 +194,8 @@ import '../../feature/notifications/domain/repository/notification_repository.da
     as _i913;
 import '../../feature/notifications/domain/usecases/delete_notification_usecase.dart'
     as _i816;
+import '../../feature/notifications/domain/usecases/device_token_usecases.dart'
+    as _i901;
 import '../../feature/notifications/domain/usecases/get_notifications_usecase.dart'
     as _i286;
 import '../../feature/notifications/domain/usecases/get_unread_count_usecase.dart'
@@ -449,6 +451,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i286.GetNotificationsUseCase>(
       () => _i286.GetNotificationsUseCase(gh<_i913.NotificationRepository>()),
     );
+    gh.lazySingleton<_i901.RegisterDeviceTokenUseCase>(
+      () => _i901.RegisterDeviceTokenUseCase(gh<_i913.NotificationRepository>()),
+    );
+    gh.lazySingleton<_i901.RemoveDeviceTokenUseCase>(
+      () => _i901.RemoveDeviceTokenUseCase(gh<_i913.NotificationRepository>()),
+    );
     gh.lazySingleton<_i115.GetUnreadCountUseCase>(
       () => _i115.GetUnreadCountUseCase(gh<_i913.NotificationRepository>()),
     );
@@ -537,6 +545,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i434.LogoutCubit(
         gh<_i480.LogoutUseCase>(),
         gh<_i435.AppSectionLocalDatasourceContract>(),
+        gh<_i901.RemoveDeviceTokenUseCase>(),
       ),
     );
     gh.factory<_i292.CreateChildUseCase>(
@@ -567,6 +576,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i239.MarkNotificationReadUseCase>(),
         gh<_i917.MarkAllNotificationsReadUseCase>(),
         gh<_i816.DeleteNotificationUseCase>(),
+        gh<_i901.RegisterDeviceTokenUseCase>(),
+        gh<_i901.RemoveDeviceTokenUseCase>(),
       ),
     );
     gh.factory<_i562.SubmitCubit>(

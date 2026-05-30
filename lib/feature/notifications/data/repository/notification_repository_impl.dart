@@ -78,4 +78,30 @@ class NotificationRepositoryImpl implements NotificationRepository {
       return Left(ErrorHandler.handle(e));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> registerDeviceToken(String token) async {
+    if (!await _networkInfo.isConnected) {
+      return const Left(ServerFailure('No internet connection.'));
+    }
+    try {
+      final msg = await _remote.registerDeviceToken(token);
+      return Right(msg);
+    } catch (e) {
+      return Left(ErrorHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> removeDeviceToken(String token) async {
+    if (!await _networkInfo.isConnected) {
+      return const Left(ServerFailure('No internet connection.'));
+    }
+    try {
+      final msg = await _remote.removeDeviceToken(token);
+      return Right(msg);
+    } catch (e) {
+      return Left(ErrorHandler.handle(e));
+    }
+  }
 }

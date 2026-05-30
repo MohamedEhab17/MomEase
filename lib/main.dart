@@ -1,13 +1,14 @@
-import 'dart:developer';
-
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/routers/app_router.dart';
+import 'package:new_mama/core/services/fcm_service.dart';
 import 'package:new_mama/core/theme/app_theme.dart';
 import 'package:new_mama/core/theme/cubit/theme_cubit.dart';
 import 'package:new_mama/core/localization/cubit/language_cubit.dart';
@@ -15,27 +16,23 @@ import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.
 import 'package:new_mama/feature/children/presentation/cubit/children_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:toastification/toastification.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-
-Future<void> getFcmToken() async {
-  final token = await FirebaseMessaging.instance.getToken();
-
-  log("-------------------------------");
-  debugPrint("FCM TOKEN:");
-  debugPrint(token);
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await FirebaseMessaging.instance.requestPermission();
 
-  await getFcmToken();
+  // Initialize Firebase.
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Register the background message handler BEFORE any other Firebase call.
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
   await configureDependencies();
   await AppRouter.initRouter();
+
+  // Initialize local notifications + foreground/background listeners AFTER router initialization.
+  await FcmService.init();
 
   runApp(
     EasyLocalization(

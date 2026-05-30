@@ -8,4 +8,6 @@ abstract class NotificationRepository {
   Future<Either<Failure, String>> markNotificationRead(int id);
   Future<Either<Failure, String>> markAllNotificationsRead();
   Future<Either<Failure, String>> deleteNotification(int id);
+  Future<Either<Failure, String>> registerDeviceToken(String token);
+  Future<Either<Failure, String>> removeDeviceToken(String token);
 }

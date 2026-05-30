@@ -48,6 +48,9 @@ class Api {
   static String notificationRead(int id) => 'notifications/$id/read';
   static const String markAllNotificationsRead = 'notifications/mark-all-read';
   static String notificationById(int id) => 'notifications/$id';
+
+  // Device Tokens endpoints
+  static const String deviceTokens = 'device-tokens';
   /// Skin Analysis endpoints.
   static const String skinAnalyze = 'skin-analysis/analyze';
   static const String skinUserAnalyses = 'skin-analysis/user';
