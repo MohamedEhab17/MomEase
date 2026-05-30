@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/date_time_ex.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
@@ -12,13 +13,9 @@ class FeedingChartTooltip extends StatelessWidget {
   const FeedingChartTooltip({
     super.key,
     required this.item,
-    required this.monthName,
   });
 
   final ChartItem item;
-
-  /// Pre-resolved localised month name for [item.date.month].
-  final String monthName;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +45,7 @@ class FeedingChartTooltip extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '${item.date.day} $monthName',
+              item.date.formatChartDate(context),
               softWrap: true,
               style: context.text.bodySmall!.copyWith(
                 fontWeight: FontWeight.w700,

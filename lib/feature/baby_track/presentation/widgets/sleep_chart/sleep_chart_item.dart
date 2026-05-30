@@ -1,11 +1,4 @@
-class SleepChartItem {
-  final DateTime date;
-  final double? sleepHours; // null if no data
-  final String status;
-
-  SleepChartItem({
-    required this.date,
-    required this.sleepHours,
-    required this.status,
-  });
-}
+// Canonical model is now in the presentation models layer.
+// This re-export keeps the existing SleepBarChartPainter import path intact
+// without any code changes in the painter.
+export 'package:new_mama/feature/baby_track/presentation/models/sleep_chart_item.dart';

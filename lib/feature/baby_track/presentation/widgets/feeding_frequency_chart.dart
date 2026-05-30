@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/extensions/date_time_ex.dart';
+
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
-import 'package:new_mama/core/localization/translation_keys.dart';
+
 import 'package:new_mama/feature/baby_track/domain/entities/feeding_statistics_entity.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/monthly_feeding_records_entity.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/weekly_feeding_records_entity.dart';
@@ -55,9 +56,7 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
     if (_isWeekly) {
       final records = widget.weeklyRecords.dailyRecords;
       if (records.isEmpty) return '';
-      return '${records.first.date.day} ${_monthName(records.first.date.month)}'
-          ' - '
-          '${records.last.date.day} ${_monthName(records.last.date.month)}';
+      return records.first.date.formatChartDateRange(context, records.last.date);
     }
     return widget.monthlyRecords.monthName;
   }
@@ -85,18 +84,6 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
   void dispose() {
     _animationController.dispose();
     super.dispose();
-  }
-
-  // ── Private helpers ──────────────────────────────────────────────────────
-
-  String _monthName(int month) {
-    const keys = [
-      TK.commonMonthJan, TK.commonMonthFeb, TK.commonMonthMar,
-      TK.commonMonthApr, TK.commonMonthMay, TK.commonMonthJun,
-      TK.commonMonthJul, TK.commonMonthAug, TK.commonMonthSep,
-      TK.commonMonthOct, TK.commonMonthNov, TK.commonMonthDec,
-    ];
-    return context.trContext(keys[month - 1]);
   }
 
   void _onToggleWeekly() {
@@ -196,7 +183,6 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
         _XAxisLabels(
           isWeekly: _isWeekly,
           items: items,
-          monthName: _monthName,
         ),
         24.h.height,
 
@@ -233,7 +219,6 @@ class _FeedingFrequencyChartState extends State<FeedingFrequencyChart>
       left: left,
       child: FeedingChartTooltip(
         item: item,
-        monthName: _monthName(item.date.month),
       ),
     );
   }
@@ -246,19 +231,10 @@ class _XAxisLabels extends StatelessWidget {
   const _XAxisLabels({
     required this.isWeekly,
     required this.items,
-    required this.monthName,
   });
 
   final bool isWeekly;
   final List<ChartItem> items;
-
-  /// Callback that returns the localised month name for a 1-based [month].
-  final String Function(int month) monthName;
-
-  static const _weekdayKeys = [
-    TK.commonDayMon, TK.commonDayTue, TK.commonDayWed,
-    TK.commonDayThu, TK.commonDayFri, TK.commonDaySat, TK.commonDaySun,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -272,30 +248,35 @@ class _XAxisLabels extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 25.w),
       child: Row(
+        textDirection: TextDirection.ltr,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: isWeekly
             ? _weeklyLabels(context, labelStyle)
-            : _monthlyLabels(labelStyle),
+            : _monthlyLabels(context, labelStyle),
       ),
     );
   }
 
   List<Widget> _weeklyLabels(BuildContext context, TextStyle style) =>
       items.map((item) {
-        final label = context.trContext(_weekdayKeys[item.date.weekday - 1]);
         return Expanded(
-          child: Center(child: Text(label, style: style)),
+          child: Center(
+            child: Text(
+              item.date.getLocalizedDayName(context),
+              style: style,
+            ),
+          ),
         );
       }).toList();
 
-  List<Widget> _monthlyLabels(TextStyle style) {
+  List<Widget> _monthlyLabels(BuildContext context, TextStyle style) {
     if (items.isEmpty) return [];
     final int step = ((items.length - 1) / 4).round().clamp(1, items.length);
     return List.generate(5, (i) {
       final itemIndex = (step * i).clamp(0, items.length - 1);
       final item = items[itemIndex];
       return Text(
-        '${item.date.day} ${monthName(item.date.month)}',
+        item.date.formatChartDate(context),
         style: style,
       );
     });

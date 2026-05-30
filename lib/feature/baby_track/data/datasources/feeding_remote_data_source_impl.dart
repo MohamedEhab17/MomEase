@@ -21,8 +21,8 @@ class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
   FeedingRemoteDataSourceImpl(this._apiClient);
 
   Options get _headers => Options(
-        headers: {'Accept-Language': getIt<LanguageCubit>().state.languageCode},
-      );
+    headers: {'Accept-Language': getIt<LanguageCubit>().state.languageCode},
+  );
 
   dynamic _normalizeData(dynamic data) {
     if (data is String && data.trim().isNotEmpty) {
@@ -35,7 +35,9 @@ class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
 
   String _extractErrorMessage(dynamic data) {
     if (data is Map) {
-      if (data.containsKey('message') && data['message'] != null && data['message'].toString().isNotEmpty) {
+      if (data.containsKey('message') &&
+          data['message'] != null &&
+          data['message'].toString().isNotEmpty) {
         return data['message'].toString();
       }
       if (data.containsKey('errors')) {
@@ -69,8 +71,12 @@ class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
       );
       final data = _normalizeData(response.data);
 
-      if (data is Map<String, dynamic> && data['success'] == true && data['data'] != null) {
-        return FeedingRecordModel.fromJson(data['data'] as Map<String, dynamic>);
+      if (data is Map<String, dynamic> &&
+          data['success'] == true &&
+          data['data'] != null) {
+        return FeedingRecordModel.fromJson(
+          data['data'] as Map<String, dynamic>,
+        );
       }
       throw ServerException(_extractErrorMessage(data));
     } on DioException catch (e) {
@@ -91,8 +97,12 @@ class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
       );
       final data = _normalizeData(response.data);
 
-      if (data is Map<String, dynamic> && data['success'] == true && data['data'] != null) {
-        return WeeklyFeedingRecordsModel.fromJson(data['data'] as Map<String, dynamic>);
+      if (data is Map<String, dynamic> &&
+          data['success'] == true &&
+          data['data'] != null) {
+        return WeeklyFeedingRecordsModel.fromJson(
+          data['data'] as Map<String, dynamic>,
+        );
       }
       throw ServerException(_extractErrorMessage(data));
     } on DioException catch (e) {
@@ -105,7 +115,9 @@ class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
   }
 
   @override
-  Future<MonthlyFeedingRecordsModel> getMonthlyFeedingRecords(int childId) async {
+  Future<MonthlyFeedingRecordsModel> getMonthlyFeedingRecords(
+    int childId,
+  ) async {
     try {
       final response = await _apiClient.get(
         Api.childFeedingRecordsMonthly(childId),
@@ -113,8 +125,12 @@ class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
       );
       final data = _normalizeData(response.data);
 
-      if (data is Map<String, dynamic> && data['success'] == true && data['data'] != null) {
-        return MonthlyFeedingRecordsModel.fromJson(data['data'] as Map<String, dynamic>);
+      if (data is Map<String, dynamic> &&
+          data['success'] == true &&
+          data['data'] != null) {
+        return MonthlyFeedingRecordsModel.fromJson(
+          data['data'] as Map<String, dynamic>,
+        );
       }
       throw ServerException(_extractErrorMessage(data));
     } on DioException catch (e) {
@@ -135,8 +151,12 @@ class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
       );
       final data = _normalizeData(response.data);
 
-      if (data is Map<String, dynamic> && data['success'] == true && data['data'] != null) {
-        return FeedingStatisticsModel.fromJson(data['data'] as Map<String, dynamic>);
+      if (data is Map<String, dynamic> &&
+          data['success'] == true &&
+          data['data'] != null) {
+        return FeedingStatisticsModel.fromJson(
+          data['data'] as Map<String, dynamic>,
+        );
       }
       throw ServerException(_extractErrorMessage(data));
     } on DioException catch (e) {
