@@ -120,10 +120,12 @@ class BackendContentGenerator implements ContentGenerator {
         debugPrint('[Chatbot Session] New session: $_conversationId');
       }
 
-      // 5. Build minimal request payload
+      // 5. Build request payload with enhanced prompt to instruct LLM dynamically
+      final String enhancedPrompt = _buildEnhancedPrompt(text);
+
       final Map<String, dynamic> payload = {
         'userId': userId,
-        'message': text,
+        'message': enhancedPrompt,
         'conversationId': _conversationId,
         'language': locale,
       };
@@ -221,23 +223,69 @@ class BackendContentGenerator implements ContentGenerator {
     }
 
     if (msgs.isNotEmpty) {
-      // Emit UI only! Suppress any text fallbacks
+      // Emit UI
       debugPrint('[GENUI FLOW] Parsing successful');
-      debugPrint('[Chatbot Processing] Emitting GenUI payload only (Text suppressed).');
+      debugPrint('[Chatbot Processing] Emitting GenUI payload.');
       _enqueue(msgs);
-    } else {
-      // Emit Text only (and its fallback card if needed)
+
+      // Render the clean text bubble alongside the UI widgets if present
       if (replyText.isNotEmpty) {
-        debugPrint('[Chatbot Processing] Emitting Text fallback only.');
-        final List<A2uiMessage> fallback = FallbackUiFactory.create(
+        final String cleanedReplyText = FallbackUiFactory.cleanText(replyText);
+        if (cleanedReplyText.isNotEmpty) {
+          _textController.add(cleanedReplyText);
+        }
+      }
+    } else {
+      // Emit Text only (and its fallback dynamic suggestions)
+      if (replyText.isNotEmpty) {
+        debugPrint('[Chatbot Processing] Emitting Text and dynamic suggestions.');
+
+        // 1. Detect if the text contains embedded JSON components (e.g. from a simple backend)
+        final List<A2uiMessage> embeddedFallback = FallbackUiFactory.parseTextComponents(
           text: replyText,
           language: locale,
           surfaceId: 'chatbot',
         );
-        if (fallback.isNotEmpty) {
-          _enqueue(fallback);
+
+        if (embeddedFallback.isNotEmpty) {
+          debugPrint('[Chatbot Processing] Dynamic embedded JSON components detected.');
+          
+          // Clean the raw JSON blocks from the response text
+          final String cleanedJsonReply = FallbackUiFactory.cleanJsonCallsFromText(replyText);
+          final String cleanedText = FallbackUiFactory.cleanText(cleanedJsonReply);
+
+          _enqueue(embeddedFallback);
+          
+          if (cleanedText.isNotEmpty) {
+            _textController.add(cleanedText);
+          }
+        } else {
+          // Standard text and suggestions flow
+          // 1. Dynamic intent detection
+          final String? detectedIntent = FallbackUiFactory.detectIntent(text, replyText);
+
+          // 2. Extract suggestions from response text if present
+          final List<String> parsedSuggestions = FallbackUiFactory.extractSuggestions(replyText);
+
+          // 3. Clean the response text from the suggestions block to avoid duplication
+          final String cleanedReplyText = FallbackUiFactory.cleanText(replyText);
+
+          final List<A2uiMessage> fallback = FallbackUiFactory.create(
+            text: cleanedReplyText,
+            language: locale,
+            intent: detectedIntent,
+            surfaceId: 'chatbot',
+            showCard: false, // Do not show duplicate pink card for normal text replies
+            customSuggestions: parsedSuggestions.isNotEmpty ? parsedSuggestions : null,
+          );
+
+          if (fallback.isNotEmpty) {
+            _enqueue(fallback);
+          }
+
+          // Emit the clean text bubble
+          _textController.add(cleanedReplyText);
         }
-        _textController.add(replyText);
       }
     }
   }
@@ -256,6 +304,7 @@ class BackendContentGenerator implements ContentGenerator {
       text: body,
       language: locale,
       surfaceId: 'chatbot',
+      showCard: true, // For error recovery, we DO want to show a standalone card!
     );
 
     if (recovery.isNotEmpty) {
@@ -327,5 +376,22 @@ class BackendContentGenerator implements ContentGenerator {
     _textController.close();
     _isProcessing.dispose();
     _messageQueue.clear();
+  }
+
+  /// Appends formatting schemas and guidelines to instruct the AI dynamically
+  String _buildEnhancedPrompt(String userPrompt) {
+    return '''
+$userPrompt
+
+[Instruct:Luna AI. Reply text or premium JSON 'uiPayload'.
+Components:
+1. `InformationCard`: {"name":"InformationCard","arguments":{"title":{"literalString":"T"},"body":{"literalString":"B"}}} (for advice/schedules).
+2. `Trailhead`: {"name":"Trailhead","arguments":{"topics":[{"literalString":"O1"}],"action":{"name":"select_topic","context":[]}}} (2-4 buttons: Yes/No, options, or follow-ups).
+3. `MoodCheckCard`: {"name":"MoodCheckCard","arguments":{"title":{"literalString":"T"},"moods":[{"literalString":"calm"}],"action":{"name":"log_mood","context":[]}}} (mood log).
+Rules:
+- Lists/advice: return `InformationCard` & `Trailhead` (3-5 chips) & brief 'replyText'.
+- Checking status/level: ask question in 'replyText' & `Trailhead` (2-3 chips, e.g. ["Yes","No"], ["Severe","Mild"]) for user tapping.
+- No rule mentions. Reply in user's language.]
+''';
   }
 }

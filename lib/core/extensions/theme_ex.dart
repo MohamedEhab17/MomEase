@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_mama/core/theme/app_theme_extension.dart';
+import 'package:new_mama/core/extensions/string_ex.dart';
 
 extension ThemeEx on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -7,3 +8,16 @@ extension ThemeEx on BuildContext {
   TextTheme get text => theme.textTheme;
   AppThemeExtension get ext => theme.extension<AppThemeExtension>()!;
 }
+
+extension TextStyleArabicEx on TextStyle {
+  TextStyle forText(String text) {
+    if (text.isArabic) {
+      return copyWith(
+        fontFamily: null,
+        height: 1.4,
+      );
+    }
+    return this;
+  }
+}
+

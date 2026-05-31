@@ -4,6 +4,7 @@ import 'package:json_schema_builder/json_schema_builder.dart';
 import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 final _schema = S.object(
   properties: {
@@ -157,7 +158,7 @@ class _InformationCard extends StatelessWidget {
                     title ?? '',
                     style: AppStyles.styleRoboto24.copyWith(
                       color: AppColors.primary,
-                    ),
+                    ).forText(title ?? ''),
                   ),
                 ),
                 ValueListenableBuilder<String?>(
@@ -170,7 +171,7 @@ class _InformationCard extends StatelessWidget {
                         subtitle,
                         style: AppStyles.styleRoboto16.copyWith(
                           color: AppColors.lightTextSecondary,
-                        ),
+                        ).forText(subtitle),
                       ),
                     );
                   },
@@ -179,7 +180,7 @@ class _InformationCard extends StatelessWidget {
                 ValueListenableBuilder<String?>(
                   valueListenable: bodyNotifier,
                   builder: (context, body, _) =>
-                      Text(body ?? '', style: AppStyles.styleRoboto16),
+                      Text(body ?? '', style: AppStyles.styleRoboto16.forText(body ?? '')),
                 ),
               ],
             ),

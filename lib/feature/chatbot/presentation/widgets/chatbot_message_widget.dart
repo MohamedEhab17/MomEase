@@ -71,7 +71,7 @@ class ChatbotMessageWidget extends StatelessWidget {
                   color: isUser
                       ? context.ext.colors.lightBackground
                       : context.ext.colors.lightTextPrimary,
-                ),
+                ).forText(text),
               ),
             ),
             // if (isUser) ...[
