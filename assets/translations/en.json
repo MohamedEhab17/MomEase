@@ -3,7 +3,6 @@
     "name": "MomEase",
     "version": "MomEase Version 1.0.0"
   },
-
   "auth": {
     "login": "Login to continue your journey!",
     "forgot_password": "Forgot Password?",
@@ -56,7 +55,6 @@
       "spam_snackbar": "Check your spam folder"
     }
   },
-
   "articles": {
     "title": "Articles",
     "save": "Save Article",
@@ -70,9 +68,7 @@
     "read_minutes": "{minutes} min read",
     "clear_all": "Clear all",
     "recent_searches": "Recent Searches"
-
   },
-
   "baby": {
     "tracking": "Baby Tracking",
     "activity": "Baby Activity Overview",
@@ -97,7 +93,7 @@
       "title": "Sleep",
       "date": "Sleeping Date",
       "saved": "Sleep record saved! 😴",
-      "duration": "sleep_duration",
+      "duration": "Sleep duration",
       "start_time": "Start Time",
       "end_time": "End Time",
       "notes_hint": "How was your baby's sleep?",
@@ -153,7 +149,7 @@
       "completed_status": "COMPLETED",
       "mood_trend": "Mood Trend",
       "last_7_days": "Last 7 Days",
-      "daily_avg":"Daily Avg",
+      "daily_avg": "Daily Avg",
       "helpful_suggestions": "Helpful Suggestions",
       "bedtime_suggestion_title": "Earlier Bedtime Suggestion",
       "bedtime_suggestion_body": "Baby slept less than usual yesterday. Consider an earlier bedtime today to avoid over-tiredness.",
@@ -196,7 +192,6 @@
       "feeding_type_none": "None"
     }
   },
-
   "community": {
     "title": "Community",
     "create_post": "Create Post",
@@ -246,7 +241,6 @@
     "report_error": "Sorry, an error occurred while sending the report",
     "max_images_error": "Sorry, you can select up to 10 images only"
   },
-
   "home": {
     "welcome": "Welcome again",
     "offering_help": "How can we help you today? ",
@@ -267,7 +261,6 @@
     "useful_articles": "Useful articles",
     "view_all_article": "View all article"
   },
-
   "profile": {
     "parenting_journey": "My Parenting Journey",
     "community_posts": "My Community Posts",
@@ -290,7 +283,6 @@
     "delete_photo_title": "Delete Photo?",
     "delete_photo_content": "Are you sure you want to remove your profile photo?"
   },
-
   "onboarding": {
     "baby_name_title": "What's Your Current Baby's Name?",
     "baby_name_hint": "We'd love to know his/her name..",
@@ -316,7 +308,6 @@
     "screen_4_title": "Your Support Starts Here",
     "screen_4_desc": "Helpful tools, trusted information, and a caring community—right at your fingertips"
   },
-
   "baby_profile_setup": {
     "hello": "Hello,",
     "mama": " Mama!",
@@ -337,7 +328,6 @@
     "vaginal": "vaginal",
     "c_section": "c-section"
   },
-
   "children": {
     "my_children": "My Children",
     "space_little_ones": "A space for your little ones.",
@@ -388,7 +378,6 @@
     "no_babies_yet": "No babies added yet",
     "add_your_baby": "Add Your Baby"
   },
-
   "baby_cry": {
     "app_bar_title": "Crying Sound Analysis",
     "insight_headline": "Understanding Baby's Cry",
@@ -416,7 +405,6 @@
     "tip_3": "If you're concerned, reach out to your healthcare provider.",
     "tip_4": "Remember: asking for help is a sign of strength, not weakness."
   },
-
   "depression": {
     "app_bar_title": "Healthy check-In",
     "check_in_title": "Let's Check In Together ",
@@ -466,7 +454,6 @@
       "severe": "Your responses suggest severe signs of depression. Please immediately contact a professional or call a helpline. You do not have to go through this alone."
     }
   },
-
   "skin_diagnosis": {
     "app_bar_title": "Skin Diagnosis",
     "insight_headline": "Gentle Skin Guidance",
@@ -509,7 +496,6 @@
     "delete_confirm_body": "Are you sure you want to delete this skin analysis record?",
     "select_child": "Please select a child first"
   },
-
   "notifications": {
     "title": "Notifications",
     "clear_all": "Clear all",
@@ -517,7 +503,6 @@
     "empty_subtitle": "When you get notifications, they'll show up here",
     "view_post": "View Post"
   },
-
   "common": {
     "view_all": "View all",
     "read_more": "Read more ›",
@@ -563,7 +548,6 @@
       "action_failed": "Sorry, the action could not be completed"
     }
   },
-
   "drawer": {
     "baby_tracking": "Baby Tracking",
     "depression_test": "Depression Test",

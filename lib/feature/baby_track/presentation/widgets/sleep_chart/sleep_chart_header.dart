@@ -30,10 +30,10 @@ class SleepChartHeader extends StatelessWidget {
     final colors = context.ext.colors;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: .spaceBetween,
       children: [
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             Text(
               context.trContext(TK.babySleepDuration),
