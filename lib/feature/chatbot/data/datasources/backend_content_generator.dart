@@ -210,13 +210,16 @@ class BackendContentGenerator implements ContentGenerator {
     final bool hasUiPayload = uiPayload != null && uiPayload.calls.isNotEmpty;
     List<A2uiMessage> msgs = [];
 
+    // Generate a unique surfaceId for this response sequence to isolate scroll history
+    final String responseSurfaceId = 'chatbot_${UuidGenerator.generateV4()}';
+
     if (hasUiPayload) {
       debugPrint('[Chatbot Processing] UI payload detected.');
       final int payloadHash = _hashPayload(uiPayload.calls);
 
       if (!_renderedPayloadHashes.contains(payloadHash)) {
         _renderedPayloadHashes.add(payloadHash);
-        msgs = GenUiResponseParser.parse(uiPayload, 'chatbot');
+        msgs = GenUiResponseParser.parse(uiPayload, responseSurfaceId);
       } else {
         debugPrint('[Chatbot Processing] Duplicate payload hash — skipping render.');
       }
@@ -244,7 +247,7 @@ class BackendContentGenerator implements ContentGenerator {
         final List<A2uiMessage> embeddedFallback = FallbackUiFactory.parseTextComponents(
           text: replyText,
           language: locale,
-          surfaceId: 'chatbot',
+          surfaceId: responseSurfaceId,
         );
 
         if (embeddedFallback.isNotEmpty) {
@@ -274,7 +277,7 @@ class BackendContentGenerator implements ContentGenerator {
             text: cleanedReplyText,
             language: locale,
             intent: detectedIntent,
-            surfaceId: 'chatbot',
+            surfaceId: responseSurfaceId,
             showCard: false, // Do not show duplicate pink card for normal text replies
             customSuggestions: parsedSuggestions.isNotEmpty ? parsedSuggestions : null,
           );

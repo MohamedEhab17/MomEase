@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 
 final _schema = S.object(
   properties: {
@@ -86,24 +86,16 @@ class _MoodCheckCard extends StatelessWidget {
       ),
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: AppColors.primarySoft,
-        // gradient: LinearGradient(
-        //   colors: [
-        //     AppColors.primarySoft2,
-        //     // AppColors.primarySoft2.withOpacity(0.8),
-        //   ],
-        //   begin: Alignment.topLeft,
-        //   end: Alignment.bottomRight,
-        // ),
+        color: context.ext.colors.primaryTint,
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
-          // BoxShadow(
-          //   color: AppColors.primary.withOpacity(0.15),
-          //   blurRadius: 12,
-          //   offset: const Offset(0, 4),
-          // ),
+          BoxShadow(
+            color: context.ext.colors.primary.withAlpha(26),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
-        // border: Border.all(color: AppColors.primary.withOpacity(0.1), width: 1),
+        border: Border.all(color: context.ext.colors.primary.withAlpha(26), width: 1.2.w),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +105,7 @@ class _MoodCheckCard extends StatelessWidget {
             builder: (context, titleText, _) => Text(
               titleText ?? 'How are you feeling today?',
               style: AppStyles.styleRoboto24.copyWith(
-                color: AppColors.lightTextPrimary,
+                color: context.ext.colors.primaryDark,
               ),
             ),
           ),
@@ -153,16 +145,16 @@ class _MoodCheckCard extends StatelessWidget {
                       }
                     },
                     backgroundColor: Colors.white,
-                    selectedColor: AppColors.primary,
+                    selectedColor: context.ext.colors.primary,
                     labelStyle: AppStyles.styleRoboto16.copyWith(
-                      color: AppColors.lightTextPrimary.withAlpha(178),
+                      color: context.ext.colors.lightTextPrimary.withAlpha(178),
                       fontWeight: FontWeight.w500,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(64.r),
-                      side: BorderSide(color: Colors.transparent),
+                      side: const BorderSide(color: Colors.transparent),
                     ),
-                    shadowColor: AppColors.lightTextPrimary.withAlpha(26),
+                    shadowColor: context.ext.colors.primary.withAlpha(26),
                     elevation: 10,
 
                     padding: EdgeInsets.symmetric(

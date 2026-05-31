@@ -115,8 +115,8 @@ class _InformationCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primarySoft3,
-            AppColors.primarySoft3.withAlpha(179),
+            context.ext.colors.primaryTint,
+            context.ext.colors.primaryTint.withAlpha(179),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -124,13 +124,13 @@ class _InformationCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withAlpha(38),
+            color: context.ext.colors.primary.withAlpha(38),
             blurRadius: 12,
             offset: const Offset(0, 4),
             spreadRadius: 0,
           ),
         ],
-        border: Border.all(color: AppColors.primary.withAlpha(26), width: 1),
+        border: Border.all(color: context.ext.colors.primary.withAlpha(26), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +157,7 @@ class _InformationCard extends StatelessWidget {
                   builder: (context, title, _) => Text(
                     title ?? '',
                     style: AppStyles.styleRoboto24.copyWith(
-                      color: AppColors.primary,
+                      color: context.ext.colors.primaryDark,
                     ).forText(title ?? ''),
                   ),
                 ),

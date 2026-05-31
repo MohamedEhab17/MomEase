@@ -63,11 +63,12 @@ abstract class FallbackUiFactory {
     required String surfaceId,
   }) {
     final List<String> lines = text.split('\n');
-    final List<Component> components = [];
-    final List<String> childIds = [];
+    final List<Map<String, dynamic>> parsedCalls = [];
+    bool hasMoodCheckCard = false;
 
-    for (int i = 0; i < lines.length; i++) {
-      final trimmed = lines[i].trim();
+    // 1. Decode and analyze calls from lines
+    for (final line in lines) {
+      final trimmed = line.trim();
       if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
         try {
           final decoded = jsonDecode(trimmed);
@@ -75,14 +76,13 @@ abstract class FallbackUiFactory {
             final String name = decoded['name'] as String? ?? '';
             final Map<String, dynamic> arguments = decoded['arguments'] as Map<String, dynamic>? ?? const {};
             if (name.isNotEmpty) {
-              final String id = 'injected_${name.toLowerCase()}_$i';
-              components.add(Component.fromJson({
-                'id': id,
-                'component': {
-                  name: arguments
-                }
-              }));
-              childIds.add(id);
+              parsedCalls.add({
+                'name': name,
+                'arguments': arguments,
+              });
+              if (name == 'MoodCheckCard') {
+                hasMoodCheckCard = true;
+              }
             }
           }
         } catch (_) {
@@ -91,7 +91,31 @@ abstract class FallbackUiFactory {
       }
     }
 
-    if (components.isEmpty) return const [];
+    // 2. Strip redundant Trailhead chips if an interactive MoodCheckCard is present
+    if (hasMoodCheckCard) {
+      parsedCalls.removeWhere((call) => call['name'] == 'Trailhead');
+    }
+
+    if (parsedCalls.isEmpty) return const [];
+
+    final List<Component> components = [];
+    final List<String> childIds = [];
+
+    // 3. Construct GenUI Component objects
+    for (int i = 0; i < parsedCalls.length; i++) {
+      final call = parsedCalls[i];
+      final String name = call['name'] as String;
+      final Map<String, dynamic> arguments = call['arguments'] as Map<String, dynamic>;
+      final String id = 'injected_${name.toLowerCase()}_$i';
+
+      components.add(Component.fromJson({
+        'id': id,
+        'component': {
+          name: arguments
+        }
+      }));
+      childIds.add(id);
+    }
 
     debugPrint('[FallbackUiFactory] Parsed ${components.length} embedded JSON components from text.');
 
@@ -450,12 +474,12 @@ abstract class FallbackUiFactory {
       case 'emotional':
         return isArabic
             ? [
-                {"literalString": "تمارين التنفس 🧘‍♀️"},
+                {"literalString": "تمارين التنفس 🧘"},
                 {"literalString": "فحص المزاج اليومي 💖"},
                 {"literalString": "التحدث مع مرشدة 🌸"},
               ]
             : [
-                {"literalString": "Breathing Exercises 🧘‍♀️"},
+                {"literalString": "Breathing Exercises 🧘"},
                 {"literalString": "Daily Mood Check 💖"},
                 {"literalString": "Talk to Counselor 🌸"},
               ];
@@ -464,12 +488,12 @@ abstract class FallbackUiFactory {
         return isArabic
             ? [
                 {"literalString": "اتصل بالطوارئ 📞"},
-                {"literalString": "الأعراض الخطيرة ⚠️"},
+                {"literalString": "الأعراض الخطيرة 🚨"},
                 {"literalString": "تواصل مع طبيبك 🩺"},
               ]
             : [
                 {"literalString": "Call Emergency 📞"},
-                {"literalString": "Danger Signs ⚠️"},
+                {"literalString": "Danger Signs 🚨"},
                 {"literalString": "Contact Your Doctor 🩺"},
               ];
 
