@@ -118,6 +118,20 @@ class _VaccineMarkTakenSheetState extends State<VaccineMarkTakenSheet> {
                 initialDate: _selectedDate,
                 firstDate: DateTime(2000),
                 lastDate: DateTime.now(),
+                builder: (context, child) => Theme(
+                  data: context.theme.copyWith(
+                    colorScheme: context.theme.colorScheme.copyWith(
+                      primary: context.ext.colors.primaryDark,
+                      onPrimary: context.colors.onPrimary,
+                      onSurface: context.colors.onSurface,
+                    ),
+                    datePickerTheme: DatePickerThemeData(
+                      headerBackgroundColor: context.ext.colors.primaryDark,
+                      headerForegroundColor: context.colors.onPrimary,
+                    ),
+                  ),
+                  child: child!,
+                ),
               );
               if (picked != null) {
                 setState(() => _selectedDate = picked);

@@ -16,4 +16,6 @@ abstract class FeedingRepository {
   Future<Either<Failure, WeeklyFeedingRecordsEntity>> getWeeklyFeedingRecords(int childId);
   Future<Either<Failure, MonthlyFeedingRecordsEntity>> getMonthlyFeedingRecords(int childId);
   Future<Either<Failure, FeedingStatisticsEntity>> getFeedingStatistics(int childId);
+  Future<Either<Failure, List<FeedingRecordEntity>>> getFeedingRecords(int childId);
+  Future<Either<Failure, void>> deleteFeedingRecord(int childId, int id);
 }

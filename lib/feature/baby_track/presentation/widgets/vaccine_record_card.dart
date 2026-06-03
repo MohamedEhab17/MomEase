@@ -6,6 +6,7 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/vaccine_entity.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 String _formatDateFull(DateTime dt) {
   final h = dt.hour > 12
@@ -55,23 +56,25 @@ class VaccineRecordCard extends StatelessWidget {
       statusLabel = context.trContext(TK.babyVaccinePending);
     }
 
-    return Container(
-      margin: 16.bottomPadding,
-      padding: 16.allPadding,
-      decoration: BoxDecoration(
-        color: context.theme.cardColor,
-        borderRadius: BorderRadius.circular(24.r),
-        boxShadow: [
-          BoxShadow(
-            color: context.colors.shadow,
-            blurRadius: 8,
-            blurStyle: BlurStyle.outer,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Theme(
-        data: context.theme.copyWith(dividerColor: Colors.transparent),
+    return Skeletonizer(
+      enabled: isUpdating,
+      child: Container(
+        margin: 16.bottomPadding,
+        padding: 16.allPadding,
+        decoration: BoxDecoration(
+          color: context.theme.cardColor,
+          borderRadius: BorderRadius.circular(24.r),
+          boxShadow: [
+            BoxShadow(
+              color: context.colors.shadow,
+              blurRadius: 8,
+              blurStyle: BlurStyle.outer,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Theme(
+          data: context.theme.copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           tilePadding: EdgeInsets.zero,
           childrenPadding: EdgeInsets.only(top: 8.h),
@@ -90,16 +93,12 @@ class VaccineRecordCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: isUpdating
-                      ? SizedBox(
-                          width: 16.w,
-                          height: 16.w,
-                          child:
-                          
-                           CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              statusTextColor,
-                            ),
+                      ? Skeletonizer(
+                          enabled: true,
+                          child: Icon(
+                            Icons.vaccines_rounded,
+                            size: 18.sp,
+                            color: statusTextColor,
                           ),
                         )
                       : Icon(
@@ -209,12 +208,12 @@ class VaccineRecordCard extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
-          ],
+            ],]
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildDetailRow(BuildContext context, String label, String value) {
     return Padding(

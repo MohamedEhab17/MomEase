@@ -82,4 +82,33 @@ class SleepRepositoryImpl implements SleepRepository {
       return const Left(ServerFailure('No internet connection.'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<SleepRecordEntity>>> getSleepRecords(int childId) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final models = await _remoteDataSource.getSleepRecords(childId);
+        final entities = models.map((m) => m.toEntity()).toList();
+        return Right(entities);
+      } catch (e) {
+        return Left(ErrorHandler.handle(e));
+      }
+    } else {
+      return const Left(ServerFailure('No internet connection.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteSleepRecord(int childId, int id) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        await _remoteDataSource.deleteSleepRecord(childId, id);
+        return const Right(null);
+      } catch (e) {
+        return Left(ErrorHandler.handle(e));
+      }
+    } else {
+      return const Left(ServerFailure('No internet connection.'));
+    }
+  }
 }

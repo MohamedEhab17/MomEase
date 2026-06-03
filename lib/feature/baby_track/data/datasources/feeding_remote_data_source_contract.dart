@@ -13,4 +13,6 @@ abstract class FeedingRemoteDataSourceContract {
   Future<WeeklyFeedingRecordsModel> getWeeklyFeedingRecords(int childId);
   Future<MonthlyFeedingRecordsModel> getMonthlyFeedingRecords(int childId);
   Future<FeedingStatisticsModel> getFeedingStatistics(int childId);
+  Future<List<FeedingRecordModel>> getFeedingRecords(int childId);
+  Future<void> deleteFeedingRecord(int childId, int id);
 }

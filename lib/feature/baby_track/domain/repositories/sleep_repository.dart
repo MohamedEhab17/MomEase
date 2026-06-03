@@ -18,4 +18,6 @@ abstract class SleepRepository {
       int childId);
   Future<Either<Failure, SleepStatisticsEntity>> getSleepStatistics(
       int childId);
+  Future<Either<Failure, List<SleepRecordEntity>>> getSleepRecords(int childId);
+  Future<Either<Failure, void>> deleteSleepRecord(int childId, int id);
 }

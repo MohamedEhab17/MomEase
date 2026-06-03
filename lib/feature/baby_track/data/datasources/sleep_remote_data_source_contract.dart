@@ -13,4 +13,6 @@ abstract class SleepRemoteDataSourceContract {
   Future<WeeklySleepRecordsModel> getWeeklySleepRecords(int childId);
   Future<MonthlySleepRecordsModel> getMonthlySleepRecords(int childId);
   Future<SleepStatisticsModel> getSleepStatistics(int childId);
+  Future<List<SleepRecordModel>> getSleepRecords(int childId);
+  Future<void> deleteSleepRecord(int childId, int id);
 }

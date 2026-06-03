@@ -167,4 +167,51 @@ class FeedingRemoteDataSourceImpl implements FeedingRemoteDataSourceContract {
       throw ServerException(e.toString());
     }
   }
+
+  @override
+  Future<List<FeedingRecordModel>> getFeedingRecords(int childId) async {
+    try {
+      final response = await _apiClient.get(
+        Api.childFeedingRecords(childId),
+        options: _headers,
+      );
+      final data = _normalizeData(response.data);
+
+      if (data is Map<String, dynamic> &&
+          data['success'] == true &&
+          data['data'] != null) {
+        final list = data['data'] as List;
+        return list.map((e) => FeedingRecordModel.fromJson(e as Map<String, dynamic>)).toList();
+      }
+      throw ServerException(_extractErrorMessage(data));
+    } on DioException catch (e) {
+      final data = _normalizeData(e.response?.data);
+      throw ServerException(_extractErrorMessage(data ?? e.message));
+    } catch (e) {
+      if (e is ServerException) rethrow;
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> deleteFeedingRecord(int childId, int id) async {
+    try {
+      final response = await _apiClient.delete(
+        'children/$childId/feeding-records/$id',
+        options: _headers,
+      );
+      final data = _normalizeData(response.data);
+
+      if (data is Map<String, dynamic> && data['success'] == true) {
+        return;
+      }
+      throw ServerException(_extractErrorMessage(data));
+    } on DioException catch (e) {
+      final data = _normalizeData(e.response?.data);
+      throw ServerException(_extractErrorMessage(data ?? e.message));
+    } catch (e) {
+      if (e is ServerException) rethrow;
+      throw ServerException(e.toString());
+    }
+  }
 }

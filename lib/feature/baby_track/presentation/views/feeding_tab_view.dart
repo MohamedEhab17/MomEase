@@ -15,6 +15,10 @@ import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_type_ch
 import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_chart/feeding_frequency_counter.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/core/helper/app_toast.dart';
+import 'package:new_mama/core/localization/cubit/language_cubit.dart';
+import 'package:new_mama/feature/baby_track/domain/entities/feeding_record_entity.dart';
+import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_record_list_card.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class FeedingTabView extends StatefulWidget {
   const FeedingTabView({super.key});
@@ -108,6 +112,8 @@ class _FeedingTabViewState extends State<FeedingTabView> {
       builder: (context, state) {
         final cubit = context.read<BabyTrackCubit>();
         final isLoading = state is FeedingRecordLoading;
+        final activeChild = context.read<ActiveChildCubit>().state;
+        final isAr = context.read<LanguageCubit>().state.languageCode == 'ar';
 
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -182,6 +188,109 @@ class _FeedingTabViewState extends State<FeedingTabView> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
+
+              32.h.height,
+              const Divider(),
+              16.h.height,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    isAr ? 'السجلات الأخيرة' : 'Recent Records',
+                    style: context.text.titleMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (cubit.feedingRecords.isNotEmpty)
+                    Text(
+                      '${cubit.feedingRecords.length}',
+                      style: context.text.bodyMedium!.copyWith(
+                        color: context.colors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
+              16.h.height,
+
+              if (state is FeedingRecordsLoading && cubit.feedingRecords.isEmpty)
+                Skeletonizer(
+                  enabled: true,
+                  child: Column(
+                    children: List.generate(
+                      3,
+                      (index) => FeedingRecordListCard(
+                        record: FeedingRecordEntity(
+                          recordId: index,
+                          childId: 0,
+                          childName: 'Baby',
+                          feedingDate: DateTime.now(),
+                          feedingTimesPerDay: 8,
+                          feedingTypeForBaby: 'Breastfeeding',
+                          feedingType: 'Normal',
+                          notes: 'Loading notes...',
+                          referenceInfo: const {
+                            "minTimesPerDay": 8,
+                            "maxTimesPerDay": 12,
+                            "ageRange": "0-6 months"
+                          },
+                        ),
+                        onDelete: () {},
+                      ),
+                    ),
+                  ),
+                )
+              else if (state is FeedingRecordsError && cubit.feedingRecords.isEmpty)
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                    child: Text(
+                      state.errorMessage,
+                      style: context.text.bodyMedium!.copyWith(
+                        color: context.ext.colors.severityHigh,
+                      ),
+                    ),
+                  ),
+                )
+              else if (cubit.feedingRecords.isEmpty)
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 40.h),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.restaurant_rounded,
+                          size: 48.sp,
+                          color: context.colors.onSurfaceVariant.withOpacity(0.3),
+                        ),
+                        12.h.height,
+                        Text(
+                          isAr ? 'لا توجد سجلات بعد' : 'No records yet',
+                          style: context.text.bodyMedium!.copyWith(
+                            color: context.colors.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              else
+                Column(
+                  children: cubit.feedingRecords.map((record) {
+                    return FeedingRecordListCard(
+                      record: record,
+                      isDeleting: cubit.deletingFeedingRecordId == record.recordId,
+                      onDelete: () {
+                        if (activeChild != null) {
+                          cubit.deleteFeedingRecord(
+                            childId: activeChild.childId,
+                            recordId: record.recordId,
+                          );
+                        }
+                      },
+                    );
+                  }).toList(),
+                ),
             ],
           ),
         );

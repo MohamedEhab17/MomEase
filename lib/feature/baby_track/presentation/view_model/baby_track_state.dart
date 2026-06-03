@@ -39,3 +39,36 @@ class MainTabChanged extends BabyTrackState {
   final int tabIndex; // 0=Feeding, 1=Sleep, 2=Vaccine
   MainTabChanged({required this.tabIndex});
 }
+
+// ---- Feeding Fetch & Delete States ----
+class FeedingRecordsLoading extends BabyTrackState {}
+class FeedingRecordsLoaded extends BabyTrackState {
+  final List<dynamic> records;
+  FeedingRecordsLoaded({required this.records});
+}
+class FeedingRecordsError extends BabyTrackState {
+  final String errorMessage;
+  FeedingRecordsError({required this.errorMessage});
+}
+class FeedingRecordDeleting extends BabyTrackState {
+  final int recordId;
+  FeedingRecordDeleting({required this.recordId});
+}
+class FeedingRecordDeleted extends BabyTrackState {}
+
+// ---- Sleep Fetch & Delete States ----
+class SleepRecordsLoading extends BabyTrackState {}
+class SleepRecordsLoaded extends BabyTrackState {
+  final List<dynamic> records;
+  SleepRecordsLoaded({required this.records});
+}
+class SleepRecordsError extends BabyTrackState {
+  final String errorMessage;
+  SleepRecordsError({required this.errorMessage});
+}
+class SleepRecordDeleting extends BabyTrackState {
+  final int recordId;
+  SleepRecordDeleting({required this.recordId});
+}
+class SleepRecordDeleted extends BabyTrackState {}
+

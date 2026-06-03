@@ -5,14 +5,18 @@ import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
+import 'package:new_mama/core/localization/cubit/language_cubit.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/baby_track/data/models/add_sleep_record_request_model.dart';
+import 'package:new_mama/feature/baby_track/domain/entities/sleep_record_entity.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/date_picker_field.dart';
+import 'package:new_mama/feature/baby_track/presentation/widgets/sleep_record_list_card.dart';
 import 'package:new_mama/core/widgets/time_picker_field.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/core/helper/app_toast.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class SleepTabView extends StatefulWidget {
   const SleepTabView({super.key});
@@ -111,6 +115,8 @@ class _SleepTabViewState extends State<SleepTabView> {
       builder: (context, state) {
         final cubit = context.read<BabyTrackCubit>();
         final isLoading = state is SleepRecordLoading;
+        final activeChild = context.read<ActiveChildCubit>().state;
+        final isAr = context.read<LanguageCubit>().state.languageCode == 'ar';
 
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -211,6 +217,104 @@ class _SleepTabViewState extends State<SleepTabView> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
+
+              32.h.height,
+              const Divider(),
+              16.h.height,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    isAr ? 'السجلات الأخيرة' : 'Recent Records',
+                    style: context.text.titleMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (cubit.sleepRecords.isNotEmpty)
+                    Text(
+                      '${cubit.sleepRecords.length}',
+                      style: context.text.bodyMedium!.copyWith(
+                        color: context.colors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
+              16.h.height,
+
+              if (state is SleepRecordsLoading && cubit.sleepRecords.isEmpty)
+                Skeletonizer(
+                  enabled: true,
+                  child: Column(
+                    children: List.generate(
+                      3,
+                      (index) => SleepRecordListCard(
+                        record: SleepRecordEntity(
+                          recordId: index,
+                          childId: 0,
+                          childName: 'Baby',
+                          sleepDate: DateTime.now(),
+                          sleepHoursTotal: '08:00:00',
+                          sleepHoursTotalFormatted: '8h 0m',
+                          notes: 'Loading notes...',
+                          status: 'Good',
+                        ),
+                        onDelete: () {},
+                      ),
+                    ),
+                  ),
+                )
+              else if (state is SleepRecordsError && cubit.sleepRecords.isEmpty)
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                    child: Text(
+                      state.errorMessage,
+                      style: context.text.bodyMedium!.copyWith(
+                        color: context.ext.colors.severityHigh,
+                      ),
+                    ),
+                  ),
+                )
+              else if (cubit.sleepRecords.isEmpty)
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 40.h),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.nights_stay_rounded,
+                          size: 48.sp,
+                          color: context.colors.onSurfaceVariant.withOpacity(0.3),
+                        ),
+                        12.h.height,
+                        Text(
+                          isAr ? 'لا توجد سجلات بعد' : 'No records yet',
+                          style: context.text.bodyMedium!.copyWith(
+                            color: context.colors.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              else
+                Column(
+                  children: cubit.sleepRecords.map((record) {
+                    return SleepRecordListCard(
+                      record: record,
+                      isDeleting: cubit.deletingSleepRecordId == record.recordId,
+                      onDelete: () {
+                        if (activeChild != null) {
+                          cubit.deleteSleepRecord(
+                            childId: activeChild.childId,
+                            recordId: record.recordId,
+                          );
+                        }
+                      },
+                    );
+                  }).toList(),
+                ),
             ],
           ),
         );

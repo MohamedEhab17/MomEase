@@ -15,6 +15,8 @@ import 'package:new_mama/feature/baby_track/presentation/views/feeding_tab_view.
 import 'package:new_mama/feature/baby_track/presentation/views/sleep_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/vaccine_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/baby_track_tab_bar.dart';
+import 'package:new_mama/feature/children/domain/entities/child.dart';
+import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/feature/children/presentation/widgets/premium_child_selector.dart';
 
 class BabyTrackView extends StatefulWidget {
@@ -59,10 +61,26 @@ class _BabyTrackViewState extends State<BabyTrackView>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<BabyTrackCubit>(),
-      child: BlocBuilder<BabyTrackCubit, BabyTrackState>(
-        builder: (context, state) {
-          final cubit = context.read<BabyTrackCubit>();
+      create: (context) {
+        final cubit = getIt<BabyTrackCubit>();
+        final activeChild = context.read<ActiveChildCubit>().state;
+        if (activeChild != null) {
+          cubit.fetchFeedingRecords(activeChild.childId);
+          cubit.fetchSleepRecords(activeChild.childId);
+        }
+        return cubit;
+      },
+      child: BlocListener<ActiveChildCubit, Child?>(
+        listener: (context, activeChild) {
+          if (activeChild != null) {
+            final cubit = context.read<BabyTrackCubit>();
+            cubit.fetchFeedingRecords(activeChild.childId);
+            cubit.fetchSleepRecords(activeChild.childId);
+          }
+        },
+        child: BlocBuilder<BabyTrackCubit, BabyTrackState>(
+          builder: (context, state) {
+            final cubit = context.read<BabyTrackCubit>();
           final currentTab = state is MainTabChanged
               ? state.tabIndex
               : cubit.mainTabIndex;
@@ -145,6 +163,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
           );
         },
       ),
-    );
-  }
+    ),
+  );
+}
 }
