@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
-import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/notifications/domain/entities/notification_entity.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class NotificationItem extends StatelessWidget {
   const NotificationItem({
@@ -25,7 +24,8 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DateTime createdAtDate = DateTime.tryParse(notification.createdAt) ?? DateTime.now();
+    final DateTime createdAtDate =
+        DateTime.tryParse(notification.createdAt) ?? DateTime.now();
     final String timeString = DateFormat('hh:mm a').format(createdAtDate);
     final bool isUnread = !notification.isRead;
 
@@ -56,7 +56,7 @@ class NotificationItem extends StatelessWidget {
                   onPressed: (_) => onDelete(),
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
-                  child: const Icon(Icons.delete_outline, size: 28),
+                  child: Icon(Icons.delete_outline, size: 28.sp),
                 ),
               ],
             ),
@@ -76,17 +76,17 @@ class NotificationItem extends StatelessWidget {
                     ],
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: .start,
+                        mainAxisAlignment: .center,
                         children: [
                           Text(
                             notification.title,
                             style: context.text.titleLarge!.copyWith(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: .w500,
                               color: context.colors.onSurface,
                             ),
-                           // maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                            // maxLines: 1,
+                            overflow: .ellipsis,
                             softWrap: true,
                           ),
                           4.h.height,
@@ -94,9 +94,9 @@ class NotificationItem extends StatelessWidget {
                             notification.body,
                             style: context.text.bodyLarge!.copyWith(
                               color: context.colors.onSurface.withAlpha(153),
-                              fontWeight: FontWeight.w400,
+                              fontWeight: .w400,
                             ),
-                           // maxLines: 2,
+                            // maxLines: 2,
                             softWrap: true,
                             // overflow: TextOverflow.ellipsis,
                           ),
@@ -105,8 +105,8 @@ class NotificationItem extends StatelessWidget {
                     ),
                     16.w.width,
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: .spaceBetween,
+                      crossAxisAlignment: .end,
                       children: [
                         Text(
                           timeString,
@@ -114,12 +114,12 @@ class NotificationItem extends StatelessWidget {
                             color: context.colors.onSurface.withAlpha(153),
                           ),
                         ),
-                        if (notification.actionUrl != null) ...[
+                        if (_hasAction()) ...[
                           12.h.height,
                           InkWell(
                             onTap: onViewPost,
                             child: Text(
-                              context.trContext(TK.notificationsViewPost),
+                              _getActionText(context),
                               style: context.text.bodyMedium!.copyWith(
                                 fontWeight: FontWeight.w700,
                                 color: context.ext.colors.primaryDark,
@@ -127,8 +127,7 @@ class NotificationItem extends StatelessWidget {
                             ),
                           ),
                         ] else ...[
-                          12.h.height,
-                          SizedBox(height: 18.h),
+                          25.h.height,
                         ],
                       ],
                     ),
@@ -140,5 +139,43 @@ class NotificationItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool _hasAction() {
+    final type = notification.type;
+    final actionUrl = notification.actionUrl;
+    return (actionUrl != null && actionUrl.trim().isNotEmpty) ||
+        type.contains('Tip') ||
+        type.contains('Reminder') ||
+        type.contains('Vaccination') ||
+        type.contains('Comment') ||
+        type.contains('Reaction') ||
+        type.contains('Result');
+  }
+
+  String _getActionText(BuildContext context) {
+    final type = notification.type;
+    final actionUrl = notification.actionUrl;
+
+    if (type.contains('Community') ||
+        type.contains('Comment') ||
+        type.contains('Reaction') ||
+        (actionUrl?.contains('/posts/') ?? false)) {
+      return context.isAr ? 'عرض المنشور' : 'View Post';
+    } else if (type.contains('Assessment') ||
+        (actionUrl?.contains('/assessments/') ?? false)) {
+      if (type.contains('Reminder') || type.contains('Due')) {
+        return context.isAr ? 'بدء التقييم' : 'Take Check-in';
+      }
+      return context.isAr ? 'عرض النتيجة' : 'View Result';
+    } else if (type.contains('Tracking') ||
+        type.contains('Vaccination') ||
+        (actionUrl?.contains('/tracking') ?? false)) {
+      return context.isAr ? 'عرض التتبع' : 'View Tracker';
+    } else if (type.contains('Tip') ||
+        (actionUrl?.contains('/tips/') ?? false)) {
+      return context.isAr ? 'قراءة النصيحة' : 'Read Tip';
+    }
+    return context.isAr ? 'عرض' : 'View';
   }
 }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/feature/notifications/domain/entities/notification_entity.dart';
+import 'package:new_mama/core/utils/notification_router.dart';
+import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
 import '../view_model/notification_cubit.dart';
 import '../view_model/notification_state.dart';
 import 'empty_notifications.dart';
@@ -38,6 +42,21 @@ class _NotificationListState extends State<NotificationList> {
     }
   }
 
+  void _handleNotificationSelection(BuildContext context, NotificationEntity notification) {
+    // 1. Mark as read in Cubit/state
+    context.read<NotificationCubit>().markAsRead(notification.notificationId);
+
+    // 2. Route dynamically using NotificationRouter
+    NotificationRouter.navigate(
+      context,
+      actionUrl: notification.actionUrl,
+      type: notification.type,
+      relatedEntityId: notification.relatedEntityId,
+      title: notification.title,
+      body: notification.body,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NotificationCubit, NotificationState>(
@@ -63,14 +82,26 @@ class _NotificationListState extends State<NotificationList> {
             itemCount: state.notifications.length,
             separatorBuilder: (context, index) => 16.h.height,
             itemBuilder: (context, index) {
-
               final notification = state.notifications[index];
               return NotificationItem(
                 notification: notification,
-                onTap: () =>
-                    context.read<NotificationCubit>().markAsRead(notification.notificationId),
-                onDelete: () => context.read<NotificationCubit>().deleteNotification(notification.notificationId),
-                onViewPost: () {},
+                onTap: () => _handleNotificationSelection(context, notification),
+                onDelete: () {
+                  showDialog<bool>(
+                    context: context,
+                    builder: (dialogCtx) => DeleteConfirmationDialog(
+                      title: context.isAr ? 'حذف الإشعار' : 'Delete Notification',
+                      content: context.isAr 
+                          ? 'هل أنتِ متأكدة من رغبتكِ في حذف هذا الإشعار نهائياً؟' 
+                          : 'Are you sure you want to permanently delete this notification?',
+                    ),
+                  ).then((confirm) {
+                    if (confirm == true && context.mounted) {
+                      context.read<NotificationCubit>().deleteNotification(notification.notificationId);
+                    }
+                  });
+                },
+                onViewPost: () => _handleNotificationSelection(context, notification),
               );
             },
           ),

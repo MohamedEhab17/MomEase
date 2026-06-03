@@ -17,9 +17,9 @@ import 'package:new_mama/feature/depression/presentation/view_model/assessment_r
 import 'package:new_mama/feature/depression/presentation/view_model/assessment_result_cubit/assessment_result_state.dart';
 
 class DepressionResultView extends StatelessWidget {
-  final Assessments assessment;
+  final Assessments? assessment;
 
-  const DepressionResultView({super.key, required this.assessment});
+  const DepressionResultView({super.key, this.assessment});
 
   /// Maps the score to the themed foreground severity color.
   Color _severityColor(AppColors colors, int score) {
@@ -81,7 +81,10 @@ class DepressionResultView extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Text(assessment.name, style: context.text.bodyMedium!),
+                        Text(
+                          assessment?.name ?? (context.isAr ? 'تقييم الصحة النفسية' : 'Mental Health Assessment'),
+                          style: context.text.bodyMedium!,
+                        ),
                         12.h.height,
                         // Severity from API
                         Text(
@@ -90,23 +93,37 @@ class DepressionResultView extends StatelessWidget {
                             color: fgColor,
                           ),
                         ),
-                        12.h.height,
-                        // Percentage Score (Calculating based on total questions * 3 max points)
-                        Text(
-                          context.trContext(
-                            TK.depressionScoreDisplay,
-                            namedArgs: {
-                              'percentage':
-                                  ((result.score / (assessment.maxScore)) * 100)
-                                      .toStringAsFixed(0),
-                            },
-                          ),
-                          style: context.text.bodyMedium!.copyWith(
-                            color: context.text.bodyMedium!.color!.withAlpha(
-                              178,
+                        if (assessment != null && assessment!.maxScore > 0) ...[
+                          12.h.height,
+                          // Percentage Score (Calculating based on total questions * 3 max points)
+                          Text(
+                            context.trContext(
+                              TK.depressionScoreDisplay,
+                              namedArgs: {
+                                'percentage':
+                                    ((result.score / (assessment!.maxScore)) * 100)
+                                        .toStringAsFixed(0),
+                              },
+                            ),
+                            style: context.text.bodyMedium!.copyWith(
+                              color: context.text.bodyMedium!.color!.withAlpha(
+                                178,
+                              ),
                             ),
                           ),
-                        ),
+                        ] else ...[
+                          12.h.height,
+                          Text(
+                            context.isAr 
+                                ? 'النتيجة الإجمالية: ${result.score} نقاط' 
+                                : 'Total Score: ${result.score} points',
+                            style: context.text.bodyMedium!.copyWith(
+                              color: context.text.bodyMedium!.color!.withAlpha(
+                                178,
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -136,15 +153,23 @@ class DepressionResultView extends StatelessWidget {
                   53.h.height,
                   // ── Actions ─────────────────────────────────────────────────────
                   CustomElevatedButton(
-                    text: context.trContext(TK.depressionRetake),
+                    text: assessment != null 
+                        ? context.trContext(TK.depressionRetake)
+                        : (context.isAr ? 'إجراء اختبار جديد' : 'Take New Assessment'),
                     textStyle: context.text.headlineMedium!.copyWith(
                       color: context.theme.buttonTheme.colorScheme!.onPrimary,
                     ),
                     onPressed: () {
-                      context.pushReplacement(
-                        AppRoutesPaths.depressionTestView,
-                        extra: assessment,
-                      );
+                      if (assessment != null) {
+                        context.pushReplacement(
+                          AppRoutesPaths.depressionTestView,
+                          extra: assessment,
+                        );
+                      } else {
+                        context.pushReplacement(
+                          AppRoutesPaths.depressionTestOptionsView,
+                        );
+                      }
                     },
                     backgroundColor:
                         context.theme.buttonTheme.colorScheme!.primary,

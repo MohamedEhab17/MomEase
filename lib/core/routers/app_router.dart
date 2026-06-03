@@ -167,12 +167,13 @@ class AppRouter {
             if (postId == null) {
               return const Scaffold(body: Center(child: Text('Invalid post ID')));
             }
+            final action = state.uri.queryParameters['action'];
             return MultiBlocProvider(
               providers: [
                 BlocProvider(create: (_) => getIt<CommunityCubit>()),
                 BlocProvider(create: (_) => getIt<PostDetailsCubit>()..fetchPostDetails(postId)),
               ],
-              child: PostDetailsView(postId: postId),
+              child: PostDetailsView(postId: postId, action: action),
             );
           },
         ),
@@ -532,7 +533,7 @@ class AppRouter {
           ],
         ),
         
-        // ── Children Feature Routes ─────────────────────────────────────────
+        //  Children Feature Routes 
         GoRoute(
           path: AppRoutesPaths.childrenListView,
           name: 'childrenListView',
@@ -592,6 +593,64 @@ class AppRouter {
           path: AppRoutesPaths.notificationView,
           name: 'notificationView',
           builder: (context, state) => const NotificationView(),
+        ),
+        GoRoute(
+          path: '/assessments/results/:resultId',
+          name: 'notificationAssessmentResult',
+          builder: (context, state) {
+            final resultIdStr = state.pathParameters['resultId'];
+            final resultId = int.tryParse(resultIdStr ?? '') ?? 0;
+            return BlocProvider(
+              create: (context) =>
+                  getIt<AssessmentResultCubit>()..getResult(resultId),
+              child: const DepressionResultView(assessment: null),
+            );
+          },
+        ),
+        GoRoute(
+          path: '/assessments/follow-up/:followUpId',
+          name: 'notificationAssessmentFollowUp',
+          builder: (context, state) => BlocProvider(
+            create: (context) => getIt<AssessmentsCubit>()..fetchAssessments(),
+            child: const DepressionTestOptionsView(),
+          ),
+        ),
+        GoRoute(
+          path: '/mental-health/tips/:tipId',
+          name: 'notificationMentalHealthTip',
+          builder: (context, state) => const DepressionView(),
+        ),
+        GoRoute(
+          path: '/tracking',
+          name: 'notificationTrackingBase',
+          builder: (context, state) => BlocProvider(
+            create: (_) => BabyTrackCubit(),
+            child: const BabyTrackView(),
+          ),
+        ),
+        GoRoute(
+          path: '/tracking/child/:childId',
+          name: 'notificationTrackingChild',
+          builder: (context, state) => BlocProvider(
+            create: (_) => BabyTrackCubit(),
+            child: const BabyTrackView(),
+          ),
+        ),
+        GoRoute(
+          path: '/my-posts',
+          name: 'notificationMyPostsDashed',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<CommunityCubit>()..loadMyPosts(),
+            child: const MyPostsView(),
+          ),
+        ),
+        GoRoute(
+          path: '/myposts',
+          name: 'notificationMyPostsRaw',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<CommunityCubit>()..loadMyPosts(),
+            child: const MyPostsView(),
+          ),
         ),
       ],
     );

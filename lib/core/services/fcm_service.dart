@@ -8,9 +8,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/routers/app_router.dart';
-import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
 import 'package:new_mama/feature/notifications/domain/usecases/device_token_usecases.dart';
+import 'package:new_mama/core/utils/notification_router.dart';
 import 'package:new_mama/firebase_options.dart';
 
 /// Top-level background message handler (must be outside any class).
@@ -276,19 +276,23 @@ class FcmService {
       final data = _pendingNotificationData!;
       _pendingNotificationData = null;
 
-      final type = data['type'];
-      final id = data['id'];
+      final context = navigatorState.context;
+      final type = data['type']?.toString() ?? '';
+      final actionUrl = data['actionUrl']?.toString();
+      final relatedEntityIdStr = data['relatedEntityId']?.toString() ?? data['id']?.toString();
+      final relatedEntityId = int.tryParse(relatedEntityIdStr ?? '');
+      final title = data['title']?.toString() ?? '';
+      final body = data['body']?.toString() ?? '';
 
       try {
-        if (type == 'article' && id != null) {
-          AppRouter.router.push(AppRoutesPaths.articleDetailsView, extra: id);
-        } else if (type == 'community') {
-          AppRouter.router.push(AppRoutesPaths.communityView);
-        } else if (type == 'notifications') {
-          AppRouter.router.push(AppRoutesPaths.notificationView);
-        } else {
-          AppRouter.router.go(AppRoutesPaths.appSectionView);
-        }
+        NotificationRouter.navigate(
+          context,
+          actionUrl: actionUrl,
+          type: type,
+          relatedEntityId: relatedEntityId,
+          title: title,
+          body: body,
+        );
       } catch (e, stackTrace) {
         log(
           '[FCM] Error executing notification tap navigation. Data: $data',
