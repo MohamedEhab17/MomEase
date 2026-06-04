@@ -78,6 +78,7 @@ class Api {
   static const String getUser = 'Users/profile';
   static const String updateProfile = 'Users/profile';
   static const String changeUserPassword = 'Users/change-password';
+  static const String languagePreference = 'Users/language-preference';
 
   /// profile endpoints
   static const String motherProfile  = 'MotherProfile'; 

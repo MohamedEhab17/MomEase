@@ -216,12 +216,16 @@ class FcmService {
     const ios = DarwinNotificationDetails();
     const details = NotificationDetails(android: android, iOS: ios);
 
+    final data = Map<String, dynamic>.from(message.data);
+    data['title'] ??= title;
+    data['body'] ??= body;
+
     await _localNotifications.show(
       message.hashCode,
       title,
       body,
       details,
-      payload: jsonEncode(message.data),
+      payload: jsonEncode(data),
     );
   }
 
@@ -246,7 +250,12 @@ class FcmService {
   static void _listenOnOpenedApp() {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       log('[FCM] Opened from background: ${message.data}');
-      _handleNotificationTap(message.data);
+      final data = Map<String, dynamic>.from(message.data);
+      if (message.notification != null) {
+        data['title'] ??= message.notification!.title;
+        data['body'] ??= message.notification!.body;
+      }
+      _handleNotificationTap(data);
     });
   }
 
@@ -255,7 +264,12 @@ class FcmService {
     final message = await _messaging.getInitialMessage();
     if (message != null) {
       log('[FCM] Opened from terminated: ${message.data}');
-      _handleNotificationTap(message.data);
+      final data = Map<String, dynamic>.from(message.data);
+      if (message.notification != null) {
+        data['title'] ??= message.notification!.title;
+        data['body'] ??= message.notification!.body;
+      }
+      _handleNotificationTap(data);
     }
   }
 
@@ -284,23 +298,29 @@ class FcmService {
       final title = data['title']?.toString() ?? '';
       final body = data['body']?.toString() ?? '';
 
-      try {
-        NotificationRouter.navigate(
-          context,
-          actionUrl: actionUrl,
-          type: type,
-          relatedEntityId: relatedEntityId,
-          title: title,
-          body: body,
-        );
-      } catch (e, stackTrace) {
-        log(
-          '[FCM] Error executing notification tap navigation. Data: $data',
-          error: e,
-          stackTrace: stackTrace,
-          name: 'FcmService',
-        );
-      }
+      // Execute navigation after post-frame and a short delay to allow GoRouter's initial route navigation to settle.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(const Duration(milliseconds: 250), () {
+          if (!context.mounted) return;
+          try {
+            NotificationRouter.navigate(
+              context,
+              actionUrl: actionUrl,
+              type: type,
+              relatedEntityId: relatedEntityId,
+              title: title,
+              body: body,
+            );
+          } catch (e, stackTrace) {
+            log(
+              '[FCM] Error executing notification tap navigation. Data: $data',
+              error: e,
+              stackTrace: stackTrace,
+              name: 'FcmService',
+            );
+          }
+        });
+      });
     } else {
       if (attempt >= 10) {
         log('[FCM] Hard timeout reached: GoRouter Navigator is still null after 5 seconds. Deep link navigation aborted.', level: 900);
