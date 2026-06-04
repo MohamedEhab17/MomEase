@@ -88,7 +88,10 @@
       "formula_feeding": "رضاعة صناعية",
       "mixed": "مختلطة",
       "last_7_days": "آخر 7 أيام",
-      "times_validation": "عدد مرات الرضاعة يجب أن يكون بين 1 و 20"
+      "times_validation": "عدد مرات الرضاعة يجب أن يكون بين 1 و 20",
+      "delete_title": "حذف سجل الرضاعة",
+      "delete_confirm": "هل أنتِ متأكدة من رغبتك في حذف سجل الرضاعة هذا؟",
+      "daily": "يوميا"
     },
     "sleep": {
       "title": "النوم",
@@ -102,7 +105,10 @@
       "fill_required": "من فضلك املئي كل البيانات المطلوبة",
       "duration_hours": "مدة النوم",
       "daily_avg": "المتوسط اليومي",
-      "invalid_duration": "مدة النوم لا يمكن أن تزيد عن 16 ساعة. يرجى التحقق من أوقات البداية والنهاية."
+      "invalid_duration": "مدة النوم لا يمكن أن تزيد عن 16 ساعة. يرجى التحقق من أوقات البداية والنهاية.",
+      "delete_title": "حذف سجل النوم",
+      "delete_confirm": "هل أنتِ متأكدة من رغبتك في حذف سجل النوم هذا؟"
+      
     },
     "growth": {
       "title": "النمو",
@@ -126,6 +132,7 @@
       "weight_required": "من فضلك أدخلي الوزن",
       "height_required": "من فضلك أدخلي الطول",
       "delete_confirm": "هل أنتِ متأكدة من رغبتك في حذف سجل النمو هذا؟",
+      "delete_title": "حذف سجل النمو",
       "weight_kg_label": "الوزن (كيلوجرام)",
       "height_cm_label": "الطول (سنتيمتر)",
       "weight_input_hint": "أدخلي الوزن",
@@ -223,6 +230,7 @@
       "feeding_type_formula": "صناعي",
       "feeding_type_mixed": "مختلط",
       "feeding_type_none": "لا يوجد"
+      
     },
     "recent_records": "السجلات الأخيرة",
     "no_records_yet": "لا توجد سجلات بعد",

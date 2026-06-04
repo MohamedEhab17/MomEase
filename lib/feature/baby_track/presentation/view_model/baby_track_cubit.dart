@@ -138,16 +138,17 @@ class BabyTrackCubit extends SafeCubit<BabyTrackState> {
 
   Future<void> deleteSleepRecord({required int childId, required int recordId}) async {
     deletingSleepRecordId = recordId;
+    sleepRecords.removeWhere((r) => r.recordId == recordId);
     safeEmit(SleepRecordDeleting(recordId: recordId));
     final result = await _deleteSleepRecordUseCase(childId: childId, recordId: recordId);
     result.fold(
       (failure) {
         deletingSleepRecordId = null;
         safeEmit(SleepRecordsError(errorMessage: failure.message));
+        fetchSleepRecords(childId);
       },
       (_) {
         deletingSleepRecordId = null;
-        sleepRecords.removeWhere((r) => r.recordId == recordId);
         safeEmit(SleepRecordDeleted());
         safeEmit(SleepRecordsLoaded(records: sleepRecords));
       },
@@ -187,16 +188,17 @@ class BabyTrackCubit extends SafeCubit<BabyTrackState> {
 
   Future<void> deleteFeedingRecord({required int childId, required int recordId}) async {
     deletingFeedingRecordId = recordId;
+    feedingRecords.removeWhere((r) => r.recordId == recordId);
     safeEmit(FeedingRecordDeleting(recordId: recordId));
     final result = await _deleteFeedingRecordUseCase(childId: childId, recordId: recordId);
     result.fold(
       (failure) {
         deletingFeedingRecordId = null;
         safeEmit(FeedingRecordsError(errorMessage: failure.message));
+        fetchFeedingRecords(childId);
       },
       (_) {
         deletingFeedingRecordId = null;
-        feedingRecords.removeWhere((r) => r.recordId == recordId);
         safeEmit(FeedingRecordDeleted());
         safeEmit(FeedingRecordsLoaded(records: feedingRecords));
       },
@@ -236,16 +238,17 @@ class BabyTrackCubit extends SafeCubit<BabyTrackState> {
 
   Future<void> deleteGrowthRecord({required int childId, required int recordId}) async {
     deletingGrowthRecordId = recordId;
+    growthRecords.removeWhere((r) => r.growthId == recordId);
     safeEmit(GrowthRecordDeleting(recordId: recordId));
     final result = await _deleteGrowthRecordUseCase(childId: childId, recordId: recordId);
     result.fold(
       (failure) {
         deletingGrowthRecordId = null;
         safeEmit(GrowthRecordsError(errorMessage: failure.message));
+        fetchGrowthRecords(childId);
       },
       (_) {
         deletingGrowthRecordId = null;
-        growthRecords.removeWhere((r) => r.growthId == recordId);
         safeEmit(GrowthRecordDeleted());
         safeEmit(GrowthRecordsLoaded(records: growthRecords));
       },

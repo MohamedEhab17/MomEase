@@ -103,6 +103,10 @@ class TK {
   static const babyFeedingFormulaFeeding = 'baby.feeding.formula_feeding';
   static const babyFeedingMixed = 'baby.feeding.mixed';
   static const babyFeedingLast7Days = 'baby.feeding.last_7_days';
+  static const babyFeedingTimesValidation = 'baby.feeding.times_validation';
+  static const babyFeedingDeleteTitle = 'baby.feeding.delete_title';
+  static const babyFeedingDeleteConfirm = 'baby.feeding.delete_confirm';
+   static const daily= 'baby.feeding.daily';
 
   // Sleep
   static const babySleepTitle = 'baby.sleep.title';
@@ -126,6 +130,7 @@ class TK {
   static const babyGrowthHeightHint = 'baby.growth.height_hint';
   static const babyGrowthWeightRequired = 'baby.growth.weight_required';
   static const babyGrowthHeightRequired = 'baby.growth.height_required';
+  static const babyGrowthDeleteTitle = 'baby.growth.delete_title';
   static const babyGrowthDeleteConfirm = 'baby.growth.delete_confirm';
   static const babySleepDate = 'baby.sleep.date';
   static const babySleepSaved = 'baby.sleep.saved';
@@ -138,6 +143,8 @@ class TK {
   static const babySleepHours = 'baby.sleep.duration_hours';
   static const babySleepAvg = 'baby.sleep.daily_avg';
   static const babySleepInvalidDuration = 'baby.sleep.invalid_duration';
+  static const babySleepDeleteTitle = 'baby.sleep.delete_title';
+  static const babySleepDeleteConfirm = 'baby.sleep.delete_confirm';
 
   // Vaccine
   static const babyVaccineTitle = 'baby.vaccine.title';
@@ -250,8 +257,7 @@ class TK {
   static const babyGrowthValidWeight = 'baby.growth.valid_weight';
   static const babyGrowthValidHeight = 'baby.growth.valid_height';
 
-  // Feeding validation
-  static const babyFeedingTimesValidation = 'baby.feeding.times_validation';
+
 
   // 🔹 Community
   static const communityTitle = 'community.title';

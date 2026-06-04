@@ -88,7 +88,10 @@
       "formula_feeding": "Formula Feeding",
       "mixed": "Mixed",
       "last_7_days": "Last 7 Days",
-      "times_validation": "Feeding times per day must be between 1 and 20"
+      "times_validation": "Feeding times per day must be between 1 and 20",
+      "delete_title": "Delete Feeding Record",
+      "delete_confirm": "Are you sure you want to delete this feeding record?",
+      "daily": "Daily"
     },
     "sleep": {
       "title": "Sleep",
@@ -101,8 +104,10 @@
       "save_record": "Save Sleeping record",
       "fill_required": "Please fill all required fields",
       "duration_hours": "Sleep Duration (hrs)",
-      "daily_avg": "Daily Avg",
-      "invalid_duration": "Sleep duration cannot exceed 16 hours. Please check your start and end times."
+      "daily_avg": "Daily Average",
+      "invalid_duration": "Sleep duration cannot exceed 16 hours. Please check start and end times.",
+      "delete_title": "Delete Sleep Record",
+      "delete_confirm": "Are you sure you want to delete this sleep record?"
     },
     "growth": {
       "title": "Growth",
@@ -126,6 +131,7 @@
       "weight_required": "Please enter weight",
       "height_required": "Please enter height",
       "delete_confirm": "Are you sure you want to delete this growth record?",
+      "delete_title": "Delete Growth Record",
       "weight_kg_label": "Weight (Kg)",
       "height_cm_label": "Height (Cm)",
       "weight_input_hint": "e.g. 8.5",
@@ -223,6 +229,7 @@
       "feeding_type_formula": "Formula",
       "feeding_type_mixed": "Mixed",
       "feeding_type_none": "None"
+      
     },
     "recent_records": "Recent Records",
     "no_records_yet": "No records yet",

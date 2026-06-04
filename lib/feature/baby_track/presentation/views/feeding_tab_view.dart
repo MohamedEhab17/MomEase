@@ -259,7 +259,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
                         Icon(
                           Icons.restaurant_rounded,
                           size: 48.sp,
-                          color: context.colors.onSurfaceVariant.withOpacity(0.3),
+                          color: context.colors.onSurfaceVariant.withAlpha(100),
                         ),
                         12.h.height,
                         Text(
