@@ -463,7 +463,16 @@
     "empty_title": "You Don’t have notifications",
     "empty_subtitle": "When you get notifications, they'll show up here",
     "view_post": "View Post",
-    "mark_all_as_read": "Mark all as read"
+    "mark_all_as_read": "Mark all as read",
+    "take_check_in": "Take Check-in",
+    "view_result": "View Result",
+    "view_tracker": "View Tracker",
+    "read_tip": "Read Tip",
+    "view": "View",
+    "delete_title": "Delete Notification",
+    "delete_content": "Are you sure you want to permanently delete this notification?",
+    "mental_health_check": "Mental Health Check",
+    "close": "Close"
   },
 
   "common": {

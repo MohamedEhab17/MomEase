@@ -6,6 +6,7 @@ import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/notifications/domain/entities/notification_entity.dart';
 
 class NotificationItem extends StatelessWidget {
@@ -161,21 +162,21 @@ class NotificationItem extends StatelessWidget {
         type.contains('Comment') ||
         type.contains('Reaction') ||
         (actionUrl?.contains('/posts/') ?? false)) {
-      return context.isAr ? 'عرض المنشور' : 'View Post';
+      return context.trContext(TK.notificationsViewPost);
     } else if (type.contains('Assessment') ||
         (actionUrl?.contains('/assessments/') ?? false)) {
       if (type.contains('Reminder') || type.contains('Due')) {
-        return context.isAr ? 'بدء التقييم' : 'Take Check-in';
+        return context.trContext(TK.notificationsTakeCheckIn);
       }
-      return context.isAr ? 'عرض النتيجة' : 'View Result';
+      return context.trContext(TK.notificationsViewResult);
     } else if (type.contains('Tracking') ||
         type.contains('Vaccination') ||
         (actionUrl?.contains('/tracking') ?? false)) {
-      return context.isAr ? 'عرض التتبع' : 'View Tracker';
+      return context.trContext(TK.notificationsViewTracker);
     } else if (type.contains('Tip') ||
         (actionUrl?.contains('/tips/') ?? false)) {
-      return context.isAr ? 'قراءة النصيحة' : 'Read Tip';
+      return context.trContext(TK.notificationsReadTip);
     }
-    return context.isAr ? 'عرض' : 'View';
+    return context.trContext(TK.notificationsView);
   }
 }

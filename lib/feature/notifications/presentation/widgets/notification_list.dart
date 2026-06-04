@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/notifications/domain/entities/notification_entity.dart';
 import 'package:new_mama/core/utils/notification_router.dart';
 import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
@@ -90,10 +91,8 @@ class _NotificationListState extends State<NotificationList> {
                   showDialog<bool>(
                     context: context,
                     builder: (dialogCtx) => DeleteConfirmationDialog(
-                      title: context.isAr ? 'حذف الإشعار' : 'Delete Notification',
-                      content: context.isAr 
-                          ? 'هل أنتِ متأكدة من رغبتكِ في حذف هذا الإشعار نهائياً؟' 
-                          : 'Are you sure you want to permanently delete this notification?',
+                      title: context.trContext(TK.notificationsDeleteTitle),
+                      content: context.trContext(TK.notificationsDeleteContent),
                     ),
                   ).then((confirm) {
                     if (confirm == true && context.mounted) {

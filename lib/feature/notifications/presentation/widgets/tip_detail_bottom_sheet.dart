@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 
@@ -111,7 +112,7 @@ class TipDetailBottomSheet extends StatelessWidget {
           Column(
             children: [
               CustomElevatedButton(
-                text: context.isAr ? 'تقييم الصحة النفسية' : 'Mental Health Check',
+                text: context.trContext(TK.notificationsMentalHealthCheck),
                 onPressed: () {
                   context.pop(); // Close bottom sheet
                   context.push(AppRoutesPaths.depressionTestOptionsView);
@@ -121,7 +122,7 @@ class TipDetailBottomSheet extends StatelessWidget {
               ),
               12.h.height,
               CustomElevatedButton(
-                text: context.isAr ? 'إغلاق' : 'Close',
+                text: context.trContext(TK.notificationsClose),
                 onPressed: () => context.pop(),
                 backgroundColor: Colors.transparent,
                 borderColor: primaryColor,

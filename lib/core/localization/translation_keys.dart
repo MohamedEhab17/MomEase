@@ -498,6 +498,17 @@ class TK {
   static const notificationsEmptySubtitle = 'notifications.empty_subtitle';
   static const notificationsViewPost = 'notifications.view_post';
   static const notificationReadAll = 'notifications.mark_all_as_read';
+  static const notificationsTakeCheckIn = 'notifications.take_check_in';
+  static const notificationsViewResult = 'notifications.view_result';
+  static const notificationsViewTracker = 'notifications.view_tracker';
+  static const notificationsReadTip = 'notifications.read_tip';
+  static const notificationsView = 'notifications.view';
+  static const notificationsDeleteTitle = 'notifications.delete_title';
+  static const notificationsDeleteContent = 'notifications.delete_content';
+  static const notificationsMentalHealthCheck =
+      'notifications.mental_health_check';
+  static const notificationsClose = 'notifications.close';
+
 
   // 🔹 Common
   static const commonViewAll = 'common.view_all';
