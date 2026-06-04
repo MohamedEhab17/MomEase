@@ -8,10 +8,15 @@ import 'package:new_mama/feature/baby_track/domain/usecase/add_feeding_record_us
 import 'package:new_mama/core/base/safe_cubit.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/feeding_record_entity.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/sleep_record_entity.dart';
+import 'package:new_mama/feature/baby_track/domain/entities/growth_record_entity.dart';
 import 'package:new_mama/feature/baby_track/domain/usecase/get_feeding_records_usecase.dart';
 import 'package:new_mama/feature/baby_track/domain/usecase/delete_feeding_record_usecase.dart';
 import 'package:new_mama/feature/baby_track/domain/usecase/get_sleep_records_usecase.dart';
 import 'package:new_mama/feature/baby_track/domain/usecase/delete_sleep_record_usecase.dart';
+import 'package:new_mama/feature/baby_track/data/models/add_growth_record_request_model.dart';
+import 'package:new_mama/feature/baby_track/domain/usecase/add_growth_record_usecase.dart';
+import 'package:new_mama/feature/baby_track/domain/usecase/get_growth_records_usecase.dart';
+import 'package:new_mama/feature/baby_track/domain/usecase/delete_growth_record_usecase.dart';
 
 part 'baby_track_state.dart';
 
@@ -23,6 +28,9 @@ class BabyTrackCubit extends SafeCubit<BabyTrackState> {
   final DeleteFeedingRecordUseCase _deleteFeedingRecordUseCase;
   final GetSleepRecordsUseCase _getSleepRecordsUseCase;
   final DeleteSleepRecordUseCase _deleteSleepRecordUseCase;
+  final AddGrowthRecordUseCase _addGrowthRecordUseCase;
+  final GetGrowthRecordsUseCase _getGrowthRecordsUseCase;
+  final DeleteGrowthRecordUseCase _deleteGrowthRecordUseCase;
 
   BabyTrackCubit(
     this._addSleepRecordUseCase,
@@ -31,13 +39,18 @@ class BabyTrackCubit extends SafeCubit<BabyTrackState> {
     this._deleteFeedingRecordUseCase,
     this._getSleepRecordsUseCase,
     this._deleteSleepRecordUseCase,
+    this._addGrowthRecordUseCase,
+    this._getGrowthRecordsUseCase,
+    this._deleteGrowthRecordUseCase,
   ) : super(BabyTrackInitial());
 
   // ─────── Records lists & Deleting IDs ───────
   List<FeedingRecordEntity> feedingRecords = [];
   List<SleepRecordEntity> sleepRecords = [];
+  List<GrowthRecordEntity> growthRecords = [];
   int? deletingFeedingRecordId;
   int? deletingSleepRecordId;
+  int? deletingGrowthRecordId;
 
   // ─────── Main tab ───────
   int mainTabIndex = 0;
@@ -186,6 +199,55 @@ class BabyTrackCubit extends SafeCubit<BabyTrackState> {
         feedingRecords.removeWhere((r) => r.recordId == recordId);
         safeEmit(FeedingRecordDeleted());
         safeEmit(FeedingRecordsLoaded(records: feedingRecords));
+      },
+    );
+  }
+
+  // ─────── Growth ───────
+  Future<void> saveGrowthRecord({
+    required int childId,
+    required AddGrowthRecordRequestModel request,
+  }) async {
+    safeEmit(GrowthRecordLoading());
+    final result = await _addGrowthRecordUseCase(
+      childId: childId,
+      request: request,
+    );
+    result.fold(
+      (failure) => safeEmit(GrowthRecordError(errorMessage: failure.message)),
+      (record) {
+        safeEmit(GrowthRecordSaved());
+        fetchGrowthRecords(childId);
+      },
+    );
+  }
+
+  Future<void> fetchGrowthRecords(int childId) async {
+    safeEmit(GrowthRecordsLoading());
+    final result = await _getGrowthRecordsUseCase(childId);
+    result.fold(
+      (failure) => safeEmit(GrowthRecordsError(errorMessage: failure.message)),
+      (records) {
+        growthRecords = records;
+        safeEmit(GrowthRecordsLoaded(records: records));
+      },
+    );
+  }
+
+  Future<void> deleteGrowthRecord({required int childId, required int recordId}) async {
+    deletingGrowthRecordId = recordId;
+    safeEmit(GrowthRecordDeleting(recordId: recordId));
+    final result = await _deleteGrowthRecordUseCase(childId: childId, recordId: recordId);
+    result.fold(
+      (failure) {
+        deletingGrowthRecordId = null;
+        safeEmit(GrowthRecordsError(errorMessage: failure.message));
+      },
+      (_) {
+        deletingGrowthRecordId = null;
+        growthRecords.removeWhere((r) => r.growthId == recordId);
+        safeEmit(GrowthRecordDeleted());
+        safeEmit(GrowthRecordsLoaded(records: growthRecords));
       },
     );
   }

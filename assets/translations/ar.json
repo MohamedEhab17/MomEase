@@ -87,7 +87,8 @@
       "breastfeeding": "رضاعة طبيعية",
       "formula_feeding": "رضاعة صناعية",
       "mixed": "مختلطة",
-      "last_7_days": "آخر 7 أيام"
+      "last_7_days": "آخر 7 أيام",
+      "times_validation": "عدد مرات الرضاعة يجب أن يكون بين 1 و 20"
     },
     "sleep": {
       "title": "النوم",
@@ -102,6 +103,37 @@
       "duration_hours": "مدة النوم",
       "daily_avg": "المتوسط اليومي",
       "invalid_duration": "مدة النوم لا يمكن أن تزيد عن 16 ساعة. يرجى التحقق من أوقات البداية والنهاية."
+    },
+    "growth": {
+      "title": "النمو",
+      "weight": "الوزن",
+      "height": "الطول",
+      "date": "تاريخ التسجيل",
+      "saved": "تم حفظ سجل النمو! 📈",
+      "statistics": "إحصائيات النمو",
+      "average_weight": "متوسط الوزن",
+      "average_height": "متوسط الطول",
+      "weight_gain": "زيادة الوزن",
+      "height_gain": "زيادة الطول",
+      "current_status": "حالة النمو",
+      "weekly_gain": "الزيادة الأسبوعية",
+      "monthly_gain": "الزيادة الشهرية",
+      "weight_trend": "تطور الوزن",
+      "height_trend": "تطور الطول",
+      "add_record": "إضافة سجل نمو",
+      "weight_hint": "الوزن بالكيلوجرام",
+      "height_hint": "الطول بالسنتيمتر",
+      "weight_required": "من فضلك أدخلي الوزن",
+      "height_required": "من فضلك أدخلي الطول",
+      "delete_confirm": "هل أنتِ متأكدة من رغبتك في حذف سجل النمو هذا؟",
+      "weight_kg_label": "الوزن (كيلوجرام)",
+      "height_cm_label": "الطول (سنتيمتر)",
+      "weight_input_hint": "أدخلي الوزن",
+      "height_input_hint": "أدخلي الطول",
+      "valid_number": "أدخلي رقماً صحيحاً",
+      "save_record": "حفظ السجل",
+      "valid_weight": "أدخلي وزناً صحيحاً (1 - 150 كجم)",
+      "valid_height": "أدخلي طولاً صحيحاً (1 - 250 سم)"
     },
     "vaccine": {
       "title": "التطعيمات",
@@ -128,7 +160,8 @@
       "scheduled_date": "التاريخ المحدد",
       "taken_date": "تاريخ الأخذ",
       "mark_as_taken_btn": "تحديد كمكتمل",
-      "months_suffix": "{months} أشهر"
+      "months_suffix": "{months} أشهر",
+      "at_birth": "عند الولادة"
     },
     "insights_screen": {
       "title": "تحليلات نشاط الطفل",
@@ -190,7 +223,10 @@
       "feeding_type_formula": "صناعي",
       "feeding_type_mixed": "مختلط",
       "feeding_type_none": "لا يوجد"
-    }
+    },
+    "recent_records": "السجلات الأخيرة",
+    "no_records_yet": "لا توجد سجلات بعد",
+    "saving": "جاري الحفظ..."
   },
   "community": {
     "title": "المجتمع",

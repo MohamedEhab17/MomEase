@@ -14,6 +14,7 @@ import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_c
 import 'package:new_mama/feature/baby_track/presentation/views/feeding_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/sleep_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/vaccine_tab_view.dart';
+import 'package:new_mama/feature/baby_track/presentation/views/growth_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/baby_track_tab_bar.dart';
 import 'package:new_mama/feature/children/domain/entities/child.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
@@ -34,7 +35,8 @@ class _BabyTrackViewState extends State<BabyTrackView>
   static const _tabsKeys = [
     TK.babyFeedingTitle,
     TK.babySleepTitle,
-    TK.babyVaccineTitle
+    TK.babyVaccineTitle,
+    TK.babyGrowthTitle
   ];
 
   @override
@@ -67,6 +69,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
         if (activeChild != null) {
           cubit.fetchFeedingRecords(activeChild.childId);
           cubit.fetchSleepRecords(activeChild.childId);
+          cubit.fetchGrowthRecords(activeChild.childId);
         }
         return cubit;
       },
@@ -76,6 +79,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
             final cubit = context.read<BabyTrackCubit>();
             cubit.fetchFeedingRecords(activeChild.childId);
             cubit.fetchSleepRecords(activeChild.childId);
+            cubit.fetchGrowthRecords(activeChild.childId);
           }
         },
         child: BlocBuilder<BabyTrackCubit, BabyTrackState>(
@@ -155,6 +159,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
                       FeedingTabView(),
                       SleepTabView(),
                       VaccineTabView(),
+                      GrowthTabView(),
                     ],
                   ),
                 ),

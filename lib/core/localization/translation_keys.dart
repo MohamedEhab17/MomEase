@@ -106,6 +106,27 @@ class TK {
 
   // Sleep
   static const babySleepTitle = 'baby.sleep.title';
+  static const babyGrowthTitle = 'baby.growth.title';
+  static const babyGrowthWeight = 'baby.growth.weight';
+  static const babyGrowthHeight = 'baby.growth.height';
+  static const babyGrowthDate = 'baby.growth.date';
+  static const babyGrowthSaved = 'baby.growth.saved';
+  static const babyGrowthStatistics = 'baby.growth.statistics';
+  static const babyGrowthAverageWeight = 'baby.growth.average_weight';
+  static const babyGrowthAverageHeight = 'baby.growth.average_height';
+  static const babyGrowthWeightGain = 'baby.growth.weight_gain';
+  static const babyGrowthHeightGain = 'baby.growth.height_gain';
+  static const babyGrowthCurrentStatus = 'baby.growth.current_status';
+  static const babyGrowthWeeklyGain = 'baby.growth.weekly_gain';
+  static const babyGrowthMonthlyGain = 'baby.growth.monthly_gain';
+  static const babyGrowthWeightTrend = 'baby.growth.weight_trend';
+  static const babyGrowthHeightTrend = 'baby.growth.height_trend';
+  static const babyGrowthAddRecord = 'baby.growth.add_record';
+  static const babyGrowthWeightHint = 'baby.growth.weight_hint';
+  static const babyGrowthHeightHint = 'baby.growth.height_hint';
+  static const babyGrowthWeightRequired = 'baby.growth.weight_required';
+  static const babyGrowthHeightRequired = 'baby.growth.height_required';
+  static const babyGrowthDeleteConfirm = 'baby.growth.delete_confirm';
   static const babySleepDate = 'baby.sleep.date';
   static const babySleepSaved = 'baby.sleep.saved';
   static const babySleepDuration = 'baby.sleep.duration';
@@ -210,6 +231,27 @@ class TK {
   static const babyFeedingLast7DaysAvg = 'baby.insights_screen.feeding_last_7_days_avg';
   static const babyFeedingOverallAvg = 'baby.insights_screen.feeding_overall_avg';
   static const babyFeedingAvgFeeding = 'baby.insights_screen.feeding_avg_feeding';
+
+  // Shared baby UI strings
+  static const babyRecentRecords = 'baby.recent_records';
+  static const babyNoRecordsYet = 'baby.no_records_yet';
+  static const babySaving = 'baby.saving';
+
+  // Vaccine
+  static const babyVaccineAtBirth = 'baby.vaccine.at_birth';
+
+  // Growth form
+  static const babyGrowthWeightKgLabel = 'baby.growth.weight_kg_label';
+  static const babyGrowthHeightCmLabel = 'baby.growth.height_cm_label';
+  static const babyGrowthWeightInputHint = 'baby.growth.weight_input_hint';
+  static const babyGrowthHeightInputHint = 'baby.growth.height_input_hint';
+  static const babyGrowthValidNumber = 'baby.growth.valid_number';
+  static const babyGrowthSaveRecord = 'baby.growth.save_record';
+  static const babyGrowthValidWeight = 'baby.growth.valid_weight';
+  static const babyGrowthValidHeight = 'baby.growth.valid_height';
+
+  // Feeding validation
+  static const babyFeedingTimesValidation = 'baby.feeding.times_validation';
 
   // 🔹 Community
   static const communityTitle = 'community.title';

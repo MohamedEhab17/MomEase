@@ -10,9 +10,12 @@ import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insi
 import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insights_state.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/sleep_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/sleep_insights_state.dart';
+import 'package:new_mama/feature/baby_track/presentation/view_model/growth_insights_cubit.dart';
+import 'package:new_mama/feature/baby_track/presentation/view_model/growth_insights_state.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_frequency_chart.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_section_card.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/sleep_duration_chart.dart';
+import 'package:new_mama/feature/baby_track/presentation/widgets/growth_insights_chart.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 
 class InsightsBabyActivitySection extends StatelessWidget {
@@ -72,6 +75,28 @@ class InsightsBabyActivitySection extends StatelessWidget {
             return const SizedBox.shrink();
           },
         ),
+        16.h.height,
+
+        // ── Growth Insights Chart ──
+        BlocBuilder<GrowthInsightsCubit, GrowthInsightsState>(
+          builder: (context, state) {
+            if (state is GrowthInsightsLoading || state is GrowthInsightsInitial) {
+              return _buildLoadingSkeleton(context);
+            } else if (state is GrowthInsightsLoaded) {
+              return InsightsSectionCard(
+                child: GrowthInsightsChart(
+                  chartData: state.chartData,
+                  statistics: state.statistics,
+                  weeklyRecords: state.weeklyRecords,
+                  monthlyRecords: state.monthlyRecords,
+                ),
+              );
+            } else if (state is GrowthInsightsError) {
+              return _buildGrowthErrorWidget(context, state.errorMessage);
+            }
+            return const SizedBox.shrink();
+          },
+        ),
       ],
     );
   }
@@ -124,6 +149,21 @@ class InsightsBabyActivitySection extends StatelessWidget {
           context
               .read<SleepInsightsCubit>()
               .loadSleepInsights(activeChild.childId);
+        }
+      },
+    );
+  }
+
+  Widget _buildGrowthErrorWidget(BuildContext context, String message) {
+    return _buildErrorWidget(
+      context,
+      message,
+      onRetry: () {
+        final activeChild = context.read<ActiveChildCubit>().state;
+        if (activeChild != null) {
+          context
+              .read<GrowthInsightsCubit>()
+              .loadGrowthInsights(activeChild.childId);
         }
       },
     );

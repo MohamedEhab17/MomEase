@@ -15,7 +15,6 @@ import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_type_ch
 import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_chart/feeding_frequency_counter.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/core/helper/app_toast.dart';
-import 'package:new_mama/core/localization/cubit/language_cubit.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/feeding_record_entity.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/feeding_record_list_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -71,7 +70,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
     if (_feedingTimesPerDay < 1 || _feedingTimesPerDay > 20) {
       AppToast.warning(
         context,
-        message: 'Feeding times per day must be between 1 and 20.',
+        message: context.trContext(TK.babyFeedingTimesValidation),
       );
       return;
     }
@@ -113,7 +112,6 @@ class _FeedingTabViewState extends State<FeedingTabView> {
         final cubit = context.read<BabyTrackCubit>();
         final isLoading = state is FeedingRecordLoading;
         final activeChild = context.read<ActiveChildCubit>().state;
-        final isAr = context.read<LanguageCubit>().state.languageCode == 'ar';
 
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -179,7 +177,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
 
               // Save button
               CustomElevatedButton(
-                text: isLoading ? 'Saving...' : context.trContext(TK.babyFeedingSaveSession),
+                text: isLoading ? context.trContext(TK.babySaving) : context.trContext(TK.babyFeedingSaveSession),
                 onPressed: isLoading ? null : () => _save(cubit),
                 backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
                 minimumSize: Size(double.infinity, 52.h),
@@ -196,7 +194,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    isAr ? 'السجلات الأخيرة' : 'Recent Records',
+                    context.trContext(TK.babyRecentRecords),
                     style: context.text.titleMedium!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -265,7 +263,7 @@ class _FeedingTabViewState extends State<FeedingTabView> {
                         ),
                         12.h.height,
                         Text(
-                          isAr ? 'لا توجد سجلات بعد' : 'No records yet',
+                          context.trContext(TK.babyNoRecordsYet),
                           style: context.text.bodyMedium!.copyWith(
                             color: context.colors.onSurfaceVariant,
                           ),

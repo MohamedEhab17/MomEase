@@ -25,9 +25,8 @@ class VaccineAgeGroupSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
     final localizedAgeLabel = group.ageInMonths == 0
-        ? (isArabic ? 'عند الولادة' : 'At Birth')
+        ? context.trContext(TK.babyVaccineAtBirth)
         : context.trContext(
             TK.babyVaccineMonthsSuffix,
             namedArgs: {'months': group.ageInMonths.toString()},

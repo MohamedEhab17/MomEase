@@ -72,3 +72,26 @@ class SleepRecordDeleting extends BabyTrackState {
 }
 class SleepRecordDeleted extends BabyTrackState {}
 
+// ---- Growth States ----
+class GrowthRecordLoading extends BabyTrackState {}
+class GrowthRecordSaved extends BabyTrackState {}
+class GrowthRecordError extends BabyTrackState {
+  final String errorMessage;
+  GrowthRecordError({required this.errorMessage});
+}
+class GrowthRecordsLoading extends BabyTrackState {}
+class GrowthRecordsLoaded extends BabyTrackState {
+  final List<dynamic> records;
+  GrowthRecordsLoaded({required this.records});
+}
+class GrowthRecordsError extends BabyTrackState {
+  final String errorMessage;
+  GrowthRecordsError({required this.errorMessage});
+}
+class GrowthRecordDeleting extends BabyTrackState {
+  final int recordId;
+  GrowthRecordDeleting({required this.recordId});
+}
+class GrowthRecordDeleted extends BabyTrackState {}
+
+

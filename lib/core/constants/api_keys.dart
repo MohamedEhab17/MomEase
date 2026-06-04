@@ -43,6 +43,12 @@ class Api {
   static String childFeedingRecordsWeekly(int childId) => 'children/$childId/feeding-records/weekly';
   static String childFeedingRecordsMonthly(int childId) => 'children/$childId/feeding-records/monthly';
   static String childFeedingRecordsStatistics(int childId) => 'children/$childId/feeding-records/statistics';
+  static String childGrowthRecords(int childId) => 'children/$childId/growth-records';
+  static String childGrowthRecordById(int childId, int id) => 'children/$childId/growth-records/$id';
+  static String childGrowthRecordsChart(int childId) => 'children/$childId/growth-records/chart';
+  static String childGrowthRecordsStatistics(int childId) => 'children/$childId/growth-records/statistics';
+  static String childGrowthRecordsWeekly(int childId) => 'children/$childId/growth-records/weekly';
+  static String childGrowthRecordsMonthly(int childId) => 'children/$childId/growth-records/monthly';
 
   /// Articles endpoints.
   static const String articleCategories = 'articles/categories';

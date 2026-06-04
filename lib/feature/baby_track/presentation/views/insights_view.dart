@@ -9,6 +9,7 @@ import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/sleep_insights_cubit.dart';
+import 'package:new_mama/feature/baby_track/presentation/view_model/growth_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/insights_baby_activity_section.dart';
 import 'package:new_mama/feature/children/domain/entities/child.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
@@ -28,7 +29,17 @@ class InsightsView extends StatelessWidget {
         }
         return cubit;
       },
-      child: _InsightsViewBody(),
+      child: BlocProvider<GrowthInsightsCubit>(
+        create: (ctx) {
+          final cubit = getIt<GrowthInsightsCubit>();
+          final activeChild = ctx.read<ActiveChildCubit>().state;
+          if (activeChild != null) {
+            cubit.loadGrowthInsights(activeChild.childId);
+          }
+          return cubit;
+        },
+        child: _InsightsViewBody(),
+      ),
     );
   }
 }
@@ -61,6 +72,9 @@ class _InsightsViewBodyState extends State<_InsightsViewBody> {
           context.read<SleepInsightsCubit>().loadSleepInsights(
             activeChild.childId,
           );
+          context.read<GrowthInsightsCubit>().loadGrowthInsights(
+            activeChild.childId,
+          );
         }
       },
       child: Scaffold(
@@ -91,49 +105,13 @@ class _InsightsViewBodyState extends State<_InsightsViewBody> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const PremiumChildSelector(),
-              // 12.h.height,
-              // ── Top stat cards ──
-              // Row(
-              //   children: [
-              //     InsightsStatCard(
-              //       icon: Icons.favorite_rounded,
-              //       iconColor: context.ext.colors.primaryDark,
-              //       label: context.trContext(TK.babyHealthScore),
-              //       value: context.trContext(TK.babyFeedingLabel),
-              //       background: context.ext.colors.primaryDark,
-              //     ),
-              //     SizedBox(width: 10.w),
-              //     InsightsStatCard(
-              //       icon: Icons.mood_rounded,
-              //       iconColor: Colors.orange,
-              //       label: context.trContext(TK.babyMomMood),
-              //       value: context.trContext(TK.babyCalm),
-              //       background: Colors.orange,
-              //     ),
-              //     SizedBox(width: 10.w),
-              //     InsightsStatCard(
-              //       icon: Icons.check_circle_rounded,
-              //       iconColor: context.ext.colors.greenText,
-              //       label: context.trContext(TK.babyCopingRate),
-              //       value: context.trContext(TK.babyGood),
-              //       background: context.ext.colors.backgroundGreen,
-              //     ),
-              //   ],
-              // ),
               24.h.height,
 
               // ── Sections ──
               const InsightsBabyActivitySection(),
               24.h.height,
 
-              // const InsightsHealthSection(),
-              // 24.h.height,
-
-              // const InsightsMotherWellnessSection(),
               24.h.height,
-
-              // const InsightsHelpfulSuggestionsSection(),
-              // 20.h.height,
             ],
           ),
         ),

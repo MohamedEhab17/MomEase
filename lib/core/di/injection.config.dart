@@ -111,6 +111,10 @@ import '../../feature/baby_track/data/datasources/feeding_remote_data_source_con
     as _i520;
 import '../../feature/baby_track/data/datasources/feeding_remote_data_source_impl.dart'
     as _i316;
+import '../../feature/baby_track/data/datasources/growth_remote_data_source_contract.dart'
+    as _i776;
+import '../../feature/baby_track/data/datasources/growth_remote_data_source_impl.dart'
+    as _i274;
 import '../../feature/baby_track/data/datasources/sleep_remote_data_source_contract.dart'
     as _i247;
 import '../../feature/baby_track/data/datasources/sleep_remote_data_source_impl.dart'
@@ -121,22 +125,30 @@ import '../../feature/baby_track/data/datasources/vaccination_remote_data_source
     as _i3;
 import '../../feature/baby_track/data/repositories/feeding_repository_impl.dart'
     as _i506;
+import '../../feature/baby_track/data/repositories/growth_repository_impl.dart'
+    as _i556;
 import '../../feature/baby_track/data/repositories/sleep_repository_impl.dart'
     as _i851;
 import '../../feature/baby_track/data/repositories/vaccination_repository_impl.dart'
     as _i767;
 import '../../feature/baby_track/domain/repositories/feeding_repository.dart'
     as _i1017;
+import '../../feature/baby_track/domain/repositories/growth_repository.dart'
+    as _i697;
 import '../../feature/baby_track/domain/repositories/sleep_repository.dart'
     as _i820;
 import '../../feature/baby_track/domain/repositories/vaccination_repository.dart'
     as _i378;
 import '../../feature/baby_track/domain/usecase/add_feeding_record_usecase.dart'
     as _i388;
+import '../../feature/baby_track/domain/usecase/add_growth_record_usecase.dart'
+    as _i467;
 import '../../feature/baby_track/domain/usecase/add_sleep_record_usecase.dart'
     as _i41;
 import '../../feature/baby_track/domain/usecase/delete_feeding_record_usecase.dart'
     as _i70;
+import '../../feature/baby_track/domain/usecase/delete_growth_record_usecase.dart'
+    as _i806;
 import '../../feature/baby_track/domain/usecase/delete_sleep_record_usecase.dart'
     as _i317;
 import '../../feature/baby_track/domain/usecase/get_completed_vaccinations_usecase.dart'
@@ -145,8 +157,16 @@ import '../../feature/baby_track/domain/usecase/get_feeding_records_usecase.dart
     as _i1035;
 import '../../feature/baby_track/domain/usecase/get_feeding_statistics_usecase.dart'
     as _i167;
+import '../../feature/baby_track/domain/usecase/get_growth_chart_data_usecase.dart'
+    as _i909;
+import '../../feature/baby_track/domain/usecase/get_growth_records_usecase.dart'
+    as _i411;
+import '../../feature/baby_track/domain/usecase/get_growth_statistics_usecase.dart'
+    as _i932;
 import '../../feature/baby_track/domain/usecase/get_monthly_feeding_records_usecase.dart'
     as _i223;
+import '../../feature/baby_track/domain/usecase/get_monthly_growth_records_usecase.dart'
+    as _i642;
 import '../../feature/baby_track/domain/usecase/get_monthly_sleep_records_usecase.dart'
     as _i705;
 import '../../feature/baby_track/domain/usecase/get_overdue_vaccinations_usecase.dart'
@@ -163,6 +183,8 @@ import '../../feature/baby_track/domain/usecase/get_vaccinations_usecase.dart'
     as _i1023;
 import '../../feature/baby_track/domain/usecase/get_weekly_feeding_records_usecase.dart'
     as _i1059;
+import '../../feature/baby_track/domain/usecase/get_weekly_growth_records_usecase.dart'
+    as _i126;
 import '../../feature/baby_track/domain/usecase/get_weekly_sleep_records_usecase.dart'
     as _i829;
 import '../../feature/baby_track/domain/usecase/mark_vaccination_taken_usecase.dart'
@@ -173,6 +195,8 @@ import '../../feature/baby_track/presentation/view_model/baby_track_cubit.dart'
     as _i18;
 import '../../feature/baby_track/presentation/view_model/feeding_insights_cubit.dart'
     as _i66;
+import '../../feature/baby_track/presentation/view_model/growth_insights_cubit.dart'
+    as _i830;
 import '../../feature/baby_track/presentation/view_model/sleep_insights_cubit.dart'
     as _i47;
 import '../../feature/baby_track/presentation/view_model/vaccinations_cubit/vaccinations_cubit.dart'
@@ -439,8 +463,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i132.DeleteProfilePhotoUseCase>(),
       ),
     );
+    gh.lazySingleton<_i776.GrowthRemoteDataSourceContract>(
+      () => _i274.GrowthRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i393.SkinAnalysisRemoteDataSource>(
       () => _i935.SkinAnalysisRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
+    gh.lazySingleton<_i697.GrowthRepository>(
+      () => _i556.GrowthRepositoryImpl(
+        gh<_i776.GrowthRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
+      ),
     );
     gh.lazySingleton<_i663.AppSectionRemoteDatasourceContract>(
       () => _i250.AppSectionRemoteDatasourceImpl(gh<_i557.ApiClient>()),
@@ -543,6 +576,27 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1042.DeleteNotificationUseCase>(),
         gh<_i1042.ClearAllNotificationsUseCase>(),
       ),
+    );
+    gh.factory<_i467.AddGrowthRecordUseCase>(
+      () => _i467.AddGrowthRecordUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i806.DeleteGrowthRecordUseCase>(
+      () => _i806.DeleteGrowthRecordUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i909.GetGrowthChartDataUseCase>(
+      () => _i909.GetGrowthChartDataUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i411.GetGrowthRecordsUseCase>(
+      () => _i411.GetGrowthRecordsUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i932.GetGrowthStatisticsUseCase>(
+      () => _i932.GetGrowthStatisticsUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i642.GetMonthlyGrowthRecordsUseCase>(
+      () => _i642.GetMonthlyGrowthRecordsUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i126.GetWeeklyGrowthRecordsUseCase>(
+      () => _i126.GetWeeklyGrowthRecordsUseCase(gh<_i697.GrowthRepository>()),
     );
     gh.lazySingleton<_i378.VaccinationRepository>(
       () => _i767.VaccinationRepositoryImpl(
@@ -705,6 +759,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i562.SubmitCubit>(
       () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
     );
+    gh.factory<_i18.BabyTrackCubit>(
+      () => _i18.BabyTrackCubit(
+        gh<_i41.AddSleepRecordUseCase>(),
+        gh<_i388.AddFeedingRecordUseCase>(),
+        gh<_i1035.GetFeedingRecordsUseCase>(),
+        gh<_i70.DeleteFeedingRecordUseCase>(),
+        gh<_i140.GetSleepRecordsUseCase>(),
+        gh<_i317.DeleteSleepRecordUseCase>(),
+        gh<_i467.AddGrowthRecordUseCase>(),
+        gh<_i411.GetGrowthRecordsUseCase>(),
+        gh<_i806.DeleteGrowthRecordUseCase>(),
+      ),
+    );
     gh.factory<_i66.FeedingInsightsCubit>(
       () => _i66.FeedingInsightsCubit(
         gh<_i1059.GetWeeklyFeedingRecordsUseCase>(),
@@ -825,6 +892,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i839.WatchArticleSaveStatusUseCase>(
       () => _i839.WatchArticleSaveStatusUseCase(gh<_i18.ArticlesRepository>()),
     );
+    gh.factory<_i830.GrowthInsightsCubit>(
+      () => _i830.GrowthInsightsCubit(
+        gh<_i909.GetGrowthChartDataUseCase>(),
+        gh<_i932.GetGrowthStatisticsUseCase>(),
+        gh<_i126.GetWeeklyGrowthRecordsUseCase>(),
+        gh<_i642.GetMonthlyGrowthRecordsUseCase>(),
+      ),
+    );
     gh.factory<_i413.GetCompletedVaccinationsUseCase>(
       () => _i413.GetCompletedVaccinationsUseCase(
         gh<_i378.VaccinationRepository>(),
@@ -921,16 +996,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i875.SaveArticleUseCase>(),
         gh<_i875.UnsaveArticleUseCase>(),
         gh<_i839.WatchArticleSaveStatusUseCase>(),
-      ),
-    );
-    gh.factory<_i18.BabyTrackCubit>(
-      () => _i18.BabyTrackCubit(
-        gh<_i41.AddSleepRecordUseCase>(),
-        gh<_i388.AddFeedingRecordUseCase>(),
-        gh<_i1035.GetFeedingRecordsUseCase>(),
-        gh<_i70.DeleteFeedingRecordUseCase>(),
-        gh<_i140.GetSleepRecordsUseCase>(),
-        gh<_i317.DeleteSleepRecordUseCase>(),
       ),
     );
     gh.lazySingleton<_i580.ProfileCubit>(

@@ -5,7 +5,6 @@ import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
-import 'package:new_mama/core/localization/cubit/language_cubit.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 import 'package:new_mama/feature/baby_track/data/models/add_sleep_record_request_model.dart';
@@ -116,7 +115,6 @@ class _SleepTabViewState extends State<SleepTabView> {
         final cubit = context.read<BabyTrackCubit>();
         final isLoading = state is SleepRecordLoading;
         final activeChild = context.read<ActiveChildCubit>().state;
-        final isAr = context.read<LanguageCubit>().state.languageCode == 'ar';
 
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -208,7 +206,7 @@ class _SleepTabViewState extends State<SleepTabView> {
 
               // Save button
               CustomElevatedButton(
-                text: isLoading ? 'Saving...' : context.trContext(TK.babySleepSaveRecord),
+                text: isLoading ? context.trContext(TK.babySaving) : context.trContext(TK.babySleepSaveRecord),
                 onPressed: isLoading ? null : () => _save(cubit),
                 backgroundColor: context.theme.buttonTheme.colorScheme!.primary,
                 minimumSize: Size(double.infinity, 52.h),
@@ -225,7 +223,7 @@ class _SleepTabViewState extends State<SleepTabView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    isAr ? 'السجلات الأخيرة' : 'Recent Records',
+                    context.trContext(TK.babyRecentRecords),
                     style: context.text.titleMedium!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -289,7 +287,7 @@ class _SleepTabViewState extends State<SleepTabView> {
                         ),
                         12.h.height,
                         Text(
-                          isAr ? 'لا توجد سجلات بعد' : 'No records yet',
+                          context.trContext(TK.babyNoRecordsYet),
                           style: context.text.bodyMedium!.copyWith(
                             color: context.colors.onSurfaceVariant,
                           ),

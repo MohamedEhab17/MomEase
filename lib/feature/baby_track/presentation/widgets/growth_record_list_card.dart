@@ -2,47 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
-import 'package:new_mama/feature/baby_track/domain/entities/sleep_record_entity.dart';
+import 'package:new_mama/feature/baby_track/domain/entities/growth_record_entity.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-String _sleepFormatDate(DateTime dt) {
+String _growthFormatDate(DateTime dt) {
   const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
   ];
   return '${months[dt.month - 1]} ${dt.day.toString().padLeft(2, '0')}, ${dt.year}';
 }
 
-/// Parses "HH:mm:ss" into readable "Xh Ym"
-String _formatDuration(String raw) {
-  try {
-    final parts = raw.split(':');
-    final h = int.parse(parts[0]);
-    final m = int.parse(parts[1]);
-    if (h == 0) return '${m}m';
-    if (m == 0) return '${h}h';
-    return '${h}h ${m}m';
-  } catch (_) {
-    return raw;
-  }
-}
-
-class SleepRecordListCard extends StatelessWidget {
-  final SleepRecordEntity record;
+class GrowthRecordListCard extends StatelessWidget {
+  final GrowthRecordEntity record;
   final VoidCallback onDelete;
   final bool isDeleting;
 
-  const SleepRecordListCard({
+  const GrowthRecordListCard({
     super.key,
     required this.record,
     required this.onDelete,
@@ -51,27 +27,9 @@ class SleepRecordListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusText = record.status.toLowerCase();
-
-    Color statusColor;
-    Color statusBg;
-    String statusLabel;
-
-    if (statusText == 'good' ||
-        statusText == 'normal' ||
-        statusText == 'healthy') {
-      statusColor = context.ext.colors.greenText;
-      statusBg = context.ext.colors.backgroundGreen.withValues(alpha: 0.15);
-      statusLabel = 'Good';
-    } else {
-      statusColor = context.ext.colors.severityHigh;
-      statusBg = context.ext.colors.severityHighBg;
-      statusLabel = 'Poor';
-    }
-
-    final duration = record.sleepHoursTotalFormatted.isNotEmpty
-        ? record.sleepHoursTotalFormatted
-        : _formatDuration(record.sleepHoursTotal);
+    // Choose status colors and icon
+    final statusColor = context.ext.colors.primaryDark;
+    final statusBg = context.ext.colors.primaryExtraLight;
 
     return Skeletonizer(
       enabled: isDeleting,
@@ -87,10 +45,9 @@ class SleepRecordListCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // ── Left accent panel ──
+            // ── Left accent bar + icon ──
             Container(
-              width: 64.w,
-              // height: double.infinity,
+              width: 80.w,
               decoration: BoxDecoration(
                 color: statusBg,
                 borderRadius: BorderRadius.only(
@@ -100,22 +57,17 @@ class SleepRecordListCard extends StatelessWidget {
               ),
               padding: EdgeInsets.symmetric(vertical: 18.h),
               child: Column(
-                mainAxisAlignment: .center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.nights_stay_rounded,
-                    color: statusColor,
-                    size: 22.sp,
-                  ),
+                  Icon(Icons.monitor_weight_outlined, color: statusColor, size: 22.sp),
                   6.h.height,
                   Text(
-                    duration,
+                    '${record.weightKg} kg',
                     style: context.text.titleSmall!.copyWith(
                       color: statusColor,
                       fontWeight: FontWeight.w800,
-                      fontSize: 11.sp,
+                      fontSize: 13.sp,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -126,13 +78,13 @@ class SleepRecordListCard extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
                 child: Column(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment: .spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Sleep Record',
+                          'Height: ${record.heightCm} cm',
                           style: context.text.titleSmall!.copyWith(
                             fontWeight: FontWeight.w700,
                             color: context.colors.onSurface,
@@ -148,7 +100,9 @@ class SleepRecordListCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
-                            statusLabel,
+                            record.ageInMonths > 0 
+                                ? '${record.ageInMonths}m old'
+                                : '${record.ageInWeeks}w old',
                             style: context.text.bodySmall!.copyWith(
                               color: statusColor,
                               fontWeight: FontWeight.w700,
@@ -168,7 +122,7 @@ class SleepRecordListCard extends StatelessWidget {
                         ),
                         4.w.width,
                         Text(
-                          _sleepFormatDate(record.sleepDate),
+                          _growthFormatDate(record.recordDate),
                           style: context.text.bodySmall!.copyWith(
                             color: context.colors.onSurfaceVariant,
                             fontSize: 11.sp,
@@ -176,41 +130,6 @@ class SleepRecordListCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    if (record.referenceInfo != null) ...[
-                      6.h.height,
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.info_outline_rounded,
-                            size: 11.sp,
-                            color: context.colors.onSurfaceVariant,
-                          ),
-                          4.w.width,
-                          Text(
-                            'Target: ${record.referenceInfo!.sleepMinHoursFormatted}–${record.referenceInfo!.sleepMaxHoursFormatted} (${record.referenceInfo!.ageRange})',
-                            style: context.text.bodySmall!.copyWith(
-                              color: context.colors.onSurfaceVariant,
-                              fontSize: 11.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                    if (record.notes.trim().isNotEmpty) ...[
-                      6.h.height,
-                      Text(
-                        record.notes,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: context.text.bodySmall!.copyWith(
-                          color: context.colors.onSurfaceVariant.withValues(
-                            alpha: 0.7,
-                          ),
-                          fontStyle: FontStyle.italic,
-                          fontSize: 11.sp,
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               ),
