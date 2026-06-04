@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:injectable/injectable.dart';
 import 'package:new_mama/core/base/safe_cubit.dart';
 import 'package:new_mama/core/services/fcm_service.dart';
@@ -31,7 +30,7 @@ class NotificationCubit extends SafeCubit<NotificationState> {
     this._removeDeviceTokenUseCase,
   ) : super(const NotificationState());
 
-  // ─────────────────────────── FCM Token ───────────────────────────────────
+  //  FCM Token 
 
   /// Gets the FCM token and registers it with the backend.
   Future<void> registerFcmToken() async {
@@ -57,7 +56,7 @@ class NotificationCubit extends SafeCubit<NotificationState> {
     );
   }
 
-  // ─────────────────────────── Notifications ───────────────────────────────
+  //  Notifications 
 
   Future<void> getNotifications() async {
     safeEmit(state.copyWith(status: NotificationStatus.loading));
@@ -123,6 +122,7 @@ class NotificationCubit extends SafeCubit<NotificationState> {
         ),
       ),
       (message) {
+        safeEmit(state.copyWith(successMessage: message));
         getNotifications();
         getUnreadCount();
       },
@@ -143,8 +143,19 @@ class NotificationCubit extends SafeCubit<NotificationState> {
         ),
       ),
       (message) {
+        safeEmit(state.copyWith(successMessage: message));
         getNotifications();
       },
     );
+  }
+
+  void clearMessages() {
+    safeEmit(NotificationState(
+      status: state.status,
+      notifications: state.notifications,
+      unreadCount: state.unreadCount,
+      errorMessage: null,
+      successMessage: null,
+    ));
   }
 }

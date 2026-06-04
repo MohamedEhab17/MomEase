@@ -25,9 +25,6 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DateTime createdAtDate =
-        DateTime.tryParse(notification.createdAt) ?? DateTime.now();
-    final String timeString = DateFormat('hh:mm a').format(createdAtDate);
     final bool isUnread = !notification.isRead;
 
     return Padding(
@@ -69,68 +66,16 @@ class NotificationItem extends StatelessWidget {
                 child: Row(
                   children: [
                     if (isUnread) ...[
-                      CircleAvatar(
-                        radius: 4.r,
-                        backgroundColor: context.ext.colors.primaryDark, // Pink
-                      ),
+                      const _UnreadIndicator(),
                       12.w.width,
                     ],
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: .start,
-                        mainAxisAlignment: .center,
-                        children: [
-                          Text(
-                            notification.title,
-                            style: context.text.titleLarge!.copyWith(
-                              fontWeight: .w500,
-                              color: context.colors.onSurface,
-                            ),
-                            // maxLines: 1,
-                            overflow: .ellipsis,
-                            softWrap: true,
-                          ),
-                          4.h.height,
-                          Text(
-                            notification.body,
-                            style: context.text.bodyLarge!.copyWith(
-                              color: context.colors.onSurface.withAlpha(153),
-                              fontWeight: .w400,
-                            ),
-                            // maxLines: 2,
-                            softWrap: true,
-                            // overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
+                      child: _NotificationContent(notification: notification),
                     ),
                     16.w.width,
-                    Column(
-                      mainAxisAlignment: .spaceBetween,
-                      crossAxisAlignment: .end,
-                      children: [
-                        Text(
-                          timeString,
-                          style: context.text.bodyMedium!.copyWith(
-                            color: context.colors.onSurface.withAlpha(153),
-                          ),
-                        ),
-                        if (_hasAction()) ...[
-                          12.h.height,
-                          InkWell(
-                            onTap: onViewPost,
-                            child: Text(
-                              _getActionText(context),
-                              style: context.text.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: context.ext.colors.primaryDark,
-                              ),
-                            ),
-                          ),
-                        ] else ...[
-                          25.h.height,
-                        ],
-                      ],
+                    _NotificationTimeAndAction(
+                      notification: notification,
+                      onViewPost: onViewPost,
                     ),
                   ],
                 ),
@@ -139,6 +84,97 @@ class NotificationItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _UnreadIndicator extends StatelessWidget {
+  const _UnreadIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 4.r,
+      backgroundColor: context.ext.colors.primaryDark,
+    );
+  }
+}
+
+class _NotificationContent extends StatelessWidget {
+  final NotificationEntity notification;
+
+  const _NotificationContent({required this.notification});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          notification.title,
+          style: context.text.titleLarge!.copyWith(
+            fontWeight: FontWeight.w500,
+            color: context.colors.onSurface,
+          ),
+          overflow: TextOverflow.ellipsis,
+          softWrap: true,
+        ),
+        4.h.height,
+        Text(
+          notification.body,
+          style: context.text.bodyLarge!.copyWith(
+            color: context.colors.onSurface.withAlpha(153),
+            fontWeight: FontWeight.w400,
+          ),
+          softWrap: true,
+        ),
+      ],
+    );
+  }
+}
+
+class _NotificationTimeAndAction extends StatelessWidget {
+  final NotificationEntity notification;
+  final VoidCallback onViewPost;
+
+  const _NotificationTimeAndAction({
+    required this.notification,
+    required this.onViewPost,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final DateTime createdAtDate =
+        DateTime.tryParse(notification.createdAt) ?? DateTime.now();
+    final String timeString = DateFormat('hh:mm a').format(createdAtDate);
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          timeString,
+          style: context.text.bodyMedium!.copyWith(
+            color: context.colors.onSurface.withAlpha(153),
+          ),
+        ),
+        if (_hasAction()) ...[
+          12.h.height,
+          InkWell(
+            onTap: onViewPost,
+            child: Text(
+              _getActionText(context),
+              style: context.text.bodyMedium!.copyWith(
+                fontWeight: FontWeight.w700,
+                color: context.ext.colors.primaryDark,
+              ),
+            ),
+          ),
+        ] else ...[
+          25.h.height,
+        ],
+      ],
     );
   }
 

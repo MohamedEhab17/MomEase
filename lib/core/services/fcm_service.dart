@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
@@ -40,10 +39,9 @@ class FcmService {
   static const _channelDesc = 'MomEase push notification channel';
 
   static bool _isInitialized = false;
-
   static Map<String, dynamic>? _pendingNotificationData;
 
-  //  Init 
+  //  Initialization 
 
   /// Call once from main(), after AppRouter.initRouter().
   static Future<void> init() async {
@@ -60,7 +58,7 @@ class FcmService {
     _isInitialized = true;
   }
 
-  //  Permission 
+  //  Permissions 
 
   static Future<void> _requestPermission() async {
     // 1. Request FCM / APNs permission
@@ -83,7 +81,7 @@ class FcmService {
     }
   }
 
-  //  Token 
+  //  FCM Token Management 
 
   /// Returns the current FCM token, or null if unavailable.
   static Future<String?> getToken() async {
@@ -143,7 +141,7 @@ class FcmService {
     });
   }
 
-  //  Local notifications 
+  //  Local Notifications 
 
   static Future<void> _initLocalNotifications() async {
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -216,9 +214,7 @@ class FcmService {
     const ios = DarwinNotificationDetails();
     const details = NotificationDetails(android: android, iOS: ios);
 
-    final data = Map<String, dynamic>.from(message.data);
-    data['title'] ??= title;
-    data['body'] ??= body;
+    final data = _extractDataFromMessage(message, title: title, body: body);
 
     await _localNotifications.show(
       message.hashCode,
@@ -229,7 +225,7 @@ class FcmService {
     );
   }
 
-  //  Listeners 
+  //  FCM Event Listeners 
 
   /// Listens for messages when the app is in the foreground.
   static void _listenForeground() {
@@ -250,12 +246,7 @@ class FcmService {
   static void _listenOnOpenedApp() {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       log('[FCM] Opened from background: ${message.data}');
-      final data = Map<String, dynamic>.from(message.data);
-      if (message.notification != null) {
-        data['title'] ??= message.notification!.title;
-        data['body'] ??= message.notification!.body;
-      }
-      _handleNotificationTap(data);
+      _handleNotificationTap(_extractDataFromMessage(message));
     });
   }
 
@@ -264,13 +255,18 @@ class FcmService {
     final message = await _messaging.getInitialMessage();
     if (message != null) {
       log('[FCM] Opened from terminated: ${message.data}');
-      final data = Map<String, dynamic>.from(message.data);
-      if (message.notification != null) {
-        data['title'] ??= message.notification!.title;
-        data['body'] ??= message.notification!.body;
-      }
-      _handleNotificationTap(data);
+      _handleNotificationTap(_extractDataFromMessage(message));
     }
+  }
+
+  //  Navigation Handlers 
+
+  /// Helper method to safely extract and build the payload data from a RemoteMessage.
+  static Map<String, dynamic> _extractDataFromMessage(RemoteMessage message, {String? title, String? body}) {
+    final data = Map<String, dynamic>.from(message.data);
+    data['title'] ??= title ?? message.notification?.title;
+    data['body'] ??= body ?? message.notification?.body;
+    return data;
   }
 
   /// Centralized Notification Tap Router with safe polling retry limit and advanced diagnostics.

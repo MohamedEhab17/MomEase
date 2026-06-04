@@ -8,6 +8,7 @@ import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/notifications/domain/entities/notification_entity.dart';
 import 'package:new_mama/core/utils/notification_router.dart';
 import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
+import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import '../view_model/notification_cubit.dart';
 import '../view_model/notification_state.dart';
 import 'empty_notifications.dart';
@@ -66,6 +67,42 @@ class _NotificationListState extends State<NotificationList> {
             (state.status == NotificationStatus.loading &&
                 state.notifications.isEmpty)) {
           return const NotificationSkeleton();
+        }
+
+        if (state.status == NotificationStatus.failure &&
+            state.notifications.isEmpty) {
+          return Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline_rounded,
+                    size: 80.r,
+                    color: context.colors.error,
+                  ),
+                  16.h.height,
+                  Text(
+                    state.errorMessage ?? context.trContext(TK.toastError),
+                    style: context.text.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: context.colors.onSurface,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  24.h.height,
+                  CustomElevatedButton(
+                    text: context.trContext(TK.commonRetry),
+                    onPressed: () =>
+                        context.read<NotificationCubit>().getNotifications(),
+                    backgroundColor: context.ext.colors.primaryDark,
+                    minimumSize: Size(160.w, 45.h),
+                  ),
+                ],
+              ),
+            ),
+          );
         }
 
         if (state.notifications.isEmpty &&
