@@ -35,8 +35,8 @@ class ChatbotMessageWidget extends StatelessWidget {
     final Color bubbleColor = isUser
         ? context.ext.colors.primary
         : (isDark
-            ? context.ext.colors.primaryExtraLight
-            : context.ext.colors.primaryLight);
+              ? context.ext.colors.primaryExtraLight
+              : context.ext.colors.primaryLight);
 
     final Color textColor = isUser
         ? (isDark ? context.ext.colors.lightBackground : Colors.white)
@@ -47,10 +47,14 @@ class ChatbotMessageWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: bubbleColor,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(isUser ? radius : 4.r), // notch pointing to avatar
+          topLeft: Radius.circular(
+            isUser ? radius : 4.r,
+          ), // notch pointing to avatar
           topRight: Radius.circular(radius),
           bottomLeft: Radius.circular(radius),
-          bottomRight: Radius.circular(isUser ? 4.r : radius), // notch pointing to user side
+          bottomRight: Radius.circular(
+            isUser ? 4.r : radius,
+          ), // notch pointing to user side
         ),
       ),
       constraints: BoxConstraints(
@@ -60,9 +64,9 @@ class ChatbotMessageWidget extends StatelessWidget {
         text,
         textAlign: isArabicText ? TextAlign.right : TextAlign.left,
         textDirection: isArabicText ? TextDirection.rtl : TextDirection.ltr,
-        style: context.text.titleLarge!.copyWith(
-          color: textColor,
-        ).forText(text),
+        style: context.text.titleLarge!
+            .copyWith(color: textColor)
+            .forText(text),
       ),
     );
 
@@ -70,7 +74,8 @@ class ChatbotMessageWidget extends StatelessWidget {
       bubble = Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        textDirection: TextDirection.ltr, // Keep avatar on the left, bubble on the right
+        textDirection:
+            TextDirection.ltr, // Keep avatar on the left, bubble on the right
         children: [
           Container(
             width: 36.w,

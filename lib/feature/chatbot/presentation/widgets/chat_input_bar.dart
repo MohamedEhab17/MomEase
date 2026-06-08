@@ -81,7 +81,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
             enabled: !widget.isProcessing,
             borderRadius: BorderRadius.circular(64),
             blurShadowRadius: 6,
-            fillColor: context.ext.colors.darkTextPrimary,
+            fillColor: context.theme.colorScheme.surface,
             hint: context.trContext('chatbot.input_hint'),
             hintStyle: context.text.bodySmall!.copyWith(
               fontSize: 14.sp,

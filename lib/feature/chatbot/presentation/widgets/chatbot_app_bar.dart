@@ -66,8 +66,14 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 4.h,
               children: [
-                Text(context.trContext('chatbot.title'), style: context.text.titleMedium),
-                Text(context.trContext('chatbot.subtitle'), style: context.text.bodySmall),
+                Text(
+                  context.trContext('chatbot.title'),
+                  style: context.text.titleMedium,
+                ),
+                Text(
+                  context.trContext('chatbot.subtitle'),
+                  style: context.text.bodySmall,
+                ),
               ],
             ),
           ],
