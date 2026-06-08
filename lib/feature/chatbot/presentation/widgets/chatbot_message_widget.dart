@@ -61,7 +61,7 @@ class ChatbotMessageWidget extends StatelessWidget {
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * 0.65,
       ),
-      child: Text(
+      child: SelectableText(
         text,
         textAlign: isArabicText ? TextAlign.right : TextAlign.left,
         textDirection: isArabicText ? TextDirection.rtl : TextDirection.ltr,

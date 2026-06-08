@@ -113,7 +113,9 @@ class _InsightCard extends StatelessWidget {
                     return Text(
                       textVal,
                       textAlign: isAr ? TextAlign.right : TextAlign.left,
-                      textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                      textDirection: isAr
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
                       style: AppStyles.styleRoboto16.copyWith(
                         fontWeight: FontWeight.bold,
                         color: color,
@@ -130,7 +132,9 @@ class _InsightCard extends StatelessWidget {
                     return Text(
                       textVal,
                       textAlign: isAr ? TextAlign.right : TextAlign.left,
-                      textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                      textDirection: isAr
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
                       style: AppStyles.styleRoboto16,
                     );
                   },
