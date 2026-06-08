@@ -6,6 +6,7 @@ import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/widgets/animated_dialog_container.dart';
@@ -21,9 +22,10 @@ class ReportSuccessDialog extends StatefulWidget {
 class _ReportSuccessDialogState extends State<ReportSuccessDialog> {
   void _onPressedContinue() {
     context.pop();
-    ScaffoldMessenger.of(
+    AppToast.success(
       context,
-    ).showSnackBar(SnackBar(content: Text(context.trContext(TK.communityReportSuccess))));
+      message: context.trContext(TK.communityReportSuccess),
+    );
   }
 
   @override
