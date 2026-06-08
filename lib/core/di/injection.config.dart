@@ -278,14 +278,26 @@ import '../../feature/depression/presentation/view_model/submit_cubit/submit_cub
     as _i562;
 import '../../feature/home/presentation/view_model/home_articles/home_articles_cubit.dart'
     as _i850;
-import '../../feature/notifications/data/datasource/notification_local_datasource.dart'
-    as _i967;
-import '../../feature/notifications/data/repository/notification_repository.dart'
-    as _i660;
+import '../../feature/notifications/data/datasource/notification_remote_data_source.dart'
+    as _i145;
+import '../../feature/notifications/data/datasource/notification_remote_data_source_impl.dart'
+    as _i739;
 import '../../feature/notifications/data/repository/notification_repository_impl.dart'
     as _i679;
-import '../../feature/notifications/domain/usecases/notification_usecases.dart'
-    as _i1042;
+import '../../feature/notifications/domain/repository/notification_repository.dart'
+    as _i913;
+import '../../feature/notifications/domain/usecases/delete_notification_usecase.dart'
+    as _i816;
+import '../../feature/notifications/domain/usecases/device_token_usecases.dart'
+    as _i564;
+import '../../feature/notifications/domain/usecases/get_notifications_usecase.dart'
+    as _i286;
+import '../../feature/notifications/domain/usecases/get_unread_count_usecase.dart'
+    as _i115;
+import '../../feature/notifications/domain/usecases/mark_all_notifications_read_usecase.dart'
+    as _i917;
+import '../../feature/notifications/domain/usecases/mark_notification_read_usecase.dart'
+    as _i239;
 import '../../feature/notifications/presentation/view_model/notification_cubit.dart'
     as _i473;
 import '../../feature/profile/data/datasource/profile_remote_datasource.dart'
@@ -361,19 +373,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i520.FeedingRemoteDataSourceContract>(
       () => _i316.FeedingRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
-    gh.lazySingleton<_i967.NotificationLocalDataSource>(
-      () => _i967.NotificationLocalDataSourceImpl(),
-    );
     gh.lazySingleton<_i1010.ChildrenRemoteDataSource>(
       () => _i676.ChildrenRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
     gh.lazySingleton<_i921.ArticleLocalDataSource>(
       () => _i921.ArticleLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
-    );
-    gh.lazySingleton<_i660.NotificationRepository>(
-      () => _i679.NotificationRepositoryImpl(
-        gh<_i967.NotificationLocalDataSource>(),
-      ),
     );
     gh.lazySingleton<_i790.SecureStorageHelper>(
       () => _i790.SecureStorageHelper(gh<_i558.FlutterSecureStorage>()),
@@ -442,6 +446,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i32.GetSleepStatisticsUseCase>(),
       ),
     );
+    gh.lazySingleton<_i145.NotificationRemoteDataSource>(
+      () => _i739.NotificationRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i108.CommunityRemoteDataSource>(
       () => _i108.CommunityRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
@@ -508,24 +515,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i790.SecureStorageHelper>(),
       ),
     );
-    gh.factory<_i1042.GetNotificationsUseCase>(
-      () => _i1042.GetNotificationsUseCase(gh<_i660.NotificationRepository>()),
-    );
-    gh.factory<_i1042.LoadMoreNotificationsUseCase>(
-      () => _i1042.LoadMoreNotificationsUseCase(
-        gh<_i660.NotificationRepository>(),
-      ),
-    );
-    gh.factory<_i1042.MarkAsReadUseCase>(
-      () => _i1042.MarkAsReadUseCase(gh<_i660.NotificationRepository>()),
-    );
-    gh.factory<_i1042.DeleteNotificationUseCase>(
-      () =>
-          _i1042.DeleteNotificationUseCase(gh<_i660.NotificationRepository>()),
-    );
-    gh.factory<_i1042.ClearAllNotificationsUseCase>(
-      () => _i1042.ClearAllNotificationsUseCase(
-        gh<_i660.NotificationRepository>(),
+    gh.lazySingleton<_i913.NotificationRepository>(
+      () => _i679.NotificationRepositoryImpl(
+        gh<_i145.NotificationRemoteDataSource>(),
+        gh<_i932.NetworkInfo>(),
       ),
     );
     gh.lazySingleton<_i417.AppSectionRepositoryContract>(
@@ -567,15 +560,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i480.LogoutUseCase>(
       () => _i480.LogoutUseCase(gh<_i417.AppSectionRepositoryContract>()),
-    );
-    gh.factory<_i473.NotificationCubit>(
-      () => _i473.NotificationCubit(
-        gh<_i1042.GetNotificationsUseCase>(),
-        gh<_i1042.LoadMoreNotificationsUseCase>(),
-        gh<_i1042.MarkAsReadUseCase>(),
-        gh<_i1042.DeleteNotificationUseCase>(),
-        gh<_i1042.ClearAllNotificationsUseCase>(),
-      ),
     );
     gh.factory<_i467.AddGrowthRecordUseCase>(
       () => _i467.AddGrowthRecordUseCase(gh<_i697.GrowthRepository>()),
@@ -636,6 +620,31 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i488.AuthRepository>(),
         gh<_i792.BiometricHelper>(),
       ),
+    );
+    gh.lazySingleton<_i816.DeleteNotificationUseCase>(
+      () => _i816.DeleteNotificationUseCase(gh<_i913.NotificationRepository>()),
+    );
+    gh.lazySingleton<_i564.RegisterDeviceTokenUseCase>(
+      () =>
+          _i564.RegisterDeviceTokenUseCase(gh<_i913.NotificationRepository>()),
+    );
+    gh.lazySingleton<_i564.RemoveDeviceTokenUseCase>(
+      () => _i564.RemoveDeviceTokenUseCase(gh<_i913.NotificationRepository>()),
+    );
+    gh.lazySingleton<_i286.GetNotificationsUseCase>(
+      () => _i286.GetNotificationsUseCase(gh<_i913.NotificationRepository>()),
+    );
+    gh.lazySingleton<_i115.GetUnreadCountUseCase>(
+      () => _i115.GetUnreadCountUseCase(gh<_i913.NotificationRepository>()),
+    );
+    gh.lazySingleton<_i917.MarkAllNotificationsReadUseCase>(
+      () => _i917.MarkAllNotificationsReadUseCase(
+        gh<_i913.NotificationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i239.MarkNotificationReadUseCase>(
+      () =>
+          _i239.MarkNotificationReadUseCase(gh<_i913.NotificationRepository>()),
     );
     gh.factory<_i388.AddFeedingRecordUseCase>(
       () => _i388.AddFeedingRecordUseCase(gh<_i1017.FeedingRepository>()),
@@ -729,12 +738,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i728.DeleteReplyUseCase>(
       () => _i728.DeleteReplyUseCase(gh<_i59.CommunityRepository>()),
     );
-    gh.factory<_i434.LogoutCubit>(
-      () => _i434.LogoutCubit(
-        gh<_i480.LogoutUseCase>(),
-        gh<_i435.AppSectionLocalDatasourceContract>(),
-      ),
-    );
     gh.factory<_i292.CreateChildUseCase>(
       () => _i292.CreateChildUseCase(gh<_i889.ChildrenRepository>()),
     );
@@ -788,6 +791,17 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i84.UpdateProfileUsecase>(
       () => _i84.UpdateProfileUsecase(gh<_i417.AppSectionRepositoryContract>()),
+    );
+    gh.factory<_i473.NotificationCubit>(
+      () => _i473.NotificationCubit(
+        gh<_i286.GetNotificationsUseCase>(),
+        gh<_i115.GetUnreadCountUseCase>(),
+        gh<_i239.MarkNotificationReadUseCase>(),
+        gh<_i917.MarkAllNotificationsReadUseCase>(),
+        gh<_i816.DeleteNotificationUseCase>(),
+        gh<_i564.RegisterDeviceTokenUseCase>(),
+        gh<_i564.RemoveDeviceTokenUseCase>(),
+      ),
     );
     gh.factory<_i37.CommentsCubit>(
       () => _i37.CommentsCubit(
@@ -898,6 +912,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i932.GetGrowthStatisticsUseCase>(),
         gh<_i126.GetWeeklyGrowthRecordsUseCase>(),
         gh<_i642.GetMonthlyGrowthRecordsUseCase>(),
+      ),
+    );
+    gh.factory<_i434.LogoutCubit>(
+      () => _i434.LogoutCubit(
+        gh<_i480.LogoutUseCase>(),
+        gh<_i435.AppSectionLocalDatasourceContract>(),
+        gh<_i564.RemoveDeviceTokenUseCase>(),
       ),
     );
     gh.factory<_i413.GetCompletedVaccinationsUseCase>(

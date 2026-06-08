@@ -524,7 +524,17 @@
     "clear_all": "مسح الكل",
     "empty_title": "لا توجد إشعارات",
     "empty_subtitle": "هتظهر هنا أول ما توصلك إشعارات",
-    "view_post": "عرض المنشور"
+    "view_post": "عرض المنشور",
+    "mark_all_as_read": "تحديد الكل كمقروء",
+    "take_check_in": "بدء التقييم",
+    "view_result": "عرض النتيجة",
+    "view_tracker": "عرض التتبع",
+    "read_tip": "قراءة النصيحة",
+    "view": "عرض",
+    "delete_title": "حذف الإشعار",
+    "delete_content": "هل أنتِ متأكدة من رغبتكِ في حذف هذا الإشعار نهائياً؟",
+    "mental_health_check": "تقييم الصحة النفسية",
+    "close": "إغلاق"
   },
   "common": {
     "view_all": "عرض الكل",
