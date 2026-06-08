@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
@@ -82,7 +83,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
             borderRadius: BorderRadius.circular(64),
             blurShadowRadius: 6,
             fillColor: context.theme.colorScheme.surface,
-            hint: context.trContext('chatbot.input_hint'),
+            hint: context.trContext(TK.chatbotInputHint),
             hintStyle: context.text.bodySmall!.copyWith(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
@@ -139,7 +140,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
           if (!isKeyboardOpen)
             FittedBox(
               child: Text(
-                context.trContext('chatbot.disclaimer'),
+                context.trContext(TK.chatbotDisclaimer),
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 style: context.text.bodySmall,

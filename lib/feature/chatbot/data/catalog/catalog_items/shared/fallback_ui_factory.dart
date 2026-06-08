@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:genui/genui.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 
 /// FallbackUiFactory dynamically generates a GenUI widget tree when the backend
 /// returns a plain-text response (no structured UI payload).
@@ -20,8 +22,7 @@ abstract class FallbackUiFactory {
     );
 
     final bool isArabic = language == 'ar';
-
-    final String titleText = isArabic ? 'إرشاد أمومة ✨' : 'MomEase Care ✨';
+    final String titleText = tr(TK.chatbotGuidanceTitle);
 
     List<Map<String, dynamic>> topics;
     if (customSuggestions != null && customSuggestions.isNotEmpty) {

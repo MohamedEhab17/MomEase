@@ -5,9 +5,11 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:genui/genui.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/network/api_client.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
 
 import '../models/chatbot_response_model.dart';
@@ -298,10 +300,7 @@ class BackendContentGenerator implements ContentGenerator {
     debugPrint(
       '[Chatbot Error Recovery] Emitting recovery UI. reason="$reason"',
     );
-    final bool isArabic = locale == 'ar';
-    final String body = isArabic
-        ? 'عذراً، حدث خطأ مؤقت. يرجى المحاولة مرة أخرى. 🙏'
-        : 'Apologies, a temporary error occurred. Please try again. 🙏';
+    final String body = tr(TK.chatbotError);
 
     final List<A2uiMessage> recovery = FallbackUiFactory.create(
       text: body,

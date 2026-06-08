@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
@@ -92,7 +93,7 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  context.trContext('chatbot.title'),
+                  context.trContext(TK.chatbotTitle),
                   style: context.text.titleMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: context.ext.colors.lightTextPrimary,
@@ -100,7 +101,7 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  context.trContext('chatbot.subtitle'),
+                  context.trContext(TK.chatbotSubtitle),
                   style: context.text.bodySmall!.copyWith(
                     color: context.ext.colors.lightTextSecondary,
                     fontSize: 11.sp,
