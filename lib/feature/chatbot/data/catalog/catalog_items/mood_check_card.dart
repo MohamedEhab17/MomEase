@@ -4,6 +4,7 @@ import 'package:json_schema_builder/json_schema_builder.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/feature/chatbot/presentation/widgets/chat_message_list.dart';
 
 final _schema = S.object(
   properties: {
@@ -78,6 +79,8 @@ class _MoodCheckCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final titleNotifier = dataContext.subscribeToString(title);
+    final msgContext = ChatbotMessageContext.of(context);
+    final bool isOld = msgContext?.isOld ?? false;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
@@ -109,63 +112,64 @@ class _MoodCheckCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 16.h),
-          Wrap(
-            spacing: 8.w,
-            runSpacing: 8.h,
-            children: moods.map((moodRef) {
-              final moodNotifier = dataContext.subscribeToString(moodRef);
-              return ValueListenableBuilder<String?>(
-                valueListenable: moodNotifier,
-                builder: (context, mood, _) {
-                  if (mood == null) return const SizedBox.shrink();
-                  return ChoiceChip(
-                    label: Text(mood),
-                    selected: false,
-                    onSelected: (selected) {
-                      try {
-                        final name = action['name'] as String;
-                        final List<Object?> contextDefinition =
-                            (action['context'] as List<Object?>?) ??
-                            <Object?>[];
-                        final JsonMap resolvedContext = resolveContext(
-                          dataContext,
-                          contextDefinition,
-                        );
-                        resolvedContext['mood'] = mood;
-                        dispatchEvent(
-                          UserActionEvent(
-                            name: name,
-                            sourceComponentId: widgetId,
-                            context: resolvedContext,
-                          ),
-                        );
-                      } catch (e) {
-                        debugPrint('Error dispatching mood event: $e');
-                      }
-                    },
-                    backgroundColor: Colors.white,
-                    selectedColor: context.ext.colors.primary,
-                    labelStyle: AppStyles.styleRoboto16.copyWith(
-                      color: context.ext.colors.lightTextPrimary.withAlpha(178),
-                      fontWeight: FontWeight.w500,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(64.r),
-                      side: const BorderSide(color: Colors.transparent),
-                    ),
-                    shadowColor: context.ext.colors.primary.withAlpha(26),
-                    elevation: 10,
-
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 10.h,
-                    ),
-                  );
-                },
-              );
-            }).toList(),
-          ),
+          if (!isOld) ...[
+            SizedBox(height: 16.h),
+            Wrap(
+              spacing: 8.w,
+              runSpacing: 8.h,
+              children: moods.map((moodRef) {
+                final moodNotifier = dataContext.subscribeToString(moodRef);
+                return ValueListenableBuilder<String?>(
+                  valueListenable: moodNotifier,
+                  builder: (context, mood, _) {
+                    if (mood == null) return const SizedBox.shrink();
+                    return ChoiceChip(
+                      label: Text(mood),
+                      selected: false,
+                      onSelected: (selected) {
+                        try {
+                          final name = action['name'] as String;
+                          final List<Object?> contextDefinition =
+                              (action['context'] as List<Object?>?) ??
+                              <Object?>[];
+                          final JsonMap resolvedContext = resolveContext(
+                            dataContext,
+                            contextDefinition,
+                          );
+                          resolvedContext['mood'] = mood;
+                          dispatchEvent(
+                            UserActionEvent(
+                              name: name,
+                              sourceComponentId: widgetId,
+                              context: resolvedContext,
+                            ),
+                          );
+                        } catch (e) {
+                          debugPrint('Error dispatching mood event: $e');
+                        }
+                      },
+                      backgroundColor: Colors.white,
+                      selectedColor: context.ext.colors.primary,
+                      labelStyle: AppStyles.styleRoboto16.copyWith(
+                        color: context.ext.colors.lightTextPrimary.withAlpha(178),
+                        fontWeight: FontWeight.w500,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(64.r),
+                        side: const BorderSide(color: Colors.transparent),
+                      ),
+                      shadowColor: context.ext.colors.primary.withAlpha(26),
+                      elevation: 10,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 10.h,
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+          ],
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:genui/genui.dart';
 import '../catalog/postpartum_catalog.dart';
 import 'backend_content_generator.dart';
 import 'throttled_content_generator.dart';
+import 'message_extractor.dart';
 
 /// Handles communication with the AI service
 abstract class ChatbotRemoteDataSource {
@@ -42,6 +43,18 @@ class ChatbotRemoteDataSourceImpl implements ChatbotRemoteDataSource {
       ),
       contentGenerator: _contentGenerator,
     );
+
+    // Intercept suggestion clicks and print them as UserMessage bubbles in chat history
+    _uiConversation.a2uiMessageProcessor.onSubmit.listen((message) {
+      final text = MessageExtractor.extract(message);
+      if (text.isNotEmpty) {
+        final conversationNotifier = _uiConversation.conversation as ValueNotifier<List<ChatMessage>>;
+        conversationNotifier.value = [
+          ...conversationNotifier.value,
+          UserMessage.text(text),
+        ];
+      }
+    });
 
     // Bulletproof manual binding layer & hard debug tracing
     _contentGenerator.a2uiMessageStream.listen((msg) {

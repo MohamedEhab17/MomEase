@@ -4,6 +4,7 @@ import 'package:json_schema_builder/json_schema_builder.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/feature/chatbot/presentation/widgets/chat_message_list.dart';
 import 'shared/shared_widgets.dart';
 
 final _schema = S.object(
@@ -84,7 +85,10 @@ class _Trailhead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (topics.isEmpty) {
+    final msgContext = ChatbotMessageContext.of(context);
+    final bool isOld = msgContext?.isOld ?? false;
+
+    if (topics.isEmpty || isOld) {
       return const SizedBox.shrink();
     }
 

@@ -42,16 +42,33 @@ class ChatMessagesList extends StatelessWidget {
 
         if (message is AiUiMessage) {
           debugPrint('[GENUI FLOW] UI mounted for surfaceId=${message.surfaceId}');
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.75,
-              ),
-              child: GenUiSurface(
-                key: message.uiKey,
-                host: uiMessageProcessor,
-                surfaceId: message.surfaceId,
+          bool isOld = false;
+          for (int i = index + 1; i < messages.length; i++) {
+            final nextMsg = messages[i];
+            if (nextMsg is UserMessage ||
+                (nextMsg is AiUiMessage &&
+                    nextMsg.surfaceId != message.surfaceId)) {
+              isOld = true;
+              break;
+            }
+          }
+
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: ChatbotMessageContext(
+              isOld: isOld,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.75,
+                  ),
+                  child: GenUiSurface(
+                    key: message.uiKey,
+                    host: uiMessageProcessor,
+                    surfaceId: message.surfaceId,
+                  ),
+                ),
               ),
             ),
           );
@@ -60,6 +77,25 @@ class ChatMessagesList extends StatelessWidget {
         return const SizedBox.shrink();
       },
     );
+  }
+}
+
+class ChatbotMessageContext extends InheritedWidget {
+  final bool isOld;
+
+  const ChatbotMessageContext({
+    super.key,
+    required this.isOld,
+    required super.child,
+  });
+
+  static ChatbotMessageContext? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<ChatbotMessageContext>();
+  }
+
+  @override
+  bool updateShouldNotify(ChatbotMessageContext oldWidget) {
+    return isOld != oldWidget.isOld;
   }
 }
 
