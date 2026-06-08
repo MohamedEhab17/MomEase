@@ -628,7 +628,7 @@ class AppRouter {
           path: '/tracking',
           name: 'notificationTrackingBase',
           builder: (context, state) => BlocProvider(
-            create: (_) => BabyTrackCubit(),
+            create: (_) => getIt<BabyTrackCubit>(),
             child: const BabyTrackView(),
           ),
         ),
@@ -636,7 +636,7 @@ class AppRouter {
           path: '/tracking/child/:childId',
           name: 'notificationTrackingChild',
           builder: (context, state) => BlocProvider(
-            create: (_) => BabyTrackCubit(),
+            create: (_) => getIt<BabyTrackCubit>(),
             child: const BabyTrackView(),
           ),
         ),
