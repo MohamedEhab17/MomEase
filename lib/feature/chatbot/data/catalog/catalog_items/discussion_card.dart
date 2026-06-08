@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -79,8 +79,8 @@ class _DiscussionCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primarySoft3,
-            AppColors.primarySoft3.withAlpha(179),
+            context.ext.colors.primaryTint,
+            context.ext.colors.primaryTint.withAlpha(179),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -88,12 +88,12 @@ class _DiscussionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withAlpha(31),
+            color: context.ext.colors.primary.withAlpha(31),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
         ],
-        border: Border.all(color: AppColors.primary.withAlpha(26), width: 1),
+        border: Border.all(color: context.ext.colors.primary.withAlpha(26), width: 1),
       ),
       child: Material(
         color: Colors.transparent,
@@ -130,7 +130,7 @@ class _DiscussionCard extends StatelessWidget {
                     titleText ?? '',
                     style: AppStyles.styleRoboto16.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: context.ext.colors.primary,
                     ),
                   ),
                 ),
@@ -151,13 +151,13 @@ class _DiscussionCard extends StatelessWidget {
                       Icon(
                         Icons.comment,
                         size: 16.sp,
-                        color: AppColors.lightTextSecondary,
+                        color: context.ext.colors.lightTextSecondary,
                       ),
                       SizedBox(width: 4.w),
                       Text(
                         '${replies!.toInt()} replies',
                         style: AppStyles.styleRoboto12.copyWith(
-                          color: AppColors.lightTextSecondary,
+                          color: context.ext.colors.lightTextSecondary,
                         ),
                       ),
                     ],

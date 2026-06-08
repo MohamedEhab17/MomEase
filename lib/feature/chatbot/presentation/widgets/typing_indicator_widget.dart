@@ -33,37 +33,72 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bubbleColor = isDark
+        ? context.ext.colors.primaryExtraLight
+        : context.ext.colors.primaryLight;
+
+    Widget bubble = Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      decoration: BoxDecoration(
+        color: bubbleColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(4.r), // notch pointing to avatar
+          topRight: Radius.circular(20.r),
+          bottomLeft: Radius.circular(20.r),
+          bottomRight: Radius.circular(20.r),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _AnimatedDot(controller: _controller, delay: 0),
+          SizedBox(width: 4.w),
+          _AnimatedDot(controller: _controller, delay: 0.2),
+          SizedBox(width: 4.w),
+          _AnimatedDot(controller: _controller, delay: 0.4),
+        ],
+      ),
+    );
+
     return Align(
       alignment: Alignment.centerLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-        decoration: BoxDecoration(
-          color: context.ext.colors.primaryTint,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.r),
-            topRight: Radius.circular(20.r),
-            bottomLeft: Radius.circular(4.r),
-            bottomRight: Radius.circular(20.r),
-          ),
-        ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          textDirection: TextDirection.ltr, // Keep avatar on the left, bubble on the right
           children: [
-            SvgPicture.asset(
-              AppIcons.iconsLunaBlue,
-              height: 20.h,
-              colorMapper: AppSvgColorMapper(
-                from: const Color(0xff7AA2C2),
-                to: context.ext.colors.primaryLight,
+            Container(
+              width: 36.w,
+              height: 36.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: context.ext.colors.primaryExtraLight,
+                border: Border.all(
+                  color: context.ext.colors.primary.withAlpha(40),
+                  width: 1.w,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: context.ext.colors.primary.withAlpha(20),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.all(6.w),
+              child: SvgPicture.asset(
+                AppIcons.iconsLunaBlue,
+                colorMapper: AppSvgColorMapper(
+                  from: const Color(0xff7AA2C2),
+                  to: context.ext.colors.primaryDark,
+                ),
               ),
             ),
-            SizedBox(width: 12.w),
-            _AnimatedDot(controller: _controller, delay: 0),
-            SizedBox(width: 4.w),
-            _AnimatedDot(controller: _controller, delay: 0.2),
-            SizedBox(width: 4.w),
-            _AnimatedDot(controller: _controller, delay: 0.4),
+            SizedBox(width: 8.w),
+            Flexible(child: bubble),
           ],
         ),
       ),

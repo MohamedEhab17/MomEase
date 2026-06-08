@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -74,9 +74,9 @@ class _ActivityTimeline extends StatelessWidget {
       ),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.lightBackground,
+        color: context.ext.colors.lightBackground,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.primarySoft),
+        border: Border.all(color: context.ext.colors.primaryLight),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +85,7 @@ class _ActivityTimeline extends StatelessWidget {
             valueListenable: titleNotifier,
             builder: (_, titleText, _) => Text(
               titleText ?? 'Recent Activities',
-              style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
+              style: AppStyles.styleRoboto24.copyWith(color: context.ext.colors.primary),
             ),
           ),
           SizedBox(height: 16.h),
@@ -109,7 +109,7 @@ class _ActivityTimeline extends StatelessWidget {
                     width: 12.w,
                     height: 12.w,
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: context.ext.colors.primary,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -123,7 +123,7 @@ class _ActivityTimeline extends StatelessWidget {
                           builder: (_, time, _) => Text(
                             time ?? '',
                             style: AppStyles.styleRoboto12.copyWith(
-                              color: AppColors.lightTextSecondary,
+                              color: context.ext.colors.lightTextSecondary,
                             ),
                           ),
                         ),

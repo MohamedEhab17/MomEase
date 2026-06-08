@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
@@ -170,7 +169,7 @@ class _InformationCard extends StatelessWidget {
                       child: Text(
                         subtitle,
                         style: AppStyles.styleRoboto16.copyWith(
-                          color: AppColors.lightTextSecondary,
+                          color: context.ext.colors.lightTextSecondary,
                         ).forText(subtitle),
                       ),
                     );

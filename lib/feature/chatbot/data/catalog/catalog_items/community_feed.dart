@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -72,7 +72,7 @@ class _CommunityFeed extends StatelessWidget {
       ),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.primarySoft3,
+        color: context.ext.colors.primaryTint,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
@@ -82,7 +82,7 @@ class _CommunityFeed extends StatelessWidget {
             valueListenable: titleNotifier,
             builder: (_, titleText, _) => Text(
               titleText ?? 'Community Feed',
-              style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
+              style: AppStyles.styleRoboto24.copyWith(color: context.ext.colors.primary),
             ),
           ),
           if (posts != null && posts!.isNotEmpty) ...[
@@ -102,7 +102,7 @@ class _CommunityFeed extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 12.h),
                 padding: EdgeInsets.all(12.w),
                 decoration: BoxDecoration(
-                  color: AppColors.lightBackground,
+                  color: context.ext.colors.lightBackground,
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Column(
@@ -124,7 +124,7 @@ class _CommunityFeed extends StatelessWidget {
                         builder: (_, timestamp, _) => Text(
                           timestamp ?? '',
                           style: AppStyles.styleRoboto12.copyWith(
-                            color: AppColors.lightTextSecondary,
+                            color: context.ext.colors.lightTextSecondary,
                           ),
                         ),
                       ),
@@ -144,7 +144,7 @@ class _CommunityFeed extends StatelessWidget {
             Text(
               'No posts yet. Be the first to share!',
               style: AppStyles.styleRoboto16.copyWith(
-                color: AppColors.lightTextSecondary,
+                color: context.ext.colors.lightTextSecondary,
               ),
             ),
           ],

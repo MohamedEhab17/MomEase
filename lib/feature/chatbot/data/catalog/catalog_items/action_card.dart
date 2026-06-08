@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -93,7 +93,7 @@ class _ActionCard extends StatelessWidget {
         maxWidth: MediaQuery.of(context).size.width * 0.75,
       ),
       child: Card(
-        color: AppColors.primarySoft,
+        color: context.ext.colors.primaryLight,
         child: InkWell(
           onTap: () {
             final name = action['name'] as String;
@@ -117,7 +117,7 @@ class _ActionCard extends StatelessWidget {
             child: Row(
               children: [
                 if (icon != null) ...[
-                  Icon(_getIcon(icon), size: 32.sp, color: AppColors.primary),
+                  Icon(_getIcon(icon), size: 32.sp, color: context.ext.colors.primary),
                   SizedBox(width: 12.w),
                 ],
                 Expanded(
@@ -130,7 +130,7 @@ class _ActionCard extends StatelessWidget {
                           titleText ?? '',
                           style: AppStyles.styleRoboto16.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
+                            color: context.ext.colors.primary,
                           ),
                         ),
                       ),
@@ -145,7 +145,7 @@ class _ActionCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward, color: AppColors.primary),
+                Icon(Icons.arrow_forward, color: context.ext.colors.primary),
               ],
             ),
           ),

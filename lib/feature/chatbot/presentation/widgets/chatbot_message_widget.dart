@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/string_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/utils/svg_color_mapper.dart';
 
@@ -28,11 +29,23 @@ class ChatbotMessageWidget extends StatelessWidget {
     }
 
     final radius = calculateRadius().r;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isArabicText = text.isArabic;
+
+    final Color bubbleColor = isUser
+        ? context.ext.colors.primary
+        : (isDark
+            ? context.ext.colors.primaryExtraLight
+            : context.ext.colors.primaryLight);
+
+    final Color textColor = isUser
+        ? (isDark ? context.ext.colors.lightBackground : Colors.white)
+        : context.ext.colors.lightTextPrimary;
 
     Widget bubble = Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: isUser ? context.ext.colors.primary : context.ext.colors.primaryLight,
+        color: bubbleColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(isUser ? radius : 4.r), // notch pointing to avatar
           topRight: Radius.circular(radius),
@@ -45,10 +58,10 @@ class ChatbotMessageWidget extends StatelessWidget {
       ),
       child: Text(
         text,
+        textAlign: isArabicText ? TextAlign.right : TextAlign.left,
+        textDirection: isArabicText ? TextDirection.rtl : TextDirection.ltr,
         style: context.text.titleLarge!.copyWith(
-          color: isUser
-              ? context.ext.colors.lightBackground
-              : context.ext.colors.lightTextPrimary,
+          color: textColor,
         ).forText(text),
       ),
     );
@@ -57,6 +70,7 @@ class ChatbotMessageWidget extends StatelessWidget {
       bubble = Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
+        textDirection: TextDirection.ltr, // Keep avatar on the left, bubble on the right
         children: [
           Container(
             width: 36.w,

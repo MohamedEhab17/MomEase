@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -76,9 +76,9 @@ class _AnalysisResultCard extends StatelessWidget {
       ),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.primarySoft3,
+        color: context.ext.colors.primaryTint,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.primary),
+        border: Border.all(color: context.ext.colors.primary),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +87,7 @@ class _AnalysisResultCard extends StatelessWidget {
             valueListenable: titleNotifier,
             builder: (_, titleText, _) => Text(
               titleText ?? 'Analysis Result',
-              style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
+              style: AppStyles.styleRoboto24.copyWith(color: context.ext.colors.primary),
             ),
           ),
           SizedBox(height: 12.h),
@@ -105,7 +105,7 @@ class _AnalysisResultCard extends StatelessWidget {
                   '${confidence!.toInt()}%',
                   style: AppStyles.styleRoboto16.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
+                    color: context.ext.colors.primary,
                   ),
                 ),
               ],

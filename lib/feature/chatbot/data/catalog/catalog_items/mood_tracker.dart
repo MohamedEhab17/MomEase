@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -64,14 +64,14 @@ class _MoodTracker extends StatelessWidget {
     }
   }
 
-  Color _getTrendColor(String? trendValue) {
+  Color _getTrendColor(String? trendValue, BuildContext context) {
     switch (trendValue) {
       case 'up':
         return Colors.green;
       case 'down':
         return Colors.red;
       default:
-        return AppColors.lightTextSecondary;
+        return context.ext.colors.lightTextSecondary;
     }
   }
 
@@ -89,7 +89,7 @@ class _MoodTracker extends StatelessWidget {
       ),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.primarySoft2,
+        color: context.ext.colors.primaryExtraLight,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
@@ -99,7 +99,7 @@ class _MoodTracker extends StatelessWidget {
             valueListenable: titleNotifier,
             builder: (_, titleText, _) => Text(
               titleText ?? 'Mood Tracker',
-              style: AppStyles.styleRoboto24.copyWith(color: AppColors.primary),
+              style: AppStyles.styleRoboto24.copyWith(color: context.ext.colors.primary),
             ),
           ),
           if (moodNotifier != null) ...[
@@ -118,14 +118,14 @@ class _MoodTracker extends StatelessWidget {
               children: [
                 Icon(
                   _getTrendIcon(trend),
-                  color: _getTrendColor(trend),
+                  color: _getTrendColor(trend, context),
                   size: 20.sp,
                 ),
                 SizedBox(width: 4.w),
                 Text(
                   'Trend: ${trend!.toUpperCase()}',
                   style: AppStyles.styleRoboto16.copyWith(
-                    color: _getTrendColor(trend),
+                    color: _getTrendColor(trend, context),
                   ),
                 ),
               ],

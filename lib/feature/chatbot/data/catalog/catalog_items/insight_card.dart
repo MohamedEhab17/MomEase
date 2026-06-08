@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:new_mama/core/constants/app_colors.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -55,14 +55,14 @@ class _InsightCard extends StatelessWidget {
   final String type;
   final DataContext dataContext;
 
-  Color _getColor() {
+  Color _getColor(BuildContext context) {
     switch (type) {
       case 'warning':
         return Colors.orange;
       case 'success':
         return Colors.green;
       default:
-        return AppColors.primary;
+        return context.ext.colors.primary;
     }
   }
 
@@ -81,7 +81,7 @@ class _InsightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final titleNotifier = dataContext.subscribeToString(title);
     final messageNotifier = dataContext.subscribeToString(message);
-    final color = _getColor();
+    final color = _getColor(context);
     final icon = _getIcon();
 
     return Container(
