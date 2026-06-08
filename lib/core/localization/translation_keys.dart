@@ -17,6 +17,7 @@ class TK {
   static const authLoginWelcomeFirst = 'auth.login_screen.welcome_first';
   static const authLoginWelcomeSecond = 'auth.login_screen.welcome_second';
   static const authLoginEmailPhoneHint = 'auth.login_screen.email_phone_hint';
+  static const authLoginEmailHint = 'auth.login_screen.email_hint';
   static const authLoginPasswordHint = 'auth.login_screen.password_hint';
   static const authLoginButton = 'auth.login_screen.login_button';
   static const authLoginOr = 'auth.login_screen.or';
@@ -38,6 +39,8 @@ class TK {
   static const authSignUpHasAccountFirst =
       'auth.sign_up_screen.has_account_first';
   static const authSignUpLoginLink = 'auth.sign_up_screen.login_link';
+  static const authSignUpPhoneNumber = 'auth.sign_up_screen.phone_number';
+  static const authSignUpAge = 'auth.sign_up_screen.age';
 
   // Forget Password Screen
   static const authForgetAppBarTitle =
@@ -69,6 +72,20 @@ class TK {
       'auth.verification_screen.resend_now';
   static const authVerificationSpamSnackbar =
       'auth.verification_screen.spam_snackbar';
+
+  // change Password Screen
+
+  static const authChangePassword =
+      'auth.change_password_screen.change_password';
+  static const authChangePasswordInstructions =
+      'auth.change_password_screen.instructions';
+
+  static const authChangePasswordNewHint =
+      'auth.change_password_screen.new_password_hint';
+  static const authCurrentPassword =
+      'auth.change_password_screen.current_password_hint';
+  static const authConfirmNewPassword =
+      'auth.change_password_screen.confirm_new_password_hint';
 
   // 🔹 Articles
   static const articlesTitle = 'articles.title';
@@ -106,7 +123,7 @@ class TK {
   static const babyFeedingTimesValidation = 'baby.feeding.times_validation';
   static const babyFeedingDeleteTitle = 'baby.feeding.delete_title';
   static const babyFeedingDeleteConfirm = 'baby.feeding.delete_confirm';
-   static const daily= 'baby.feeding.daily';
+  static const daily = 'baby.feeding.daily';
 
   // Sleep
   static const babySleepTitle = 'baby.sleep.title';
@@ -165,7 +182,8 @@ class TK {
   static const babyVaccineSelectChildMsg = 'baby.vaccine.select_child_msg';
   static const babyVaccineRetrievingMsg = 'baby.vaccine.retrieving_msg';
   static const babyVaccineNoLoggedVaccines = 'baby.vaccine.no_logged_vaccines';
-  static const babyVaccineNoScheduleAvailable = 'baby.vaccine.no_schedule_available';
+  static const babyVaccineNoScheduleAvailable =
+      'baby.vaccine.no_schedule_available';
   static const babyVaccineDiseasePrevented = 'baby.vaccine.disease_prevented';
   static const babyVaccineWayOfInjection = 'baby.vaccine.way_of_injection';
   static const babyVaccineScheduledDate = 'baby.vaccine.scheduled_date';
@@ -208,36 +226,52 @@ class TK {
 
   static const babySleepWeekly = 'baby.insights_screen.sleep_weekly';
   static const babySleepMonthly = 'baby.insights_screen.sleep_monthly';
-  static const babySleepPeriodOverview = 'baby.insights_screen.sleep_period_overview';
+  static const babySleepPeriodOverview =
+      'baby.insights_screen.sleep_period_overview';
   static const babySleepAvgSleep = 'baby.insights_screen.sleep_avg_sleep';
   static const babySleepLoggedDays = 'baby.insights_screen.sleep_logged_days';
   static const babySleepGoodDays = 'baby.insights_screen.sleep_good_days';
   static const babySleepPoorDays = 'baby.insights_screen.sleep_poor_days';
   static const babySleepDaysSuffix = 'baby.insights_screen.sleep_days_suffix';
-  static const babySleepPediatricianRef = 'baby.insights_screen.sleep_pediatrician_ref';
-  static const babySleepRecommendedRange = 'baby.insights_screen.sleep_recommended_range';
+  static const babySleepPediatricianRef =
+      'baby.insights_screen.sleep_pediatrician_ref';
+  static const babySleepRecommendedRange =
+      'baby.insights_screen.sleep_recommended_range';
   static const babySleepOverallAvg = 'baby.insights_screen.sleep_overall_avg';
   static const babySleepLast7Days = 'baby.insights_screen.sleep_last_7_days';
-  static const babySleepQualityScore = 'baby.insights_screen.sleep_quality_score';
+  static const babySleepQualityScore =
+      'baby.insights_screen.sleep_quality_score';
   static const babySleepNoData = 'baby.insights_screen.sleep_no_data';
   static const babySleepStatusGood = 'baby.insights_screen.sleep_status_good';
-  static const babySleepStatusNormal = 'baby.insights_screen.sleep_status_normal';
+  static const babySleepStatusNormal =
+      'baby.insights_screen.sleep_status_normal';
   static const babySleepStatusPoor = 'baby.insights_screen.sleep_status_poor';
-  static const babySleepStatusUnknown = 'baby.insights_screen.sleep_status_unknown';
+  static const babySleepStatusUnknown =
+      'baby.insights_screen.sleep_status_unknown';
 
-  static const babyFeedingSevereUnder = 'baby.insights_screen.feeding_severe_under';
+  static const babyFeedingSevereUnder =
+      'baby.insights_screen.feeding_severe_under';
   static const babyFeedingUnder = 'baby.insights_screen.feeding_under';
   static const babyFeedingNormal = 'baby.insights_screen.feeding_normal';
   static const babyFeedingOver = 'baby.insights_screen.feeding_over';
-  static const babyFeedingTimesSuffix = 'baby.insights_screen.feeding_times_suffix';
-  static const babyFeedingTimesPerDaySuffix = 'baby.insights_screen.feeding_times_per_day_suffix';
-  static const babyFeedingAbnormalDays = 'baby.insights_screen.feeding_abnormal_days';
-  static const babyFeedingNormalDays = 'baby.insights_screen.feeding_normal_days';
-  static const babyFeedingTypePrefix = 'baby.insights_screen.feeding_type_prefix';
-  static const babyFeedingMostCommon = 'baby.insights_screen.feeding_most_common';
-  static const babyFeedingLast7DaysAvg = 'baby.insights_screen.feeding_last_7_days_avg';
-  static const babyFeedingOverallAvg = 'baby.insights_screen.feeding_overall_avg';
-  static const babyFeedingAvgFeeding = 'baby.insights_screen.feeding_avg_feeding';
+  static const babyFeedingTimesSuffix =
+      'baby.insights_screen.feeding_times_suffix';
+  static const babyFeedingTimesPerDaySuffix =
+      'baby.insights_screen.feeding_times_per_day_suffix';
+  static const babyFeedingAbnormalDays =
+      'baby.insights_screen.feeding_abnormal_days';
+  static const babyFeedingNormalDays =
+      'baby.insights_screen.feeding_normal_days';
+  static const babyFeedingTypePrefix =
+      'baby.insights_screen.feeding_type_prefix';
+  static const babyFeedingMostCommon =
+      'baby.insights_screen.feeding_most_common';
+  static const babyFeedingLast7DaysAvg =
+      'baby.insights_screen.feeding_last_7_days_avg';
+  static const babyFeedingOverallAvg =
+      'baby.insights_screen.feeding_overall_avg';
+  static const babyFeedingAvgFeeding =
+      'baby.insights_screen.feeding_avg_feeding';
 
   // Shared baby UI strings
   static const babyRecentRecords = 'baby.recent_records';
@@ -256,8 +290,6 @@ class TK {
   static const babyGrowthSaveRecord = 'baby.growth.save_record';
   static const babyGrowthValidWeight = 'baby.growth.valid_weight';
   static const babyGrowthValidHeight = 'baby.growth.valid_height';
-
-
 
   // 🔹 Community
   static const communityTitle = 'community.title';
@@ -584,7 +616,8 @@ class TK {
   static const skinViewHistory = 'skin_diagnosis.view_history';
   static const skinHistoryTitle = 'skin_diagnosis.history_title';
   static const skinHistoryEmpty = 'skin_diagnosis.history_empty';
-  static const skinHistoryEmptySubtitle = 'skin_diagnosis.history_empty_subtitle';
+  static const skinHistoryEmptySubtitle =
+      'skin_diagnosis.history_empty_subtitle';
   static const skinDeleteRecord = 'skin_diagnosis.delete_record';
   static const skinDeleteConfirmTitle = 'skin_diagnosis.delete_confirm_title';
   static const skinDeleteConfirmBody = 'skin_diagnosis.delete_confirm_body';
@@ -607,7 +640,6 @@ class TK {
   static const notificationsMentalHealthCheck =
       'notifications.mental_health_check';
   static const notificationsClose = 'notifications.close';
-
 
   // 🔹 Common
   static const commonViewAll = 'common.view_all';

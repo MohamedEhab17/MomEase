@@ -18,7 +18,8 @@
       "login_button": "تسجيل الدخول",
       "or": "أو",
       "no_account_first": "لسه ما عندكش حساب؟ ",
-      "sign_up_link": "إنشاء حساب"
+      "sign_up_link": "إنشاء حساب",
+      "email_hint": "البريد الإلكتروني"
     },
     "sign_up_screen": {
       "title_first": "اعملي حساب جديد، ",
@@ -32,7 +33,9 @@
       "sign_up_button": "إنشاء حساب",
       "or": "أو",
       "has_account_first": "عندك حساب بالفعل؟ ",
-      "login_link": "تسجيل الدخول"
+      "login_link": "تسجيل الدخول",
+      "phone_number": "رقم الهاتف",
+      "age": "العمر"
     },
     "forget_password_screen": {
       "app_bar_title": "نسيت كلمة المرور",
@@ -53,7 +56,15 @@
       "spam_link": "راجعي الرسائل غير المرغوب فيها",
       "resend_now": "ممكن تعيدي الإرسال دلوقتي",
       "spam_snackbar": "راجعي صندوق الرسائل غير الهامة"
+    },
+    "change_password_screen": {
+       "change_password_title" : "تغيير كلمة المرور",
+        "instructions": "لازم كلمة المرور الجديدة تكون مختلفة عن القديمة",
+        "current_password_hint": "كلمة المرور الحالية",
+        "new_password_hint": "كلمة المرور الجديدة",
+        "confirm_new_password_hint": "تأكيد كلمة المرور الجديدة" 
     }
+
   },
   "articles": {
     "title": "المقالات",

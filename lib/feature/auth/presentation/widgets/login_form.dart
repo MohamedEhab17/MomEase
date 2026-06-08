@@ -29,7 +29,7 @@ class LoginForm extends StatelessWidget {
           56.h.height,
           TextFormFieldHelper(
             controller: emailController,
-            hint: context.trContext(TK.authLoginEmailPhoneHint),
+            hint: context.trContext(TK.authLoginEmailHint),
             borderRadius: BorderRadius.circular(64),
             onValidate: validateEmailOrPhone,
             fillColor: context.theme.cardColor,

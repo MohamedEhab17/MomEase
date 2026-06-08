@@ -18,7 +18,9 @@
       "login_button": "Login",
       "or": "Or",
       "no_account_first": "Don't have an account? ",
-      "sign_up_link": "Sign Up"
+      "sign_up_link": "Sign Up",
+      "email_hint": "Email"
+
     },
     "sign_up_screen": {
       "title_first": "Create an account, ",
@@ -32,7 +34,9 @@
       "sign_up_button": "Sign Up",
       "or": "Or",
       "has_account_first": "Already have an account? ",
-      "login_link": "Login"
+      "login_link": "Login",
+      "phone_number": "Phone Number",
+      "age": "Age"
     },
     "forget_password_screen": {
       "app_bar_title": "Forget Password",
@@ -41,10 +45,12 @@
       "send_code": "Send Code"
     },
     "create_password_screen": {
+      "change_password_title" : "Change Password",
       "instructions": "Your new password must be different from previously used password",
       "new_password_hint": "New Password",
-      "confirm_new_password_hint": "Confirm New Password",
-      "save_button": "Save"
+      "current_password": "Current Password",
+      "confirm_new_password_hint": "Confirm New Password"
+      
     },
     "verification_screen": {
       "code_instructions": "Please enter the code we sent to your email address.",
@@ -54,6 +60,7 @@
       "resend_now": "You can resend now",
       "spam_snackbar": "Check your spam folder"
     }
+
   },
   "articles": {
     "title": "Articles",
