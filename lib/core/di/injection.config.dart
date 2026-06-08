@@ -107,6 +107,100 @@ import '../../feature/baby_cry/data/repository/audio_repository_impl.dart'
     as _i636;
 import '../../feature/baby_cry/presentation/view_model/cubit/sound_recording_cubit.dart'
     as _i589;
+import '../../feature/baby_track/data/datasources/feeding_remote_data_source_contract.dart'
+    as _i520;
+import '../../feature/baby_track/data/datasources/feeding_remote_data_source_impl.dart'
+    as _i316;
+import '../../feature/baby_track/data/datasources/growth_remote_data_source_contract.dart'
+    as _i776;
+import '../../feature/baby_track/data/datasources/growth_remote_data_source_impl.dart'
+    as _i274;
+import '../../feature/baby_track/data/datasources/sleep_remote_data_source_contract.dart'
+    as _i247;
+import '../../feature/baby_track/data/datasources/sleep_remote_data_source_impl.dart'
+    as _i187;
+import '../../feature/baby_track/data/datasources/vaccination_remote_data_source_contract.dart'
+    as _i450;
+import '../../feature/baby_track/data/datasources/vaccination_remote_data_source_impl.dart'
+    as _i3;
+import '../../feature/baby_track/data/repositories/feeding_repository_impl.dart'
+    as _i506;
+import '../../feature/baby_track/data/repositories/growth_repository_impl.dart'
+    as _i556;
+import '../../feature/baby_track/data/repositories/sleep_repository_impl.dart'
+    as _i851;
+import '../../feature/baby_track/data/repositories/vaccination_repository_impl.dart'
+    as _i767;
+import '../../feature/baby_track/domain/repositories/feeding_repository.dart'
+    as _i1017;
+import '../../feature/baby_track/domain/repositories/growth_repository.dart'
+    as _i697;
+import '../../feature/baby_track/domain/repositories/sleep_repository.dart'
+    as _i820;
+import '../../feature/baby_track/domain/repositories/vaccination_repository.dart'
+    as _i378;
+import '../../feature/baby_track/domain/usecase/add_feeding_record_usecase.dart'
+    as _i388;
+import '../../feature/baby_track/domain/usecase/add_growth_record_usecase.dart'
+    as _i467;
+import '../../feature/baby_track/domain/usecase/add_sleep_record_usecase.dart'
+    as _i41;
+import '../../feature/baby_track/domain/usecase/delete_feeding_record_usecase.dart'
+    as _i70;
+import '../../feature/baby_track/domain/usecase/delete_growth_record_usecase.dart'
+    as _i806;
+import '../../feature/baby_track/domain/usecase/delete_sleep_record_usecase.dart'
+    as _i317;
+import '../../feature/baby_track/domain/usecase/get_completed_vaccinations_usecase.dart'
+    as _i413;
+import '../../feature/baby_track/domain/usecase/get_feeding_records_usecase.dart'
+    as _i1035;
+import '../../feature/baby_track/domain/usecase/get_feeding_statistics_usecase.dart'
+    as _i167;
+import '../../feature/baby_track/domain/usecase/get_growth_chart_data_usecase.dart'
+    as _i909;
+import '../../feature/baby_track/domain/usecase/get_growth_records_usecase.dart'
+    as _i411;
+import '../../feature/baby_track/domain/usecase/get_growth_statistics_usecase.dart'
+    as _i932;
+import '../../feature/baby_track/domain/usecase/get_monthly_feeding_records_usecase.dart'
+    as _i223;
+import '../../feature/baby_track/domain/usecase/get_monthly_growth_records_usecase.dart'
+    as _i642;
+import '../../feature/baby_track/domain/usecase/get_monthly_sleep_records_usecase.dart'
+    as _i705;
+import '../../feature/baby_track/domain/usecase/get_overdue_vaccinations_usecase.dart'
+    as _i227;
+import '../../feature/baby_track/domain/usecase/get_sleep_records_usecase.dart'
+    as _i140;
+import '../../feature/baby_track/domain/usecase/get_sleep_statistics_usecase.dart'
+    as _i32;
+import '../../feature/baby_track/domain/usecase/get_upcoming_vaccinations_usecase.dart'
+    as _i120;
+import '../../feature/baby_track/domain/usecase/get_vaccination_details_usecase.dart'
+    as _i340;
+import '../../feature/baby_track/domain/usecase/get_vaccinations_usecase.dart'
+    as _i1023;
+import '../../feature/baby_track/domain/usecase/get_weekly_feeding_records_usecase.dart'
+    as _i1059;
+import '../../feature/baby_track/domain/usecase/get_weekly_growth_records_usecase.dart'
+    as _i126;
+import '../../feature/baby_track/domain/usecase/get_weekly_sleep_records_usecase.dart'
+    as _i829;
+import '../../feature/baby_track/domain/usecase/mark_vaccination_taken_usecase.dart'
+    as _i1015;
+import '../../feature/baby_track/domain/usecase/update_vaccination_status_usecase.dart'
+    as _i976;
+import '../../feature/baby_track/presentation/view_model/baby_track_cubit.dart'
+    as _i18;
+import '../../feature/baby_track/presentation/view_model/feeding_insights_cubit.dart'
+    as _i66;
+import '../../feature/baby_track/presentation/view_model/growth_insights_cubit.dart'
+    as _i830;
+import '../../feature/baby_track/presentation/view_model/sleep_insights_cubit.dart'
+    as _i47;
+import '../../feature/baby_track/presentation/view_model/vaccinations_cubit/vaccinations_cubit.dart'
+    as _i423;
 import '../../feature/children/data/datasources/children_remote_data_source.dart'
     as _i1010;
 import '../../feature/children/data/datasources/children_remote_data_source_impl.dart'
@@ -258,8 +352,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i97.CommunityLocalDataSource>(
       () => _i97.CommunityLocalDataSourceImpl(),
     );
+    gh.lazySingleton<_i247.SleepRemoteDataSourceContract>(
+      () => _i187.SleepRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i936.ProfileRemoteDataSource>(
       () => _i936.ProfileRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
+    gh.lazySingleton<_i520.FeedingRemoteDataSourceContract>(
+      () => _i316.FeedingRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
     gh.lazySingleton<_i967.NotificationLocalDataSource>(
       () => _i967.NotificationLocalDataSourceImpl(),
@@ -287,6 +387,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i244.ProfileRepository>(
       () => _i681.ProfileRepositoryImpl(gh<_i936.ProfileRemoteDataSource>()),
     );
+    gh.lazySingleton<_i820.SleepRepository>(
+      () => _i851.SleepRepositoryImpl(
+        gh<_i247.SleepRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
+      ),
+    );
     gh.lazySingleton<_i792.BiometricHelper>(
       () => _i792.BiometricHelper(gh<_i152.LocalAuthentication>()),
     );
@@ -302,6 +408,24 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i132.DeleteProfilePhotoUseCase>(
       () => _i132.DeleteProfilePhotoUseCase(gh<_i244.ProfileRepository>()),
     );
+    gh.factory<_i41.AddSleepRecordUseCase>(
+      () => _i41.AddSleepRecordUseCase(gh<_i820.SleepRepository>()),
+    );
+    gh.factory<_i317.DeleteSleepRecordUseCase>(
+      () => _i317.DeleteSleepRecordUseCase(gh<_i820.SleepRepository>()),
+    );
+    gh.factory<_i705.GetMonthlySleepRecordsUseCase>(
+      () => _i705.GetMonthlySleepRecordsUseCase(gh<_i820.SleepRepository>()),
+    );
+    gh.factory<_i140.GetSleepRecordsUseCase>(
+      () => _i140.GetSleepRecordsUseCase(gh<_i820.SleepRepository>()),
+    );
+    gh.factory<_i32.GetSleepStatisticsUseCase>(
+      () => _i32.GetSleepStatisticsUseCase(gh<_i820.SleepRepository>()),
+    );
+    gh.factory<_i829.GetWeeklySleepRecordsUseCase>(
+      () => _i829.GetWeeklySleepRecordsUseCase(gh<_i820.SleepRepository>()),
+    );
     gh.lazySingleton<_i0.AudioRepository>(
       () => _i636.AudioRepositoryImpl(gh<_i96.AudioLocalDataSource>()),
     );
@@ -311,11 +435,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i589.SoundRecordingCubit>(
       () => _i589.SoundRecordingCubit(gh<_i0.AudioRepository>()),
     );
+    gh.factory<_i47.SleepInsightsCubit>(
+      () => _i47.SleepInsightsCubit(
+        gh<_i829.GetWeeklySleepRecordsUseCase>(),
+        gh<_i705.GetMonthlySleepRecordsUseCase>(),
+        gh<_i32.GetSleepStatisticsUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i108.CommunityRemoteDataSource>(
       () => _i108.CommunityRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
     gh.lazySingleton<_i766.AssessmentRemoteDataSourceContract>(
       () => _i730.AssessmentRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
+    gh.lazySingleton<_i450.VaccinationRemoteDataSourceContract>(
+      () => _i3.VaccinationRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
     gh.lazySingleton<_i59.CommunityRepository>(
       () =>
@@ -329,8 +463,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i132.DeleteProfilePhotoUseCase>(),
       ),
     );
+    gh.lazySingleton<_i776.GrowthRemoteDataSourceContract>(
+      () => _i274.GrowthRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i393.SkinAnalysisRemoteDataSource>(
       () => _i935.SkinAnalysisRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
+    gh.lazySingleton<_i697.GrowthRepository>(
+      () => _i556.GrowthRepositoryImpl(
+        gh<_i776.GrowthRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
+      ),
     );
     gh.lazySingleton<_i663.AppSectionRemoteDatasourceContract>(
       () => _i250.AppSectionRemoteDatasourceImpl(gh<_i557.ApiClient>()),
@@ -404,6 +547,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i932.NetworkInfo>(),
       ),
     );
+    gh.lazySingleton<_i1017.FeedingRepository>(
+      () => _i506.FeedingRepositoryImpl(
+        gh<_i520.FeedingRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
+      ),
+    );
     gh.lazySingleton<_i1059.SkinAnalysisRepository>(
       () => _i608.SkinAnalysisRepositoryImpl(
         gh<_i393.SkinAnalysisRemoteDataSource>(),
@@ -426,6 +575,33 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1042.MarkAsReadUseCase>(),
         gh<_i1042.DeleteNotificationUseCase>(),
         gh<_i1042.ClearAllNotificationsUseCase>(),
+      ),
+    );
+    gh.factory<_i467.AddGrowthRecordUseCase>(
+      () => _i467.AddGrowthRecordUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i806.DeleteGrowthRecordUseCase>(
+      () => _i806.DeleteGrowthRecordUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i909.GetGrowthChartDataUseCase>(
+      () => _i909.GetGrowthChartDataUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i411.GetGrowthRecordsUseCase>(
+      () => _i411.GetGrowthRecordsUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i932.GetGrowthStatisticsUseCase>(
+      () => _i932.GetGrowthStatisticsUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i642.GetMonthlyGrowthRecordsUseCase>(
+      () => _i642.GetMonthlyGrowthRecordsUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.factory<_i126.GetWeeklyGrowthRecordsUseCase>(
+      () => _i126.GetWeeklyGrowthRecordsUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.lazySingleton<_i378.VaccinationRepository>(
+      () => _i767.VaccinationRepositoryImpl(
+        gh<_i450.VaccinationRemoteDataSourceContract>(),
+        gh<_i932.NetworkInfo>(),
       ),
     );
     gh.factory<_i812.GetAssessmentByIdUseCase>(
@@ -460,6 +636,26 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i488.AuthRepository>(),
         gh<_i792.BiometricHelper>(),
       ),
+    );
+    gh.factory<_i388.AddFeedingRecordUseCase>(
+      () => _i388.AddFeedingRecordUseCase(gh<_i1017.FeedingRepository>()),
+    );
+    gh.factory<_i70.DeleteFeedingRecordUseCase>(
+      () => _i70.DeleteFeedingRecordUseCase(gh<_i1017.FeedingRepository>()),
+    );
+    gh.factory<_i1035.GetFeedingRecordsUseCase>(
+      () => _i1035.GetFeedingRecordsUseCase(gh<_i1017.FeedingRepository>()),
+    );
+    gh.factory<_i167.GetFeedingStatisticsUseCase>(
+      () => _i167.GetFeedingStatisticsUseCase(gh<_i1017.FeedingRepository>()),
+    );
+    gh.factory<_i223.GetMonthlyFeedingRecordsUseCase>(
+      () =>
+          _i223.GetMonthlyFeedingRecordsUseCase(gh<_i1017.FeedingRepository>()),
+    );
+    gh.factory<_i1059.GetWeeklyFeedingRecordsUseCase>(
+      () =>
+          _i1059.GetWeeklyFeedingRecordsUseCase(gh<_i1017.FeedingRepository>()),
     );
     gh.factory<_i728.GetPostsUseCase>(
       () => _i728.GetPostsUseCase(gh<_i59.CommunityRepository>()),
@@ -562,6 +758,26 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i562.SubmitCubit>(
       () => _i562.SubmitCubit(gh<_i331.SubmitAssessmentUseCase>()),
+    );
+    gh.factory<_i18.BabyTrackCubit>(
+      () => _i18.BabyTrackCubit(
+        gh<_i41.AddSleepRecordUseCase>(),
+        gh<_i388.AddFeedingRecordUseCase>(),
+        gh<_i1035.GetFeedingRecordsUseCase>(),
+        gh<_i70.DeleteFeedingRecordUseCase>(),
+        gh<_i140.GetSleepRecordsUseCase>(),
+        gh<_i317.DeleteSleepRecordUseCase>(),
+        gh<_i467.AddGrowthRecordUseCase>(),
+        gh<_i411.GetGrowthRecordsUseCase>(),
+        gh<_i806.DeleteGrowthRecordUseCase>(),
+      ),
+    );
+    gh.factory<_i66.FeedingInsightsCubit>(
+      () => _i66.FeedingInsightsCubit(
+        gh<_i1059.GetWeeklyFeedingRecordsUseCase>(),
+        gh<_i223.GetMonthlyFeedingRecordsUseCase>(),
+        gh<_i167.GetFeedingStatisticsUseCase>(),
+      ),
     );
     gh.factory<_i139.ChangePasswordUsecase>(
       () =>
@@ -676,6 +892,45 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i839.WatchArticleSaveStatusUseCase>(
       () => _i839.WatchArticleSaveStatusUseCase(gh<_i18.ArticlesRepository>()),
     );
+    gh.factory<_i830.GrowthInsightsCubit>(
+      () => _i830.GrowthInsightsCubit(
+        gh<_i909.GetGrowthChartDataUseCase>(),
+        gh<_i932.GetGrowthStatisticsUseCase>(),
+        gh<_i126.GetWeeklyGrowthRecordsUseCase>(),
+        gh<_i642.GetMonthlyGrowthRecordsUseCase>(),
+      ),
+    );
+    gh.factory<_i413.GetCompletedVaccinationsUseCase>(
+      () => _i413.GetCompletedVaccinationsUseCase(
+        gh<_i378.VaccinationRepository>(),
+      ),
+    );
+    gh.factory<_i227.GetOverdueVaccinationsUseCase>(
+      () => _i227.GetOverdueVaccinationsUseCase(
+        gh<_i378.VaccinationRepository>(),
+      ),
+    );
+    gh.factory<_i120.GetUpcomingVaccinationsUseCase>(
+      () => _i120.GetUpcomingVaccinationsUseCase(
+        gh<_i378.VaccinationRepository>(),
+      ),
+    );
+    gh.factory<_i340.GetVaccinationDetailsUseCase>(
+      () =>
+          _i340.GetVaccinationDetailsUseCase(gh<_i378.VaccinationRepository>()),
+    );
+    gh.factory<_i1023.GetVaccinationsUseCase>(
+      () => _i1023.GetVaccinationsUseCase(gh<_i378.VaccinationRepository>()),
+    );
+    gh.factory<_i1015.MarkVaccinationTakenUseCase>(
+      () =>
+          _i1015.MarkVaccinationTakenUseCase(gh<_i378.VaccinationRepository>()),
+    );
+    gh.factory<_i976.UpdateVaccinationStatusUseCase>(
+      () => _i976.UpdateVaccinationStatusUseCase(
+        gh<_i378.VaccinationRepository>(),
+      ),
+    );
     gh.lazySingleton<_i555.ChildrenCubit>(
       () => _i555.ChildrenCubit(
         gh<_i1057.GetChildrenUseCase>(),
@@ -752,6 +1007,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i782.GetUserSkinAnalysesUseCase>(),
         gh<_i543.GetChildSkinAnalysesUseCase>(),
         gh<_i517.DeleteSkinAnalysisUseCase>(),
+      ),
+    );
+    gh.factory<_i423.VaccinationsCubit>(
+      () => _i423.VaccinationsCubit(
+        gh<_i1023.GetVaccinationsUseCase>(),
+        gh<_i976.UpdateVaccinationStatusUseCase>(),
+        gh<_i120.GetUpcomingVaccinationsUseCase>(),
+        gh<_i227.GetOverdueVaccinationsUseCase>(),
+        gh<_i413.GetCompletedVaccinationsUseCase>(),
+        gh<_i1015.MarkVaccinationTakenUseCase>(),
       ),
     );
     gh.lazySingleton<_i47.AuthCubit>(

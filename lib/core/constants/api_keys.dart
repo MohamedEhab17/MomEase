@@ -29,6 +29,26 @@ class Api {
   static const String children = 'Children';
   static String childById(int id) => 'Children/$id';
   static String childPhoto(int id) => 'Children/$id/photo';
+  static String childVaccinations(int childId) => 'children/$childId/vaccinations';
+  static String childVaccinationById(int childId, int id) => 'children/$childId/vaccinations/$id';
+  static String childUpcomingVaccinations(int childId) => 'children/$childId/vaccinations/upcoming';
+  static String childOverdueVaccinations(int childId) => 'children/$childId/vaccinations/overdue';
+  static String childCompletedVaccinations(int childId) => 'children/$childId/vaccinations/completed';
+  static String markVaccinationTaken(int childId, int id) => 'children/$childId/vaccinations/$id/mark-taken';
+  static String childSleepRecords(int childId) => 'children/$childId/sleep-records';
+  static String childSleepRecordsWeekly(int childId) => 'children/$childId/sleep-records/weekly';
+  static String childSleepRecordsMonthly(int childId) => 'children/$childId/sleep-records/monthly';
+  static String childSleepRecordsStatistics(int childId) => 'children/$childId/sleep-records/statistics';
+  static String childFeedingRecords(int childId) => 'children/$childId/feeding-records';
+  static String childFeedingRecordsWeekly(int childId) => 'children/$childId/feeding-records/weekly';
+  static String childFeedingRecordsMonthly(int childId) => 'children/$childId/feeding-records/monthly';
+  static String childFeedingRecordsStatistics(int childId) => 'children/$childId/feeding-records/statistics';
+  static String childGrowthRecords(int childId) => 'children/$childId/growth-records';
+  static String childGrowthRecordById(int childId, int id) => 'children/$childId/growth-records/$id';
+  static String childGrowthRecordsChart(int childId) => 'children/$childId/growth-records/chart';
+  static String childGrowthRecordsStatistics(int childId) => 'children/$childId/growth-records/statistics';
+  static String childGrowthRecordsWeekly(int childId) => 'children/$childId/growth-records/weekly';
+  static String childGrowthRecordsMonthly(int childId) => 'children/$childId/growth-records/monthly';
 
   /// Articles endpoints.
   static const String articleCategories = 'articles/categories';

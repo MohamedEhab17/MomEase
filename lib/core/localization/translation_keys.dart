@@ -103,9 +103,35 @@ class TK {
   static const babyFeedingFormulaFeeding = 'baby.feeding.formula_feeding';
   static const babyFeedingMixed = 'baby.feeding.mixed';
   static const babyFeedingLast7Days = 'baby.feeding.last_7_days';
+  static const babyFeedingTimesValidation = 'baby.feeding.times_validation';
+  static const babyFeedingDeleteTitle = 'baby.feeding.delete_title';
+  static const babyFeedingDeleteConfirm = 'baby.feeding.delete_confirm';
+   static const daily= 'baby.feeding.daily';
 
   // Sleep
   static const babySleepTitle = 'baby.sleep.title';
+  static const babyGrowthTitle = 'baby.growth.title';
+  static const babyGrowthWeight = 'baby.growth.weight';
+  static const babyGrowthHeight = 'baby.growth.height';
+  static const babyGrowthDate = 'baby.growth.date';
+  static const babyGrowthSaved = 'baby.growth.saved';
+  static const babyGrowthStatistics = 'baby.growth.statistics';
+  static const babyGrowthAverageWeight = 'baby.growth.average_weight';
+  static const babyGrowthAverageHeight = 'baby.growth.average_height';
+  static const babyGrowthWeightGain = 'baby.growth.weight_gain';
+  static const babyGrowthHeightGain = 'baby.growth.height_gain';
+  static const babyGrowthCurrentStatus = 'baby.growth.current_status';
+  static const babyGrowthWeeklyGain = 'baby.growth.weekly_gain';
+  static const babyGrowthMonthlyGain = 'baby.growth.monthly_gain';
+  static const babyGrowthWeightTrend = 'baby.growth.weight_trend';
+  static const babyGrowthHeightTrend = 'baby.growth.height_trend';
+  static const babyGrowthAddRecord = 'baby.growth.add_record';
+  static const babyGrowthWeightHint = 'baby.growth.weight_hint';
+  static const babyGrowthHeightHint = 'baby.growth.height_hint';
+  static const babyGrowthWeightRequired = 'baby.growth.weight_required';
+  static const babyGrowthHeightRequired = 'baby.growth.height_required';
+  static const babyGrowthDeleteTitle = 'baby.growth.delete_title';
+  static const babyGrowthDeleteConfirm = 'baby.growth.delete_confirm';
   static const babySleepDate = 'baby.sleep.date';
   static const babySleepSaved = 'baby.sleep.saved';
   static const babySleepDuration = 'baby.sleep.duration';
@@ -116,6 +142,9 @@ class TK {
   static const babySleepRequired = 'baby.sleep.fill_required';
   static const babySleepHours = 'baby.sleep.duration_hours';
   static const babySleepAvg = 'baby.sleep.daily_avg';
+  static const babySleepInvalidDuration = 'baby.sleep.invalid_duration';
+  static const babySleepDeleteTitle = 'baby.sleep.delete_title';
+  static const babySleepDeleteConfirm = 'baby.sleep.delete_confirm';
 
   // Vaccine
   static const babyVaccineTitle = 'baby.vaccine.title';
@@ -126,6 +155,23 @@ class TK {
   static const babyVaccineInDays = 'baby.vaccine.in_days';
   static const babyVaccineLog = 'baby.vaccine.babys_log';
   static const babyVaccineSchedule = 'baby.vaccine.official_schedule';
+  static const babyVaccineOverdueMissed = 'baby.vaccine.overdue_missed';
+  static const babyVaccinePending = 'baby.vaccine.pending';
+  static const babyVaccineMarkTakenTitle = 'baby.vaccine.mark_taken_title';
+  static const babyVaccineMarkTakenDesc = 'baby.vaccine.mark_taken_desc';
+  static const babyVaccineDate = 'baby.vaccine.vaccination_date';
+  static const babyVaccineCancel = 'baby.vaccine.cancel';
+  static const babyVaccineConfirm = 'baby.vaccine.confirm';
+  static const babyVaccineSelectChildMsg = 'baby.vaccine.select_child_msg';
+  static const babyVaccineRetrievingMsg = 'baby.vaccine.retrieving_msg';
+  static const babyVaccineNoLoggedVaccines = 'baby.vaccine.no_logged_vaccines';
+  static const babyVaccineNoScheduleAvailable = 'baby.vaccine.no_schedule_available';
+  static const babyVaccineDiseasePrevented = 'baby.vaccine.disease_prevented';
+  static const babyVaccineWayOfInjection = 'baby.vaccine.way_of_injection';
+  static const babyVaccineScheduledDate = 'baby.vaccine.scheduled_date';
+  static const babyVaccineTakenDate = 'baby.vaccine.taken_date';
+  static const babyVaccineMarkAsTakenBtn = 'baby.vaccine.mark_as_taken_btn';
+  static const babyVaccineMonthsSuffix = 'baby.vaccine.months_suffix';
 
   // Insights Screen
   static const babyInsightsTitle = 'baby.insights_screen.title';
@@ -159,6 +205,59 @@ class TK {
       'baby.insights_screen.feeding_reminder_title';
   static const babyFeedingSugBody =
       'baby.insights_screen.feeding_reminder_body';
+
+  static const babySleepWeekly = 'baby.insights_screen.sleep_weekly';
+  static const babySleepMonthly = 'baby.insights_screen.sleep_monthly';
+  static const babySleepPeriodOverview = 'baby.insights_screen.sleep_period_overview';
+  static const babySleepAvgSleep = 'baby.insights_screen.sleep_avg_sleep';
+  static const babySleepLoggedDays = 'baby.insights_screen.sleep_logged_days';
+  static const babySleepGoodDays = 'baby.insights_screen.sleep_good_days';
+  static const babySleepPoorDays = 'baby.insights_screen.sleep_poor_days';
+  static const babySleepDaysSuffix = 'baby.insights_screen.sleep_days_suffix';
+  static const babySleepPediatricianRef = 'baby.insights_screen.sleep_pediatrician_ref';
+  static const babySleepRecommendedRange = 'baby.insights_screen.sleep_recommended_range';
+  static const babySleepOverallAvg = 'baby.insights_screen.sleep_overall_avg';
+  static const babySleepLast7Days = 'baby.insights_screen.sleep_last_7_days';
+  static const babySleepQualityScore = 'baby.insights_screen.sleep_quality_score';
+  static const babySleepNoData = 'baby.insights_screen.sleep_no_data';
+  static const babySleepStatusGood = 'baby.insights_screen.sleep_status_good';
+  static const babySleepStatusNormal = 'baby.insights_screen.sleep_status_normal';
+  static const babySleepStatusPoor = 'baby.insights_screen.sleep_status_poor';
+  static const babySleepStatusUnknown = 'baby.insights_screen.sleep_status_unknown';
+
+  static const babyFeedingSevereUnder = 'baby.insights_screen.feeding_severe_under';
+  static const babyFeedingUnder = 'baby.insights_screen.feeding_under';
+  static const babyFeedingNormal = 'baby.insights_screen.feeding_normal';
+  static const babyFeedingOver = 'baby.insights_screen.feeding_over';
+  static const babyFeedingTimesSuffix = 'baby.insights_screen.feeding_times_suffix';
+  static const babyFeedingTimesPerDaySuffix = 'baby.insights_screen.feeding_times_per_day_suffix';
+  static const babyFeedingAbnormalDays = 'baby.insights_screen.feeding_abnormal_days';
+  static const babyFeedingNormalDays = 'baby.insights_screen.feeding_normal_days';
+  static const babyFeedingTypePrefix = 'baby.insights_screen.feeding_type_prefix';
+  static const babyFeedingMostCommon = 'baby.insights_screen.feeding_most_common';
+  static const babyFeedingLast7DaysAvg = 'baby.insights_screen.feeding_last_7_days_avg';
+  static const babyFeedingOverallAvg = 'baby.insights_screen.feeding_overall_avg';
+  static const babyFeedingAvgFeeding = 'baby.insights_screen.feeding_avg_feeding';
+
+  // Shared baby UI strings
+  static const babyRecentRecords = 'baby.recent_records';
+  static const babyNoRecordsYet = 'baby.no_records_yet';
+  static const babySaving = 'baby.saving';
+
+  // Vaccine
+  static const babyVaccineAtBirth = 'baby.vaccine.at_birth';
+
+  // Growth form
+  static const babyGrowthWeightKgLabel = 'baby.growth.weight_kg_label';
+  static const babyGrowthHeightCmLabel = 'baby.growth.height_cm_label';
+  static const babyGrowthWeightInputHint = 'baby.growth.weight_input_hint';
+  static const babyGrowthHeightInputHint = 'baby.growth.height_input_hint';
+  static const babyGrowthValidNumber = 'baby.growth.valid_number';
+  static const babyGrowthSaveRecord = 'baby.growth.save_record';
+  static const babyGrowthValidWeight = 'baby.growth.valid_weight';
+  static const babyGrowthValidHeight = 'baby.growth.valid_height';
+
+
 
   // 🔹 Community
   static const communityTitle = 'community.title';
@@ -518,6 +617,19 @@ class TK {
   static const commonDayThu = 'common.day_labels.thu';
   static const commonDayFri = 'common.day_labels.fri';
   static const commonDaySat = 'common.day_labels.sat';
+
+  static const commonMonthJan = 'common.months.jan';
+  static const commonMonthFeb = 'common.months.feb';
+  static const commonMonthMar = 'common.months.mar';
+  static const commonMonthApr = 'common.months.apr';
+  static const commonMonthMay = 'common.months.may';
+  static const commonMonthJun = 'common.months.jun';
+  static const commonMonthJul = 'common.months.jul';
+  static const commonMonthAug = 'common.months.aug';
+  static const commonMonthSep = 'common.months.sep';
+  static const commonMonthOct = 'common.months.oct';
+  static const commonMonthNov = 'common.months.nov';
+  static const commonMonthDec = 'common.months.dec';
 
   // 🔹 Toast
   static const toastSuccess = 'common.toast.success';

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 
-// ─────────────────────────────────────────────
 // Enums
-// ─────────────────────────────────────────────
 
-enum FeedingType { breastfeeding, formulaFeeding, mixedFeeding }
+enum FeedingType { breastfeeding, formulaFeeding, solidfood }
 
 enum VaccineStatus { completed, upcoming }
 
-// ─────────────────────────────────────────────
 // Models
-// ─────────────────────────────────────────────
 
 class FeedingSession {
   final String id;
@@ -33,8 +29,8 @@ class FeedingSession {
         return 'Breastfeeding';
       case FeedingType.formulaFeeding:
         return 'Formula Feeding';
-      case FeedingType.mixedFeeding:
-        return 'Mixed Feeding';
+      case FeedingType.solidfood:
+        return 'Solid Food';
     }
   }
 

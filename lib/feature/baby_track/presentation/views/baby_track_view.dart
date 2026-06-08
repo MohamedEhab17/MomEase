@@ -9,11 +9,15 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
+import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/feeding_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/sleep_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/vaccine_tab_view.dart';
+import 'package:new_mama/feature/baby_track/presentation/views/growth_tab_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/baby_track_tab_bar.dart';
+import 'package:new_mama/feature/children/domain/entities/child.dart';
+import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/feature/children/presentation/widgets/premium_child_selector.dart';
 
 class BabyTrackView extends StatefulWidget {
@@ -31,7 +35,8 @@ class _BabyTrackViewState extends State<BabyTrackView>
   static const _tabsKeys = [
     TK.babyFeedingTitle,
     TK.babySleepTitle,
-    TK.babyVaccineTitle
+    TK.babyVaccineTitle,
+    TK.babyGrowthTitle
   ];
 
   @override
@@ -58,10 +63,28 @@ class _BabyTrackViewState extends State<BabyTrackView>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => BabyTrackCubit(),
-      child: BlocBuilder<BabyTrackCubit, BabyTrackState>(
-        builder: (context, state) {
-          final cubit = context.read<BabyTrackCubit>();
+      create: (context) {
+        final cubit = getIt<BabyTrackCubit>();
+        final activeChild = context.read<ActiveChildCubit>().state;
+        if (activeChild != null) {
+          cubit.fetchFeedingRecords(activeChild.childId);
+          cubit.fetchSleepRecords(activeChild.childId);
+          cubit.fetchGrowthRecords(activeChild.childId);
+        }
+        return cubit;
+      },
+      child: BlocListener<ActiveChildCubit, Child?>(
+        listener: (context, activeChild) {
+          if (activeChild != null) {
+            final cubit = context.read<BabyTrackCubit>();
+            cubit.fetchFeedingRecords(activeChild.childId);
+            cubit.fetchSleepRecords(activeChild.childId);
+            cubit.fetchGrowthRecords(activeChild.childId);
+          }
+        },
+        child: BlocBuilder<BabyTrackCubit, BabyTrackState>(
+          builder: (context, state) {
+            final cubit = context.read<BabyTrackCubit>();
           final currentTab = state is MainTabChanged
               ? state.tabIndex
               : cubit.mainTabIndex;
@@ -136,6 +159,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
                       FeedingTabView(),
                       SleepTabView(),
                       VaccineTabView(),
+                      GrowthTabView(),
                     ],
                   ),
                 ),
@@ -144,6 +168,7 @@ class _BabyTrackViewState extends State<BabyTrackView>
           );
         },
       ),
-    );
-  }
+    ),
+  );
+}
 }

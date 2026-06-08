@@ -3,7 +3,6 @@
     "name": "MomEase",
     "version": "إصدار MomEase 1.0.0"
   },
-
   "auth": {
     "login": "سجّلي الدخول وكمّلي رحلتك!",
     "forgot_password": "نسيتِ كلمة المرور؟",
@@ -11,7 +10,6 @@
     "password_updated": "تم تحديث كلمة المرور",
     "verify_email": "تأكيد البريد الإلكتروني",
     "resend_code": "إعادة إرسال الكود",
-
     "login_screen": {
       "welcome_first": "أهلاً بعودتك، ",
       "welcome_second": "يا ماما!",
@@ -22,7 +20,6 @@
       "no_account_first": "لسه ما عندكش حساب؟ ",
       "sign_up_link": "إنشاء حساب"
     },
-
     "sign_up_screen": {
       "title_first": "اعملي حساب جديد، ",
       "title_second": "يا ماما!",
@@ -37,21 +34,18 @@
       "has_account_first": "عندك حساب بالفعل؟ ",
       "login_link": "تسجيل الدخول"
     },
-
     "forget_password_screen": {
       "app_bar_title": "نسيت كلمة المرور",
       "instructions": "أدخلي بريدك الإلكتروني عشان نبعت لك كود التحقق",
       "email_hint": "البريد الإلكتروني",
       "send_code": "إرسال الكود"
     },
-
     "create_password_screen": {
       "instructions": "لازم كلمة المرور الجديدة تكون مختلفة عن القديمة",
       "new_password_hint": "كلمة المرور الجديدة",
       "confirm_new_password_hint": "تأكيد كلمة المرور الجديدة",
       "save_button": "حفظ"
     },
-
     "verification_screen": {
       "code_instructions": "أدخلي الكود اللي بعتناه على بريدك الإلكتروني",
       "verify_button": "تأكيد",
@@ -61,7 +55,6 @@
       "spam_snackbar": "راجعي صندوق الرسائل غير الهامة"
     }
   },
-
   "articles": {
     "title": "المقالات",
     "save": "حفظ المقالة",
@@ -73,15 +66,13 @@
     "search_title": "ابحث عن مقالات",
     "search_empty": "ابحثي عن ما تريدين",
     "read_minutes": "{minutes} دقيقة قراءة",
-     "clear_all" : "مسح الكل",
-    "recent_searches": "البحثات الحديثة" 
+    "clear_all": "مسح الكل",
+    "recent_searches": "البحثات الحديثة"
   },
-
   "baby": {
     "tracking": "متابعة الطفل",
     "activity": "نظرة عامة على نشاط الطفل",
     "insights": "تحليلات نشاط الطفل",
-
     "feeding": {
       "title": "الرضاعة",
       "date": "تاريخ الرضاعة",
@@ -96,9 +87,12 @@
       "breastfeeding": "رضاعة طبيعية",
       "formula_feeding": "رضاعة صناعية",
       "mixed": "مختلطة",
-      "last_7_days": "آخر 7 أيام"
+      "last_7_days": "آخر 7 أيام",
+      "times_validation": "عدد مرات الرضاعة يجب أن يكون بين 1 و 20",
+      "delete_title": "حذف سجل الرضاعة",
+      "delete_confirm": "هل أنتِ متأكدة من رغبتك في حذف سجل الرضاعة هذا؟",
+      "daily": "يوميا"
     },
-
     "sleep": {
       "title": "النوم",
       "date": "تاريخ النوم",
@@ -109,10 +103,45 @@
       "notes_hint": "كيف كان نوم الطفل؟",
       "save_record": "حفظ سجل النوم",
       "fill_required": "من فضلك املئي كل البيانات المطلوبة",
-      "duration_hours": "مدة النوم (بالساعات)",
-      "daily_avg": "المتوسط اليومي"
+      "duration_hours": "مدة النوم",
+      "daily_avg": "المتوسط اليومي",
+      "invalid_duration": "مدة النوم لا يمكن أن تزيد عن 16 ساعة. يرجى التحقق من أوقات البداية والنهاية.",
+      "delete_title": "حذف سجل النوم",
+      "delete_confirm": "هل أنتِ متأكدة من رغبتك في حذف سجل النوم هذا؟"
+      
     },
-
+    "growth": {
+      "title": "النمو",
+      "weight": "الوزن",
+      "height": "الطول",
+      "date": "تاريخ التسجيل",
+      "saved": "تم حفظ سجل النمو! 📈",
+      "statistics": "إحصائيات النمو",
+      "average_weight": "متوسط الوزن",
+      "average_height": "متوسط الطول",
+      "weight_gain": "زيادة الوزن",
+      "height_gain": "زيادة الطول",
+      "current_status": "حالة النمو",
+      "weekly_gain": "الزيادة الأسبوعية",
+      "monthly_gain": "الزيادة الشهرية",
+      "weight_trend": "تطور الوزن",
+      "height_trend": "تطور الطول",
+      "add_record": "إضافة سجل نمو",
+      "weight_hint": "الوزن بالكيلوجرام",
+      "height_hint": "الطول بالسنتيمتر",
+      "weight_required": "من فضلك أدخلي الوزن",
+      "height_required": "من فضلك أدخلي الطول",
+      "delete_confirm": "هل أنتِ متأكدة من رغبتك في حذف سجل النمو هذا؟",
+      "delete_title": "حذف سجل النمو",
+      "weight_kg_label": "الوزن (كيلوجرام)",
+      "height_cm_label": "الطول (سنتيمتر)",
+      "weight_input_hint": "أدخلي الوزن",
+      "height_input_hint": "أدخلي الطول",
+      "valid_number": "أدخلي رقماً صحيحاً",
+      "save_record": "حفظ السجل",
+      "valid_weight": "أدخلي وزناً صحيحاً (1 - 150 كجم)",
+      "valid_height": "أدخلي طولاً صحيحاً (1 - 250 سم)"
+    },
     "vaccine": {
       "title": "التطعيمات",
       "completed": "تمت",
@@ -120,10 +149,27 @@
       "completed_label": "تم:",
       "next_due": "الموعد القادم",
       "in_days": "بعد {days} يوم",
-      "babys_log": "سجل الطفل",
-      "official_schedule": "الجدول الرسمي"
+      "babys_log": "سجل التطعيمات",
+      "official_schedule": "جدول التطعيمات",
+      "overdue_missed": "متأخرة / فائتة",
+      "pending": "معلقة",
+      "mark_taken_title": "تسجيل أخذ التطعيم",
+      "mark_taken_desc": "تأكيد إعطاء تطعيم {vaccine} لطفلك.",
+      "vaccination_date": "تاريخ التطعيم",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد",
+      "select_child_msg": "من فضلك أضيفي أو اختاري طفلاً لمتابعة التطعيمات.",
+      "retrieving_msg": "جاري تحميل بيانات التطعيمات...",
+      "no_logged_vaccines": "لم يتم تسجيل أي تطعيمات بعد.",
+      "no_schedule_available": "لا يوجد جدول تطعيمات رسمي متاح.",
+      "disease_prevented": "المرض المستهدف",
+      "way_of_injection": "طريقة الإعطاء",
+      "scheduled_date": "التاريخ المحدد",
+      "taken_date": "تاريخ الأخذ",
+      "mark_as_taken_btn": "تحديد كمكتمل",
+      "months_suffix": "{months} أشهر",
+      "at_birth": "عند الولادة"
     },
-
     "insights_screen": {
       "title": "تحليلات نشاط الطفل",
       "health_score": "مؤشر الصحة",
@@ -143,17 +189,53 @@
       "completed_status": "تم",
       "mood_trend": "تطور الحالة المزاجية",
       "last_7_days": "اخر 7 ايام",
-      "daily_avg":"المتوسط اليومي",
+      "daily_avg": "المتوسط اليومي",
       "helpful_suggestions": "نصائح مفيدة",
-
       "bedtime_suggestion_title": "اقتراح نوم مبكر",
       "bedtime_suggestion_body": "طفلك نام أقل من المعتاد أمس، جربي تنيميه بدري النهارده لتجنب الإرهاق.",
-
       "feeding_reminder_title": "تذكير بمواعيد الرضاعة",
-      "feeding_reminder_body": "مواعيد الرضاعة منتظمة 👏 استمري يا ماما!"
-    }
+      "feeding_reminder_body": "مواعيد الرضاعة منتظمة 👏 استمري يا ماما!",
+      "sleep_weekly": "أسبوعي",
+      "sleep_monthly": "شهري",
+      "sleep_period_overview": "نظرة عامة على الفترة",
+      "sleep_avg_sleep": "متوسط النوم",
+      "sleep_logged_days": "الأيام المسجلة",
+      "sleep_good_days": "أيام جيدة",
+      "sleep_poor_days": "أيام ضعيفة",
+      "sleep_days_suffix": "{count} أيام",
+      "sleep_pediatrician_ref": "مرجع طبيب الأطفال",
+      "sleep_recommended_range": "النطاق الموصى به",
+      "sleep_overall_avg": "المتوسط العام",
+      "sleep_last_7_days": "آخر 7 أيام",
+      "sleep_quality_score": "مؤشر الجودة",
+      "sleep_no_data": "لا توجد بيانات",
+      "sleep_status_good": "جيد",
+      "sleep_status_normal": "طبيعي",
+      "sleep_status_poor": "ضعيف",
+      "sleep_status_unknown": "غير معروف",
+      "feeding_severe_under": "نقص شديد",
+      "feeding_under": "نقص رضاعة",
+      "feeding_normal": "طبيعي",
+      "feeding_over": "زيادة رضاعة",
+      "feeding_times_suffix": "{count} مرات",
+      "feeding_times_per_day_suffix": "{count} مرات/يوم",
+      "feeding_abnormal_days": "أيام غير طبيعية",
+      "feeding_normal_days": "أيام طبيعية",
+      "feeding_type_prefix": "النوع: {type}",
+      "feeding_most_common": "الرضاعة الأكثر شيوعاً",
+      "feeding_last_7_days_avg": "متوسط آخر 7 أيام",
+      "feeding_overall_avg": "المتوسط العام",
+      "feeding_avg_feeding": "متوسط الرضاعة",
+      "feeding_type_breast": "طبيعي",
+      "feeding_type_formula": "صناعي",
+      "feeding_type_mixed": "مختلط",
+      "feeding_type_none": "لا يوجد"
+      
+    },
+    "recent_records": "السجلات الأخيرة",
+    "no_records_yet": "لا توجد سجلات بعد",
+    "saving": "جاري الحفظ..."
   },
-
   "community": {
     "title": "المجتمع",
     "create_post": "إنشاء منشور",
@@ -203,12 +285,10 @@
     "report_error": "عذراً، حدث خطأ أثناء إرسال البلاغ",
     "max_images_error": "عذراً، يمكنك اختيار 10 صور بحد أقصى"
   },
-
   "home": {
     "welcome": "أهلاً بيكي مرة تانية",
     "offering_help": "إزاي نقدر نساعدك النهارده؟",
     "mood": "إحساسك عامل إيه النهارده؟",
-
     "quick_access": {
       "section": "وصول سريع",
       "cry_title": "تحليل بكاء الطفل",
@@ -218,16 +298,13 @@
       "tracking_title": "متابعة الطفل",
       "tracking_subtitle": "سجّلي الرضاعة والنوم والتطعيمات"
     },
-
     "depression_card": {
       "title": "إحساسك عامل إيه النهارده؟",
       "cta": "ابدئي اختبار الاكتئاب"
     },
-
     "useful_articles": "مقالات مفيدة",
     "view_all_article": "عرض المقالة"
   },
-
   "profile": {
     "parenting_journey": "رحلتي مع الأمومة",
     "community_posts": "منشوراتي",
@@ -250,7 +327,6 @@
     "delete_photo_title": "حذف الصورة؟",
     "delete_photo_content": "هل أنتِ متأكدة من رغبتك في حذف صورتك الشخصية؟"
   },
-
   "onboarding": {
     "baby_name_title": "اسم طفلك إيه؟",
     "baby_name_hint": "حابين نتعرف عليه...",
@@ -267,20 +343,15 @@
     "start_journey": "ابدئي رحلتك",
     "skip": "تخطي",
     "start": "ابدأ",
-
     "screen_1_title": "مش لوحدك بعد كده",
     "screen_1_desc": "دعم نفسي وإرشادات من خبراء طوال رحلة ما بعد الولادة",
-
     "screen_2_title": "دعم الرضاعة بسهولة",
     "screen_2_desc": "نصائح موثوقة وخطوات واضحة",
-
     "screen_3_title": "كل اللي تحتاجيه في مكان واحد",
     "screen_3_desc": "مقالات عن الصحة والنوم والتغذية والعناية بالطفل",
-
     "screen_4_title": "الدعم بيبدأ من هنا",
     "screen_4_desc": "أدوات مفيدة ومجتمع داعم في إيدك"
   },
-
   "baby_profile_setup": {
     "hello": "مرحباً،",
     "mama": " يا ماما!",
@@ -301,7 +372,6 @@
     "vaginal": "طبيعية",
     "c_section": "قيصرية"
   },
-
   "children": {
     "my_children": "أطفالي",
     "space_little_ones": "مساحة خاصة لصغارك.",
@@ -352,7 +422,6 @@
     "no_babies_yet": "لا يوجد أطفال مضافين بعد",
     "add_your_baby": "إضافة طفلك"
   },
-
   "baby_cry": {
     "app_bar_title": "تحليل بكاء الطفل",
     "insight_headline": "فهم بكاء الطفل",
@@ -373,7 +442,6 @@
     "recommend_steps": "خطوات مقترحة",
     "analyze_another": "تحليل مرة أخرى"
   },
-
   "depression": {
     "app_bar_title": "فحص الحالة النفسية",
     "check_in_title": "خلينا نطمن عليكِ",
@@ -390,7 +458,6 @@
     "q6_query": "هل تشعرين بالسوء تجاه نفسك أو أنك فشلتِ؟",
     "q7_query": "هل تجدين صعوبة في التركيز؟",
     "q8_query": "هل تتحركين ببطء شديد أو بالعكس نشيطة بشكل زائد؟",
-
     "completely_private_title": "خصوصية تامة",
     "completely_private_subtitle": "إجاباتك سرية تماماً",
     "no_judgment_title": "بدون حكم",
@@ -410,7 +477,6 @@
     "depression_test_title": "اختبارات تقييم الحالة النفسية",
     "depression_tests_desc": "خدي لحظة لتطمني على نفسك. الأدوات دي معتمدة من الناحية الطبية وبتساعدك تفهمي حالتك النفسية."
   },
-
   "skin_diagnosis": {
     "app_bar_title": "فحص الجلد",
     "insight_headline": "نصائح لبشرة الطفل",
@@ -453,7 +519,6 @@
     "delete_confirm_body": "هل أنتِ متأكدة من رغبتك في حذف هذا التحليل؟",
     "select_child": "من فضلك اختاري طفلاً أولاً"
   },
-
   "notifications": {
     "title": "الإشعارات",
     "clear_all": "مسح الكل",
@@ -461,12 +526,11 @@
     "empty_subtitle": "هتظهر هنا أول ما توصلك إشعارات",
     "view_post": "عرض المنشور"
   },
-
   "common": {
     "view_all": "عرض الكل",
     "read_more": "اقرئي المزيد ›",
     "notes": "ملاحظات",
-    "retry": "حاولي مرة أخرى",
+    "retry": "إعادة المحاولة",
     "language": "اللغة",
     "theme_mode": "وضع المظهر",
     "error_with_details": "خطأ: {error}",
@@ -485,6 +549,20 @@
       "fri": "الجمعة",
       "sat": "السبت"
     },
+    "months": {
+      "jan": "يناير",
+      "feb": "فبراير",
+      "mar": "مارس",
+      "apr": "أبريل",
+      "may": "مايو",
+      "jun": "يونيو",
+      "jul": "يوليو",
+      "aug": "أغسطس",
+      "sep": "سبتمبر",
+      "oct": "أكتوبر",
+      "nov": "نوفمبر",
+      "dec": "ديسمبر"
+    },
     "toast": {
       "success": "تم بنجاح",
       "error": "خطأ",
@@ -493,13 +571,11 @@
       "action_failed": "عذراً، فشل تنفيذ الإجراء"
     }
   },
-
   "drawer": {
     "baby_tracking": "متابعة الطفل",
     "depression_test": "اختبار الاكتئاب",
     "baby_cry": "بكاء الطفل",
     "skin_diagnosis": "فحص الجلد",
-
     "support_info": {
       "section": "الدعم والمعلومات",
       "help_center": "مركز المساعدة",
@@ -507,16 +583,13 @@
       "about_momease": "عن التطبيق",
       "privacy_policy": "سياسة الخصوصية"
     },
-
     "general": {
       "rate_momease": "قيّم التطبيق",
       "share_with_friends": "شارك مع أصدقائك",
       "send_feedback": "أرسل ملاحظاتك"
     },
-
     "english": "English",
     "arabic": "العربية",
-
     "account_settings": {
       "section": "إعدادات الحساب",
       "manage_profile": "إدارة الحساب",
