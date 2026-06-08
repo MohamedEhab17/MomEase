@@ -5,7 +5,7 @@ import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
-import 'package:new_mama/feature/baby_track/presentation/extensions/sleep_status_extension.dart';
+import 'package:new_mama/core/extensions/sleep_status_extension.dart';
 import 'package:new_mama/feature/baby_track/presentation/models/sleep_chart_item.dart';
 
 /// Floating tooltip card shown above a selected bar in the sleep chart.

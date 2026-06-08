@@ -5,7 +5,7 @@ import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/sleep_statistics_entity.dart';
-import 'package:new_mama/feature/baby_track/presentation/extensions/sleep_status_extension.dart';
+import 'package:new_mama/core/extensions/sleep_status_extension.dart';
 import 'package:new_mama/feature/baby_track/presentation/widgets/sleep_chart/sleep_stat_label.dart';
 
 /// Pediatrician / reference card showing recommended sleep range, overall
