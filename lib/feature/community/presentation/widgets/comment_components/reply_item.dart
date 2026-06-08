@@ -46,6 +46,7 @@ class _ReplyItemState extends State<ReplyItem> {
     final initials = widget.reply.userName
         .trim()
         .split(' ')
+        .where((w) => w.isNotEmpty)
         .map((w) => w[0])
         .take(2)
         .join()

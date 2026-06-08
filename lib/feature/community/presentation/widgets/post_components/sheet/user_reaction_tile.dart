@@ -21,8 +21,14 @@ class UserReactionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final config = ReactionConfig.byType(reaction.reactionType);
     final resolvedPhoto = _resolvedPhotoUrl;
-    final initials = reaction.userName.isNotEmpty
-        ? reaction.userName.trim().split(' ').map((w) => w[0]).take(2).join()
+    final trimmedName = reaction.userName.trim();
+    final initials = trimmedName.isNotEmpty
+        ? trimmedName
+            .split(' ')
+            .where((w) => w.isNotEmpty)
+            .map((w) => w[0])
+            .take(2)
+            .join()
         : '?';
 
     return Padding(
