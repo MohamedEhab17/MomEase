@@ -4,6 +4,7 @@ import 'package:json_schema_builder/json_schema_builder.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/string_ex.dart';
 import 'package:new_mama/feature/chatbot/presentation/widgets/chat_message_list.dart';
 
 final _schema = S.object(
@@ -37,8 +38,14 @@ extension type _MoodCheckCardData.fromMap(Map<String, Object?> _json) {
   });
 
   JsonMap get title => _json['title'] as JsonMap;
-  List<JsonMap> get moods => (_json['moods'] as List).cast<JsonMap>();
-  JsonMap get action => _json['action'] as JsonMap;
+  
+  List<JsonMap> get moods {
+    final raw = _json['moods'];
+    if (raw == null) return const [];
+    return (raw as List).cast<JsonMap>();
+  }
+
+  JsonMap get action => (_json['action'] ?? const {'name': 'log_mood', 'context': []}) as JsonMap;
 }
 
 final moodCheckCard = CatalogItem(
@@ -82,6 +89,30 @@ class _MoodCheckCard extends StatelessWidget {
     final msgContext = ChatbotMessageContext.of(context);
     final bool isOld = msgContext?.isOld ?? false;
 
+    final titleText = titleNotifier.value ?? '';
+    final bool isArabic = titleText.isArabic;
+
+    List<JsonMap> effectiveMoods = moods;
+    if (effectiveMoods.isEmpty) {
+      if (isArabic) {
+        effectiveMoods = const [
+          {'literalString': 'سعيدة 😊'},
+          {'literalString': 'مجهدة 😴'},
+          {'literalString': 'قلقة 😟'},
+          {'literalString': 'راضية 😌'},
+          {'literalString': 'متعبة 🤒'},
+        ];
+      } else {
+        effectiveMoods = const [
+          {'literalString': 'Happy 😊'},
+          {'literalString': 'Exhausted 😴'},
+          {'literalString': 'Anxious 😟'},
+          {'literalString': 'Calm 😌'},
+          {'literalString': 'Tired 🤒'},
+        ];
+      }
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       constraints: BoxConstraints(
@@ -105,8 +136,8 @@ class _MoodCheckCard extends StatelessWidget {
         children: [
           ValueListenableBuilder<String?>(
             valueListenable: titleNotifier,
-            builder: (context, titleText, _) => Text(
-              titleText ?? 'How are you feeling today?',
+            builder: (context, currentTitleText, _) => Text(
+              currentTitleText ?? 'How are you feeling today?',
               style: AppStyles.styleRoboto24.copyWith(
                 color: context.ext.colors.primaryDark,
               ),
@@ -117,7 +148,7 @@ class _MoodCheckCard extends StatelessWidget {
             Wrap(
               spacing: 8.w,
               runSpacing: 8.h,
-              children: moods.map((moodRef) {
+              children: effectiveMoods.map((moodRef) {
                 final moodNotifier = dataContext.subscribeToString(moodRef);
                 return ValueListenableBuilder<String?>(
                   valueListenable: moodNotifier,
