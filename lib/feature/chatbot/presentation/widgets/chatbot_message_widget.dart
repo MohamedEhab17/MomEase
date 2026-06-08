@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/extensions/string_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
@@ -100,11 +101,11 @@ class ChatbotMessageWidget extends StatelessWidget {
               AppIcons.iconsLunaBlue,
               colorMapper: AppSvgColorMapper(
                 from: const Color(0xff7AA2C2),
-                to: context.ext.colors.primaryDark,
+                to: context.ext.colors.primaryLight,
               ),
             ),
           ),
-          SizedBox(width: 8.w),
+          8.w.width,
           Flexible(child: bubble),
         ],
       );

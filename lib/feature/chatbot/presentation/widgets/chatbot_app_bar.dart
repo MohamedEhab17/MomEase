@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
@@ -56,7 +57,7 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
                     AppIcons.iconsLunaBlue,
                     colorMapper: AppSvgColorMapper(
                       from: const Color(0xff7AA2C2),
-                      to: context.ext.colors.primaryDark,
+                      to: context.ext.colors.primaryLight,
                     ),
                   ),
                 ),
@@ -85,7 +86,7 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             ),
-            SizedBox(width: 12.w),
+            12.w.width,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
