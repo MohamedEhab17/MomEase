@@ -4,6 +4,7 @@ import 'package:json_schema_builder/json_schema_builder.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/string_ex.dart';
 
 final _schema = S.object(
   properties: {
@@ -149,28 +150,38 @@ class _InformationCard extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(16.w),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ValueListenableBuilder<String?>(
                   valueListenable: titleNotifier,
-                  builder: (context, title, _) => Text(
-                    title ?? '',
-                    style: AppStyles.styleRoboto24.copyWith(
-                      color: context.ext.colors.primaryDark,
-                    ).forText(title ?? ''),
-                  ),
+                  builder: (context, title, _) {
+                    final textVal = title ?? '';
+                    final isAr = textVal.isArabic;
+                    return Text(
+                      textVal,
+                      textAlign: isAr ? TextAlign.right : TextAlign.left,
+                      textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                      style: AppStyles.styleRoboto24.copyWith(
+                        color: context.ext.colors.primaryDark,
+                      ).forText(textVal),
+                    );
+                  },
                 ),
                 ValueListenableBuilder<String?>(
                   valueListenable: subtitleNotifier,
                   builder: (context, subtitle, _) {
                     if (subtitle == null) return const SizedBox.shrink();
+                    final textVal = subtitle;
+                    final isAr = textVal.isArabic;
                     return Padding(
                       padding: EdgeInsets.only(top: 4.h),
                       child: Text(
-                        subtitle,
+                        textVal,
+                        textAlign: isAr ? TextAlign.right : TextAlign.left,
+                        textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
                         style: AppStyles.styleRoboto16.copyWith(
                           color: context.ext.colors.lightTextSecondary,
-                        ).forText(subtitle),
+                        ).forText(textVal),
                       ),
                     );
                   },
@@ -178,8 +189,16 @@ class _InformationCard extends StatelessWidget {
                 SizedBox(height: 8.h),
                 ValueListenableBuilder<String?>(
                   valueListenable: bodyNotifier,
-                  builder: (context, body, _) =>
-                      Text(body ?? '', style: AppStyles.styleRoboto16.forText(body ?? '')),
+                  builder: (context, body, _) {
+                    final textVal = body ?? '';
+                    final isAr = textVal.isArabic;
+                    return Text(
+                      textVal,
+                      textAlign: isAr ? TextAlign.right : TextAlign.left,
+                      textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                      style: AppStyles.styleRoboto16.forText(textVal),
+                    );
+                  },
                 ),
               ],
             ),

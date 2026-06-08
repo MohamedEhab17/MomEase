@@ -4,6 +4,7 @@ import 'package:json_schema_builder/json_schema_builder.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/string_ex.dart';
 
 final _schema = S.object(
   properties: {
@@ -81,20 +82,34 @@ class _AnalysisResultCard extends StatelessWidget {
         border: Border.all(color: context.ext.colors.primary),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ValueListenableBuilder<String?>(
             valueListenable: titleNotifier,
-            builder: (_, titleText, _) => Text(
-              titleText ?? 'Analysis Result',
-              style: AppStyles.styleRoboto24.copyWith(color: context.ext.colors.primary),
-            ),
+            builder: (_, titleText, _) {
+              final textVal = titleText ?? 'Analysis Result';
+              final isAr = textVal.isArabic;
+              return Text(
+                textVal,
+                textAlign: isAr ? TextAlign.right : TextAlign.left,
+                textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                style: AppStyles.styleRoboto24.copyWith(color: context.ext.colors.primary),
+              );
+            },
           ),
           SizedBox(height: 12.h),
           ValueListenableBuilder<String?>(
             valueListenable: resultNotifier,
-            builder: (_, resultText, _) =>
-                Text(resultText ?? '', style: AppStyles.styleRoboto16),
+            builder: (_, resultText, _) {
+              final textVal = resultText ?? '';
+              final isAr = textVal.isArabic;
+              return Text(
+                textVal,
+                textAlign: isAr ? TextAlign.right : TextAlign.left,
+                textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                style: AppStyles.styleRoboto16,
+              );
+            },
           ),
           if (confidence != null) ...[
             SizedBox(height: 12.h),
@@ -119,22 +134,29 @@ class _AnalysisResultCard extends StatelessWidget {
                 color: Colors.orange.withAlpha(26),
                 borderRadius: BorderRadius.circular(8.r),
               ),
-              child: Row(
-                children: [
-                  Icon(Icons.info_outline, size: 20.sp, color: Colors.orange),
-                  SizedBox(width: 8.w),
-                  Expanded(
-                    child: ValueListenableBuilder<String?>(
-                      valueListenable: disclaimerNotifier,
-                      builder: (_, disclaimerText, _) => Text(
-                        disclaimerText ?? '',
-                        style: AppStyles.styleRoboto12.copyWith(
-                          color: Colors.orange.shade900,
+              child: ValueListenableBuilder<String?>(
+                valueListenable: disclaimerNotifier,
+                builder: (_, disclaimerText, _) {
+                  final textVal = disclaimerText ?? '';
+                  final isAr = textVal.isArabic;
+                  return Row(
+                    textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                    children: [
+                      Icon(Icons.info_outline, size: 20.sp, color: Colors.orange),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: Text(
+                          textVal,
+                          textAlign: isAr ? TextAlign.right : TextAlign.left,
+                          textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                          style: AppStyles.styleRoboto12.copyWith(
+                            color: Colors.orange.shade900,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ],
+                    ],
+                  );
+                },
               ),
             ),
           ],

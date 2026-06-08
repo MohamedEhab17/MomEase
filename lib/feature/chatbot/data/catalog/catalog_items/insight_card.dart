@@ -4,6 +4,7 @@ import 'package:json_schema_builder/json_schema_builder.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/string_ex.dart';
 
 final _schema = S.object(
   properties: {
@@ -102,23 +103,37 @@ class _InsightCard extends StatelessWidget {
           SizedBox(width: 12.w),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ValueListenableBuilder<String?>(
                   valueListenable: titleNotifier,
-                  builder: (_, titleText, _) => Text(
-                    titleText ?? '',
-                    style: AppStyles.styleRoboto16.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: color,
-                    ),
-                  ),
+                  builder: (_, titleText, _) {
+                    final textVal = titleText ?? '';
+                    final isAr = textVal.isArabic;
+                    return Text(
+                      textVal,
+                      textAlign: isAr ? TextAlign.right : TextAlign.left,
+                      textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                      style: AppStyles.styleRoboto16.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(height: 4.h),
                 ValueListenableBuilder<String?>(
                   valueListenable: messageNotifier,
-                  builder: (_, messageText, _) =>
-                      Text(messageText ?? '', style: AppStyles.styleRoboto16),
+                  builder: (_, messageText, _) {
+                    final textVal = messageText ?? '';
+                    final isAr = textVal.isArabic;
+                    return Text(
+                      textVal,
+                      textAlign: isAr ? TextAlign.right : TextAlign.left,
+                      textDirection: isAr ? TextDirection.rtl : TextDirection.ltr,
+                      style: AppStyles.styleRoboto16,
+                    );
+                  },
                 ),
               ],
             ),
