@@ -57,6 +57,42 @@ abstract class FallbackUiFactory {
 
   //  Embedded JSON Components Parser 
 
+  /// Private helper to repair common trailing bracket/brace omissions in LLM-generated JSON
+  static String _tryRepairJson(String input) {
+    String text = input.trim();
+    if (!text.startsWith('{')) return text;
+
+    int openBraces = 0;
+    int closeBraces = 0;
+    int openBrackets = 0;
+    int closeBrackets = 0;
+    bool inQuote = false;
+
+    for (int i = 0; i < text.length; i++) {
+      final char = text[i];
+      if (char == '"' && (i == 0 || text[i - 1] != '\\')) {
+        inQuote = !inQuote;
+      }
+      if (!inQuote) {
+        if (char == '{') openBraces++;
+        if (char == '}') closeBraces++;
+        if (char == '[') openBrackets++;
+        if (char == ']') closeBrackets++;
+      }
+    }
+
+    while (openBrackets > closeBrackets) {
+      text += ']';
+      closeBrackets++;
+    }
+    while (openBraces > closeBraces) {
+      text += '}';
+      closeBraces++;
+    }
+
+    return text;
+  }
+
   /// Parses raw JSON components embedded directly inside plain-text lines
   static List<A2uiMessage> parseTextComponents({
     required String text,
@@ -70,9 +106,10 @@ abstract class FallbackUiFactory {
     // 1. Decode and analyze calls from lines
     for (final line in lines) {
       final trimmed = line.trim();
-      if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+      if (trimmed.startsWith('{')) {
+        final repaired = _tryRepairJson(trimmed);
         try {
-          final decoded = jsonDecode(trimmed);
+          final decoded = jsonDecode(repaired);
           if (decoded is Map<String, dynamic> && decoded.containsKey('name')) {
             final String name = decoded['name'] as String? ?? '';
             final Map<String, dynamic> arguments = decoded['arguments'] as Map<String, dynamic>? ?? const {};
@@ -150,9 +187,10 @@ abstract class FallbackUiFactory {
     for (final line in lines) {
       final trimmed = line.trim();
       bool isJsonCall = false;
-      if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+      if (trimmed.startsWith('{')) {
+        final repaired = _tryRepairJson(trimmed);
         try {
-          final decoded = jsonDecode(trimmed);
+          final decoded = jsonDecode(repaired);
           if (decoded is Map<String, dynamic> && decoded.containsKey('name')) {
             isJsonCall = true;
           }
