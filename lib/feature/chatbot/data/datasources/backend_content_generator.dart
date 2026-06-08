@@ -386,7 +386,9 @@ class BackendContentGenerator implements ContentGenerator {
     return '''
 $userPrompt
 
-[Instruct:Luna AI. Reply text or premium JSON 'uiPayload'.
+[Instruct:Luna AI. Scope: postpartum mother care & newborn baby care ONLY.
+If user asks off-topic (cooking recipes, coding, generic booking, non-postpartum Qs), decline politely in their language (e.g. "أنا هنا لمساعدتكِ في شؤون الأمومة ورعاية طفلكِ فقط. 😊"). Do not pretend to book appointments; tell them to contact their doctor.
+Reply text or premium JSON 'uiPayload'.
 Components:
 1. `InformationCard`: {"name":"InformationCard","arguments":{"title":{"literalString":"T"},"body":{"literalString":"B"}}} (for advice/schedules).
 2. `Trailhead`: {"name":"Trailhead","arguments":{"topics":[{"literalString":"O1"}],"action":{"name":"select_topic","context":[]}}} (2-4 buttons: Yes/No, options, or follow-ups).

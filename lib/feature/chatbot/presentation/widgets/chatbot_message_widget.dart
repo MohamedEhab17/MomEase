@@ -29,57 +29,73 @@ class ChatbotMessageWidget extends StatelessWidget {
 
     final radius = calculateRadius().r;
 
-    return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-        decoration: BoxDecoration(
-          color: isUser ? context.ext.colors.primary : context.ext.colors.primaryLight,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(radius),
-            topRight: Radius.circular(radius),
-            bottomLeft: Radius.circular(radius), // notch
-            bottomRight: Radius.circular(radius), // notch
-          ),
+    Widget bubble = Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      decoration: BoxDecoration(
+        color: isUser ? context.ext.colors.primary : context.ext.colors.primaryLight,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(isUser ? radius : 4.r), // notch pointing to avatar
+          topRight: Radius.circular(radius),
+          bottomLeft: Radius.circular(radius),
+          bottomRight: Radius.circular(isUser ? 4.r : radius), // notch pointing to user side
         ),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.75,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+      ),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.65,
+      ),
+      child: Text(
+        text,
+        style: context.text.titleLarge!.copyWith(
+          color: isUser
+              ? context.ext.colors.lightBackground
+              : context.ext.colors.lightTextPrimary,
+        ).forText(text),
+      ),
+    );
 
-          children: [
-            if (!isUser) ...[
-              SvgPicture.asset(
-                AppIcons.iconsLunaBlue,
-                width: 24.w,
-                height: 24.h,
-                colorMapper: AppSvgColorMapper(
-                  from: const Color(0xff7AA2C2),
-                  to: context.ext.colors.primaryLight,
-                ),
+    if (!isUser) {
+      bubble = Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 36.w,
+            height: 36.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: context.ext.colors.primaryExtraLight,
+              border: Border.all(
+                color: context.ext.colors.primary.withAlpha(40),
+                width: 1.w,
               ),
-              // Icon(icon, color: AppColors.primary, size: 20.sp),
-              SizedBox(width: 8.w),
-            ],
-            Flexible(
-              child: Text(
-                text,
-                style: context.text.titleLarge!.copyWith(
-                  color: isUser
-                      ? context.ext.colors.lightBackground
-                      : context.ext.colors.lightTextPrimary,
-                ).forText(text),
+              boxShadow: [
+                BoxShadow(
+                  color: context.ext.colors.primary.withAlpha(20),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            padding: EdgeInsets.all(6.w),
+            child: SvgPicture.asset(
+              AppIcons.iconsLunaBlue,
+              colorMapper: AppSvgColorMapper(
+                from: const Color(0xff7AA2C2),
+                to: context.ext.colors.primaryDark,
               ),
             ),
-            // if (isUser) ...[
-            //   SizedBox(width: 8.w),
-            //   Icon(Icons.person, color: Colors.white, size: 20.sp),
-            // ],
-          ],
-        ),
+          ),
+          SizedBox(width: 8.w),
+          Flexible(child: bubble),
+        ],
+      );
+    }
+
+    return Align(
+      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        child: bubble,
       ),
     );
   }
