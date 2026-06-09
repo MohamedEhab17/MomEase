@@ -69,22 +69,22 @@ class _ProfileBody extends StatelessWidget {
                   24.height,
 
                   // Parenting Journey
-                  ProfileSectionTitle(
-                    title: context.trContext(TK.profileParentingJourney),
-                    onSeeAll: () {},
-                  ),
-                  ParentingJourneySection(
-                    lastMoodStatus: profile.mentalHealthStatus,
-                    depressionTestStatus: profile
-                        .mentalHealthStatus, // Mapping mental health to depression status for now
-                    babyTrackingStatus: profile.healthStatus,
-                  ),
-                  24.height,
+                  // ProfileSectionTitle(
+                  //   title: context.trContext(TK.profileParentingJourney),
+                  //   onSeeAll: () {},
+                  // ),
+                  // ParentingJourneySection(
+                  //   lastMoodStatus: profile.mentalHealthStatus,
+                  //   depressionTestStatus: profile
+                  //       .mentalHealthStatus, // Mapping mental health to depression status for now
+                  //   babyTrackingStatus: profile.healthStatus,
+                  // ),
+                  // 24.height,
 
                   // ── My Children (live from API) ──────────────────
                   const ChildrenSection(),
                   24.height,
-                  
+
                   // Community Posts
                   ProfileSectionTitle(
                     title: context.trContext(TK.profileCommunityPosts),
