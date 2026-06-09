@@ -15,7 +15,6 @@ import 'package:new_mama/feature/profile/presentation/view_model/profile_state.d
 import 'package:new_mama/feature/profile/presentation/widgets/children_section.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/community_posts_section.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/logout_button.dart';
-import 'package:new_mama/feature/profile/presentation/widgets/parenting_journey_section.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/profile_header.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/profile_section_title.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/saved_articles_section.dart';
