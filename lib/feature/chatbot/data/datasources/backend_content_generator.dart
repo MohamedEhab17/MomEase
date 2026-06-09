@@ -386,19 +386,19 @@ class BackendContentGenerator implements ContentGenerator {
 $userPrompt
 
 [Instruct:Luna AI (postpartum/baby care only). Refuse off-topic.
-UI JSON 'uiPayload':
+Reply text and JSON 'uiPayload':
 - `InformationCard`: {"name":"InformationCard","arguments":{"title":{"literalString":"T"},"body":{"literalString":"B"}}}
 - `Trailhead`: {"name":"Trailhead","arguments":{"topics":[{"literalString":"O"}],"action":{"name":"select_topic"}}}
 - `MoodCheckCard`: {"name":"MoodCheckCard","arguments":{"title":{"literalString":"T"}}}
-- `InsightCard`: {"name":"InsightCard","arguments":{"title":{"literalString":"T"},"message":{"literalString":"M"},"type":"info"}}
+- `InsightCard`: {"name":"InsightCard","arguments":{"title":{"literalString":"T"},"message":{"literalString":"M"}}}
 - `ActivityTimeline`: {"name":"ActivityTimeline","arguments":{"title":{"literalString":"T"},"activities":[{"time":{"literalString":"H"},"type":{"literalString":"A"}}]}}
 - `AnalysisResultCard`: {"name":"AnalysisResultCard","arguments":{"title":{"literalString":"T"},"result":{"literalString":"R"}}}
 - `ActionCard`: {"name":"ActionCard","arguments":{"title":{"literalString":"T"},"icon":"mic","action":{"name":"A"}}}
 - `AskForSupportAction`: {"name":"AskForSupportAction","arguments":{"title":{"literalString":"T"},"action":{"name":"A"}}}
 Rules:
-- Start: only show MoodCheckCard.
-- Do not repeat MoodCheckCard. Offer advice (InformationCard) & options (Trailhead).
-- If tired, advise on fatigue/rest, not recovery/exercise.
+- Greeting: Reply text & MoodCheckCard.
+- Mood logged: NO MoodCheckCard. Give advice (InformationCard) & options (Trailhead).
+- If tired, offer fatigue/rest advice, NOT recovery.
 - Reply warmly in user's language.]
 ''';
   }

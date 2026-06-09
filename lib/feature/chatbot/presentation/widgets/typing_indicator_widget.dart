@@ -68,7 +68,8 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          textDirection: TextDirection.ltr, // Keep avatar on the left, bubble on the right
+          textDirection:
+              TextDirection.ltr, // Keep avatar on the left, bubble on the right
           children: [
             Container(
               width: 36.w,
@@ -93,7 +94,7 @@ class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
                 AppIcons.iconsLunaBlue,
                 colorMapper: AppSvgColorMapper(
                   from: const Color(0xff7AA2C2),
-                  to: context.ext.colors.primaryDark,
+                  to: context.ext.colors.primaryLight,
                 ),
               ),
             ),
