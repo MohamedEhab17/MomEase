@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/growth_chart_data_entity.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/growth_statistics_entity.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/monthly_growth_records_entity.dart';
@@ -77,17 +79,17 @@ class _GrowthInsightsChartState extends State<GrowthInsightsChart>
             ),
             12.w.width,
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 Text(
-                  'Baby Growth',
+                  context.trContext(TK.babyGrowth),
                   style: context.text.titleMedium!.copyWith(
                     fontWeight: FontWeight.w700,
                     color: colors.lightTextPrimary,
                   ),
                 ),
                 Text(
-                  'Weight & Height over time',
+                  context.trContext(TK.babyGrowthWeightAndHeightOverTime),
                   style: context.text.bodySmall!.copyWith(
                     color: colors.lightTextSecondary,
                   ),

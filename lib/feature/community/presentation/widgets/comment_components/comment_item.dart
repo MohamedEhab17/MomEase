@@ -221,7 +221,7 @@ class _CommentItemState extends State<CommentItem> {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
-                        context.isAr ? 'صاحب المنشور' : 'Author',
+                       context.trContext(TK.communityAuthor),
                         style: context.text.labelSmall!.copyWith(
                           color: Colors.white,
                           fontSize: 10.sp,

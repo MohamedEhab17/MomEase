@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 
 class ReportDialogHeader extends StatelessWidget {
   const ReportDialogHeader({super.key});
@@ -15,7 +17,7 @@ class ReportDialogHeader extends StatelessWidget {
         Icon(Icons.report, size: 80.r, color: context.colors.onSurface),
         24.height,
         Text(
-          "Why are you reporting this?",
+          context.trContext(TK.communityReportDialogReasonHint),
           style: context.text.headlineMedium!.copyWith(fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,
         ),

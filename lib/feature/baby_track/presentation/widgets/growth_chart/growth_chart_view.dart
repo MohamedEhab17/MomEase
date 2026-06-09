@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/growth_chart_data_entity.dart';
 import 'growth_chart_painter.dart';
 
@@ -28,7 +30,8 @@ class GrowthChartView extends StatelessWidget {
         height: 160.h,
         child: Center(
           child: Text(
-            'No chart data',
+            // 'No chart data',
+            context.trContext(TK.babySleepNoData),
             style: context.text.bodyMedium!.copyWith(
               color: context.colors.onSurfaceVariant,
             ),
@@ -52,7 +55,7 @@ class GrowthChartView extends StatelessWidget {
               _LegendDot(color: weightColor),
               6.w.width,
               Text(
-                'Weight (kg)',
+                context.trContext(TK.babyGrowthWeightKg),
                 style: context.text.bodySmall!.copyWith(
                   color: context.colors.onSurfaceVariant,
                   fontWeight: FontWeight.w600,
@@ -62,7 +65,7 @@ class GrowthChartView extends StatelessWidget {
               _LegendDot(color: heightColor),
               6.w.width,
               Text(
-                'Height (cm)',
+                context.trContext(TK.babyGrowthHeightCm),
                 style: context.text.bodySmall!.copyWith(
                   color: context.colors.onSurfaceVariant,
                   fontWeight: FontWeight.w600,

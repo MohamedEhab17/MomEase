@@ -240,7 +240,8 @@ class _CommentsModalSheetBodyState extends State<_CommentsModalSheetBody> {
           maxHeight: MediaQuery.of(context).size.height * 0.75,
         ),
         decoration: BoxDecoration(
-          color: context.ext.colors.primaryExtraLight,
+          // color: context.ext.colors.primaryExtraLight,
+          color: context.theme.cardColor,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(40),
             topRight: Radius.circular(40),

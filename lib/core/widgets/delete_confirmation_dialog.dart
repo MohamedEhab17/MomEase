@@ -42,7 +42,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
           Text(
             content,
             style: context.text.bodyLarge!.copyWith(
-              color: context.colors.onSurface.withOpacity(0.7),
+              color: context.colors.onSurface.withAlpha(150),
             ),
             textAlign: TextAlign.center,
           ),

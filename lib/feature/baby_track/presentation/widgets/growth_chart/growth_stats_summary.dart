@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/baby_track/domain/entities/growth_statistics_entity.dart';
 
 /// Shows growth metric cards (avg weight, avg height, etc.)
@@ -23,10 +25,10 @@ class GrowthStatsSummary extends StatelessWidget {
         border: Border.all(color: dividerColor, width: 1),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         children: [
           Text(
-            'Growth Overview',
+            context.trContext(TK.growthOverview),
             style: context.text.titleSmall!.copyWith(
               fontWeight: FontWeight.w700,
               color: colors.lightTextPrimary,
@@ -38,7 +40,7 @@ class GrowthStatsSummary extends StatelessWidget {
               Expanded(
                 child: _GrowthMetric(
                   icon: Icons.monitor_weight_outlined,
-                  label: 'Avg Weight',
+                  label: context.trContext(TK.growthAverageWeight),
                   value: '${statistics.averageWeight.toStringAsFixed(1)} kg',
                   color: colors.primaryDark,
                 ),
@@ -46,7 +48,7 @@ class GrowthStatsSummary extends StatelessWidget {
               Expanded(
                 child: _GrowthMetric(
                   icon: Icons.height_rounded,
-                  label: 'Avg Height',
+                  label: context.trContext(TK.growthAverageHeight),
                   value: '${statistics.averageHeight.toStringAsFixed(1)} cm',
                   color: colors.primaryAccent,
                 ),
@@ -61,7 +63,7 @@ class GrowthStatsSummary extends StatelessWidget {
               Expanded(
                 child: _GrowthMetric(
                   icon: Icons.trending_up_rounded,
-                  label: 'Weight Gain',
+                  label: context.trContext(TK.growthWeightGain),
                   value: '${statistics.weightGainTotal.toStringAsFixed(1)} kg',
                   color: colors.greenText,
                 ),
@@ -69,7 +71,7 @@ class GrowthStatsSummary extends StatelessWidget {
               Expanded(
                 child: _GrowthMetric(
                   icon: Icons.straighten_rounded,
-                  label: 'Height Gain',
+                  label: context.trContext(TK.growthHeightGain),
                   value: '${statistics.heightGainTotal.toStringAsFixed(1)} cm',
                   color: colors.greenText,
                 ),

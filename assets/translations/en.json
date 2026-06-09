@@ -146,7 +146,13 @@
       "valid_number": "Please enter a valid number",
       "save_record": "Save Record",
       "valid_weight": "Please enter a valid weight (1 - 150 kg)",
-      "valid_height": "Please enter a valid height (1 - 250 cm)"
+      "valid_height": "Please enter a valid height (1 - 250 cm)",
+      "baby_growth" :  "Baby Growth",
+      "weight_and_height_over_time": "Weight and Height Over Time",
+      "overview": "Growth Overview",
+      "height_cm": "Height (cm)",
+      "weight_kg": "Weight (kg)"
+    
     },
     "vaccine": {
       "title": "Vaccinations",
@@ -261,6 +267,7 @@
     "post_content_required": "Please enter some content for the post.",
     "report_dialog_title": "Report sent successfully!",
     "report_dialog_thanks": "Thank you for informing us!",
+    "report_dialog_reason": "Why are you reporting this post?",
     "copy_link": "Copy Link",
     "report_post": "Report",
     "remove_post": "Remove",
@@ -289,7 +296,8 @@
     "report_cancel": "Cancel",
     "report_send": "Send",
     "report_error": "Sorry, an error occurred while sending the report",
-    "max_images_error": "Sorry, you can select up to 10 images only"
+    "max_images_error": "Sorry, you can select up to 10 images only",
+    "author": "Author"
   },
   "home": {
     "welcome": "Welcome again",

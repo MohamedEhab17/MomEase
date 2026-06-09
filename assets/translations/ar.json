@@ -151,7 +151,14 @@
       "valid_number": "أدخلي رقماً صحيحاً",
       "save_record": "حفظ السجل",
       "valid_weight": "أدخلي وزناً صحيحاً (1 - 150 كجم)",
-      "valid_height": "أدخلي طولاً صحيحاً (1 - 250 سم)"
+      "valid_height": "أدخلي طولاً صحيحاً (1 - 250 سم)",
+      "baby_growth" :  "نمو الطفل",
+      "weight_and_height_over_time": "الوزن والطول مع مرور الوقت",
+      "overview": "نظرة عامة على النمو",
+        "height_cm": "الطول (سم)",
+        "weight_kg": "الوزن (كجم)"
+      
+
     },
     "vaccine": {
       "title": "التطعيمات",
@@ -266,6 +273,7 @@
     "post_content_required": "من فضلك اكتبي محتوى للمنشور",
     "report_dialog_title": "تم إرسال البلاغ",
     "report_dialog_thanks": "شكراً لإبلاغنا",
+    "report_dialog_reason": "ما هو سبب بلاغك عن هذا المنشور؟",
     "copy_link": "نسخ الرابط",
     "report_post": "إبلاغ",
     "remove_post": "حذف",
@@ -294,7 +302,8 @@
     "report_cancel": "إلغاء",
     "report_send": "إرسال",
     "report_error": "عذراً، حدث خطأ أثناء إرسال البلاغ",
-    "max_images_error": "عذراً، يمكنك اختيار 10 صور بحد أقصى"
+    "max_images_error": "عذراً، يمكنك اختيار 10 صور بحد أقصى",
+    "author": "صاحب المنشور"
   },
   "home": {
     "welcome": "أهلاً بيكي مرة تانية",

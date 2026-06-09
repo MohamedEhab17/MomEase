@@ -36,8 +36,9 @@ class DatePickerField extends StatelessWidget {
             onSurface: context.colors.onSurface,
           ),
           datePickerTheme: DatePickerThemeData(
-           // headerBackgroundColor: context.ext.colors.primaryDark,
-            headerForegroundColor: context.ext.colors.darkBackground,
+            // headerBackgroundColor: context.ext.colors.primaryDark,
+            backgroundColor: context.theme.cardColor,
+            headerForegroundColor: context.ext.colors.greyPrimary,
           ),
         ),
         child: child!,
@@ -49,7 +50,7 @@ class DatePickerField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         if (label != null) ...[
           Text(
