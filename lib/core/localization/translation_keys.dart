@@ -540,6 +540,23 @@ class TK {
   static const babyCryTip2 = 'baby_cry.tip_2';
   static const babyCryTip3 = 'baby_cry.tip_3';
   static const babyCryTip4 = 'baby_cry.tip_4';
+  static const babyCryHistoryTitle = 'baby_cry.history_title';
+  static const babyCryHistoryEmpty = 'baby_cry.history_empty';
+  static const babyCryHistoryEmptySubtitle = 'baby_cry.history_empty_subtitle';
+  static const babyCryDeleteConfirmTitle = 'baby_cry.delete_confirm_title';
+  static const babyCryDeleteConfirmBody = 'baby_cry.delete_confirm_body';
+  static const babyCrySelectChild = 'baby_cry.select_child';
+  static const babyCryError = 'baby_cry.error_occurred';
+  static const babyCryLikelyCondition = 'baby_cry.likely_condition';
+  static const babyCryDisclaimerText = 'baby_cry.disclaimer_text';
+  static const babyCryViewHistory = 'baby_cry.view_history';
+  static const babyCryAnalysisBreakdown = 'baby_cry.analysis_breakdown';
+  static const babyCryConfidence = 'baby_cry.confidence';
+  static const babyCryBellyPain = 'baby_cry.reasons.belly_pain';
+  static const babyCryBurping = 'baby_cry.reasons.burping';
+  static const babyCryDiscomfortReason = 'baby_cry.reasons.discomfort';
+  static const babyCryHungry = 'baby_cry.reasons.hungry';
+  static const babyCryLaugh = 'baby_cry.reasons.laugh';
 
   // 🔹 Depression
   static const depressionAppBarTitle = 'depression.app_bar_title';

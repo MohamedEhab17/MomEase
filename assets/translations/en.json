@@ -461,7 +461,26 @@
     "tip_1": "Take small moments for yourself, even 5 minutes of quiet time.",
     "tip_2": "Connect with loved ones or join a mother's support group.",
     "tip_3": "If you're concerned, reach out to your healthcare provider.",
-    "tip_4": "Remember: asking for help is a sign of strength, not weakness."
+    "tip_4": "Remember: asking for help is a sign of strength, not weakness.",
+    "history_title": "Crying Analysis History",
+    "history_empty": "No analyses yet",
+    "history_empty_subtitle": "Your previous crying sound analyses will appear here after you analyze a cry.",
+    "delete_confirm_title": "Delete Record?",
+    "delete_confirm_body": "Are you sure you want to delete this crying analysis record?",
+    "select_child": "Please select a child first",
+    "error_occurred": "An error occurred",
+    "likely_condition": "Baby Might Be:",
+    "disclaimer_text": "This is an AI-powered tool for guidance only. Always consult a qualified healthcare professional for medical advice.",
+    "view_history": "View History",
+    "analysis_breakdown": "Crying Reasons Analysis",
+    "confidence": "{pct}% Confidence",
+    "reasons": {
+      "belly_pain": "Belly Pain",
+      "burping": "Needs to Burp",
+      "discomfort": "Discomfort",
+      "hungry": "Hungry",
+      "laugh": "Laughing / Happy"
+    }
   },
   "depression": {
     "app_bar_title": "Healthy check-In",

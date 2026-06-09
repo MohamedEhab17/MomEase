@@ -12,6 +12,7 @@ import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
 import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
+import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
 import 'package:new_mama/feature/depression/domain/entities/assessment_result.dart';
 import 'package:new_mama/feature/depression/presentation/view_model/depression_history_cubit/depression_history_cubit.dart';
 import 'package:new_mama/feature/depression/presentation/view_model/depression_history_cubit/depression_history_state.dart';
@@ -135,37 +136,15 @@ class _DepressionHistoryViewState extends State<DepressionHistoryView> {
                     direction: DismissDirection.endToStart,
                     background: _buildDismissibleBackground(context),
                     confirmDismiss: (direction) async {
-                      bool confirmed = false;
-                      await showDialog<void>(
+                      final confirmed = await showDialog<bool>(
                         context: context,
-                        builder: (dialogCtx) => AlertDialog(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-                          title: Text(
-                            context.trContext(TK.skinDeleteConfirmTitle),
-                            style: context.text.titleMedium!.copyWith(fontWeight: FontWeight.w700),
-                          ),
-                          content: Text(
-                            context.trContext(TK.skinDeleteConfirmBody),
-                            style: context.text.bodyMedium,
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.of(dialogCtx).pop(),
-                              child: Text(context.trContext(TK.childrenCancel)),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                confirmed = true;
-                                Navigator.of(dialogCtx).pop();
-                              },
-                              style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
-                              child: Text(context.trContext(TK.childrenRemove)),
-                            ),
-                          ],
+                        builder: (dialogCtx) => DeleteConfirmationDialog(
+                          title: context.trContext(TK.skinDeleteConfirmTitle),
+                          content: context.trContext(TK.skinDeleteConfirmBody),
                         ),
                       );
                       
-                      if (confirmed) {
+                      if (confirmed == true) {
                         if (!context.mounted) return false;
                         context.read<DepressionHistoryCubit>().deleteHistoryItem(result.id);
                         return true;

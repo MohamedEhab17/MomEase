@@ -102,9 +102,27 @@ import '../../feature/baby_cry/data/data_source/audio_local_data_source.dart'
     as _i96;
 import '../../feature/baby_cry/data/data_source/audio_local_data_source_impl.dart'
     as _i881;
+import '../../feature/baby_cry/data/data_source/cry_analysis_remote_data_source.dart'
+    as _i71;
+import '../../feature/baby_cry/data/data_source/cry_analysis_remote_data_source_impl.dart'
+    as _i364;
 import '../../feature/baby_cry/data/repository/audio_repository.dart' as _i0;
 import '../../feature/baby_cry/data/repository/audio_repository_impl.dart'
     as _i636;
+import '../../feature/baby_cry/data/repository/cry_analysis_repository_impl.dart'
+    as _i61;
+import '../../feature/baby_cry/domain/repositories/cry_analysis_repository.dart'
+    as _i791;
+import '../../feature/baby_cry/domain/usecases/analyze_cry_usecase.dart'
+    as _i1015;
+import '../../feature/baby_cry/domain/usecases/delete_cry_analysis_usecase.dart'
+    as _i515;
+import '../../feature/baby_cry/domain/usecases/get_child_cry_analyses_usecase.dart'
+    as _i364;
+import '../../feature/baby_cry/domain/usecases/get_user_cry_analyses_usecase.dart'
+    as _i928;
+import '../../feature/baby_cry/presentation/view_model/cubit/baby_cry_cubit.dart'
+    as _i221;
 import '../../feature/baby_cry/presentation/view_model/cubit/sound_recording_cubit.dart'
     as _i589;
 import '../../feature/baby_track/data/datasources/feeding_remote_data_source_contract.dart'
@@ -470,6 +488,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i132.DeleteProfilePhotoUseCase>(),
       ),
     );
+    gh.lazySingleton<_i71.CryAnalysisRemoteDataSource>(
+      () => _i364.CryAnalysisRemoteDataSourceImpl(gh<_i557.ApiClient>()),
+    );
     gh.lazySingleton<_i776.GrowthRemoteDataSourceContract>(
       () => _i274.GrowthRemoteDataSourceImpl(gh<_i557.ApiClient>()),
     );
@@ -581,6 +602,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i126.GetWeeklyGrowthRecordsUseCase>(
       () => _i126.GetWeeklyGrowthRecordsUseCase(gh<_i697.GrowthRepository>()),
+    );
+    gh.lazySingleton<_i791.CryAnalysisRepository>(
+      () => _i61.CryAnalysisRepositoryImpl(
+        gh<_i71.CryAnalysisRemoteDataSource>(),
+        gh<_i932.NetworkInfo>(),
+      ),
     );
     gh.lazySingleton<_i378.VaccinationRepository>(
       () => _i767.VaccinationRepositoryImpl(
@@ -867,6 +894,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i352.VerifyEmailUseCase>(
       () => _i352.VerifyEmailUseCase(gh<_i488.AuthRepository>()),
     );
+    gh.factory<_i1015.AnalyzeCryUseCase>(
+      () => _i1015.AnalyzeCryUseCase(gh<_i791.CryAnalysisRepository>()),
+    );
+    gh.factory<_i515.DeleteCryAnalysisUseCase>(
+      () => _i515.DeleteCryAnalysisUseCase(gh<_i791.CryAnalysisRepository>()),
+    );
+    gh.factory<_i364.GetChildCryAnalysesUseCase>(
+      () => _i364.GetChildCryAnalysesUseCase(gh<_i791.CryAnalysisRepository>()),
+    );
+    gh.factory<_i928.GetUserCryAnalysesUseCase>(
+      () => _i928.GetUserCryAnalysesUseCase(gh<_i791.CryAnalysisRepository>()),
+    );
     gh.factory<_i585.PostDetailsCubit>(
       () => _i585.PostDetailsCubit(gh<_i728.GetPostByIdUseCase>()),
     );
@@ -995,6 +1034,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i550.AssessmentsCubit>(
       () => _i550.AssessmentsCubit(gh<_i9.GetAssessmentsUseCase>()),
+    );
+    gh.factory<_i221.BabyCryCubit>(
+      () => _i221.BabyCryCubit(
+        gh<_i1015.AnalyzeCryUseCase>(),
+        gh<_i928.GetUserCryAnalysesUseCase>(),
+        gh<_i364.GetChildCryAnalysesUseCase>(),
+        gh<_i515.DeleteCryAnalysisUseCase>(),
+      ),
     );
     gh.factory<_i712.AssessmentResultCubit>(
       () => _i712.AssessmentResultCubit(gh<_i156.GetAssessmentResultUseCase>()),
