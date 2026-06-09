@@ -78,6 +78,13 @@ class Api {
       'skin-analysis/child/$childId';
   static String skinAnalysisById(int id) => 'skin-analysis/$id';
 
+  /// Cry Analysis endpoints.
+  static const String cryAnalysis = 'cry-analysis';
+  static String childCryAnalysis(int childId) =>
+      'children/$childId/cry-analysis';
+  static String cryAnalysisById(int id) => 'cry-analysis/$id';
+  static const String cryReasons = 'cry-reasons';
+
   // Community endpoints
   static const String communityPosts = 'community/posts';
   static String communityPostById(int id) => 'community/posts/$id';

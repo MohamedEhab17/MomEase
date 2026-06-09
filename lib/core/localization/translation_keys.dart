@@ -281,7 +281,7 @@ class TK {
   // Vaccine
   static const babyVaccineAtBirth = 'baby.vaccine.at_birth';
 
-    // 🔹 Growth
+  // 🔹 Growth
   static const babyGrowthWeightKgLabel = 'baby.growth.weight_kg_label';
   static const babyGrowthHeightCmLabel = 'baby.growth.height_cm_label';
   static const babyGrowthWeightInputHint = 'baby.growth.weight_input_hint';
@@ -290,17 +290,17 @@ class TK {
   static const babyGrowthSaveRecord = 'baby.growth.save_record';
   static const babyGrowthValidWeight = 'baby.growth.valid_weight';
   static const babyGrowthValidHeight = 'baby.growth.valid_height';
-  static const babyGrowth = 'baby.growth.baby_growth'; 
-  static const babyGrowthWeightAndHeightOverTime = 'baby.growth.weight_and_height_over_time';
+  static const babyGrowth = 'baby.growth.baby_growth';
+  static const babyGrowthWeightAndHeightOverTime =
+      'baby.growth.weight_and_height_over_time';
   static const babyGrowthHeightCm = 'baby.growth.height_cm';
   static const babyGrowthWeightKg = 'baby.growth.weight_kg';
-   static const growthOverview = 'baby.growth.overview';
-   static const growthAverageWeight = 'baby.growth.average_weight';
-   static const growthAverageHeight = 'baby.growth.average_height';
-   static const growthWeightGain = 'baby.growth.weight_gain';
-    static const growthHeightGain = 'baby.growth.height_gain';
-    static const growthCurrentStatus = 'baby.growth.current_status';
-
+  static const growthOverview = 'baby.growth.overview';
+  static const growthAverageWeight = 'baby.growth.average_weight';
+  static const growthAverageHeight = 'baby.growth.average_height';
+  static const growthWeightGain = 'baby.growth.weight_gain';
+  static const growthHeightGain = 'baby.growth.height_gain';
+  static const growthCurrentStatus = 'baby.growth.current_status';
 
   // 🔹 Community
   static const communityTitle = 'community.title';
@@ -323,7 +323,8 @@ class TK {
   static const communityPostContentRequired = 'community.post_content_required';
   static const communityReportDialogTitle = 'community.report_dialog_title';
   static const communityReportDialogThanks = 'community.report_dialog_thanks';
-  static const communityReportDialogReasonHint = 'community.report_dialog_reason_hint';
+  static const communityReportDialogReasonHint =
+      'community.report_dialog_reason_hint';
   static const communityCopyLink = 'community.copy_link';
   static const communityReportPost = 'community.report_post';
   static const communityRemovePost = 'community.remove_post';
@@ -540,6 +541,23 @@ class TK {
   static const babyCryTip2 = 'baby_cry.tip_2';
   static const babyCryTip3 = 'baby_cry.tip_3';
   static const babyCryTip4 = 'baby_cry.tip_4';
+  static const babyCryHistoryTitle = 'baby_cry.history_title';
+  static const babyCryHistoryEmpty = 'baby_cry.history_empty';
+  static const babyCryHistoryEmptySubtitle = 'baby_cry.history_empty_subtitle';
+  static const babyCryDeleteConfirmTitle = 'baby_cry.delete_confirm_title';
+  static const babyCryDeleteConfirmBody = 'baby_cry.delete_confirm_body';
+  static const babyCrySelectChild = 'baby_cry.select_child';
+  static const babyCryError = 'baby_cry.error_occurred';
+  static const babyCryLikelyCondition = 'baby_cry.likely_condition';
+  static const babyCryDisclaimerText = 'baby_cry.disclaimer_text';
+  static const babyCryViewHistory = 'baby_cry.view_history';
+  static const babyCryAnalysisBreakdown = 'baby_cry.analysis_breakdown';
+  static const babyCryConfidence = 'baby_cry.confidence';
+  static const babyCryBellyPain = 'baby_cry.reasons.belly_pain';
+  static const babyCryBurping = 'baby_cry.reasons.burping';
+  static const babyCryDiscomfortReason = 'baby_cry.reasons.discomfort';
+  static const babyCryHungry = 'baby_cry.reasons.hungry';
+  static const babyCryLaugh = 'baby_cry.reasons.laugh';
 
   // 🔹 Depression
   static const depressionAppBarTitle = 'depression.app_bar_title';

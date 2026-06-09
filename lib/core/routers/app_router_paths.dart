@@ -24,6 +24,7 @@ class AppRoutesPaths {
   static const String cryingRecordingSessionView =
       '/cryingRecordingSessionView';
   static const String cryAnalyzingView = '/cryAnalyzingView';
+  static const String cryingHistoryView = '/cryingHistoryView';
   static const String communityView = '/communityView';
   static const String createPostCommunityView = '/createPostCommunityView';
   static const String postDetailsView = '/posts/:postId';
