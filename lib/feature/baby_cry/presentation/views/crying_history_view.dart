@@ -13,19 +13,18 @@ import 'package:new_mama/core/widgets/features_header.dart';
 import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
 import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
-import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
-import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_state.dart';
-import 'package:new_mama/feature/skin_diagnosis/presentation/widgets/skin_diagnosis_history_card.dart';
+import '../widgets/crying_history_card.dart';
+import '../view_model/cubit/baby_cry_cubit.dart';
+import '../view_model/cubit/baby_cry_state.dart';
 
-class SkinDiagnosisHistoryView extends StatefulWidget {
-  const SkinDiagnosisHistoryView({super.key});
+class CryingHistoryView extends StatefulWidget {
+  const CryingHistoryView({super.key});
 
   @override
-  State<SkinDiagnosisHistoryView> createState() =>
-      _SkinDiagnosisHistoryViewState();
+  State<CryingHistoryView> createState() => _CryingHistoryViewState();
 }
 
-class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
+class _CryingHistoryViewState extends State<CryingHistoryView> {
   @override
   void initState() {
     super.initState();
@@ -35,14 +34,11 @@ class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
   void _loadHistory() {
     final activeChild = context.read<ActiveChildCubit>().state;
     if (activeChild != null) {
-      context
-          .read<SkinDiagnosisCubit>()
-          .loadChildHistory(activeChild.childId);
+      context.read<BabyCryCubit>().loadChildHistory(activeChild.childId);
     } else {
-      context.read<SkinDiagnosisCubit>().loadUserHistory();
+      context.read<BabyCryCubit>().loadUserHistory();
     }
   }
-
 
   Widget _buildDismissibleBackground(BuildContext context) {
     return Container(
@@ -72,10 +68,9 @@ class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SkinDiagnosisCubit, SkinDiagnosisState>(
+    return BlocConsumer<BabyCryCubit, BabyCryState>(
       listener: (context, state) {
-        if (state.status == SkinDiagnosisStatus.error &&
-            state.errorMessage != null) {
+        if (state.status == BabyCryStatus.error && state.errorMessage != null) {
           AppToast.error(
             context,
             message: state.errorMessage!,
@@ -87,13 +82,13 @@ class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
 
         return Scaffold(
           appBar: FeaturesHeader(
-            title: context.trContext(TK.skinHistoryTitle),
+            title: context.trContext(TK.babyCryHistoryTitle),
             onPressed: () => context.pop(),
             trailingAction: const SizedBox.shrink(),
           ),
           body: () {
             // Loading
-            if (state.status == SkinDiagnosisStatus.historyLoading) {
+            if (state.status == BabyCryStatus.historyLoading) {
               return const Center(
                 child: CustomLoadingIndicator(),
               );
@@ -121,7 +116,7 @@ class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
                       ),
                       24.height,
                       Text(
-                        context.trContext(TK.skinHistoryEmpty),
+                        context.trContext(TK.babyCryHistoryEmpty),
                         style: context.text.titleMedium!.copyWith(
                           fontWeight: FontWeight.w700,
                           color: context.ext.colors.lightTextPrimary,
@@ -130,7 +125,7 @@ class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
                       ),
                       12.height,
                       Text(
-                        context.trContext(TK.skinHistoryEmptySubtitle),
+                        context.trContext(TK.babyCryHistoryEmptySubtitle),
                         style: context.text.bodyMedium!.copyWith(
                           color: context.colors.onSurface.withAlpha(150),
                         ),
@@ -149,31 +144,31 @@ class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
               itemBuilder: (context, index) {
                 final analysis = list[index];
                 return Dismissible(
-                  key: ValueKey(analysis.skinAnalysisId),
+                  key: ValueKey(analysis.cryId),
                   direction: DismissDirection.endToStart,
                   background: _buildDismissibleBackground(context),
                   confirmDismiss: (direction) async {
                     final confirmed = await showDialog<bool>(
                       context: context,
                       builder: (dialogCtx) => DeleteConfirmationDialog(
-                        title: context.trContext(TK.skinDeleteConfirmTitle),
-                        content: context.trContext(TK.skinDeleteConfirmBody),
+                        title: context.trContext(TK.babyCryDeleteConfirmTitle),
+                        content: context.trContext(TK.babyCryDeleteConfirmBody),
                       ),
                     );
 
                     if (confirmed == true) {
                       if (!context.mounted) return false;
                       context
-                          .read<SkinDiagnosisCubit>()
-                          .deleteAnalysis(analysis.skinAnalysisId);
+                          .read<BabyCryCubit>()
+                          .deleteCryAnalysis(analysis.cryId);
                       return true;
                     }
                     return false;
                   },
-                  child: SkinDiagnosisHistoryCard(
+                  child: CryingHistoryCard(
                     analysis: analysis,
                     onTap: () => context.push(
-                      AppRoutesPaths.skinDiagnosisResultView,
+                      AppRoutesPaths.cryingResultView,
                       extra: analysis,
                     ),
                   ),
@@ -186,4 +181,3 @@ class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
     );
   }
 }
-

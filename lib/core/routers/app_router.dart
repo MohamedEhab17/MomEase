@@ -46,7 +46,10 @@ import 'package:new_mama/feature/auth/presentation/views/login_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/reset_password_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/sign_up_view.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/email_verified_success_widget.dart';
+import 'package:new_mama/feature/baby_cry/domain/entities/cry_analysis.dart';
+import 'package:new_mama/feature/baby_cry/presentation/view_model/cubit/baby_cry_cubit.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/cry_analyzing_view.dart';
+import 'package:new_mama/feature/baby_cry/presentation/views/crying_history_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_insight_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_recording_session_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_result_view.dart';
@@ -370,34 +373,46 @@ class AppRouter {
           ),
         ),
 
-        GoRoute(
-          path: AppRoutesPaths.cryingInsightView,
-          name: 'cryingInsightView',
-          builder: (context, state) => CryingInsightView(),
-        ),
-
-        GoRoute(
-          path: AppRoutesPaths.cryingRecordingSessionView,
-          name: 'cryingRecordingSessionView',
-          builder: (context, state) => CryingRecordingSessionView(),
-        ),
-        GoRoute(
-          path: AppRoutesPaths.cryingResultView,
-          name: 'cryingResultView',
-          builder: (context, state) {
-            final extra = state.extra;
-            if (extra is List<String>) {
-              return CryingResultView(advices: extra);
-            }
-            return const Scaffold(
-              body: Center(child: Text('Invalid Advice Data')),
-            );
-          },
-        ),
-        GoRoute(
-          path: AppRoutesPaths.cryAnalyzingView,
-          name: 'cryAnalyzingView',
-          builder: (context, state) => CryAnalyzingView(),
+        ShellRoute(
+          builder: (context, state, child) => BlocProvider(
+            create: (_) => getIt<BabyCryCubit>(),
+            child: child,
+          ),
+          routes: [
+            GoRoute(
+              path: AppRoutesPaths.cryingInsightView,
+              name: 'cryingInsightView',
+              builder: (context, state) => const CryingInsightView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.cryingRecordingSessionView,
+              name: 'cryingRecordingSessionView',
+              builder: (context, state) => const CryingRecordingSessionView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.cryingResultView,
+              name: 'cryingResultView',
+              builder: (context, state) {
+                final extra = state.extra;
+                if (extra is CryAnalysis) {
+                  return CryingResultView(analysis: extra);
+                }
+                return const Scaffold(
+                  body: Center(child: Text('Invalid Analysis Data')),
+                );
+              },
+            ),
+            GoRoute(
+              path: AppRoutesPaths.cryAnalyzingView,
+              name: 'cryAnalyzingView',
+              builder: (context, state) => const CryAnalyzingView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.cryingHistoryView,
+              name: 'cryingHistoryView',
+              builder: (context, state) => const CryingHistoryView(),
+            ),
+          ],
         ),
         // Shell gives insight → photo → analyzing → result → history a shared cubit
         ShellRoute(

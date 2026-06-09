@@ -30,6 +30,7 @@ class AnalyzingViewScaffold extends StatelessWidget {
       appBar:appBarTitle == null ? null : FeaturesHeader(
         title: appBarTitle!,
         onPressed: onBackPressed,
+        trailingAction: const SizedBox.shrink(),
       ),
       body: Center(
         child: Column(
