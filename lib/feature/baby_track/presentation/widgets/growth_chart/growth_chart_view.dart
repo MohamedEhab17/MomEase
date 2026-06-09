@@ -20,17 +20,19 @@ class GrowthChartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weightValues =
-        chartData.weightData.map((e) => e.value).toList();
-    final heightValues =
-        chartData.heightData.map((e) => e.value).toList();
+    // Map to (ageInWeeks, value) tuples
+    final weightPoints = chartData.weightData
+        .map((e) => (e.ageInWeeks, e.value.toDouble()))
+        .toList();
+    final heightPoints = chartData.heightData
+        .map((e) => (e.ageInWeeks, e.value.toDouble()))
+        .toList();
 
-    if (weightValues.isEmpty && heightValues.isEmpty) {
+    if (weightPoints.isEmpty && heightPoints.isEmpty) {
       return SizedBox(
         height: 160.h,
         child: Center(
           child: Text(
-            // 'No chart data',
             context.trContext(TK.babySleepNoData),
             style: context.text.bodyMedium!.copyWith(
               color: context.colors.onSurfaceVariant,
@@ -79,8 +81,8 @@ class GrowthChartView extends StatelessWidget {
             width: double.infinity,
             child: CustomPaint(
               painter: GrowthChartPainter(
-                weightValues: weightValues,
-                heightValues: heightValues,
+                weightPoints: weightPoints,
+                heightPoints: heightPoints,
                 weightColor: weightColor,
                 heightColor: heightColor,
                 gridColor: gridColor,

@@ -63,7 +63,11 @@ class GrowthRecordListCard extends StatelessWidget {
           ),
         ) ?? false;
       },
-      onDismissed: (direction) => onDelete(),
+      onDismissed: (_) async {
+        // Delay removal until after the dismiss animation completes
+        await Future.delayed(const Duration(milliseconds: 300));
+        onDelete();
+      },
       background: Container(
         margin: EdgeInsets.only(bottom: 10.h),
         alignment: Alignment.centerRight,

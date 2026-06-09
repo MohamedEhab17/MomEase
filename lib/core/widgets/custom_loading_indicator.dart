@@ -19,10 +19,7 @@ class CustomLoadingIndicator extends StatelessWidget {
     if (shape != null) {
       return shape!;
     }
-    
-    return SpinKitFoldingCube(
-      color: color ?? context.colors.primary,
-      size: size,
-    );
+
+    return SpinKitPulse(color: color ?? context.colors.primary, size: size);
   }
 }
