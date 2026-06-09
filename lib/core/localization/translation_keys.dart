@@ -281,7 +281,7 @@ class TK {
   // Vaccine
   static const babyVaccineAtBirth = 'baby.vaccine.at_birth';
 
-    // 🔹 Growth
+  // 🔹 Growth
   static const babyGrowthWeightKgLabel = 'baby.growth.weight_kg_label';
   static const babyGrowthHeightCmLabel = 'baby.growth.height_cm_label';
   static const babyGrowthWeightInputHint = 'baby.growth.weight_input_hint';
@@ -290,17 +290,17 @@ class TK {
   static const babyGrowthSaveRecord = 'baby.growth.save_record';
   static const babyGrowthValidWeight = 'baby.growth.valid_weight';
   static const babyGrowthValidHeight = 'baby.growth.valid_height';
-  static const babyGrowth = 'baby.growth.baby_growth'; 
-  static const babyGrowthWeightAndHeightOverTime = 'baby.growth.weight_and_height_over_time';
+  static const babyGrowth = 'baby.growth.baby_growth';
+  static const babyGrowthWeightAndHeightOverTime =
+      'baby.growth.weight_and_height_over_time';
   static const babyGrowthHeightCm = 'baby.growth.height_cm';
   static const babyGrowthWeightKg = 'baby.growth.weight_kg';
-   static const growthOverview = 'baby.growth.overview';
-   static const growthAverageWeight = 'baby.growth.average_weight';
-   static const growthAverageHeight = 'baby.growth.average_height';
-   static const growthWeightGain = 'baby.growth.weight_gain';
-    static const growthHeightGain = 'baby.growth.height_gain';
-    static const growthCurrentStatus = 'baby.growth.current_status';
-
+  static const growthOverview = 'baby.growth.overview';
+  static const growthAverageWeight = 'baby.growth.average_weight';
+  static const growthAverageHeight = 'baby.growth.average_height';
+  static const growthWeightGain = 'baby.growth.weight_gain';
+  static const growthHeightGain = 'baby.growth.height_gain';
+  static const growthCurrentStatus = 'baby.growth.current_status';
 
   // 🔹 Community
   static const communityTitle = 'community.title';
@@ -323,7 +323,8 @@ class TK {
   static const communityPostContentRequired = 'community.post_content_required';
   static const communityReportDialogTitle = 'community.report_dialog_title';
   static const communityReportDialogThanks = 'community.report_dialog_thanks';
-  static const communityReportDialogReasonHint = 'community.report_dialog_reason_hint';
+  static const communityReportDialogReasonHint =
+      'community.report_dialog_reason_hint';
   static const communityCopyLink = 'community.copy_link';
   static const communityReportPost = 'community.report_post';
   static const communityRemovePost = 'community.remove_post';
