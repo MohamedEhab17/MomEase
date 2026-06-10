@@ -11,14 +11,20 @@ import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/helper/biometric_helper.dart';
 import 'package:new_mama/core/helper/google_auth_helper.dart';
 import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
+import 'package:new_mama/feature/auth/domain/repositories/auth_repository.dart';
+import 'package:new_mama/core/widgets/modal_progress_hud.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
+import 'package:new_mama/feature/children/domain/repositories/children_repository.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_button_row.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_footer.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_form.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_header.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_social_auth_section.dart';
 import 'package:new_mama/feature/notifications/presentation/view_model/notification_cubit.dart';
+import 'package:new_mama/feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart' as old;
+import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart' as mother;
+import 'package:new_mama/feature/children/presentation/cubit/children_cubit.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -45,9 +51,21 @@ class _LoginViewState extends State<LoginView> {
   bool _isBiometricAvailable = false;
   Future<void> _checkBiometrics() async {
     final available = await getIt<BiometricHelper>().isBiometricAvailable();
+    if (!available) {
+      if (mounted) {
+        setState(() {
+          _isBiometricAvailable = false;
+        });
+      }
+      return;
+    }
+
+    final cachedUserResult = await getIt<AuthRepository>().getCachedUser();
+    final hasCachedUser = cachedUserResult.isRight();
+
     if (mounted) {
       setState(() {
-        _isBiometricAvailable = available;
+        _isBiometricAvailable = available && hasCachedUser;
       });
     }
   }
@@ -82,6 +100,60 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final body = SafeArea(
+      bottom: false,
+      child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+        padding: EdgeInsetsDirectional.only(
+          start: 16.w,
+          end: 16.w,
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Form(
+          key: _formKey,
+          child: AutofillGroup(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const LoginHeader(),
+                LoginForm(
+                  emailController: _emailController,
+                  passwordController: _passwordController,
+                  onFormChanged: validateForm,
+                ),
+                48.h.height,
+                LoginButtonRow(
+                  isValid: isValid,
+                  isBiometricAvailable: _isBiometricAvailable,
+                  onLoginPressed: () {
+                    FocusScope.of(context).unfocus();
+                    context.read<AuthCubit>().login(
+                      email: _emailController.text.trim(),
+                      password: _passwordController.text,
+                    );
+                  },
+                  onBiometricPressed: () {
+                    FocusScope.of(context).unfocus();
+                    context.read<AuthCubit>().biometricLogin();
+                  },
+                ),
+                12.h.height,
+                LoginSocialAuthSection(
+                  onGooglePressed: () {
+                    FocusScope.of(context).unfocus();
+                    _handleGoogleSignIn();
+                  },
+                ),
+                24.h.height,
+                const LoginFooter(),
+                24.h.height,
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
     return BlocListener<AuthCubit, AuthState>(
       listenWhen: (prev, next) => next is AuthSuccess || next is AuthError,
       listener: (context, state) {
@@ -89,17 +161,40 @@ class _LoginViewState extends State<LoginView> {
           // Register FCM device token with the backend after successful login.
           getIt<NotificationCubit>().registerFcmToken();
 
-          // Add a tiny delay to allow SecureStorage to settle before heavy navigation/API calls
-          Future.delayed(const Duration(milliseconds: 200), () {
-            if (context.mounted) {
-              final isBabySetupCompleted = getIt<AuthLocalDataSource>()
-                  .isBabySetupCompleted();
-              if (isBabySetupCompleted) {
-                context.go(AppRoutesPaths.appSectionView);
-              } else {
-                context.go(AppRoutesPaths.babyProfileOnboardingView);
-              }
-            }
+          // Kick off profile + children loading immediately so data is
+          // in-flight (or already loaded) before AppSectionView mounts.
+          getIt<old.ProfileCubit>().getProfile();
+          getIt<mother.ProfileCubit>().loadProfile();
+          getIt<ChildrenCubit>().loadChildren();
+
+          // Check if the user already has children registered on the server.
+          // This avoids showing the baby info setup onboarding flow to existing users.
+          getIt<ChildrenRepository>().getChildren().then((result) {
+            result.fold(
+              (failure) {
+                // Fallback to local cache flag if the API call fails
+                if (context.mounted) {
+                  final isBabySetupCompleted = getIt<AuthLocalDataSource>().isBabySetupCompleted();
+                  if (isBabySetupCompleted) {
+                    context.go(AppRoutesPaths.appSectionView);
+                  } else {
+                    context.go(AppRoutesPaths.babyProfileOnboardingView);
+                  }
+                }
+              },
+              (children) async {
+                if (context.mounted) {
+                  if (children.isNotEmpty) {
+                    await getIt<AuthLocalDataSource>().setBabySetupCompleted();
+                    if (context.mounted) {
+                      context.go(AppRoutesPaths.appSectionView);
+                    }
+                  } else {
+                    context.go(AppRoutesPaths.babyProfileOnboardingView);
+                  }
+                }
+              },
+            );
           });
         } else if (state is AuthError) {
           if (state.message.contains(
@@ -120,58 +215,14 @@ class _LoginViewState extends State<LoginView> {
       child: Scaffold(
         backgroundColor: context.theme.scaffoldBackgroundColor,
         resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          bottom: false,
-          child: SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-            padding: EdgeInsetsDirectional.only(
-              start: 16.w,
-              end: 16.w,
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Form(
-              key: _formKey,
-              child: AutofillGroup(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const LoginHeader(),
-                    LoginForm(
-                      emailController: _emailController,
-                      passwordController: _passwordController,
-                      onFormChanged: validateForm,
-                    ),
-                    48.h.height,
-                    LoginButtonRow(
-                      isValid: isValid,
-                      isBiometricAvailable: _isBiometricAvailable,
-                      onLoginPressed: () {
-                        FocusScope.of(context).unfocus();
-                        context.read<AuthCubit>().login(
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text,
-                        );
-                      },
-                      onBiometricPressed: () {
-                        FocusScope.of(context).unfocus();
-                        context.read<AuthCubit>().biometricLogin();
-                      },
-                    ),
-                    12.h.height,
-                    LoginSocialAuthSection(
-                      onGooglePressed: () {
-                        FocusScope.of(context).unfocus();
-                        _handleGoogleSignIn();
-                      },
-                    ),
-                    24.h.height,
-                    const LoginFooter(),
-                    24.h.height,
-                  ],
-                ),
-              ),
-            ),
-          ),
+        body: BlocSelector<AuthCubit, AuthState, bool>(
+          selector: (state) => state is AuthLoading,
+          builder: (context, isLoading) {
+            return ModalProgressHUD(
+              inAsyncCall: isLoading,
+              child: body,
+            );
+          },
         ),
       ),
     );

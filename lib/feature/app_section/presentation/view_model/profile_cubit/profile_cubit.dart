@@ -9,6 +9,9 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   ProfileCubit(this._getProfileUsecase) : super(ProfileInitial());
 
+  /// Wipes all user data immediately (call on logout before navigating away).
+  void clearState() => emit(ProfileInitial());
+
   Future<void> getProfile() async {
     emit(ProfileLoading());
 

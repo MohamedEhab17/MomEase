@@ -26,6 +26,12 @@ class _SavedPostsViewState extends State<SavedPostsView> {
   }
 
   @override
+  void dispose() {
+    _animateToController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.theme.scaffoldBackgroundColor,

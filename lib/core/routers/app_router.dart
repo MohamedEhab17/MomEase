@@ -88,24 +88,32 @@ import 'package:new_mama/feature/articles/presentation/view_model/saved_articles
 import 'package:new_mama/feature/articles/presentation/view_model/search_articles/search_articles_cubit.dart';
 import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
 
+
 class AppRouter {
   static late final GoRouter router;
 
   static Future<void> initRouter() async {
-    final authLocalDataSource = getIt<AuthLocalDataSource>();
-    final isOnboardingCompleted = authLocalDataSource.isOnboardingCompleted();
-    final tokens = await authLocalDataSource.getTokens();
-    final isUserLoggedIn = tokens != null;
-    final isBabySetupCompleted = authLocalDataSource.isBabySetupCompleted();
+    String initialLocation = AppRoutesPaths.login;
+    try {
+      final authLocalDataSource = getIt<AuthLocalDataSource>();
+      final isOnboardingCompleted = authLocalDataSource.isOnboardingCompleted();
+      final tokens = await authLocalDataSource.getTokens();
+      final isUserLoggedIn = tokens != null;
+      final isBabySetupCompleted = authLocalDataSource.isBabySetupCompleted();
 
-    String initialLocation;
-    if (!isOnboardingCompleted) {
-      initialLocation = AppRoutesPaths.onboarding;
-    } else if (isUserLoggedIn && !isBabySetupCompleted) {
-      initialLocation = AppRoutesPaths.babyProfileOnboardingView;
-    } else if (isUserLoggedIn) {
-      initialLocation = AppRoutesPaths.appSectionView;
-    } else {
+      if (!isOnboardingCompleted) {
+        initialLocation = AppRoutesPaths.onboarding;
+      } else if (isUserLoggedIn && !isBabySetupCompleted) {
+        initialLocation = AppRoutesPaths.babyProfileOnboardingView;
+      } else if (isUserLoggedIn) {
+        initialLocation = AppRoutesPaths.appSectionView;
+      } else {
+        initialLocation = AppRoutesPaths.login;
+      }
+    } catch (e, stackTrace) {
+      debugPrint(
+        'AppRouter.initRouter failed: $e\n$stackTrace',
+      );
       initialLocation = AppRoutesPaths.login;
     }
 
@@ -128,8 +136,8 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.login,
           name: 'login',
-          builder: (context, state) => BlocProvider(
-            create: (_) => getIt<AuthCubit>(),
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<AuthCubit>(),
             child: const LoginView(),
           ),
         ),
@@ -184,8 +192,8 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.signup,
           name: 'signup',
-          builder: (context, state) => BlocProvider(
-            create: (_) => getIt<AuthCubit>(),
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<AuthCubit>(),
             child: const SignUpView(),
           ),
         ),
@@ -197,8 +205,8 @@ class AppRouter {
             if (args is Map<String, dynamic>) {
               final type = args['type'] as VerificationType;
               final email = args['email'] as String;
-              return BlocProvider(
-                create: (_) => getIt<AuthCubit>(),
+              return BlocProvider.value(
+                value: getIt<AuthCubit>(),
                 child: EmailVerificationView(type: type, email: email),
               );
             }
@@ -215,8 +223,8 @@ class AppRouter {
         GoRoute(
           path: AppRoutesPaths.createPassword,
           name: 'createPassword',
-          builder: (context, state) => BlocProvider(
-            create: (_) => getIt<AuthCubit>(),
+          builder: (context, state) => BlocProvider.value(
+            value: getIt<AuthCubit>(),
             child: const CreatePassword(),
           ),
         ),
@@ -231,8 +239,8 @@ class AppRouter {
           builder: (context, state) {
             final args = state.extra;
             if (args is Map<String, dynamic>) {
-              return BlocProvider(
-                create: (_) => getIt<AuthCubit>(),
+              return BlocProvider.value(
+                value: getIt<AuthCubit>(),
                 child: ResetPasswordView(
                   email: args['email'] as String,
                   resetToken: args['resetToken'] as String? ?? '',

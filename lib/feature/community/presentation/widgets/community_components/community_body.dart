@@ -28,6 +28,7 @@ class _CommunityBodyState extends State<CommunityBody> {
 
   @override
   void dispose() {
+    _animateToController.dispose();
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();

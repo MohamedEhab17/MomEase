@@ -45,7 +45,9 @@ class _ProfileBody extends StatelessWidget {
       color: context.theme.scaffoldBackgroundColor,
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
-          if (state.status == ProfileStatus.loading && state.profile == null) {
+          if ((state.status == ProfileStatus.loading ||
+                  state.status == ProfileStatus.initial) &&
+              state.profile == null) {
             return Center(
               child: CustomLoadingIndicator(color: context.colors.primary),
             );

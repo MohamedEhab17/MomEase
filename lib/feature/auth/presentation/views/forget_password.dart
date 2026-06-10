@@ -13,6 +13,7 @@ import 'package:new_mama/core/utils/app_images.dart';
 import 'package:new_mama/core/utils/validation_methods.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
+import 'package:new_mama/core/widgets/modal_progress_hud.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/custom_circle_avatar.dart';
@@ -49,8 +50,79 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<AuthCubit>(),
+    final body = SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 48.h),
+      child: Column(
+        children: [
+          CustomCircleAvatar(imagePath: AppImages.imagesForgetPassword),
+          40.h.height,
+
+          Text(
+            context.trContext(TK.authForgetInstructions),
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            style: context.text.titleMedium!.copyWith(
+              color: context.ext.colors.lightTextDisabled,
+            ),
+          ),
+
+          40.h.height,
+
+          TextFormFieldHelper(
+            hint: context.trContext(TK.authForgetEmailHint),
+            controller: _emailController,
+            fillColor: context.theme.cardColor,
+            hintStyle: context.text.titleMedium!.copyWith(
+              color: context.ext.colors.lightTextDisabled,
+            ),
+            keyboardType: TextInputType.emailAddress,
+            borderRadius: BorderRadius.circular(64.r),
+            onChanged: (value) => _validateEmail(value ?? ''),
+            onValidate: validateEmailOrPhone,
+            autoFillHint: [AutofillHints.email],
+          ),
+
+          40.h.height,
+
+          BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              final isLoading = state is AuthLoading;
+              return Opacity(
+                opacity: _isValid && !isLoading ? 1.0 : 0.5,
+                child: CustomElevatedButton(
+                  text: context.trContext(TK.authForgetSendCode),
+                  minimumSize: Size(double.infinity, 52.h),
+                  onPressed: _isValid && !isLoading
+                      ? () {
+                          FocusScope.of(context).unfocus();
+                          context.read<AuthCubit>().forgotPassword(
+                                _emailController.text.trim(),
+                              );
+                        }
+                      : null,
+                ),
+              );
+            },
+          ),
+
+          24.h.height,
+
+          // Tip text
+          Text(
+            context.trContext(TK.commonRetry),
+            style: context.text.titleMedium!.copyWith(
+              color: context.colors.primary,
+              decoration: TextDecoration.underline,
+              decorationThickness: 1.h,
+              decorationColor: context.colors.primary,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return BlocProvider.value(
+      value: getIt<AuthCubit>(),
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is ForgotPasswordSuccess) {
@@ -87,75 +159,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ),
             ),
           ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 48.h),
-            child: Column(
-              children: [
-                CustomCircleAvatar(imagePath: AppImages.imagesForgetPassword),
-                40.h.height,
-
-                Text(
-                  context.trContext(TK.authForgetInstructions),
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  style: context.text.titleMedium!.copyWith(
-                    color: context.ext.colors.lightTextDisabled,
-                  ),
-                ),
-
-                40.h.height,
-
-                TextFormFieldHelper(
-                  hint: context.trContext(TK.authForgetEmailHint),
-                  controller: _emailController,
-                  fillColor: context.theme.cardColor,
-                  hintStyle: context.text.titleMedium!.copyWith(
-                    color: context.ext.colors.lightTextDisabled,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  borderRadius: BorderRadius.circular(64.r),
-                  onChanged: (value) => _validateEmail(value ?? ''),
-                  onValidate: validateEmailOrPhone,
-                  autoFillHint: [AutofillHints.email],
-                ),
-
-                40.h.height,
-
-                BlocBuilder<AuthCubit, AuthState>(
-                  builder: (context, state) {
-                    final isLoading = state is AuthLoading;
-                    return Opacity(
-                      opacity: _isValid && !isLoading ? 1.0 : 0.5,
-                      child: CustomElevatedButton(
-                        text: context.trContext(TK.authForgetSendCode),
-                        minimumSize: Size(double.infinity, 52.h),
-                        onPressed: _isValid && !isLoading
-                            ? () {
-                                FocusScope.of(context).unfocus();
-                                context.read<AuthCubit>().forgotPassword(
-                                  _emailController.text.trim(),
-                                );
-                              }
-                            : null,
-                      ),
-                    );
-                  },
-                ),
-
-                24.h.height,
-
-                // Tip text
-                Text(
-                  context.trContext(TK.commonRetry),
-                  style: context.text.titleMedium!.copyWith(
-                    color: context.colors.primary,
-                    decoration: TextDecoration.underline,
-                    decorationThickness: 1.h,
-                    decorationColor: context.colors.primary,
-                  ),
-                ),
-              ],
-            ),
+          body: BlocSelector<AuthCubit, AuthState, bool>(
+            selector: (state) => state is AuthLoading,
+            builder: (context, isLoading) {
+              return ModalProgressHUD(
+                inAsyncCall: isLoading,
+                child: body,
+              );
+            },
           ),
         ),
       ),

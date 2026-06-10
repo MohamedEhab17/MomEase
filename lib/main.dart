@@ -55,12 +55,12 @@ class NewMama extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ThemeCubit()..loadSavedTheme()),
-        BlocProvider(
-          create: (context) => getIt<LanguageCubit>()..loadSavedLanguage(),
+        BlocProvider.value(
+          value: getIt<LanguageCubit>()..loadSavedLanguage(),
         ),
-        BlocProvider(create: (context) => ActiveChildCubit()),
-        BlocProvider.value(value: getIt<ChildrenCubit>()..loadChildren()),
-        BlocProvider(create: (context) => getIt<AuthCubit>()),
+        BlocProvider.value(value: getIt<ActiveChildCubit>()),
+        BlocProvider.value(value: getIt<ChildrenCubit>()),
+        BlocProvider.value(value: getIt<AuthCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(411, 899),

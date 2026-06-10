@@ -9,6 +9,12 @@ import 'package:new_mama/core/routers/app_router_paths.dart';
 import '../../di/injection.dart';
 import '../../../feature/auth/data/datasources/auth_local_data_source_contract.dart';
 import '../../../feature/auth/data/models/token_model.dart';
+import '../../../feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart'
+    as old;
+import '../../../feature/children/presentation/cubit/active_child_cubit.dart';
+import '../../../feature/children/presentation/cubit/children_cubit.dart';
+import '../../../feature/profile/presentation/view_model/profile_cubit.dart'
+    as mother;
 
 class AuthInterceptor extends QueuedInterceptor {
   static const _accessTokenBuffer = Duration(minutes: 1);
@@ -206,11 +212,18 @@ class AuthInterceptor extends QueuedInterceptor {
     return null;
   }
 
-  /// Clears all local auth data and navigates to the login screen.
+  /// Clears all local auth data, wipes in-memory user state, and navigates to login.
   Future<void> _forceLogout(AuthLocalDataSource localDataSource) async {
     await localDataSource.clearAll();
-    // Navigate to login and clear the entire navigation stack
-    // Wrap in microtask to avoid issues during Dio request lifecycle
+
+    // Wipe all user-specific singleton states so no stale data leaks.
+    getIt<mother.ProfileCubit>().clearState();
+    getIt<old.ProfileCubit>().clearState();
+    getIt<ChildrenCubit>().clearState();
+    getIt<ActiveChildCubit>().clearActiveChild();
+
+    // Navigate to login and clear the entire navigation stack.
+    // Wrap in microtask to avoid issues during Dio request lifecycle.
     Future.microtask(() => AppRouter.router.go(AppRoutesPaths.login));
   }
 }

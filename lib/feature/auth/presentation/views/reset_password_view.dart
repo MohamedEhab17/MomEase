@@ -10,6 +10,7 @@ import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/validation_methods.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
+import 'package:new_mama/core/widgets/modal_progress_hud.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/reset_password_form.dart';
@@ -107,6 +108,41 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
 
   @override
   Widget build(BuildContext context) {
+    final body = SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 24.h),
+      child: Column(
+        children: [
+          const ResetPasswordHeader(),
+          24.h.height,
+          _buildEmailChip(context),
+          32.h.height,
+          ResetPasswordOtpSection(
+            otpCode: _otpCode,
+            canResend: _canResend,
+            seconds: _seconds,
+            onChanged: (value) {
+              _otpCode = value;
+              _validateForm();
+            },
+            onCompleted: (pin) {
+              _otpCode = pin;
+              _validateForm();
+            },
+            onResend: _handleResend,
+          ),
+          32.h.height,
+          ResetPasswordForm(
+            passwordController: _passwordController,
+            confirmPasswordController: _confirmPasswordController,
+            onFormChanged: _validateForm,
+          ),
+          40.h.height,
+          _buildSubmitButton(context),
+          24.h.height,
+        ],
+      ),
+    );
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is ResetPasswordSuccess) {
@@ -129,39 +165,14 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       child: Scaffold(
         backgroundColor: context.theme.scaffoldBackgroundColor,
         appBar: _buildAppBar(context),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 24.h),
-          child: Column(
-            children: [
-              const ResetPasswordHeader(),
-              24.h.height,
-              _buildEmailChip(context),
-              32.h.height,
-              ResetPasswordOtpSection(
-                otpCode: _otpCode,
-                canResend: _canResend,
-                seconds: _seconds,
-                onChanged: (value) {
-                  _otpCode = value;
-                  _validateForm();
-                },
-                onCompleted: (pin) {
-                  _otpCode = pin;
-                  _validateForm();
-                },
-                onResend: _handleResend,
-              ),
-              32.h.height,
-              ResetPasswordForm(
-                passwordController: _passwordController,
-                confirmPasswordController: _confirmPasswordController,
-                onFormChanged: _validateForm,
-              ),
-              40.h.height,
-              _buildSubmitButton(context),
-              24.h.height,
-            ],
-          ),
+        body: BlocSelector<AuthCubit, AuthState, bool>(
+          selector: (state) => state is AuthLoading,
+          builder: (context, isLoading) {
+            return ModalProgressHUD(
+              inAsyncCall: isLoading,
+              child: body,
+            );
+          },
         ),
       ),
     );

@@ -6,12 +6,9 @@ import 'package:new_mama/core/network/api_client.dart';
 import 'package:new_mama/feature/app_section/data/datasources/app_section_remote_datasource_contract.dart';
 import 'package:new_mama/feature/app_section/domain/entities/user_entity.dart';
 import 'package:new_mama/feature/app_section/domain/repositories/app_section_repository_contract.dart';
-import 'package:new_mama/feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart';
 import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
 import 'package:get_it/get_it.dart';
 import 'package:new_mama/feature/auth/domain/repositories/auth_repository.dart';
-import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
-import 'package:new_mama/feature/children/presentation/cubit/children_cubit.dart';
 
 @LazySingleton(as: AppSectionRepositoryContract)
 class AppSectionRepositoryImpl implements AppSectionRepositoryContract {
@@ -39,15 +36,6 @@ class AppSectionRepositoryImpl implements AppSectionRepositoryContract {
       }
       if (getIt.isRegistered<ApiClient>()) {
         await getIt.resetLazySingleton<ApiClient>();
-      }
-      if (getIt.isRegistered<ProfileCubit>()) {
-        await getIt.resetLazySingleton<ProfileCubit>();
-      }
-      if (getIt.isRegistered<ChildrenCubit>()) {
-        await getIt.resetLazySingleton<ChildrenCubit>();
-      }
-      if (getIt.isRegistered<ActiveChildCubit>()) {
-        await getIt.resetLazySingleton<ActiveChildCubit>();
       }
       if (getIt.isRegistered<AuthRepository>()) {
         await getIt.resetLazySingleton<AuthRepository>();

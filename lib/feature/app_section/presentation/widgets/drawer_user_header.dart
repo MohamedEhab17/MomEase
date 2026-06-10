@@ -65,7 +65,9 @@ class DrawerUserHeader extends StatelessWidget {
               child: BlocBuilder<ProfileCubit, ProfileState>(
                 builder: (context, state) {
                   final profile = state.profile;
-                  final isLoading = state.status == ProfileStatus.loading && profile == null;
+                  final isLoading = (state.status == ProfileStatus.loading ||
+                          state.status == ProfileStatus.initial) &&
+                      profile == null;
 
                   String name = isLoading ? 'Loading Name' : (profile != null ? '${profile.firstName} ${profile.lastName}' : 'Guest User');
                   String email = isLoading ? 'loading.email@example.com' : (profile != null ? profile.email : 'Could not load profile');

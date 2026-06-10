@@ -10,6 +10,8 @@ import 'package:new_mama/feature/children/domain/usecases/manage_child_photo_use
 import 'package:new_mama/feature/children/domain/usecases/update_child_use_case.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/feature/children/presentation/cubit/children_state.dart';
+import 'package:new_mama/core/di/injection.dart';
+import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 
 @lazySingleton
 class ChildrenCubit extends SafeCubit<ChildrenState> {
@@ -31,6 +33,26 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
 
   List<Child> _currentChildren = [];
 
+  /// Wipes all children data immediately (call on logout before navigating away).
+  void clearState() {
+    _currentChildren = [];
+    emit(ChildrenInitial());
+  }
+
+  void _syncActiveChildWith(List<Child> children) {
+    if (getIt.isRegistered<ActiveChildCubit>()) {
+      final activeChildCubit = getIt<ActiveChildCubit>();
+      final currentActive = activeChildCubit.state;
+      if (children.isEmpty) {
+        activeChildCubit.clearActiveChild();
+      } else if (currentActive == null || !children.any((c) => c.childId == currentActive.childId)) {
+        activeChildCubit.setActiveChild(children.first);
+      } else {
+        final updatedActive = children.firstWhere((c) => c.childId == currentActive.childId);
+        activeChildCubit.setActiveChild(updatedActive);
+      }
+    }
+  }
 
   Future<void> loadChildren() async {
     cancelableOperation(
@@ -39,6 +61,7 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
           (failure) => emit(ChildrenError(failure.message)),
           (children) {
             _currentChildren = children;
+            _syncActiveChildWith(_currentChildren);
             emit(ChildrenLoaded(children));
           },
         );
@@ -58,6 +81,7 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
           (failure) => emit(ChildrenError(failure.message)),
           (child) {
             _currentChildren = [..._currentChildren, child];
+            _syncActiveChildWith(_currentChildren);
             emit(ChildActionSuccess(
               message: TK.childrenAddSuccess,
               children: _currentChildren,
@@ -78,6 +102,7 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
             _currentChildren = _currentChildren
                 .map((c) => c.childId == childId ? updated : c)
                 .toList();
+            _syncActiveChildWith(_currentChildren);
             emit(ChildActionSuccess(
               message: TK.childrenUpdateSuccess,
               children: _currentChildren,
@@ -97,6 +122,7 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
           (message) {
             _currentChildren =
                 _currentChildren.where((c) => c.childId != childId).toList();
+            _syncActiveChildWith(_currentChildren);
             emit(ChildActionSuccess(
               message: TK.childrenDeleteSuccess,
               children: _currentChildren,
@@ -134,6 +160,7 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
               }
               return c;
             }).toList();
+            _syncActiveChildWith(_currentChildren);
             emit(ChildActionSuccess(
               message: TK.childrenPhotoSuccess,
               children: _currentChildren,
@@ -167,6 +194,7 @@ class ChildrenCubit extends SafeCubit<ChildrenState> {
               }
               return c;
             }).toList();
+            _syncActiveChildWith(_currentChildren);
             emit(ChildActionSuccess(message: TK.childrenPhotoDeleteSuccess, children: _currentChildren));
           },
         );

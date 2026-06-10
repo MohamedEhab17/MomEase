@@ -37,6 +37,12 @@ class _ArticlesViewState extends State<ArticlesView> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ArticlesHeader(controller: _controller),

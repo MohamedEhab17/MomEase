@@ -21,6 +21,7 @@ import 'package:new_mama/feature/app_section/presentation/view_model/logout_cubi
 import 'package:new_mama/feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart' as old;
 import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart' as mother;
 import 'package:new_mama/feature/notifications/presentation/view_model/notification_cubit.dart';
+import 'package:new_mama/feature/children/presentation/cubit/children_cubit.dart';
 import '../view_model/cubit/bottom_nav_cubit.dart';
 
 class AppSectionView extends StatefulWidget {
@@ -68,6 +69,16 @@ class _AppSectionViewState extends State<AppSectionView>
         view: const ProfileView(),
       ),
     ];
+
+    // Refresh all user-specific data fresh after every login.
+    // ProfileCubits are provided inside this widget's own MultiBlocProvider,
+    // so context.read can't reach them from initState — use getIt directly.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<ChildrenCubit>().loadChildren();
+      getIt<old.ProfileCubit>().getProfile();
+      getIt<mother.ProfileCubit>().loadProfile();
+    });
   }
 
   @override
@@ -94,8 +105,8 @@ class _AppSectionViewState extends State<AppSectionView>
         BlocProvider(create: (_) => getIt<HomeArticlesCubit>()..loadHomeArticles()),
         BlocProvider(create: (_) => getIt<NotificationCubit>()..getUnreadCount()),
         BlocProvider(create: (_) => getIt<LogoutCubit>()),
-        BlocProvider(create: (_) => getIt<mother.ProfileCubit>()..loadProfile()),
-        BlocProvider.value(value: getIt<old.ProfileCubit>()..getProfile()),
+        BlocProvider.value(value: getIt<mother.ProfileCubit>()),
+        BlocProvider.value(value: getIt<old.ProfileCubit>()),
       ],
       child: BlocListener<LanguageCubit, Locale>(
         listener: (context, locale) {

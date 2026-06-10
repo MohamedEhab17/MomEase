@@ -12,6 +12,7 @@ import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/widgets/custom_elevated_button.dart';
+import 'package:new_mama/core/widgets/modal_progress_hud.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/verification_footer.dart';
@@ -84,6 +85,55 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
 
   @override
   Widget build(BuildContext context) {
+    final body = SingleChildScrollView(
+      padding: 22.hPadding,
+      child: Column(
+        children: [
+          VerificationHeader(email: widget.email),
+          37.h.height,
+          VerificationOtpSection(
+            onChanged: (value) {
+              setState(() {
+                _code = value;
+                _isCodeComplete = value.length == 4;
+              });
+            },
+            onCompleted: (pin) {
+              setState(() {
+                _code = pin;
+                _isCodeComplete = true;
+              });
+              _handleVerify();
+            },
+          ),
+          24.h.height,
+          VerificationTimerSection(
+            canResend: _canResend,
+            seconds: _seconds,
+            onResend: _handleResend,
+          ),
+          50.h.height,
+          BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              final isLoading = state is AuthLoading;
+              return Opacity(
+                opacity: _isCodeComplete && !isLoading ? 1 : 0.5,
+                child: CustomElevatedButton(
+                  text: context.trContext(TK.authVerificationVerifyButton),
+                  minimumSize: Size(double.infinity, 52.h),
+                  onPressed:
+                      _isCodeComplete && !isLoading ? _handleVerify : null,
+                ),
+              );
+            },
+          ),
+          24.h.height,
+          VerificationFooter(onTap: () => _openEmailApp(context)),
+          24.h.height,
+        ],
+      ),
+    );
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is EmailVerificationSuccess) {
@@ -131,53 +181,14 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
             style: context.text.displaySmall!,
           ),
         ),
-        body: SingleChildScrollView(
-          padding: 22.hPadding,
-          child: Column(
-            children: [
-              VerificationHeader(email: widget.email),
-              37.h.height,
-              VerificationOtpSection(
-                onChanged: (value) {
-                  setState(() {
-                    _code = value;
-                    _isCodeComplete = value.length == 4;
-                  });
-                },
-                onCompleted: (pin) {
-                  setState(() {
-                    _code = pin;
-                    _isCodeComplete = true;
-                  });
-                  _handleVerify();
-                },
-              ),
-              24.h.height,
-              VerificationTimerSection(
-                canResend: _canResend,
-                seconds: _seconds,
-                onResend: _handleResend,
-              ),
-              50.h.height,
-              BlocBuilder<AuthCubit, AuthState>(
-                builder: (context, state) {
-                  final isLoading = state is AuthLoading;
-                  return Opacity(
-                    opacity: _isCodeComplete && !isLoading ? 1 : 0.5,
-                    child: CustomElevatedButton(
-                      text: context.trContext(TK.authVerificationVerifyButton),
-                      minimumSize: Size(double.infinity, 52.h),
-                      onPressed:
-                          _isCodeComplete && !isLoading ? _handleVerify : null,
-                    ),
-                  );
-                },
-              ),
-              24.h.height,
-              VerificationFooter(onTap: () => _openEmailApp(context)),
-              24.h.height,
-            ],
-          ),
+        body: BlocSelector<AuthCubit, AuthState, bool>(
+          selector: (state) => state is AuthLoading,
+          builder: (context, isLoading) {
+            return ModalProgressHUD(
+              inAsyncCall: isLoading,
+              child: body,
+            );
+          },
         ),
       ),
     );

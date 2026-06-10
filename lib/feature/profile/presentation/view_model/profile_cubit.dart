@@ -18,8 +18,11 @@ class ProfileCubit extends SafeCubit<ProfileState> {
     this._deletePhotoUseCase,
   ) : super(const ProfileState());
 
+  /// Wipes all user data immediately (call on logout before navigating away).
+  void clearState() => safeEmit(const ProfileState());
+
   Future<void> loadProfile() async {
-    safeEmit(state.copyWith(status: ProfileStatus.loading));
+    safeEmit(const ProfileState(status: ProfileStatus.loading));
     
     final result = await _getProfileUseCase();
     

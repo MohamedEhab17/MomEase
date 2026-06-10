@@ -1,5 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:new_mama/core/base/safe_cubit.dart';
 import 'package:new_mama/core/error/failure.dart';
 import 'package:new_mama/feature/auth/domain/usecases/change_password_use_case.dart';
 import 'package:new_mama/core/base/usecase.dart';
@@ -15,7 +15,7 @@ import 'package:new_mama/feature/auth/domain/usecases/verify_email_use_case.dart
 import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
 
 @lazySingleton
-class AuthCubit extends Cubit<AuthState> {
+class AuthCubit extends SafeCubit<AuthState> {
   final LoginUseCase _loginUseCase;
   final RegisterUseCase _registerUseCase;
   final VerifyEmailUseCase _verifyEmailUseCase;

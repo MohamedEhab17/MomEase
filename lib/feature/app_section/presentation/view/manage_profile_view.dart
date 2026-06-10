@@ -141,7 +141,7 @@ class _ManageProfileViewState extends State<ManageProfileView> {
               ],
             ),
           );
-        } else if (state is ProfileLoading) {
+        } else if (state is ProfileLoading || state is ProfileInitial) {
           return const Center(child: CustomLoadingIndicator());
         }
         return const SizedBox.shrink();

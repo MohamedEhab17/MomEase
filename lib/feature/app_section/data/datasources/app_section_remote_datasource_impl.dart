@@ -32,12 +32,12 @@ class AppSectionRemoteDatasourceImpl implements AppSectionRemoteDatasourceContra
   Future<Either<Failure, void>> logout(String refreshToken) async {
     try {
       await _apiClient.post(
-        Api.logout,
-        data: {'refresh_token': refreshToken},
+        Api.revokeToken,
+        data: {'refreshToken': refreshToken},
         options: _headers,
       );
 
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
