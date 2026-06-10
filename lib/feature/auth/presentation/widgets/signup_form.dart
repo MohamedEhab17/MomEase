@@ -78,7 +78,7 @@ class SignUpForm extends StatelessWidget {
             Expanded(
               flex: 2,
               child: TextFormFieldHelper(
-                hint: "Phone Number",
+                hint: context.trContext(TK.authSignUpPhoneNumber),
                 borderRadius: BorderRadius.circular(64),
                 onValidate: (v) =>
                     v == null || v.isEmpty ? "Phone required" : null,
@@ -90,7 +90,7 @@ class SignUpForm extends StatelessWidget {
             ),
             Expanded(
               child: TextFormFieldHelper(
-                hint: "Age",
+                hint: context.trContext(TK.authSignUpAge),
                 fillColor: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(64),
                 onValidate: (v) => v == null || v.isEmpty ? "Required" : null,

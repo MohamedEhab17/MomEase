@@ -18,6 +18,7 @@ import 'package:new_mama/feature/auth/presentation/widgets/login_footer.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_form.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_header.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_social_auth_section.dart';
+import 'package:new_mama/feature/notifications/presentation/view_model/notification_cubit.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -85,6 +86,9 @@ class _LoginViewState extends State<LoginView> {
       listenWhen: (prev, next) => next is AuthSuccess || next is AuthError,
       listener: (context, state) {
         if (state is AuthSuccess) {
+          // Register FCM device token with the backend after successful login.
+          getIt<NotificationCubit>().registerFcmToken();
+
           // Add a tiny delay to allow SecureStorage to settle before heavy navigation/API calls
           Future.delayed(const Duration(milliseconds: 200), () {
             if (context.mounted) {

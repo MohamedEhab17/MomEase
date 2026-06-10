@@ -31,10 +31,30 @@ class TimePickerField extends StatelessWidget {
       initialTime: selectedTime ?? TimeOfDay.now(),
       builder: (context, child) => Theme(
         data: context.theme.copyWith(
-          colorScheme: ColorScheme.light(
+          colorScheme: context.theme.colorScheme.copyWith(
             primary: context.ext.colors.primaryDark,
             onPrimary: Colors.white,
             onSurface: context.colors.onSurface,
+          ),
+          timePickerTheme: TimePickerThemeData(
+            dayPeriodColor: WidgetStateColor.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return context.ext.colors.primaryDark;
+              }
+              return Colors.transparent;
+            }),
+            dayPeriodTextColor: WidgetStateColor.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return Colors.white;
+              }
+              return context.colors.onSurface;
+            }),
+            dayPeriodBorderSide: BorderSide(
+              color: context.ext.colors.primaryDark,
+            ),
+            dayPeriodShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
+            ),
           ),
         ),
         child: child!,

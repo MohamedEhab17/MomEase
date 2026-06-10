@@ -15,7 +15,6 @@ import 'package:new_mama/feature/profile/presentation/view_model/profile_state.d
 import 'package:new_mama/feature/profile/presentation/widgets/children_section.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/community_posts_section.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/logout_button.dart';
-import 'package:new_mama/feature/profile/presentation/widgets/parenting_journey_section.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/profile_header.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/profile_section_title.dart';
 import 'package:new_mama/feature/profile/presentation/widgets/saved_articles_section.dart';
@@ -69,22 +68,22 @@ class _ProfileBody extends StatelessWidget {
                   24.height,
 
                   // Parenting Journey
-                  ProfileSectionTitle(
-                    title: context.trContext(TK.profileParentingJourney),
-                    onSeeAll: () {},
-                  ),
-                  ParentingJourneySection(
-                    lastMoodStatus: profile.mentalHealthStatus,
-                    depressionTestStatus: profile
-                        .mentalHealthStatus, // Mapping mental health to depression status for now
-                    babyTrackingStatus: profile.healthStatus,
-                  ),
-                  24.height,
+                  // ProfileSectionTitle(
+                  //   title: context.trContext(TK.profileParentingJourney),
+                  //   onSeeAll: () {},
+                  // ),
+                  // ParentingJourneySection(
+                  //   lastMoodStatus: profile.mentalHealthStatus,
+                  //   depressionTestStatus: profile
+                  //       .mentalHealthStatus, // Mapping mental health to depression status for now
+                  //   babyTrackingStatus: profile.healthStatus,
+                  // ),
+                  // 24.height,
 
                   // ── My Children (live from API) ──────────────────
                   const ChildrenSection(),
                   24.height,
-                  
+
                   // Community Posts
                   ProfileSectionTitle(
                     title: context.trContext(TK.profileCommunityPosts),

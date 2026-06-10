@@ -1,31 +1,35 @@
-import '../../data/model/notification_model.dart';
+import 'package:new_mama/feature/notifications/domain/entities/notification_entity.dart';
 
 enum NotificationStatus { initial, loading, success, failure }
 
 class NotificationState {
   final NotificationStatus status;
-  final List<NotificationModel> notifications;
-  final bool hasReachedMax;
+  final List<NotificationEntity> notifications;
+  final int unreadCount;
   final String? errorMessage;
+  final String? successMessage;
 
   const NotificationState({
     this.status = NotificationStatus.initial,
     this.notifications = const [],
-    this.hasReachedMax = false,
+    this.unreadCount = 0,
     this.errorMessage,
+    this.successMessage,
   });
 
   NotificationState copyWith({
     NotificationStatus? status,
-    List<NotificationModel>? notifications,
-    bool? hasReachedMax,
+    List<NotificationEntity>? notifications,
+    int? unreadCount,
     String? errorMessage,
+    String? successMessage,
   }) {
     return NotificationState(
       status: status ?? this.status,
       notifications: notifications ?? this.notifications,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      unreadCount: unreadCount ?? this.unreadCount,
       errorMessage: errorMessage ?? this.errorMessage,
+      successMessage: successMessage ?? this.successMessage,
     );
   }
 }

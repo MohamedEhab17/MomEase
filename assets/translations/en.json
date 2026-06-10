@@ -3,7 +3,6 @@
     "name": "MomEase",
     "version": "MomEase Version 1.0.0"
   },
-
   "auth": {
     "login": "Login to continue your journey!",
     "forgot_password": "Forgot Password?",
@@ -19,7 +18,9 @@
       "login_button": "Login",
       "or": "Or",
       "no_account_first": "Don't have an account? ",
-      "sign_up_link": "Sign Up"
+      "sign_up_link": "Sign Up",
+      "email_hint": "Email"
+
     },
     "sign_up_screen": {
       "title_first": "Create an account, ",
@@ -33,7 +34,9 @@
       "sign_up_button": "Sign Up",
       "or": "Or",
       "has_account_first": "Already have an account? ",
-      "login_link": "Login"
+      "login_link": "Login",
+      "phone_number": "Phone Number",
+      "age": "Age"
     },
     "forget_password_screen": {
       "app_bar_title": "Forget Password",
@@ -42,10 +45,12 @@
       "send_code": "Send Code"
     },
     "create_password_screen": {
+      "change_password_title" : "Change Password",
       "instructions": "Your new password must be different from previously used password",
       "new_password_hint": "New Password",
-      "confirm_new_password_hint": "Confirm New Password",
-      "save_button": "Save"
+      "current_password": "Current Password",
+      "confirm_new_password_hint": "Confirm New Password"
+      
     },
     "verification_screen": {
       "code_instructions": "Please enter the code we sent to your email address.",
@@ -55,8 +60,8 @@
       "resend_now": "You can resend now",
       "spam_snackbar": "Check your spam folder"
     }
-  },
 
+  },
   "articles": {
     "title": "Articles",
     "save": "Save Article",
@@ -70,9 +75,7 @@
     "read_minutes": "{minutes} min read",
     "clear_all": "Clear all",
     "recent_searches": "Recent Searches"
-
   },
-
   "baby": {
     "tracking": "Baby Tracking",
     "activity": "Baby Activity Overview",
@@ -91,30 +94,93 @@
       "breastfeeding": "Breastfeeding",
       "formula_feeding": "Formula Feeding",
       "mixed": "Mixed",
-      "last_7_days": "Last 7 Days"
+      "last_7_days": "Last 7 Days",
+      "times_validation": "Feeding times per day must be between 1 and 20",
+      "delete_title": "Delete Feeding Record",
+      "delete_confirm": "Are you sure you want to delete this feeding record?",
+      "daily": "Daily"
     },
     "sleep": {
       "title": "Sleep",
       "date": "Sleeping Date",
       "saved": "Sleep record saved! 😴",
-      "duration": "sleep_duration",
+      "duration": "Sleep duration",
       "start_time": "Start Time",
       "end_time": "End Time",
       "notes_hint": "How was your baby's sleep?",
       "save_record": "Save Sleeping record",
       "fill_required": "Please fill all required fields",
       "duration_hours": "Sleep Duration (hrs)",
-      "daily_avg": "Daily Avg"
+      "daily_avg": "Daily Average",
+      "invalid_duration": "Sleep duration cannot exceed 16 hours. Please check start and end times.",
+      "delete_title": "Delete Sleep Record",
+      "delete_confirm": "Are you sure you want to delete this sleep record?"
+    },
+    "growth": {
+      "title": "Growth",
+      "weight": "Weight",
+      "height": "Height",
+      "date": "Record Date",
+      "saved": "Growth record saved! 📈",
+      "statistics": "Growth Statistics",
+      "average_weight": "Avg Weight",
+      "average_height": "Avg Height",
+      "weight_gain": "Weight Gain",
+      "height_gain": "Height Gain",
+      "current_status": "Growth Status",
+      "weekly_gain": "Weekly Gain",
+      "monthly_gain": "Monthly Gain",
+      "weight_trend": "Weight Trend",
+      "height_trend": "Height Trend",
+      "add_record": "Add Growth Record",
+      "weight_hint": "Weight in Kg",
+      "height_hint": "Height in Cm",
+      "weight_required": "Please enter weight",
+      "height_required": "Please enter height",
+      "delete_confirm": "Are you sure you want to delete this growth record?",
+      "delete_title": "Delete Growth Record",
+      "weight_kg_label": "Weight (Kg)",
+      "height_cm_label": "Height (Cm)",
+      "weight_input_hint": "e.g. 8.5",
+      "height_input_hint": "e.g. 70.0",
+      "valid_number": "Please enter a valid number",
+      "save_record": "Save Record",
+      "valid_weight": "Please enter a valid weight (1 - 150 kg)",
+      "valid_height": "Please enter a valid height (1 - 250 cm)",
+      "baby_growth" :  "Baby Growth",
+      "weight_and_height_over_time": "Weight and Height Over Time",
+      "overview": "Growth Overview",
+      "height_cm": "Height (cm)",
+      "weight_kg": "Weight (kg)"
+    
     },
     "vaccine": {
-      "title": "Vaccine",
+      "title": "Vaccinations",
       "completed": "Completed",
       "upcoming": "Upcoming",
       "completed_label": "Completed:",
       "next_due": "Next Due",
       "in_days": "In {days} days",
-      "babys_log": "Baby's Log",
-      "official_schedule": "Official Schedule"
+      "babys_log": "Vaccination Records",
+      "official_schedule": "Recommended Timeline",
+      "overdue_missed": "Overdue / Missed",
+      "pending": "Pending",
+      "mark_taken_title": "Mark Vaccination as Taken",
+      "mark_taken_desc": "Confirm that {vaccine} was administered to your child.",
+      "vaccination_date": "Vaccination Date",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "select_child_msg": "Please add or select a child to track vaccinations.",
+      "retrieving_msg": "Retrieving vaccinations data...",
+      "no_logged_vaccines": "No vaccinations logged yet.",
+      "no_schedule_available": "No official schedule records available.",
+      "disease_prevented": "Disease Prevented",
+      "way_of_injection": "Way of Injection",
+      "scheduled_date": "Scheduled Date",
+      "taken_date": "Taken Date",
+      "mark_as_taken_btn": "Mark as Taken",
+      "months_suffix": "{months} Months",
+      "at_birth": "At Birth"
     },
     "insights_screen": {
       "title": "Baby Activity Insights",
@@ -135,15 +201,53 @@
       "completed_status": "COMPLETED",
       "mood_trend": "Mood Trend",
       "last_7_days": "Last 7 Days",
-      "daily_avg":"Daily Avg",
+      "daily_avg": "Daily Avg",
       "helpful_suggestions": "Helpful Suggestions",
       "bedtime_suggestion_title": "Earlier Bedtime Suggestion",
       "bedtime_suggestion_body": "Baby slept less than usual yesterday. Consider an earlier bedtime today to avoid over-tiredness.",
       "feeding_reminder_title": "Feeding Interval Reminder",
-      "feeding_reminder_body": "Your feeding intervals have been consistent. Keep up the great work, mama!"
-    }
+      "feeding_reminder_body": "Your feeding intervals have been consistent. Keep up the great work, mama!",
+      "sleep_weekly": "Weekly",
+      "sleep_monthly": "Monthly",
+      "sleep_period_overview": "Period Overview",
+      "sleep_avg_sleep": "Avg Sleep",
+      "sleep_logged_days": "Logged Days",
+      "sleep_good_days": "Good Days",
+      "sleep_poor_days": "Poor Days",
+      "sleep_days_suffix": "{count} days",
+      "sleep_pediatrician_ref": "Pediatrician Reference",
+      "sleep_recommended_range": "Recommended Range",
+      "sleep_overall_avg": "Overall Avg",
+      "sleep_last_7_days": "Last 7 Days",
+      "sleep_quality_score": "Quality Score",
+      "sleep_no_data": "No data",
+      "sleep_status_good": "Good",
+      "sleep_status_normal": "Normal",
+      "sleep_status_poor": "Poor",
+      "sleep_status_unknown": "Unknown",
+      "feeding_severe_under": "Severe Under",
+      "feeding_under": "Underfeeding",
+      "feeding_normal": "Normal",
+      "feeding_over": "Overfeeding",
+      "feeding_times_suffix": "{count} times",
+      "feeding_times_per_day_suffix": "{count} times/day",
+      "feeding_abnormal_days": "Abnormal Days",
+      "feeding_normal_days": "Normal Days",
+      "feeding_type_prefix": "Type: {type}",
+      "feeding_most_common": "Most Common Feeding",
+      "feeding_last_7_days_avg": "Last 7 Days Avg",
+      "feeding_overall_avg": "Overall Average",
+      "feeding_avg_feeding": "Avg Feeding",
+      "feeding_type_breast": "Breast",
+      "feeding_type_formula": "Formula",
+      "feeding_type_mixed": "Mixed",
+      "feeding_type_none": "None"
+      
+    },
+    "recent_records": "Recent Records",
+    "no_records_yet": "No records yet",
+    "saving": "Saving..."
   },
-
   "community": {
     "title": "Community",
     "create_post": "Create Post",
@@ -163,6 +267,7 @@
     "post_content_required": "Please enter some content for the post.",
     "report_dialog_title": "Report sent successfully!",
     "report_dialog_thanks": "Thank you for informing us!",
+    "report_dialog_reason": "Why are you reporting this post?",
     "copy_link": "Copy Link",
     "report_post": "Report",
     "remove_post": "Remove",
@@ -191,9 +296,9 @@
     "report_cancel": "Cancel",
     "report_send": "Send",
     "report_error": "Sorry, an error occurred while sending the report",
-    "max_images_error": "Sorry, you can select up to 10 images only"
+    "max_images_error": "Sorry, you can select up to 10 images only",
+    "author": "Author"
   },
-
   "home": {
     "welcome": "Welcome again",
     "offering_help": "How can we help you today? ",
@@ -214,7 +319,6 @@
     "useful_articles": "Useful articles",
     "view_all_article": "View all article"
   },
-
   "profile": {
     "parenting_journey": "My Parenting Journey",
     "community_posts": "My Community Posts",
@@ -237,7 +341,6 @@
     "delete_photo_title": "Delete Photo?",
     "delete_photo_content": "Are you sure you want to remove your profile photo?"
   },
-
   "onboarding": {
     "baby_name_title": "What's Your Current Baby's Name?",
     "baby_name_hint": "We'd love to know his/her name..",
@@ -263,7 +366,6 @@
     "screen_4_title": "Your Support Starts Here",
     "screen_4_desc": "Helpful tools, trusted information, and a caring community—right at your fingertips"
   },
-
   "baby_profile_setup": {
     "hello": "Hello,",
     "mama": " Mama!",
@@ -284,7 +386,6 @@
     "vaginal": "vaginal",
     "c_section": "c-section"
   },
-
   "children": {
     "my_children": "My Children",
     "space_little_ones": "A space for your little ones.",
@@ -335,7 +436,6 @@
     "no_babies_yet": "No babies added yet",
     "add_your_baby": "Add Your Baby"
   },
-
   "baby_cry": {
     "app_bar_title": "Crying Sound Analysis",
     "insight_headline": "Understanding Baby's Cry",
@@ -361,9 +461,27 @@
     "tip_1": "Take small moments for yourself, even 5 minutes of quiet time.",
     "tip_2": "Connect with loved ones or join a mother's support group.",
     "tip_3": "If you're concerned, reach out to your healthcare provider.",
-    "tip_4": "Remember: asking for help is a sign of strength, not weakness."
+    "tip_4": "Remember: asking for help is a sign of strength, not weakness.",
+    "history_title": "Crying Analysis History",
+    "history_empty": "No analyses yet",
+    "history_empty_subtitle": "Your previous crying sound analyses will appear here after you analyze a cry.",
+    "delete_confirm_title": "Delete Record?",
+    "delete_confirm_body": "Are you sure you want to delete this crying analysis record?",
+    "select_child": "Please select a child first",
+    "error_occurred": "An error occurred",
+    "likely_condition": "Baby Might Be:",
+    "disclaimer_text": "This is an AI-powered tool for guidance only. Always consult a qualified healthcare professional for medical advice.",
+    "view_history": "View History",
+    "analysis_breakdown": "Crying Reasons Analysis",
+    "confidence": "{pct}% Confidence",
+    "reasons": {
+      "belly_pain": "Belly Pain",
+      "burping": "Needs to Burp",
+      "discomfort": "Discomfort",
+      "hungry": "Hungry",
+      "laugh": "Laughing / Happy"
+    }
   },
-
   "depression": {
     "app_bar_title": "Healthy check-In",
     "check_in_title": "Let's Check In Together ",
@@ -413,7 +531,6 @@
       "severe": "Your responses suggest severe signs of depression. Please immediately contact a professional or call a helpline. You do not have to go through this alone."
     }
   },
-
   "skin_diagnosis": {
     "app_bar_title": "Skin Diagnosis",
     "insight_headline": "Gentle Skin Guidance",
@@ -456,20 +573,28 @@
     "delete_confirm_body": "Are you sure you want to delete this skin analysis record?",
     "select_child": "Please select a child first"
   },
-
   "notifications": {
     "title": "Notifications",
     "clear_all": "Clear all",
     "empty_title": "You Don’t have notifications",
     "empty_subtitle": "When you get notifications, they'll show up here",
-    "view_post": "View Post"
+    "view_post": "View Post",
+    "mark_all_as_read": "Mark all as read",
+    "take_check_in": "Take Check-in",
+    "view_result": "View Result",
+    "view_tracker": "View Tracker",
+    "read_tip": "Read Tip",
+    "view": "View",
+    "delete_title": "Delete Notification",
+    "delete_content": "Are you sure you want to permanently delete this notification?",
+    "mental_health_check": "Mental Health Check",
+    "close": "Close"
   },
-
   "common": {
     "view_all": "View all",
     "read_more": "Read more ›",
     "notes": "Notes",
-    "retry": "Try another way",
+    "retry": "Retry",
     "language": "Language",
     "theme_mode": "Theme Mode",
     "error_with_details": "Error: {error}",
@@ -488,6 +613,20 @@
       "fri": "Fri",
       "sat": "Sat"
     },
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    },
     "toast": {
       "success": "Success",
       "error": "Error",
@@ -496,7 +635,6 @@
       "action_failed": "Sorry, the action could not be completed"
     }
   },
-
   "drawer": {
     "baby_tracking": "Baby Tracking",
     "depression_test": "Depression Test",

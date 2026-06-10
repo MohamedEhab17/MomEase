@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/feature/notifications/presentation/view_model/notification_cubit.dart';
+import 'package:new_mama/feature/notifications/presentation/view_model/notification_state.dart';
 import 'package:new_mama/feature/app_section/data/model/app_tab.dart';
 import '../view_model/cubit/bottom_nav_cubit.dart';
 
@@ -54,17 +56,39 @@ class FloatingNavBar extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100.r),
                       ),
-                      child: SvgPicture.asset(
-                        isActive ? tabs[i].activeIcon : tabs[i].inactiveIcon,
-                        fit: BoxFit.contain,
-                        height: 24.h,
-                        width: 24.w,
-                        colorFilter: ColorFilter.mode(
-                          context.ext.colors.primaryDark,
-
-                          BlendMode.srcIn,
-                        ),
-                      ),
+                      child: i == 2
+                          ? BlocBuilder<NotificationCubit, NotificationState>(
+                              builder: (context, notificationState) {
+                                final bool showBadge =
+                                    notificationState.unreadCount > 0 && !isActive;
+                                return Badge(
+                                  isLabelVisible: showBadge,
+                                  backgroundColor: context.ext.colors.primaryDark,
+                                  smallSize: 8.r,
+                                  alignment: const AlignmentDirectional(1.2, -1.2),
+                                  child: SvgPicture.asset(
+                                    isActive ? tabs[i].activeIcon : tabs[i].inactiveIcon,
+                                    fit: BoxFit.contain,
+                                    height: 24.h,
+                                    width: 24.w,
+                                    colorFilter: ColorFilter.mode(
+                                      context.ext.colors.primaryDark,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : SvgPicture.asset(
+                              isActive ? tabs[i].activeIcon : tabs[i].inactiveIcon,
+                              fit: BoxFit.contain,
+                              height: 24.h,
+                              width: 24.w,
+                              colorFilter: ColorFilter.mode(
+                                context.ext.colors.primaryDark,
+                                BlendMode.srcIn,
+                              ),
+                            ),
                     ),
                   );
                 }),

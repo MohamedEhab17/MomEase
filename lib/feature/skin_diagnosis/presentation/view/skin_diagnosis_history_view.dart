@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/padding_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
@@ -10,9 +9,9 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
-import 'package:new_mama/core/utils/app_icons.dart';
 import 'package:new_mama/core/widgets/features_header.dart';
 import 'package:new_mama/core/widgets/custom_loading_indicator.dart';
+import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_state.dart';
@@ -108,10 +107,17 @@ class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Lottie.asset(
-                        AppIcons.iconsSuccess,
-                        width: 140.w,
-                        height: 140.w,
+                      Container(
+                        padding: EdgeInsets.all(24.w),
+                        decoration: BoxDecoration(
+                          color: context.ext.colors.primaryDark.withAlpha(20),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.history_toggle_off_rounded,
+                          color: context.ext.colors.primaryDark,
+                          size: 72.w,
+                        ),
                       ),
                       24.height,
                       Text(
@@ -147,40 +153,15 @@ class _SkinDiagnosisHistoryViewState extends State<SkinDiagnosisHistoryView> {
                   direction: DismissDirection.endToStart,
                   background: _buildDismissibleBackground(context),
                   confirmDismiss: (direction) async {
-                    bool confirmed = false;
-                    await showDialog<void>(
+                    final confirmed = await showDialog<bool>(
                       context: context,
-                      builder: (dialogCtx) => AlertDialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.r)),
-                        title: Text(
-                          context.trContext(TK.skinDeleteConfirmTitle),
-                          style: context.text.titleMedium!
-                              .copyWith(fontWeight: FontWeight.w700),
-                        ),
-                        content: Text(
-                          context.trContext(TK.skinDeleteConfirmBody),
-                          style: context.text.bodyMedium,
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(dialogCtx).pop(),
-                            child: Text(context.trContext(TK.childrenCancel)),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              confirmed = true;
-                              Navigator.of(dialogCtx).pop();
-                            },
-                            style: TextButton.styleFrom(
-                                foregroundColor: Colors.redAccent),
-                            child: Text(context.trContext(TK.childrenRemove)),
-                          ),
-                        ],
+                      builder: (dialogCtx) => DeleteConfirmationDialog(
+                        title: context.trContext(TK.skinDeleteConfirmTitle),
+                        content: context.trContext(TK.skinDeleteConfirmBody),
                       ),
                     );
 
-                    if (confirmed) {
+                    if (confirmed == true) {
                       if (!context.mounted) return false;
                       context
                           .read<SkinDiagnosisCubit>()

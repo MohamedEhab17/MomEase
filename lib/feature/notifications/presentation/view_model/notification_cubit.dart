@@ -1,31 +1,67 @@
+import 'dart:developer';
 import 'package:injectable/injectable.dart';
 import 'package:new_mama/core/base/safe_cubit.dart';
-import '../../domain/usecases/notification_usecases.dart';
+import 'package:new_mama/core/services/fcm_service.dart';
+import 'package:new_mama/feature/notifications/domain/usecases/delete_notification_usecase.dart';
+import 'package:new_mama/feature/notifications/domain/usecases/device_token_usecases.dart';
+import 'package:new_mama/feature/notifications/domain/usecases/get_notifications_usecase.dart';
+import 'package:new_mama/feature/notifications/domain/usecases/get_unread_count_usecase.dart';
+import 'package:new_mama/feature/notifications/domain/usecases/mark_all_notifications_read_usecase.dart';
+import 'package:new_mama/feature/notifications/domain/usecases/mark_notification_read_usecase.dart';
 import 'notification_state.dart';
 
 @injectable
 class NotificationCubit extends SafeCubit<NotificationState> {
   final GetNotificationsUseCase _getNotificationsUseCase;
-  final LoadMoreNotificationsUseCase _loadMoreNotificationsUseCase;
-  final MarkAsReadUseCase _markAsReadUseCase;
+  final GetUnreadCountUseCase _getUnreadCountUseCase;
+  final MarkNotificationReadUseCase _markNotificationReadUseCase;
+  final MarkAllNotificationsReadUseCase _markAllNotificationsReadUseCase;
   final DeleteNotificationUseCase _deleteNotificationUseCase;
-  final ClearAllNotificationsUseCase _clearAllNotificationsUseCase;
+  final RegisterDeviceTokenUseCase _registerDeviceTokenUseCase;
+  final RemoveDeviceTokenUseCase _removeDeviceTokenUseCase;
 
   NotificationCubit(
     this._getNotificationsUseCase,
-    this._loadMoreNotificationsUseCase,
-    this._markAsReadUseCase,
+    this._getUnreadCountUseCase,
+    this._markNotificationReadUseCase,
+    this._markAllNotificationsReadUseCase,
     this._deleteNotificationUseCase,
-    this._clearAllNotificationsUseCase,
+    this._registerDeviceTokenUseCase,
+    this._removeDeviceTokenUseCase,
   ) : super(const NotificationState());
 
-  static const int _pageSize = 10;
-  static const int _maxItems = 20;
+  //  FCM Token 
 
-  Future<void> loadNotifications() async {
+  /// Gets the FCM token and registers it with the backend.
+  Future<void> registerFcmToken() async {
+    final token = await FcmService.getToken();
+    if (token == null) return;
+
+    final result = await _registerDeviceTokenUseCase(token);
+    result.fold(
+      (failure) => log('[FCM] Failed to register token: ${failure.message}'),
+      (msg) => log('[FCM] Token registered: $msg'),
+    );
+  }
+
+  /// Removes the FCM token from the backend (call before logout).
+  Future<void> removeFcmToken() async {
+    final token = await FcmService.getToken();
+    if (token == null) return;
+
+    final result = await _removeDeviceTokenUseCase(token);
+    result.fold(
+      (failure) => log('[FCM] Failed to remove token: ${failure.message}'),
+      (msg) => log('[FCM] Token removed: $msg'),
+    );
+  }
+
+  //  Notifications 
+
+  Future<void> getNotifications() async {
     safeEmit(state.copyWith(status: NotificationStatus.loading));
 
-    final operation = cancelableOperation(_getNotificationsUseCase(limit: _pageSize));
+    final operation = cancelableOperation(_getNotificationsUseCase());
     final result = await operation.value;
 
     result.fold(
@@ -39,20 +75,25 @@ class NotificationCubit extends SafeCubit<NotificationState> {
         state.copyWith(
           status: NotificationStatus.success,
           notifications: notifications,
-          hasReachedMax: notifications.length >= _maxItems,
         ),
       ),
     );
   }
 
-  Future<void> loadMore() async {
-    if (state.hasReachedMax ||
-        state.status == NotificationStatus.loading ||
-        state.notifications.length >= _maxItems) {
-      return;
-    }
+  Future<void> getUnreadCount() async {
+    final operation = cancelableOperation(_getUnreadCountUseCase());
+    final result = await operation.value;
 
-    final operation = cancelableOperation(_loadMoreNotificationsUseCase(limit: _pageSize));
+    result.fold(
+      (failure) {},
+      (count) => safeEmit(state.copyWith(unreadCount: count)),
+    );
+  }
+
+  Future<void> markAsRead(int notificationId) async {
+    final operation = cancelableOperation(
+      _markNotificationReadUseCase(notificationId),
+    );
     final result = await operation.value;
 
     result.fold(
@@ -62,45 +103,59 @@ class NotificationCubit extends SafeCubit<NotificationState> {
           errorMessage: failure.message,
         ),
       ),
-      (notifications) => safeEmit(
-        state.copyWith(
-          status: NotificationStatus.success,
-          notifications: notifications,
-          hasReachedMax: notifications.length >= _maxItems,
-        ),
-      ),
+      (message) {
+        getNotifications();
+        getUnreadCount();
+      },
     );
   }
 
-  void markAsRead(int index) async {
-    final operation = cancelableOperation(_markAsReadUseCase(index));
-    await operation.value;
-    
-    // We can optimistically update the state locally 
-    // to avoid waiting for the repository if needed, 
-    // but fetching from cached notifications is fine too.
-    // For simplicity, let's optimistically update:
-    final currentList = List.of(state.notifications);
-    if (index >= 0 && index < currentList.length && currentList[index].isUnread) {
-      currentList[index] = currentList[index].copyWith(isUnread: false);
-      safeEmit(state.copyWith(notifications: currentList));
-    }
+  Future<void> markAllAsRead() async {
+    final operation = cancelableOperation(_markAllNotificationsReadUseCase());
+    final result = await operation.value;
+
+    result.fold(
+      (failure) => safeEmit(
+        state.copyWith(
+          status: NotificationStatus.failure,
+          errorMessage: failure.message,
+        ),
+      ),
+      (message) {
+        safeEmit(state.copyWith(successMessage: message));
+        getNotifications();
+        getUnreadCount();
+      },
+    );
   }
 
-  void deleteNotification(int index) async {
-    final operation = cancelableOperation(_deleteNotificationUseCase(index));
-    await operation.value;
+  Future<void> deleteNotification(int notificationId) async {
+    final operation = cancelableOperation(
+      _deleteNotificationUseCase(notificationId),
+    );
+    final result = await operation.value;
 
-    final currentList = List.of(state.notifications);
-    if (index >= 0 && index < currentList.length) {
-      currentList.removeAt(index);
-      safeEmit(state.copyWith(notifications: currentList));
-    }
+    result.fold(
+      (failure) => safeEmit(
+        state.copyWith(
+          status: NotificationStatus.failure,
+          errorMessage: failure.message,
+        ),
+      ),
+      (message) {
+        safeEmit(state.copyWith(successMessage: message));
+        getNotifications();
+      },
+    );
   }
 
-  void clearAll() async {
-    final operation = cancelableOperation(_clearAllNotificationsUseCase());
-    await operation.value;
-    safeEmit(state.copyWith(notifications: [], hasReachedMax: false));
+  void clearMessages() {
+    safeEmit(NotificationState(
+      status: state.status,
+      notifications: state.notifications,
+      unreadCount: state.unreadCount,
+      errorMessage: null,
+      successMessage: null,
+    ));
   }
 }

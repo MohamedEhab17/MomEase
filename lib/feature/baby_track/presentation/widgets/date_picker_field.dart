@@ -11,7 +11,7 @@ class DatePickerField extends StatelessWidget {
   final ValueChanged<DateTime> onDateSelected;
   final String hint;
   final String? label;
-  final Color ? fillColor;
+  final Color? fillColor;
   const DatePickerField({
     super.key,
     this.selectedDate,
@@ -27,13 +27,18 @@ class DatePickerField extends StatelessWidget {
       context: context,
       initialDate: selectedDate ?? now,
       firstDate: DateTime(now.year - 2),
-      lastDate: now.add(const Duration(days: 365 * 2)),
+      lastDate: DateTime(now.year, now.month, now.day, 23, 59, 59),
       builder: (context, child) => Theme(
         data: context.theme.copyWith(
-          colorScheme: ColorScheme.light(
+          colorScheme: context.theme.colorScheme.copyWith(
             primary: context.ext.colors.primaryDark,
-            onPrimary: Colors.white,
+            onPrimary: context.colors.onPrimary,
             onSurface: context.colors.onSurface,
+          ),
+          datePickerTheme: DatePickerThemeData(
+            // headerBackgroundColor: context.ext.colors.primaryDark,
+            backgroundColor: context.theme.cardColor,
+            headerForegroundColor: context.ext.colors.greyPrimary,
           ),
         ),
         child: child!,
@@ -45,13 +50,13 @@ class DatePickerField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         if (label != null) ...[
           Text(
             label!,
             style: context.text.bodyLarge!.copyWith(
-              color: context.colors.onSurfaceVariant,
+              color: context.theme.colorScheme.onSecondary,
               fontWeight: FontWeight.w500,
             ),
           ),

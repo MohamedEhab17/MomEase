@@ -20,6 +20,7 @@ import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/app_section/presentation/view_model/logout_cubit/logout_cubit.dart';
 import 'package:new_mama/feature/app_section/presentation/view_model/profile_cubit/profile_cubit.dart' as old;
 import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart' as mother;
+import 'package:new_mama/feature/notifications/presentation/view_model/notification_cubit.dart';
 import '../view_model/cubit/bottom_nav_cubit.dart';
 
 class AppSectionView extends StatefulWidget {
@@ -91,6 +92,7 @@ class _AppSectionViewState extends State<AppSectionView>
         BlocProvider(create: (_) => BottomNavCubit()),
         BlocProvider(create: (_) => getIt<CategoryCubit>()..fetchArticlesCategory()),
         BlocProvider(create: (_) => getIt<HomeArticlesCubit>()..loadHomeArticles()),
+        BlocProvider(create: (_) => getIt<NotificationCubit>()..getUnreadCount()),
         BlocProvider(create: (_) => getIt<LogoutCubit>()),
         BlocProvider(create: (_) => getIt<mother.ProfileCubit>()..loadProfile()),
         BlocProvider.value(value: getIt<old.ProfileCubit>()..getProfile()),
@@ -120,6 +122,7 @@ class _AppSectionViewState extends State<AppSectionView>
                         onPageChanged: (i) {
                           context.read<BottomNavCubit>().setIndex(i);
                           context.read<BottomNavCubit>().show();
+                          context.read<NotificationCubit>().getUnreadCount();
                         },
                         itemBuilder: (_, i) =>
                             ScrollVisibilityWrapper(child: tabs[i].view),

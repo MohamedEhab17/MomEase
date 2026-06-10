@@ -23,9 +23,9 @@ class NotificationHeader extends StatelessWidget {
               TextButton(
                 onPressed: state.notifications.isEmpty
                     ? null
-                    : () => context.read<NotificationCubit>().clearAll(),
+                    : () => context.read<NotificationCubit>().markAllAsRead(),
                 child: Text(
-                  context.trContext(TK.notificationsClearAll),
+                  context.trContext(TK.notificationReadAll),
                   style: context.text.titleMedium!.copyWith(
                     fontWeight: FontWeight.w600,
                     color: state.notifications.isEmpty

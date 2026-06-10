@@ -45,7 +45,10 @@ import 'package:new_mama/feature/auth/presentation/views/login_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/reset_password_view.dart';
 import 'package:new_mama/feature/auth/presentation/views/sign_up_view.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/email_verified_success_widget.dart';
+import 'package:new_mama/feature/baby_cry/domain/entities/cry_analysis.dart';
+import 'package:new_mama/feature/baby_cry/presentation/view_model/cubit/baby_cry_cubit.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/cry_analyzing_view.dart';
+import 'package:new_mama/feature/baby_cry/presentation/views/crying_history_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_insight_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_recording_session_view.dart';
 import 'package:new_mama/feature/baby_cry/presentation/views/crying_result_view.dart';
@@ -73,6 +76,7 @@ import 'package:new_mama/feature/skin_diagnosis/presentation/view/skin_diagnosis
 import 'package:new_mama/feature/skin_diagnosis/presentation/view_model/skin_diagnosis_cubit.dart';
 import 'package:new_mama/feature/skin_diagnosis/domain/entities/skin_analysis.dart';
 import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_cubit.dart';
+import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/baby_track_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/insights_view.dart';
 import 'package:new_mama/feature/articles/presentation/view/article_search_view.dart';
@@ -165,12 +169,13 @@ class AppRouter {
             if (postId == null) {
               return const Scaffold(body: Center(child: Text('Invalid post ID')));
             }
+            final action = state.uri.queryParameters['action'];
             return MultiBlocProvider(
               providers: [
                 BlocProvider(create: (_) => getIt<CommunityCubit>()),
                 BlocProvider(create: (_) => getIt<PostDetailsCubit>()..fetchPostDetails(postId)),
               ],
-              child: PostDetailsView(postId: postId),
+              child: PostDetailsView(postId: postId, action: action),
             );
           },
         ),
@@ -375,34 +380,46 @@ class AppRouter {
           ),
         ),
 
-        GoRoute(
-          path: AppRoutesPaths.cryingInsightView,
-          name: 'cryingInsightView',
-          builder: (context, state) => CryingInsightView(),
-        ),
-
-        GoRoute(
-          path: AppRoutesPaths.cryingRecordingSessionView,
-          name: 'cryingRecordingSessionView',
-          builder: (context, state) => CryingRecordingSessionView(),
-        ),
-        GoRoute(
-          path: AppRoutesPaths.cryingResultView,
-          name: 'cryingResultView',
-          builder: (context, state) {
-            final extra = state.extra;
-            if (extra is List<String>) {
-              return CryingResultView(advices: extra);
-            }
-            return const Scaffold(
-              body: Center(child: Text('Invalid Advice Data')),
-            );
-          },
-        ),
-        GoRoute(
-          path: AppRoutesPaths.cryAnalyzingView,
-          name: 'cryAnalyzingView',
-          builder: (context, state) => CryAnalyzingView(),
+        ShellRoute(
+          builder: (context, state, child) => BlocProvider(
+            create: (_) => getIt<BabyCryCubit>(),
+            child: child,
+          ),
+          routes: [
+            GoRoute(
+              path: AppRoutesPaths.cryingInsightView,
+              name: 'cryingInsightView',
+              builder: (context, state) => const CryingInsightView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.cryingRecordingSessionView,
+              name: 'cryingRecordingSessionView',
+              builder: (context, state) => const CryingRecordingSessionView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.cryingResultView,
+              name: 'cryingResultView',
+              builder: (context, state) {
+                final extra = state.extra;
+                if (extra is CryAnalysis) {
+                  return CryingResultView(analysis: extra);
+                }
+                return const Scaffold(
+                  body: Center(child: Text('Invalid Analysis Data')),
+                );
+              },
+            ),
+            GoRoute(
+              path: AppRoutesPaths.cryAnalyzingView,
+              name: 'cryAnalyzingView',
+              builder: (context, state) => const CryAnalyzingView(),
+            ),
+            GoRoute(
+              path: AppRoutesPaths.cryingHistoryView,
+              name: 'cryingHistoryView',
+              builder: (context, state) => const CryingHistoryView(),
+            ),
+          ],
         ),
         // Shell gives insight → photo → analyzing → result → history a shared cubit
         ShellRoute(
@@ -445,14 +462,17 @@ class AppRouter {
           path: AppRoutesPaths.babyTrackView,
           name: 'babyTrackView',
           builder: (context, state) => BlocProvider(
-            create: (_) => BabyTrackCubit(),
+            create: (_) => getIt<BabyTrackCubit>(),
             child: const BabyTrackView(),
           ),
         ),
         GoRoute(
           path: AppRoutesPaths.babyTrackInsightsView,
           name: 'babyTrackInsightsView',
-          builder: (context, state) => const InsightsView(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => getIt<FeedingInsightsCubit>(),
+            child: const InsightsView(),
+          ),
         ),
         ShellRoute(
           builder: (context, state, child) {
@@ -536,7 +556,6 @@ class AppRouter {
             ),
           ],
         ),
-
         // ── Children Feature Routes ─────────────────────────────────────────
         GoRoute(
           path: AppRoutesPaths.childrenListView,
@@ -597,6 +616,64 @@ class AppRouter {
           path: AppRoutesPaths.notificationView,
           name: 'notificationView',
           builder: (context, state) => const NotificationView(),
+        ),
+        GoRoute(
+          path: '/assessments/results/:resultId',
+          name: 'notificationAssessmentResult',
+          builder: (context, state) {
+            final resultIdStr = state.pathParameters['resultId'];
+            final resultId = int.tryParse(resultIdStr ?? '') ?? 0;
+            return BlocProvider(
+              create: (context) =>
+                  getIt<AssessmentResultCubit>()..getResult(resultId),
+              child: const DepressionResultView(assessment: null),
+            );
+          },
+        ),
+        GoRoute(
+          path: '/assessments/follow-up/:followUpId',
+          name: 'notificationAssessmentFollowUp',
+          builder: (context, state) => BlocProvider(
+            create: (context) => getIt<AssessmentsCubit>()..fetchAssessments(),
+            child: const DepressionTestOptionsView(),
+          ),
+        ),
+        GoRoute(
+          path: '/mental-health/tips/:tipId',
+          name: 'notificationMentalHealthTip',
+          builder: (context, state) => const DepressionView(),
+        ),
+        GoRoute(
+          path: '/tracking',
+          name: 'notificationTrackingBase',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<BabyTrackCubit>(),
+            child: const BabyTrackView(),
+          ),
+        ),
+        GoRoute(
+          path: '/tracking/child/:childId',
+          name: 'notificationTrackingChild',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<BabyTrackCubit>(),
+            child: const BabyTrackView(),
+          ),
+        ),
+        GoRoute(
+          path: '/my-posts',
+          name: 'notificationMyPostsDashed',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<CommunityCubit>()..loadMyPosts(),
+            child: const MyPostsView(),
+          ),
+        ),
+        GoRoute(
+          path: '/myposts',
+          name: 'notificationMyPostsRaw',
+          builder: (context, state) => BlocProvider(
+            create: (_) => getIt<CommunityCubit>()..loadMyPosts(),
+            child: const MyPostsView(),
+          ),
         ),
       ],
     );

@@ -178,7 +178,14 @@ class _CommentItemState extends State<CommentItem> {
   }
 
   Widget _buildCommentHeader() {
-    final initials = widget.comment.userName.trim().split(' ').map((w) => w[0]).take(2).join().toUpperCase();
+    final initials = widget.comment.userName
+        .trim()
+        .split(' ')
+        .where((w) => w.isNotEmpty)
+        .map((w) => w[0])
+        .take(2)
+        .join()
+        .toUpperCase();
     final photo = _resolvedPhoto;
 
     return Row(
@@ -214,7 +221,7 @@ class _CommentItemState extends State<CommentItem> {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
-                        context.isAr ? 'صاحب المنشور' : 'Author',
+                       context.trContext(TK.communityAuthor),
                         style: context.text.labelSmall!.copyWith(
                           color: Colors.white,
                           fontSize: 10.sp,

@@ -33,9 +33,13 @@ class AnimatedDialogContainer extends StatelessWidget {
                 ),
                 margin: margin ?? EdgeInsets.symmetric(horizontal: 20.w),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
+                  //    color: Theme.of(context).colorScheme.surface,
+                  color: context.theme.cardColor,
                   borderRadius: borderRadius ?? BorderRadius.circular(40.r),
-                  border: Border.all(color: context.ext.colors.primaryLight, width: 1),
+                  border: Border.all(
+                    color: context.ext.colors.primaryLight,
+                    width: 1,
+                  ),
                 ),
                 child: SingleChildScrollView(
                   clipBehavior: Clip.none,

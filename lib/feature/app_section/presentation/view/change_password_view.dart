@@ -90,10 +90,11 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
 
   Widget _buildHeader() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Text(
-          "Change Password",
+          context.trContext(TK.authChangePassword),
+          
           style: context.text.headlineSmall!.copyWith(
             fontWeight: FontWeight.bold,
             color: context.colors.primary,
@@ -101,7 +102,8 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
         ),
         8.h.height,
         Text(
-          "Your new password must be different from previous used passwords.",
+          context.trContext(TK.authChangePasswordInstructions) 
+         ,
           style: context.text.bodyMedium!.copyWith(
             color: context.colors.onSurface.withAlpha(150),
           ),
@@ -117,13 +119,13 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           TextFormFieldHelper(
             fillColor: context.theme.cardColor,
             controller: _currentPasswordController,
-            label: "Current Password",
-            hint: "Enter your current password",
+            label:  context.trContext(TK.authCurrentPassword),
+            hint: context.trContext(TK.authCurrentPassword),
             isVisible: true,
             isPassword: true,
             borderRadius: BorderRadius.circular(64),
             autoFillHint: [AutofillHints.password],
-            prefixIcon: Icon(Icons.lock_open, color: context.colors.primary),
+            //prefixIcon: Icon(Icons.lock_open, color: context.colors.primary),
             onValidate: (value) => validatePassword(value),
           ),
           20.h.height,
@@ -131,12 +133,12 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
             fillColor: context.theme.cardColor,
             controller: _newPasswordController,
             borderRadius: BorderRadius.circular(64),
-            label: "New Password",
-            hint: "Minimum 8 characters",
+            label:  context.trContext(TK.authChangePasswordNewHint),
+            hint:  context.trContext(TK.authChangePasswordNewHint),
             isVisible: true,
             isPassword: true,
             autoFillHint: [AutofillHints.newPassword],
-            prefixIcon: Icon(Icons.lock_outline, color: context.colors.primary),
+          //  prefixIcon: Icon(Icons.lock_outline, color: context.colors.primary),
             onValidate: (value) => validatePassword(value),
             //
             // (v) => v!.length < 8 ? "Minimum 8 characters" : null,
@@ -146,12 +148,12 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
             fillColor: context.theme.cardColor,
             controller: _confirmPasswordController,
             borderRadius: BorderRadius.circular(64),
-            label: "Confirm New Password",
-            hint: "Retype your new password",
+            label:  context.trContext(TK.authConfirmNewPassword),
+            hint:  context.trContext(TK.authConfirmNewPassword),
             isVisible: true,
             isPassword: true,
             autoFillHint: [AutofillHints.newPassword],
-            prefixIcon: Icon(Icons.lock_reset, color: context.colors.primary),
+           // prefixIcon: Icon(Icons.lock_reset, color: context.colors.primary),
             onValidate: (value) =>
                 validateConfirmPassword(value, _newPasswordController.text),
             
@@ -168,7 +170,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           minimumSize: Size(double.infinity, 52.h),
           text: state is ManageProfileLoading
               ? "Updating..."
-              : "Update Password",
+              : "update",
           onPressed: state is ManageProfileLoading
               ? null
               : () {
