@@ -25,6 +25,14 @@ class AppImages {
   /// assets/images/luna.svg
   static const String imagesLuna = "assets/images/luna.svg";
 
+  /// Assets for imagesLunaBody (chatbot empty state body)
+  /// assets/images/luna_body.svg
+  static const String imagesLunaBody = "assets/images/luna_body.svg";
+
+  /// Assets for imagesLunaArm (chatbot empty state arm)
+  /// assets/images/luna_arm.svg
+  static const String imagesLunaArm = "assets/images/luna_arm.svg";
+
   /// Assets for imagesPassword
   /// assets/images/password.png
   static const String imagesPassword = "assets/images/password.png";
