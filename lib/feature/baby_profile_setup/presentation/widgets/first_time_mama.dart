@@ -36,7 +36,7 @@ class FirstTimeMama extends StatelessWidget {
                   true,
                 );
                 context.read<OnboardingCubit>().nextStep();
-                context.push(AppRoutesPaths.babyCount);
+                context.push(AppRoutesPaths.babyName);
               },
               minimumSize: Size(double.infinity, 56.h),
               elevation: 5,
@@ -50,7 +50,7 @@ class FirstTimeMama extends StatelessWidget {
                   false,
                 );
                 context.read<OnboardingCubit>().nextStep();
-                context.push(AppRoutesPaths.babyCount);
+                context.push(AppRoutesPaths.babyName);
               },
               backgroundColor: context.theme.buttonTheme.colorScheme!.secondary,
               borderColor: context.ext.colors.primaryDark,

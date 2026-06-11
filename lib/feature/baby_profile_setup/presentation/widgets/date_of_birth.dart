@@ -86,7 +86,7 @@ class _DateOfBirthState extends State<DateOfBirth> {
       builder: (context, child) {
         return Theme(
           data: context.theme.copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: context.theme.colorScheme.copyWith(
               primary: context.ext.colors.primaryDark,
               onPrimary: context.colors.onPrimary,
               onSurface: context.colors.onSurface,

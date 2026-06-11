@@ -9,7 +9,6 @@ import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubi
 import 'package:new_mama/feature/baby_profile_setup/presentation/views/baby_profile_onboarding_layout.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/views/baby_profile_onboarding_view.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/all_set_up.dart';
-import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/baby_count.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/baby_gender.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/baby_name.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/birth_experience.dart';
@@ -94,15 +93,24 @@ class AppRouter {
 
   static Future<void> initRouter() async {
     String initialLocation = AppRoutesPaths.login;
+    Map<String, dynamic>? emailVerificationExtra;
     try {
       final authLocalDataSource = getIt<AuthLocalDataSource>();
       final isOnboardingCompleted = authLocalDataSource.isOnboardingCompleted();
       final tokens = await authLocalDataSource.getTokens();
       final isUserLoggedIn = tokens != null;
       final isBabySetupCompleted = authLocalDataSource.isBabySetupCompleted();
+      final pendingEmail = authLocalDataSource.getPendingVerificationEmail();
 
       if (!isOnboardingCompleted) {
         initialLocation = AppRoutesPaths.onboarding;
+      } else if (isUserLoggedIn && pendingEmail != null) {
+        // User registered but never verified — take them back to OTP screen
+        initialLocation = AppRoutesPaths.emailVerification;
+        emailVerificationExtra = {
+          'type': VerificationType.signup,
+          'email': pendingEmail,
+        };
       } else if (isUserLoggedIn && !isBabySetupCompleted) {
         initialLocation = AppRoutesPaths.babyProfileOnboardingView;
       } else if (isUserLoggedIn) {
@@ -118,10 +126,8 @@ class AppRouter {
     }
 
     router = GoRouter(
-      initialLocation:
-       initialLocation
-      //AppRoutesPaths.depressionTestOptionsView
-      ,
+      initialLocation: initialLocation,
+      initialExtra: emailVerificationExtra,
       routes: [
         GoRoute(
           path: AppRoutesPaths.onboarding,
@@ -482,7 +488,7 @@ class AppRouter {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (context) => OnboardingCubit(totalSteps: 9),
+                  create: (context) => OnboardingCubit(totalSteps: 8),
                 ),
                 BlocProvider.value(
                   value: getIt<ChildrenCubit>(),
@@ -506,13 +512,6 @@ class AppRouter {
               name: 'firstTimeMama',
               pageBuilder: (context, state) {
                 return const NoTransitionPage(child: FirstTimeMama());
-              },
-            ),
-            GoRoute(
-              path: AppRoutesPaths.babyCount,
-              name: 'babyCount',
-              pageBuilder: (context, state) {
-                return const NoTransitionPage(child: BabyCount());
               },
             ),
             GoRoute(

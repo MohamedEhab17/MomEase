@@ -5,6 +5,8 @@ import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:new_mama/core/routers/app_router.dart';
+
 class AppToast {
   AppToast._();
 
@@ -16,11 +18,12 @@ class AppToast {
     Duration duration = const Duration(seconds: 4),
     IconData? iconData,
   }) {
-    final colors = context.ext.colors;
-    final isDark = context.theme.brightness == Brightness.dark;
+    final rootContext = AppRouter.router.routerDelegate.navigatorKey.currentContext ?? context;
+    final colors = rootContext.ext.colors;
+    final isDark = rootContext.theme.brightness == Brightness.dark;
 
     toastification.show(
-      context: context,
+      context: rootContext,
       type: type,
       style: ToastificationStyle.minimal,
       title: Text(

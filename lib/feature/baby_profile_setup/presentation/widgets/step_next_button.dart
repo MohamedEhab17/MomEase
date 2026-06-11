@@ -24,7 +24,6 @@ class StepNextButton extends StatelessWidget {
   static const List<String> _stepRoutes = [
     AppRoutesPaths.babyProfileOnboardingView,
     AppRoutesPaths.firstTimeMama,
-    AppRoutesPaths.babyCount,
     AppRoutesPaths.babyName,
     AppRoutesPaths.babyGender,
     AppRoutesPaths.dateOfBirth,
@@ -44,10 +43,22 @@ class StepNextButton extends StatelessWidget {
           padding: EdgeInsets.only(top: 48.h),
           child: BlocConsumer<ChildrenCubit, ChildrenState>(
             listener: (context, childState) async {
+              final onboardingState = context.read<OnboardingCubit>().state;
+              final isLast = onboardingState.currentStep >= _stepRoutes.length - 1;
+              if (!isLast) return;
+
               if (childState is ChildActionSuccess) {
-                await getIt<AuthLocalDataSource>().setBabySetupCompleted();
-                if (context.mounted) {
-                  context.go(AppRoutesPaths.appSectionView);
+                // Check if there are more children to create
+                final nextChild = context.read<OnboardingCubit>().consumeNextPendingChild();
+                if (nextChild != null) {
+                  // Still have more children — keep creating, don't navigate yet
+                  context.read<ChildrenCubit>().createChild(nextChild);
+                } else {
+                  // All children created — mark setup done and go to app
+                  await getIt<AuthLocalDataSource>().setBabySetupCompleted();
+                  if (context.mounted) {
+                    context.go(AppRoutesPaths.appSectionView);
+                  }
                 }
               } else if (childState is ChildrenError) {
                 AppToast.error(context, message: childState.message);
@@ -56,7 +67,7 @@ class StepNextButton extends StatelessWidget {
             },
             builder: (context, childState) {
               final isLoading = childState is ChildrenActionLoading;
-              
+
               return CustomElevatedButton(
                 text: isLastStep
                     ? context.trContext(TK.onboardingStartJourney)
@@ -92,4 +103,3 @@ class StepNextButton extends StatelessWidget {
     );
   }
 }
-

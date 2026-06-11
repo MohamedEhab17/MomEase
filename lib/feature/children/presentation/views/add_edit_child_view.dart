@@ -90,7 +90,7 @@ class _AddEditChildViewState extends State<AddEditChildView> {
       lastDate: DateTime.now(),
       builder: (context, child) => Theme(
         data: context.theme.copyWith(
-          colorScheme: ColorScheme.light(
+          colorScheme: context.theme.colorScheme.copyWith(
             primary: context.ext.colors.primaryDark,
             onPrimary: context.colors.onPrimary,
             onSurface: context.colors.onSurface,

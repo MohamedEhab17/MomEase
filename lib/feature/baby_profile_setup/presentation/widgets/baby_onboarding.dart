@@ -5,6 +5,7 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/utils/app_images.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/widgets/step_next_button.dart';
 
 class BabyOnboarding extends StatelessWidget {
@@ -16,7 +17,13 @@ class BabyOnboarding extends StatelessWidget {
       child: Column(
         children: [
           80.height,
-          SvgPicture.asset(AppImages.imagesMama),
+          SvgPicture.asset(
+            AppImages.imagesMama,
+            colorMapper: AppSvgColorMapper(
+              from: const Color(0xffFF9BBC),
+              to: context.colors.primary,
+            ),
+          ),
           60.height,
           RichText(
             text: TextSpan(

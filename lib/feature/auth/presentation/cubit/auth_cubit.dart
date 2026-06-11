@@ -40,6 +40,8 @@ class AuthCubit extends SafeCubit<AuthState> {
     this._biometricLoginUseCase,
   ) : super(AuthInitial());
 
+  String? _registrationPassword;
+
   Future<void> checkUserAuth() async {
     // We don't have a specific use case for this yet, but we can access repository directly if needed
     // or just let it be Initial for now. 
@@ -77,6 +79,7 @@ class AuthCubit extends SafeCubit<AuthState> {
     required int age,
   }) async {
     emit(AuthLoading());
+    _registrationPassword = password;
     final result = await _registerUseCase(
       firstName: firstName,
       lastName: lastName,
@@ -87,8 +90,11 @@ class AuthCubit extends SafeCubit<AuthState> {
       age: age,
     );
     result.fold(
-      (failure) => emit(AuthError(_mapFailureToMessage(failure))),
-      (user) => emit(AuthSuccess(user)),
+      (failure) {
+        _registrationPassword = null;
+        emit(AuthError(_mapFailureToMessage(failure)));
+      },
+      (user) => emit(RegisterSuccess(user)),
     );
   }
 
@@ -97,7 +103,18 @@ class AuthCubit extends SafeCubit<AuthState> {
     final result = await _verifyEmailUseCase(email: email, otpCode: otpCode);
     result.fold(
       (failure) => emit(AuthError(_mapFailureToMessage(failure))),
-      (message) => emit(EmailVerificationSuccess(message)),
+      (message) async {
+        if (_registrationPassword != null) {
+          final loginResult = await _loginUseCase(email: email, password: _registrationPassword!);
+          _registrationPassword = null;
+          loginResult.fold(
+            (failure) => emit(EmailVerificationSuccess(message)),
+            (user) => emit(EmailVerificationSuccess(message)),
+          );
+        } else {
+          emit(EmailVerificationSuccess(message));
+        }
+      },
     );
   }
 

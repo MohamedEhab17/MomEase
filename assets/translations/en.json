@@ -42,7 +42,19 @@
       "app_bar_title": "Forget Password",
       "instructions": "Please enter your Email address to receive a verification code",
       "email_hint": "Email Address",
-      "send_code": "Send Code"
+      "send_code": "Send Code",
+      "code_sent_title": "Code Sent",
+      "code_sent_message": "Check your email for the reset code."
+    },
+    "reset_password_screen": {
+      "app_bar_title": "Reset Password",
+      "instructions": "Please enter the 4-digit code sent to your email to reset your password.",
+      "reset_button": "Save & Reset Password",
+      "new_password_hint": "New Password",
+      "confirm_password_hint": "Confirm Password",
+      "verification_code": "Verification Code",
+      "reset_success_title": "Password Reset",
+      "code_resent_title": "Code Resent"
     },
     "create_password_screen": {
       "change_password_title" : "Change Password",
@@ -58,7 +70,10 @@
       "didnt_receive_first": "Didn't receive code? ",
       "spam_link": "Check your spam",
       "resend_now": "You can resend now",
-      "spam_snackbar": "Check your spam folder"
+      "spam_snackbar": "Check your spam folder",
+      "email_verified_title": "Email Verified",
+      "email_verified_message": "Your email has been verified successfully.",
+      "code_resent_title": "Code Resent"
     }
 
   },
@@ -356,6 +371,7 @@
     "next": "Next",
     "start_journey": "Start Your Journey",
     "skip": "Skip",
+    "step_progress": "{current} of {total}",
     "start": "Start",
     "screen_1_title": "You're not alone anymore",
     "screen_1_desc": "Get emotional support and expert guidance throughout your postpartum journey.",

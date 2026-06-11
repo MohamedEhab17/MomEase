@@ -105,18 +105,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             },
           ),
 
-          24.h.height,
-
-          // Tip text
-          Text(
-            context.trContext(TK.commonRetry),
-            style: context.text.titleMedium!.copyWith(
-              color: context.colors.primary,
-              decoration: TextDecoration.underline,
-              decorationThickness: 1.h,
-              decorationColor: context.colors.primary,
-            ),
-          ),
         ],
       ),
     );
@@ -124,12 +112,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     return BlocProvider.value(
       value: getIt<AuthCubit>(),
       child: BlocListener<AuthCubit, AuthState>(
+        listenWhen: (prev, next) => ModalRoute.of(context)?.isCurrent ?? false,
         listener: (context, state) {
           if (state is ForgotPasswordSuccess) {
             AppToast.success(
               context,
-              title: 'Code Sent',
-              message: 'Check your email for the reset code.',
+              title: context.trContext(TK.authForgetCodeSentTitle),
+              message: context.trContext(TK.authForgetCodeSentMessage),
             );
             // Navigate directly to reset password screen where user will enter OTP and new password
             context.push(

@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/utils/validation_methods.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/widgets/text_form_field_helper.dart';
 
 class ResetPasswordForm extends StatelessWidget {
@@ -24,7 +26,7 @@ class ResetPasswordForm extends StatelessWidget {
         TextFormFieldHelper(
           controller: passwordController,
           isPassword: true,
-          hint: 'New Password',
+          hint: context.trContext(TK.authResetNewPasswordHint),
           fillColor: context.theme.cardColor,
           borderRadius: BorderRadius.circular(64.r),
           onValidate: validatePassword,
@@ -34,7 +36,7 @@ class ResetPasswordForm extends StatelessWidget {
         TextFormFieldHelper(
           controller: confirmPasswordController,
           isPassword: true,
-          hint: 'Confirm Password',
+          hint: context.trContext(TK.authResetConfirmPasswordHint),
           fillColor: context.theme.cardColor,
           borderRadius: BorderRadius.circular(64.r),
           onValidate: (v) =>

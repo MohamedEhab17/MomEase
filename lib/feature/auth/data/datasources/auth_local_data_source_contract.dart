@@ -12,6 +12,10 @@ abstract class AuthLocalDataSource {
   bool isOnboardingCompleted();
   Future<void> setBabySetupCompleted();
   bool isBabySetupCompleted();
+  /// Saves the email that is awaiting OTP verification after registration.
+  Future<void> savePendingVerificationEmail(String email);
+  String? getPendingVerificationEmail();
+  Future<void> clearPendingVerificationEmail();
   Future<void> clearAll();
 }
 

@@ -61,6 +61,7 @@ class _CreatePasswordState extends State<CreatePassword> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (prev, next) => ModalRoute.of(context)?.isCurrent ?? false,
       listener: (context, state) {
         if (state is ChangePasswordSuccess) {
           AppToast.success(

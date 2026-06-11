@@ -113,6 +113,9 @@ class AuthRepositoryImpl implements AuthRepository {
           if (tokens != null) {
             await _localDataSource.saveTokens(tokens);
           }
+          // Mark email as pending verification so the router can redirect back
+          // to the OTP screen if the user restarts before verifying.
+          await _localDataSource.savePendingVerificationEmail(email);
 
           if (user != null) {
             return Right(user);
@@ -143,6 +146,35 @@ class AuthRepositoryImpl implements AuthRepository {
         );
 
         if (response.success) {
+          // Email verified — remove the pending flag
+          await _localDataSource.clearPendingVerificationEmail();
+
+          final tokens = response.data?.tokens;
+          final user = response.data?.user;
+
+          if (tokens != null) {
+            await _localDataSource.saveTokens(tokens);
+          } else {
+            // Proactively refresh tokens to get a fresh token with confirmed claims
+            final currentTokens = await _localDataSource.getTokens();
+            if (currentTokens != null && currentTokens.refreshToken.isNotEmpty) {
+              try {
+                final refreshResponse = await _remoteDataSource.refreshToken(
+                  refreshToken: currentTokens.refreshToken,
+                );
+                if (refreshResponse.success && refreshResponse.data?.tokens != null) {
+                  await _localDataSource.saveTokens(refreshResponse.data!.tokens!);
+                }
+              } catch (_) {
+                // Ignore silent refresh errors here
+              }
+            }
+          }
+
+          if (user != null) {
+            await _localDataSource.saveUser(user);
+          }
+
           return Right(response.message);
         } else {
           return Left(ServerFailure(response.message));

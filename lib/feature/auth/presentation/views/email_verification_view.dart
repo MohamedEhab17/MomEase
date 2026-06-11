@@ -135,12 +135,13 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
     );
 
     return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (prev, next) => ModalRoute.of(context)?.isCurrent ?? false,
       listener: (context, state) {
         if (state is EmailVerificationSuccess) {
           AppToast.success(
             context,
-            title: 'Email Verified',
-            message: 'Your email has been verified successfully.',
+            title: context.trContext(TK.authVerificationEmailVerifiedTitle),
+            message: context.trContext(TK.authVerificationEmailVerifiedMessage),
           );
           if (widget.type == VerificationType.signup) {
             context.go(AppRoutesPaths.emailVerifiedSuccess);
@@ -156,7 +157,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
         } else if (state is ResendOtpSuccess) {
           AppToast.success(
             context,
-            title: 'Code Resent',
+            title: context.trContext(TK.authVerificationCodeResentTitle),
             message: state.message,
           );
         } else if (state is AuthError) {

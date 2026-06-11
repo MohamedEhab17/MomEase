@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:pinput/pinput.dart';
 
 class ResetPasswordOtpSection extends StatelessWidget {
@@ -72,12 +74,15 @@ class ResetPasswordOtpSection extends StatelessWidget {
             TextButton(
               onPressed: canResend ? onResend : null,
               child: Text(
-                'Resend Code',
+                context.trContext(TK.authResendCode),
                 style: context.text.titleSmall!.copyWith(
                   color: canResend
                       ? context.colors.primary
                       : context.ext.colors.lightTextDisabled,
                   decoration: TextDecoration.underline,
+                  decorationColor: canResend
+                      ? context.colors.primary
+                      : context.ext.colors.lightTextDisabled,
                 ),
               ),
             ),

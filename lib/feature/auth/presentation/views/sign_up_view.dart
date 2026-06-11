@@ -141,8 +141,9 @@ class _SignUpViewState extends State<SignUpView> {
     );
 
     return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (prev, next) => ModalRoute.of(context)?.isCurrent ?? false,
       listener: (context, state) {
-        if (state is AuthSuccess) {
+        if (state is RegisterSuccess) {
           context.push(
             AppRoutesPaths.emailVerification,
             extra: {

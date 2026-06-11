@@ -15,7 +15,6 @@ import 'package:new_mama/feature/auth/domain/repositories/auth_repository.dart';
 import 'package:new_mama/core/widgets/modal_progress_hud.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:new_mama/feature/auth/presentation/cubit/auth_state.dart';
-import 'package:new_mama/feature/children/domain/repositories/children_repository.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_button_row.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_footer.dart';
 import 'package:new_mama/feature/auth/presentation/widgets/login_form.dart';
@@ -155,7 +154,9 @@ class _LoginViewState extends State<LoginView> {
     );
 
     return BlocListener<AuthCubit, AuthState>(
-      listenWhen: (prev, next) => next is AuthSuccess || next is AuthError,
+      listenWhen: (prev, next) =>
+          (ModalRoute.of(context)?.isCurrent ?? false) &&
+          (next is AuthSuccess || next is AuthError),
       listener: (context, state) {
         if (state is AuthSuccess) {
           // Register FCM device token with the backend after successful login.
@@ -167,34 +168,11 @@ class _LoginViewState extends State<LoginView> {
           getIt<mother.ProfileCubit>().loadProfile();
           getIt<ChildrenCubit>().loadChildren();
 
-          // Check if the user already has children registered on the server.
-          // This avoids showing the baby info setup onboarding flow to existing users.
-          getIt<ChildrenRepository>().getChildren().then((result) {
-            result.fold(
-              (failure) {
-                // Fallback to local cache flag if the API call fails
-                if (context.mounted) {
-                  final isBabySetupCompleted = getIt<AuthLocalDataSource>().isBabySetupCompleted();
-                  if (isBabySetupCompleted) {
-                    context.go(AppRoutesPaths.appSectionView);
-                  } else {
-                    context.go(AppRoutesPaths.babyProfileOnboardingView);
-                  }
-                }
-              },
-              (children) async {
-                if (context.mounted) {
-                  if (children.isNotEmpty) {
-                    await getIt<AuthLocalDataSource>().setBabySetupCompleted();
-                    if (context.mounted) {
-                      context.go(AppRoutesPaths.appSectionView);
-                    }
-                  } else {
-                    context.go(AppRoutesPaths.babyProfileOnboardingView);
-                  }
-                }
-              },
-            );
+          // Always set baby setup completed on successful login so existing users are never forced into onboarding.
+          getIt<AuthLocalDataSource>().setBabySetupCompleted().then((_) {
+            if (context.mounted) {
+              context.go(AppRoutesPaths.appSectionView);
+            }
           });
         } else if (state is AuthError) {
           if (state.message.contains(

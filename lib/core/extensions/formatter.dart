@@ -24,7 +24,7 @@ extension EmailMasking on String {
     final end = endVisible > 0 ? name.substring(name.length - endVisible) : '';
 
     final maskedLength = name.length - (startVisible + endVisible);
-    final masked = '*' * (maskedLength > 0 ? maskedLength : 0);
+    final masked = '•' * (maskedLength > 0 ? maskedLength : 0);
 
     return '$start$masked$end@$domain';
   }

@@ -41,7 +41,7 @@ class EmailVerifiedSuccessWidget extends StatelessWidget {
               text: "Continue",
               minimumSize: Size(double.infinity, 52.h),
               onPressed: () {
-                context.pushReplacement(AppRoutesPaths.login);
+                context.go(AppRoutesPaths.babyProfileOnboardingView);
               },
             ),
           ],

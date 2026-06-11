@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:new_mama/core/extensions/formatter.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
 import 'package:new_mama/core/helper/app_toast.dart';
 import 'package:new_mama/core/routers/app_router_paths.dart';
 import 'package:new_mama/core/utils/validation_methods.dart';
@@ -144,11 +146,12 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     );
 
     return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (prev, next) => ModalRoute.of(context)?.isCurrent ?? false,
       listener: (context, state) {
         if (state is ResetPasswordSuccess) {
           AppToast.success(
             context,
-            title: 'Password Reset',
+            title: context.trContext(TK.authResetSuccessTitle),
             message: state.message,
           );
           context.go(AppRoutesPaths.login);
@@ -157,7 +160,11 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
           final message = state is ResendOtpSuccess
               ? state.message
               : (state as ForgotPasswordSuccess).message;
-          AppToast.success(context, title: 'Code Resent', message: message);
+          AppToast.success(
+            context,
+            title: context.trContext(TK.authResetCodeResentTitle),
+            message: message,
+          );
         } else if (state is AuthError) {
           AppToast.error(context, message: state.message);
         }
@@ -183,7 +190,10 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       backgroundColor: context.theme.appBarTheme.backgroundColor,
       scrolledUnderElevation: 0,
       centerTitle: true,
-      title: Text('Reset Password', style: context.text.displaySmall!),
+      title: Text(
+        context.trContext(TK.authResetAppBarTitle),
+        style: context.text.displaySmall!,
+      ),
       leading: IconButton(
         onPressed: () => context.pop(),
         icon: Icon(
@@ -233,7 +243,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
         return Opacity(
           opacity: _isFormValid && !isLoading ? 1.0 : 0.5,
           child: CustomElevatedButton(
-            text: 'Save & Reset Password',
+            text: context.trContext(TK.authResetButton),
             minimumSize: Size(double.infinity, 52.h),
             onPressed: _isFormValid && !isLoading ? _submit : null,
           ),

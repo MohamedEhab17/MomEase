@@ -41,7 +41,19 @@
       "app_bar_title": "نسيت كلمة المرور",
       "instructions": "أدخلي بريدك الإلكتروني عشان نبعت لك كود التحقق",
       "email_hint": "البريد الإلكتروني",
-      "send_code": "إرسال الكود"
+      "send_code": "إرسال الكود",
+      "code_sent_title": "تم إرسال الكود",
+      "code_sent_message": "تحققي من بريدك الإلكتروني للحصول على رمز إعادة التعيين."
+    },
+    "reset_password_screen": {
+      "app_bar_title": "إعادة تعيين كلمة المرور",
+      "instructions": "أدخلي رمز التحقق المكون من 4 أرقام المرسل إلى بريدك الإلكتروني لإعادة تعيين كلمة المرور.",
+      "reset_button": "حفظ وإعادة تعيين كلمة المرور",
+      "new_password_hint": "كلمة المرور الجديدة",
+      "confirm_password_hint": "تأكيد كلمة المرور",
+      "verification_code": "رمز التحقق",
+      "reset_success_title": "تم إعادة تعيين كلمة المرور",
+      "code_resent_title": "تم إعادة إرسال الكود"
     },
     "create_password_screen": {
       "instructions": "لازم كلمة المرور الجديدة تكون مختلفة عن القديمة",
@@ -55,7 +67,10 @@
       "didnt_receive_first": "ما وصلش الكود؟ ",
       "spam_link": "راجعي الرسائل غير المرغوب فيها",
       "resend_now": "ممكن تعيدي الإرسال دلوقتي",
-      "spam_snackbar": "راجعي صندوق الرسائل غير الهامة"
+      "spam_snackbar": "راجعي صندوق الرسائل غير الهامة",
+      "email_verified_title": "تم تأكيد البريد",
+      "email_verified_message": "تم تأكيد بريدك الإلكتروني بنجاح.",
+      "code_resent_title": "تم إعادة إرسال الكود"
     },
     "change_password_screen": {
        "change_password_title" : "تغيير كلمة المرور",
@@ -362,6 +377,7 @@
     "next": "التالي",
     "start_journey": "ابدئي رحلتك",
     "skip": "تخطي",
+    "step_progress": "{current} من {total}",
     "start": "ابدأ",
     "screen_1_title": "مش لوحدك بعد كده",
     "screen_1_desc": "دعم نفسي وإرشادات من خبراء طوال رحلة ما بعد الولادة",

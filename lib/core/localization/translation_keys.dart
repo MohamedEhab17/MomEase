@@ -49,6 +49,18 @@ class TK {
       'auth.forget_password_screen.instructions';
   static const authForgetEmailHint = 'auth.forget_password_screen.email_hint';
   static const authForgetSendCode = 'auth.forget_password_screen.send_code';
+  static const authForgetCodeSentTitle = 'auth.forget_password_screen.code_sent_title';
+  static const authForgetCodeSentMessage = 'auth.forget_password_screen.code_sent_message';
+
+  // Reset Password Screen
+  static const authResetAppBarTitle = 'auth.reset_password_screen.app_bar_title';
+  static const authResetInstructions = 'auth.reset_password_screen.instructions';
+  static const authResetButton = 'auth.reset_password_screen.reset_button';
+  static const authResetNewPasswordHint = 'auth.reset_password_screen.new_password_hint';
+  static const authResetConfirmPasswordHint = 'auth.reset_password_screen.confirm_password_hint';
+  static const authResetVerificationCode = 'auth.reset_password_screen.verification_code';
+  static const authResetSuccessTitle = 'auth.reset_password_screen.reset_success_title';
+  static const authResetCodeResentTitle = 'auth.reset_password_screen.code_resent_title';
 
   // Create Password Screen
   static const authCreatePwdInstructions =
@@ -56,7 +68,7 @@ class TK {
   static const authCreatePwdNewHint =
       'auth.create_password_screen.new_password_hint';
   static const authCreatePwdConfirmHint =
-      'auth.create_password_screen.confirm_new_password_hint';
+      'auth.create_password_screen.confirm_password_hint';
   static const authCreatePwdSaveButton =
       'auth.create_password_screen.save_button';
 
@@ -72,6 +84,12 @@ class TK {
       'auth.verification_screen.resend_now';
   static const authVerificationSpamSnackbar =
       'auth.verification_screen.spam_snackbar';
+  static const authVerificationEmailVerifiedTitle =
+      'auth.verification_screen.email_verified_title';
+  static const authVerificationEmailVerifiedMessage =
+      'auth.verification_screen.email_verified_message';
+  static const authVerificationCodeResentTitle =
+      'auth.verification_screen.code_resent_title';
 
   // change Password Screen
 
@@ -431,6 +449,7 @@ class TK {
   static const onboardingNext = 'onboarding.next';
   static const onboardingStartJourney = 'onboarding.start_journey';
   static const onboardingSkip = 'onboarding.skip';
+  static const onboardingStepProgress = 'onboarding.step_progress';
   static const onboardingStart = 'onboarding.start';
   static const onboardingScreen1Title = 'onboarding.screen_1_title';
   static const onboardingScreen1Desc = 'onboarding.screen_1_desc';

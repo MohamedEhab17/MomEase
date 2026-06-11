@@ -18,6 +18,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const String _refreshTokenExpireKey = 'refresh_token_expire';
   static const String _onboardingKey = 'onboarding_completed';
   static const String _babySetupKey = 'baby_profile_setup_done';
+  static const String _pendingVerificationEmailKey = 'pending_verification_email';
 
   AuthLocalDataSourceImpl(this._sharedPrefs, this._secureStorageHelper);
 
@@ -39,6 +40,21 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   bool isBabySetupCompleted() {
     return _sharedPrefs.getBool(_babySetupKey) ?? false;
+  }
+
+  @override
+  Future<void> savePendingVerificationEmail(String email) async {
+    await _sharedPrefs.setString(_pendingVerificationEmailKey, email);
+  }
+
+  @override
+  String? getPendingVerificationEmail() {
+    return _sharedPrefs.getString(_pendingVerificationEmailKey);
+  }
+
+  @override
+  Future<void> clearPendingVerificationEmail() async {
+    await _sharedPrefs.remove(_pendingVerificationEmailKey);
   }
 
   @override
@@ -91,6 +107,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     await _sharedPrefs.remove(_userKey);
     await _sharedPrefs.remove(_accessTokenExpireKey);
     await _sharedPrefs.remove(_refreshTokenExpireKey);
+    await _sharedPrefs.remove(_pendingVerificationEmailKey);
     await _secureStorageHelper.deleteAll();
   }
 }

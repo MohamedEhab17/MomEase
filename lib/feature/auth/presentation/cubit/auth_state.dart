@@ -12,9 +12,22 @@ class AuthInitial extends AuthState {}
 
 class AuthLoading extends AuthState {}
 
+/// Emitted after a successful **login** (or Google/biometric login).
+/// LoginView listens to this to navigate into the app.
 class AuthSuccess extends AuthState {
   final User user;
   const AuthSuccess(this.user);
+
+  @override
+  List<Object?> get props => [user];
+}
+
+/// Emitted after a successful **registration**.
+/// SignUpView listens to this to push to email verification.
+/// LoginView deliberately ignores this state.
+class RegisterSuccess extends AuthState {
+  final User user;
+  const RegisterSuccess(this.user);
 
   @override
   List<Object?> get props => [user];
