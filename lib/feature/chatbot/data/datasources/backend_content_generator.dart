@@ -112,9 +112,8 @@ class BackendContentGenerator implements ContentGenerator {
       // 2. Extract text safely
       final String text = MessageExtractor.extract(message);
 
-      // 3. Locale detection
-      final String rawLocale = PlatformDispatcher.instance.locale.languageCode;
-      final String locale = rawLocale == 'ar' ? 'ar' : 'en';
+      // 3. Detect language from the message text itself (not device locale)
+      final String locale = _detectLanguage(text);
 
       // 4. Session management – regenerate if new conversation
       if (history == null || history.isEmpty || _conversationId == null) {
@@ -123,7 +122,7 @@ class BackendContentGenerator implements ContentGenerator {
       }
 
       // 5. Build request payload with enhanced prompt to instruct LLM dynamically
-      final String enhancedPrompt = _buildEnhancedPrompt(text);
+      final String enhancedPrompt = _buildEnhancedPrompt(text, locale);
 
       final Map<String, dynamic> payload = {
         'userId': userId,
@@ -380,12 +379,23 @@ class BackendContentGenerator implements ContentGenerator {
     _messageQueue.clear();
   }
 
+  /// Detects the language of the user's message by scanning for Arabic Unicode characters.
+  /// Falls back to 'en' if no Arabic characters are found.
+  String _detectLanguage(String text) {
+    final arabicPattern = RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]');
+    return arabicPattern.hasMatch(text) ? 'ar' : 'en';
+  }
+
   /// Appends formatting schemas and guidelines to instruct the AI dynamically
-  String _buildEnhancedPrompt(String userPrompt) {
+  String _buildEnhancedPrompt(String userPrompt, String language) {
+    final String langInstruction = language == 'ar'
+        ? 'IMPORTANT: The user wrote in Arabic. You MUST reply entirely in Arabic. Do NOT use English in your reply text.'
+        : 'IMPORTANT: The user wrote in English. You MUST reply entirely in English. Do NOT use Arabic in your reply text.';
     return '''
 $userPrompt
 
-[Instruct:Luna AI (postpartum/baby care only). Refuse off-topic.
+[$langInstruction
+Instruct:Luna AI (postpartum/baby care only). Refuse off-topic.
 Reply text and JSON 'uiPayload':
 - `InformationCard`: {"name":"InformationCard","arguments":{"title":{"literalString":"T"},"body":{"literalString":"B"}}}
 - `Trailhead`: {"name":"Trailhead","arguments":{"topics":[{"literalString":"O"}],"action":{"name":"select_topic"}}}
@@ -398,8 +408,7 @@ Reply text and JSON 'uiPayload':
 Rules:
 - Greeting: Reply text & MoodCheckCard.
 - Mood logged: NO MoodCheckCard. Give advice (InformationCard) & options (Trailhead).
-- If tired, offer fatigue/rest advice, NOT recovery.
-- Reply warmly in user's language.]
+- If tired, offer fatigue/rest advice, NOT recovery.]
 ''';
   }
 }

@@ -57,6 +57,25 @@ abstract class FallbackUiFactory {
 
   //  Embedded JSON Components Parser 
 
+  /// Extracts the raw JSON string from a line, handling both formats:
+  ///   1. `{"name":"MoodCheckCard",...}` — bare JSON
+  ///   2. `` `MoodCheckCard`: {"name":"MoodCheckCard",...} `` — LLM labelled format
+  /// Returns null if no JSON object could be extracted.
+  static String? _extractJsonFromLine(String trimmed) {
+    if (trimmed.startsWith('{')) return trimmed;
+
+    // Handle: `ComponentName`: {...}  or  ComponentName: {...}
+    final labeledMatch = RegExp(
+      r'^`?[A-Za-z]+`?\s*:\s*(\{.*)',
+    ).firstMatch(trimmed);
+    if (labeledMatch != null) {
+      final jsonPart = labeledMatch.group(1);
+      if (jsonPart != null && jsonPart.startsWith('{')) return jsonPart;
+    }
+
+    return null;
+  }
+
   /// Private helper to repair common trailing bracket/brace omissions in LLM-generated JSON
   static String _tryRepairJson(String input) {
     String text = input.trim();
@@ -106,8 +125,9 @@ abstract class FallbackUiFactory {
     // 1. Decode and analyze calls from lines
     for (final line in lines) {
       final trimmed = line.trim();
-      if (trimmed.startsWith('{')) {
-        final repaired = _tryRepairJson(trimmed);
+      final String? jsonRaw = _extractJsonFromLine(trimmed);
+      if (jsonRaw != null) {
+        final repaired = _tryRepairJson(jsonRaw);
         try {
           final decoded = jsonDecode(repaired);
           if (decoded is Map<String, dynamic> && decoded.containsKey('name')) {
@@ -187,8 +207,9 @@ abstract class FallbackUiFactory {
     for (final line in lines) {
       final trimmed = line.trim();
       bool isJsonCall = false;
-      if (trimmed.startsWith('{')) {
-        final repaired = _tryRepairJson(trimmed);
+      final String? jsonRaw = _extractJsonFromLine(trimmed);
+      if (jsonRaw != null) {
+        final repaired = _tryRepairJson(jsonRaw);
         try {
           final decoded = jsonDecode(repaired);
           if (decoded is Map<String, dynamic> && decoded.containsKey('name')) {
