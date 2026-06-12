@@ -94,12 +94,24 @@ class _Trailhead extends StatelessWidget {
 
     final colors = context.ext.colors;
 
+    // Detect if the suggestions list contains Arabic to set correct Wrap alignment
+    bool isArabicList = false;
+    for (final t in topics) {
+      final str = t['literalString'] as String?;
+      if (str != null && RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]').hasMatch(str)) {
+        isArabicList = true;
+        break;
+      }
+    }
+    final TextDirection listDirection = isArabicList ? TextDirection.rtl : TextDirection.ltr;
+
     return GenUIEntranceAnimation(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         child: Wrap(
           spacing: 8.w,
           runSpacing: 8.h,
+          textDirection: listDirection,
           children: topics.map((topicRef) {
             final ValueNotifier<String?> notifier = dataContext.subscribeToString(
               topicRef,
@@ -109,36 +121,58 @@ class _Trailhead extends StatelessWidget {
               valueListenable: notifier,
               builder: (context, topic, child) {
                 if (topic == null || topic.isEmpty) return const SizedBox.shrink();
-                return InputChip(
-                  label: Text(
-                    topic,
-                    style: AppStyles.styleRoboto16.copyWith(
-                      color: colors.primaryDark,
-                      fontWeight: FontWeight.w600,
+
+                final bool isArabicTopic = RegExp(
+                  r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]',
+                ).hasMatch(topic);
+                final TextDirection chipDirection =
+                    isArabicTopic ? TextDirection.rtl : TextDirection.ltr;
+
+                return Directionality(
+                  textDirection: chipDirection,
+                  child: Material(
+                    color: colors.primaryExtraLight.withAlpha(128),
+                    borderRadius: BorderRadius.circular(20.r),
+                    elevation: 1.0,
+                    shadowColor: colors.primary.withAlpha(20),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20.r),
+                      onTap: () => GenUIActionHelper.dispatch(
+                        context: context,
+                        action: action,
+                        widgetId: widgetId,
+                        dispatchEvent: dispatchEvent,
+                        dataContext: dataContext,
+                        additionalContext: {'topic': topic},
+                      ),
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.sizeOf(context).width - 48.w,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 10.h,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            color: colors.primary.withAlpha(64),
+                            width: 1.2.w,
+                          ),
+                        ),
+                        child: Text(
+                          topic,
+                          style: AppStyles.styleRoboto16.copyWith(
+                            color: colors.primaryDark,
+                            fontWeight: FontWeight.w600,
+                            height: 1.3,
+                          ),
+                          softWrap: true,
+                          maxLines: null,
+                          textAlign: isArabicTopic ? TextAlign.right : TextAlign.left,
+                        ),
+                      ),
                     ),
-                  ),
-                  labelStyle: AppStyles.styleRoboto16.copyWith(
-                    color: colors.primaryDark,
-                  ),
-                  backgroundColor: colors.primaryExtraLight.withAlpha(128),
-                  selectedColor: colors.primaryExtraLight,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                    side: BorderSide(
-                      color: colors.primary.withAlpha(64),
-                      width: 1.2.w,
-                    ),
-                  ),
-                  shadowColor: colors.primary.withAlpha(20),
-                  elevation: 1.5,
-                  pressElevation: 3.0,
-                  onPressed: () => GenUIActionHelper.dispatch(
-                    context: context,
-                    action: action,
-                    widgetId: widgetId,
-                    dispatchEvent: dispatchEvent,
-                    dataContext: dataContext,
-                    additionalContext: {'topic': topic},
                   ),
                 );
               },
