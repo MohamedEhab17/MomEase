@@ -4,6 +4,7 @@ import 'package:new_mama/core/enums/verification_type.dart'
     show VerificationType;
 import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:go_router/go_router.dart';
+import 'package:new_mama/feature/splash/presentation/view/splash_view.dart';
 import 'package:new_mama/feature/articles/domain/entities/article_category.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/view_model/cubit/onboarding_cubit.dart';
 import 'package:new_mama/feature/baby_profile_setup/presentation/views/baby_profile_onboarding_layout.dart';
@@ -90,6 +91,8 @@ import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_co
 
 class AppRouter {
   static late final GoRouter router;
+  static String nextRouteAfterSplash = AppRoutesPaths.login;
+  static Map<String, dynamic>? nextRouteExtra;
 
   static Future<void> initRouter() async {
     String initialLocation = AppRoutesPaths.login;
@@ -125,10 +128,17 @@ class AppRouter {
       initialLocation = AppRoutesPaths.login;
     }
 
+    nextRouteAfterSplash = initialLocation;
+    nextRouteExtra = emailVerificationExtra;
+
     router = GoRouter(
-      initialLocation: initialLocation,
-      initialExtra: emailVerificationExtra,
+      initialLocation: AppRoutesPaths.splash,
       routes: [
+        GoRoute(
+          path: AppRoutesPaths.splash,
+          name: 'splash',
+          builder: (context, state) => const SplashView(),
+        ),
         GoRoute(
           path: AppRoutesPaths.onboarding,
           name: 'onboarding',
