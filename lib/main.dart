@@ -84,7 +84,7 @@ class NewMama extends StatelessWidget {
 
                   return ToastificationWrapper(
                     child: MaterialApp.router(
-                      title: 'New Mama',
+                      title: 'MomEase',
                       theme: getTheme(),
                       themeAnimationCurve: Curves.fastOutSlowIn,
                       themeAnimationDuration: const Duration(

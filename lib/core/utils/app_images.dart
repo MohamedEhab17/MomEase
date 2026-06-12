@@ -21,39 +21,51 @@ class AppImages {
   /// assets/images/email_verification.png
   static const String imagesEmailVerification =
       "assets/images/email_verification.png";
-      
+
   /// Assets for imagesPassword
   /// assets/images/password.png
-  static const String imagesPassword =  "assets/images/password.png";
+  static const String imagesPassword = "assets/images/password.png";
+
   /// Assets for imagesForgetPassword
   /// assets/images/forget_password.png
-  static const String imagesForgetPassword=  "assets/images/forget_password.png";
+  static const String imagesForgetPassword =
+      "assets/images/forget_password.png";
 
   /// Assets for imagesArticles
   /// assets/images/articles.png
-  static const String imagesArticles=  "assets/images/articles.png";
-  
-   /// Assets for imagesDepression
+  static const String imagesArticles = "assets/images/articles.png";
+
+  /// Assets for imagesDepression
   /// assets/images/depression.svg
-  static const String imagesDepression=  "assets/images/depression.svg";
+  static const String imagesDepression = "assets/images/depression.svg";
 
-   /// Assets for imagesArticleCategory
+  /// Assets for imagesArticleCategory
   /// assets/images/article_category.png
-  static const String imagesArticleCategory=  "assets/images/article_category.png";
+  static const String imagesArticleCategory =
+      "assets/images/article_category.png";
 
-   /// Assets for imagesArticleCategoryItems
+  /// Assets for imagesArticleCategoryItems
   /// assets/images/article_category_items.png
-  static const String imagesArticleCategoryItems=  "assets/images/article_category_items.png";
+  static const String imagesArticleCategoryItems =
+      "assets/images/article_category_items.png";
 
-   /// Assets for meditation
+  /// Assets for meditation
   /// assets/images/meditation.svg
-  static const String meditation=  "assets/images/meditation.svg"; 
-  
-   /// Assets for imagesRecord
+  static const String meditation = "assets/images/meditation.svg";
+
+  /// Assets for imagesRecord
   /// assets/images/record.gif
-  static const String imagesRecord=  "assets/images/record.gif";
-  
-   /// Assets for imagesMama
+  static const String imagesRecord = "assets/images/record.gif";
+
+  /// Assets for imagesMama
   /// assets/images/mama.svg
-  static const String imagesMama=  "assets/images/mama.svg";
+  static const String imagesMama = "assets/images/mama.svg";
+
+  /// Assets for imagesMomeaseLogo
+  /// assets/images/momease_logo.png
+  static const String imagesMomeaseLogo = "assets/images/momease_logo.png";
+
+  /// Assets for momeaseSvgLogo
+  /// assets/images/momease_svg_logo.svg
+  static const String momeaseSvgLogo = "assets/images/momease_svg_logo.svg";
 }
