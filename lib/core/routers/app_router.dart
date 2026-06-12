@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_mama/core/enums/verification_type.dart'
-    show VerificationType;
+import 'package:new_mama/core/enums/verification_type.dart' show VerificationType;
 import 'package:new_mama/feature/articles/domain/entities/article.dart';
 import 'package:go_router/go_router.dart';
 import 'package:new_mama/feature/splash/presentation/view/splash_view.dart';
@@ -80,13 +79,15 @@ import 'package:new_mama/feature/baby_track/presentation/view_model/baby_track_c
 import 'package:new_mama/feature/baby_track/presentation/view_model/feeding_insights_cubit.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/baby_track_view.dart';
 import 'package:new_mama/feature/baby_track/presentation/views/insights_view.dart';
-
 import 'package:new_mama/feature/articles/presentation/view/article_search_view.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/article_detail/article_detail_cubit.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/category_articles/category_articles_cubit.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/saved_articles/saved_articles_cubit.dart';
 import 'package:new_mama/feature/articles/presentation/view_model/search_articles/search_articles_cubit.dart';
 import 'package:new_mama/feature/auth/data/datasources/auth_local_data_source_contract.dart';
+// Chatbot
+import 'package:new_mama/feature/chatbot/di/chatbot_di.dart';
+import 'package:new_mama/feature/chatbot/presentation/views/chatbot_view.dart';
 
 
 class AppRouter {
@@ -237,6 +238,14 @@ class AppRouter {
           builder: (context, state) => const EmailVerifiedSuccessWidget(),
         ),
         GoRoute(
+          path: AppRoutesPaths.chatbot,
+          name: 'chatbot',
+          builder: (context, state) => BlocProvider(
+            create: (context) => ChatbotDI.createCubit(),
+            child: const ChatbotView(),
+          ),
+        ),
+        GoRoute(
           path: AppRoutesPaths.createPassword,
           name: 'createPassword',
           builder: (context, state) => BlocProvider.value(
@@ -339,8 +348,9 @@ class AppRouter {
           path: AppRoutesPaths.depressionTestOptionsView,
           name: 'depressionTestOptionsView',
           builder: (context, state) => BlocProvider(
-            create: (context) =>getIt<AssessmentsCubit> ()..fetchAssessments(),
-            child: const DepressionTestOptionsView()),
+            create: (context) => getIt<AssessmentsCubit>()..fetchAssessments(),
+            child: const DepressionTestOptionsView(),
+          ),
         ),
         ShellRoute(
           builder: (context, state, child) {
@@ -458,8 +468,7 @@ class AppRouter {
             GoRoute(
               path: AppRoutesPaths.skinDiagnosisAnalyzingView,
               name: 'skinDiagnosisAnalyzingView',
-              builder: (context, state) =>
-                  const SkinDiagnosisAnalyzingView(),
+              builder: (context, state) => const SkinDiagnosisAnalyzingView(),
             ),
             GoRoute(
               path: AppRoutesPaths.skinDiagnosisResultView,
@@ -472,8 +481,7 @@ class AppRouter {
             GoRoute(
               path: AppRoutesPaths.skinDiagnosisHistoryView,
               name: 'skinDiagnosisHistoryView',
-              builder: (context, state) =>
-                  const SkinDiagnosisHistoryView(),
+              builder: (context, state) => const SkinDiagnosisHistoryView(),
             ),
           ],
         ),
@@ -568,8 +576,7 @@ class AppRouter {
             ),
           ],
         ),
-        
-        //  Children Feature Routes 
+        // ── Children Feature Routes ─────────────────────────────────────────
         GoRoute(
           path: AppRoutesPaths.childrenListView,
           name: 'childrenListView',
@@ -598,7 +605,7 @@ class AppRouter {
             );
           },
         ),
-         GoRoute(
+        GoRoute(
           path: AppRoutesPaths.addChildView,
           name: 'addChildView',
           builder: (context, state) {
@@ -625,7 +632,7 @@ class AppRouter {
           name: 'changePasswordView',
           builder: (context, state) => const ChangePasswordView(),
         ),
-         GoRoute(
+        GoRoute(
           path: AppRoutesPaths.notificationView,
           name: 'notificationView',
           builder: (context, state) => const NotificationView(),

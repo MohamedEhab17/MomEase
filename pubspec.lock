@@ -305,6 +305,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.12"
+  decimal:
+    dependency: transitive
+    description:
+      name: decimal
+      sha256: fc706a5618b81e5b367b01dd62621def37abc096f2b46a9bd9068b64c1fa36d0
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.4"
   device_frame:
     dependency: transitive
     description:
@@ -361,6 +369,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2"
+  email_validator:
+    dependency: transitive
+    description:
+      name: email_validator
+      sha256: b19aa5d92fdd76fbc65112060c94d45ba855105a28bb6e462de7ff03b12fa1fb
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   equatable:
     dependency: "direct main"
     description:
@@ -555,6 +571,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.7+1"
+  flutter_markdown_plus:
+    dependency: transitive
+    description:
+      name: flutter_markdown_plus
+      sha256: "039177906850278e8fb1cd364115ee0a46281135932fa8ecea8455522166d2de"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
   flutter_native_splash:
     dependency: "direct dev"
     description:
@@ -685,6 +709,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.9"
+  genui:
+    dependency: "direct main"
+    description:
+      name: genui
+      sha256: "3bd70b5cd2d22d294fb47d064ab15b420b21e8632139e36635725d1623705452"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
+  genui_google_generative_ai:
+    dependency: "direct main"
+    description:
+      name: genui_google_generative_ai
+      sha256: "89df3a89a9428692dc9976cb089884a9b088012b5ecacbc7757e6e2d9d842848"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
   get_it:
     dependency: "direct main"
     description:
@@ -709,6 +749,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "17.1.0"
+  google_cloud:
+    dependency: transitive
+    description:
+      name: google_cloud
+      sha256: b385e20726ef5315d302c5933bfb728103116c5be2d3d17094b01a82da538c1f
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0"
+  google_cloud_ai_generativelanguage_v1beta:
+    dependency: transitive
+    description:
+      name: google_cloud_ai_generativelanguage_v1beta
+      sha256: b98c7b0c7369d796e8ba177e6743f959e7700dc9a7d0aef6c0431a147e014062
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
+  google_cloud_longrunning:
+    dependency: transitive
+    description:
+      name: google_cloud_longrunning
+      sha256: b724fc477c300d1c641a109bb5aafbc44f8b15833f509f4d69484add0ba6b96e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
+  google_cloud_protobuf:
+    dependency: transitive
+    description:
+      name: google_cloud_protobuf
+      sha256: "644f7b0be6293fdf5222f7be48a6d218dc28d3ac10e45b815bbff1ae9a43a572"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
+  google_cloud_rpc:
+    dependency: transitive
+    description:
+      name: google_cloud_rpc
+      sha256: "60cf014120298ac2229e755a74f659265fbf062f54b9512a9e38f24e84c26e1f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
+  google_cloud_type:
+    dependency: transitive
+    description:
+      name: google_cloud_type
+      sha256: "355a5648b9e1eaeb37baf8bd16f2d446e2f55ccdba22480792b829b0776208e7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -757,6 +845,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.12.4+4"
+  googleapis_auth:
+    dependency: transitive
+    description:
+      name: googleapis_auth
+      sha256: "1417d8846663df5e7b77ca56591c5edd442c66ffc9c01ab036e138a21a148e86"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
   graphs:
     dependency: transitive
     description:
@@ -949,6 +1045,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.11.0"
+  json_schema_builder:
+    dependency: "direct main"
+    description:
+      name: json_schema_builder
+      sha256: "9c45a80bc25d3b091e96a5a5da49dc7f80d5b0c8496cff60409f9739331ccefb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.5"
   leak_tracker:
     dependency: transitive
     description:
@@ -1198,7 +1302,7 @@ packages:
     source: hosted
     version: "2.2.0"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5"
@@ -1397,6 +1501,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  rational:
+    dependency: transitive
+    description:
+      name: rational
+      sha256: cb808fb6f1a839e6fc5f7d8cb3b0a10e1db48b3be102de73938c627f0b636336
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.3"
   readmore:
     dependency: "direct main"
     description:

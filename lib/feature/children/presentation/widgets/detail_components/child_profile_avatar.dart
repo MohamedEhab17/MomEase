@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/children/domain/entities/child.dart';
+import 'package:new_mama/feature/children/presentation/widgets/child_image_widget.dart';
 import 'package:new_mama/feature/children/presentation/widgets/children_ui_components.dart';
 
 class ChildProfileAvatar extends StatelessWidget {
@@ -48,20 +48,11 @@ class ChildProfileAvatar extends StatelessWidget {
                 width: 4,
               ),
             ),
-            child: child.photoUrl != null
-                ? ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl: child.photoUrl!.startsWith('http')
-                          ? child.photoUrl!
-                          : 'http://momease.runasp.net${child.photoUrl}',
-                      fit: BoxFit.cover,
-                      placeholder: (_, _) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      errorWidget: (_, _, _) => GenderEmoji(child: child),
-                    ),
-                  )
-                : GenderEmoji(child: child),
+            child: CircularChildImageWidget(
+              photoUrl: child.photoUrl,
+              size: 130.w,
+              fallback: GenderEmoji(child: child),
+            ),
           ),
         ),
         GestureDetector(

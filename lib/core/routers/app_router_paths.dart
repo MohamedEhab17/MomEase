@@ -5,6 +5,7 @@ class AppRoutesPaths {
   static const String onboarding = '/onboardingView';
   static const String emailVerification = '/emailVerificationView';
   static const String emailVerifiedSuccess = '/emailVerifiedSuccessView';
+  static const String chatbot = '/chatbotView';
   static const String createPassword = '/createPasswordView';
   static const String forgotPassword = '/forgotPasswordView';
   static const String resetPassword = '/resetPasswordView';
@@ -22,8 +23,7 @@ class AppRoutesPaths {
   static const String depressionHistoryView = '/depressionHistoryView';
   static const String cryingInsightView = '/cryingInsightView';
   static const String cryingResultView = '/cryingResultView';
-  static const String cryingRecordingSessionView =
-      '/cryingRecordingSessionView';
+  static const String cryingRecordingSessionView = '/cryingRecordingSessionView';
   static const String cryAnalyzingView = '/cryAnalyzingView';
   static const String cryingHistoryView = '/cryingHistoryView';
   static const String communityView = '/communityView';
@@ -33,8 +33,7 @@ class AppRoutesPaths {
   static const String savedPostsView = '/savedPostsView';
   static const String skinDiagnosisInsightView = '/skinDiagnosisInsightView';
   static const String skinDiagnosisPhotoView = '/skinDiagnosisPhotoView';
-  static const String skinDiagnosisAnalyzingView =
-      '/skinDiagnosisAnalyzingView';
+  static const String skinDiagnosisAnalyzingView = '/skinDiagnosisAnalyzingView';
   static const String skinDiagnosisResultView = '/skinDiagnosisResultView';
   static const String skinDiagnosisHistoryView = '/skinDiagnosisHistoryView';
   static const String babyProfileOnboardingView = '/babyProfileOnboardingView';
@@ -49,13 +48,13 @@ class AppRoutesPaths {
   static const String babyTrackView = '/babyTrackView';
   static const String babyTrackInsightsView = '/babyTrackInsightsView';
 
-  // ── Children feature ──────────────────────────────────────────────────────
+  // ── Children feature ────────────────────────────────────────────────────
   static const String childrenListView = '/childrenListView';
   static const String childDetailView = '/childDetailView';
   static const String addChildView = '/addChildView';
   static const String manageProfileView = '/manageProfileView';
   static const String changePasswordView = '/changePasswordView';
 
-  // ── Notification feature ─────────────────────────────────────────────────────
+  // ── Notification feature ─────────────────────────────────────────────────
   static const String notificationView = '/notificationView';
 }

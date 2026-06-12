@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/feature/children/domain/entities/child.dart';
+import 'package:new_mama/feature/children/presentation/widgets/child_image_widget.dart';
 
 class ChildCard extends StatelessWidget {
   final Child child;
@@ -62,17 +62,11 @@ class ChildCard extends StatelessWidget {
                   ),
                 ],
               ),
-              child: child.photoUrl != null
-                  ? ClipOval(
-                      child: CachedNetworkImage(
-                        imageUrl: child.photoUrl!.startsWith('http')
-                            ? child.photoUrl!
-                            : 'http://momease.runasp.net${child.photoUrl}',
-                        fit: BoxFit.cover,
-                        errorWidget: (_, __, ___) => _genderIcon(isBoy),
-                      ),
-                    )
-                  : _genderIcon(isBoy),
+              child: CircularChildImageWidget(
+                photoUrl: child.photoUrl,
+                size: 72.w,
+                fallback: _genderIcon(isBoy),
+              ),
             ),
             12.height,
             // Name

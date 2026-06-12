@@ -732,4 +732,15 @@ class TK {
   static const toastWarning = 'common.toast.warning';
   static const toastInfo = 'common.toast.info';
   static const toastActionFailed = 'common.toast.action_failed';
+
+  // 🔹 Chatbot
+  static const chatbotTitle = 'chatbot.title';
+  static const chatbotSubtitle = 'chatbot.subtitle';
+  static const chatbotWelcomeFirst = 'chatbot.welcome_first';
+  static const chatbotWelcomeSecond = 'chatbot.welcome_second';
+  static const chatbotHelpPrompt = 'chatbot.help_prompt';
+  static const chatbotInputHint = 'chatbot.input_hint';
+  static const chatbotDisclaimer = 'chatbot.disclaimer';
+  static const chatbotError = 'chatbot.error';
+  static const chatbotGuidanceTitle = 'chatbot.guidance_title';
 }

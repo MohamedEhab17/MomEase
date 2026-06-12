@@ -7,4 +7,8 @@ extension StringExtension on String {
     int englishCount = englishRegex.allMatches(this).length;
     return arabicCount > englishCount;
   }
+
+  /// Returns `null` when this string is empty or blank; otherwise returns `this`.
+  String? get nullIfEmpty => trim().isEmpty ? null : this;
 }
+

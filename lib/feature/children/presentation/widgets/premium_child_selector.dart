@@ -9,6 +9,7 @@ import 'package:new_mama/feature/children/domain/entities/child.dart';
 import 'package:new_mama/feature/children/presentation/cubit/active_child_cubit.dart';
 import 'package:new_mama/feature/children/presentation/cubit/children_cubit.dart';
 import 'package:new_mama/feature/children/presentation/cubit/children_state.dart';
+import 'package:new_mama/feature/children/presentation/widgets/child_image_widget.dart';
 
 class PremiumChildSelector extends StatelessWidget {
   const PremiumChildSelector({super.key});
@@ -153,18 +154,15 @@ class PremiumChildSelector extends StatelessWidget {
                                     color: Colors.white.withValues(alpha: 100),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: ClipOval(
-                                    child: child.photoUrl != null
-                                        ? Image.network(
-                                            child.photoUrl!,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Center(
-                                            child: Text(
-                                              child.isBoy ? '👦' : '👧',
-                                              style: TextStyle(fontSize: 16.sp),
-                                            ),
-                                          ),
+                                  child: CircularChildImageWidget(
+                                    photoUrl: child.photoUrl,
+                                    size: 32.w,
+                                    fallback: Center(
+                                      child: Text(
+                                        child.isBoy ? '👦' : '👧',
+                                        style: TextStyle(fontSize: 16.sp),
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 10.width,

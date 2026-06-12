@@ -13,6 +13,14 @@ class AppIcons {
   /// assets/icons/Success.json
   static const String iconsSuccess = "assets/icons/Success.json";
 
+  /// Assets for iconsLuna (chatbot icon - app bar)
+  /// assets/icons/luna_icon.svg
+  static const String iconsLuna = "assets/icons/luna_icon.svg";
+
+  /// Assets for iconsLunaBlue (chatbot icon - message bubbles)
+  /// assets/icons/luna_blue.svg
+  static const String iconsLunaBlue = "assets/icons/luna_blue.svg";
+
   /// Assets for iconsSkin
   /// assets/icons/skin.svg
   static const String iconsSkin = "assets/icons/skin.svg";
@@ -25,11 +33,6 @@ class AppIcons {
   /// assets/icons/tracking.svg
   static const String iconsBabyTracing = "assets/icons/tracking.svg";
 
-  /// Assets for iconsLuna
-  /// assets/icons/luna.svg
-
-  static const String iconsLuna = "assets/icons/luna.svg";
-
   /// Assets for iconsActiveCommunity
   /// assets/icons/activeCommunity.svg
   static const String iconsActiveCommunity = "assets/icons/activeCommunity.svg";
@@ -40,8 +43,7 @@ class AppIcons {
 
   /// Assets for iconsActiveNotification
   /// assets/icons/activeNotification.svg
-  static const String iconsActiveNotification =
-      "assets/icons/activeNotification.svg";
+  static const String iconsActiveNotification = "assets/icons/activeNotification.svg";
 
   /// Assets for iconsActiveProfile
   /// assets/icons/activeProfile.svg
@@ -49,8 +51,7 @@ class AppIcons {
 
   /// Assets for iconsInActiveCommunity
   /// assets/icons/inactiveCommunity.svg
-  static const String iconsInActiveCommunity =
-      "assets/icons/inactiveCommunity.svg";
+  static const String iconsInActiveCommunity = "assets/icons/inactiveCommunity.svg";
 
   /// Assets for iconsInActiveHome
   /// assets/icons/inactiveHome.svg
@@ -58,8 +59,7 @@ class AppIcons {
 
   /// Assets for iconsInActiveNotification
   /// assets/icons/inactiveNotification.svg
-  static const String iconsInActiveNotification =
-      "assets/icons/inactiveNotification.svg";
+  static const String iconsInActiveNotification = "assets/icons/inactiveNotification.svg";
 
   /// Assets for iconsInActiveProfile
   /// assets/icons/inactiveProfile.svg
@@ -180,11 +180,12 @@ class AppIcons {
   /// Assets for iconsCalender
   /// assets/icons/calender.svg
   static const String iconsCalender = "assets/icons/calender.svg";
+
   /// Assets for iconsQuestions
   /// assets/icons/questions.svg
   static const String iconsQuestions = "assets/icons/questions.svg";
-  
+
   /// Assets for iconsArrowBack
   /// assets/icons/arrow_back.svg
-  static const String  iconsArrowBack = "assets/icons/arrow_back.svg";
+  static const String iconsArrowBack = "assets/icons/arrow_back.svg";
 }
