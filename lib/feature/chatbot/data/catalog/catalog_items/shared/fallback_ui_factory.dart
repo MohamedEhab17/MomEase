@@ -159,6 +159,7 @@ abstract class FallbackUiFactory {
     required String text,
     required String language,
     required String surfaceId,
+    bool isGreeting = false,
   }) {
     final List<Map<String, dynamic>> parsedCalls = [];
     bool hasMoodCheckCard = false;
@@ -185,9 +186,21 @@ abstract class FallbackUiFactory {
       }
     }
 
-    // 2. Strip redundant Trailhead chips if an interactive MoodCheckCard is present
+    // 2. Handle MoodCheckCard presence based on conversation context:
+    //   • Greeting turn  → keep MoodCheckCard, remove Trailhead (card IS the greeting)
+    //   • Follow-up turn → remove MoodCheckCard (it was already shown), keep Trailhead
     if (hasMoodCheckCard) {
-      parsedCalls.removeWhere((call) => call['name'] == 'Trailhead');
+      if (isGreeting) {
+        // MoodCheckCard is the primary greeting widget; Trailhead is redundant here.
+        parsedCalls.removeWhere((call) => call['name'] == 'Trailhead');
+      } else {
+        // The AI mistakenly repeated MoodCheckCard — strip it so the user
+        // isn't asked to check their mood again after every reply.
+        parsedCalls.removeWhere((call) => call['name'] == 'MoodCheckCard');
+        debugPrint(
+          '[FallbackUiFactory] Stripped repeated MoodCheckCard (non-greeting turn).',
+        );
+      }
     }
 
     if (parsedCalls.isEmpty) return const [];
@@ -239,8 +252,10 @@ abstract class FallbackUiFactory {
 
   /// Strips raw embedded JSON component blocks from the response text.
   /// Handles both single-line and multi-line (pretty-printed) JSON blocks.
+  /// Also removes dangling component label lines left behind after JSON removal,
+  /// e.g. lines that look like:  `InformationCard`:   or   :`MoodCheckCard`
   static String cleanJsonCallsFromText(String text) {
-    // Remove every top-level JSON object that represents a known component.
+    // Step 1: Remove every top-level JSON object that represents a known component.
     String result = text;
     for (final jsonRaw in _extractAllJsonObjects(text)) {
       final repaired = _tryRepairJson(jsonRaw);
@@ -252,6 +267,30 @@ abstract class FallbackUiFactory {
         }
       } catch (_) {}
     }
+
+    // Step 2: Remove dangling component label lines left after JSON removal.
+    // Handles all variants the LLM produces, e.g.:
+    //   `InformationCard`:        ← backtick BEFORE and AFTER name, colon last
+    //   :`MoodCheckCard`          ← colon first, backtick wraps name
+    //   `Trailhead`:              ← same pattern
+    //   InformationCard:          ← no backticks at all
+    // A line matches if it contains ONLY a known component name with
+    // optional surrounding backticks/quotes/colons (in any order).
+    final String componentNamesPattern =
+        _knownComponents.map(RegExp.escape).join('|');
+    // The closing side allows: optional backtick, optional colon (in that order)
+    // The opening side allows: optional colon, optional backtick (in that order)
+    final RegExp labelLinePattern = RegExp(
+      r'^\s*:?\s*[`"\u2019\u2018]?\s*(' +
+          componentNamesPattern +
+          r')\s*[`"\u2019\u2018]?\s*:?\s*$',
+      multiLine: true,
+    );
+    result = result.replaceAll(labelLinePattern, '');
+
+    // Step 3: Collapse any runs of blank lines created by the removals.
+    result = result.replaceAll(RegExp(r'\n{3,}'), '\n\n');
+
     return result.trim();
   }
 

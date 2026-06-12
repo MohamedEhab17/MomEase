@@ -116,7 +116,8 @@ class BackendContentGenerator implements ContentGenerator {
       final String locale = _detectLanguage(text);
 
       // 4. Session management – regenerate if new conversation
-      if (history == null || history.isEmpty || _conversationId == null) {
+      final bool isGreeting = history == null || history.isEmpty;
+      if (isGreeting || _conversationId == null) {
         _conversationId = UuidGenerator.generateV4();
         debugPrint('[Chatbot Session] New session: $_conversationId');
       }
@@ -132,7 +133,7 @@ class BackendContentGenerator implements ContentGenerator {
       };
 
       debugPrint(
-        '[Chatbot Network] Sending request — userId=$userId locale=$locale session=$_conversationId',
+        '[Chatbot Network] Sending request — userId=$userId locale=$locale session=$_conversationId isGreeting=$isGreeting',
       );
 
       // 6. Single-retry boundary
@@ -161,6 +162,7 @@ class BackendContentGenerator implements ContentGenerator {
             model.data!,
             locale: locale,
             text: text,
+            isGreeting: isGreeting,
           );
         } else {
           final msg = model.message ?? 'Server failed to process request.';
@@ -206,6 +208,7 @@ class BackendContentGenerator implements ContentGenerator {
     ChatbotDataModel data, {
     required String locale,
     required String text,
+    required bool isGreeting,
   }) async {
     final String replyText = data.replyText ?? '';
     final UiPayloadModel? uiPayload = data.uiPayload;
@@ -280,6 +283,7 @@ class BackendContentGenerator implements ContentGenerator {
               text: replyText,
               language: locale,
               surfaceId: responseSurfaceId,
+              isGreeting: isGreeting,
             );
 
         debugPrint('[DIAG] embeddedFallback.count=${embeddedFallback.length}');
@@ -301,7 +305,10 @@ class BackendContentGenerator implements ContentGenerator {
 
           _enqueue(embeddedFallback);
 
-          if (cleanedText.isNotEmpty) {
+          // For greeting responses the MoodCheckCard already carries the
+          // greeting message — skip the duplicate plain-text bubble.
+          // For all other responses, show the advice text bubble.
+          if (cleanedText.isNotEmpty && !isGreeting) {
             _textController.add(cleanedText);
           }
         } else {
