@@ -57,23 +57,64 @@ abstract class FallbackUiFactory {
 
   //  Embedded JSON Components Parser 
 
-  /// Extracts the raw JSON string from a line, handling both formats:
-  ///   1. `{"name":"MoodCheckCard",...}` — bare JSON
-  ///   2. `` `MoodCheckCard`: {"name":"MoodCheckCard",...} `` — LLM labelled format
-  /// Returns null if no JSON object could be extracted.
-  static String? _extractJsonFromLine(String trimmed) {
-    if (trimmed.startsWith('{')) return trimmed;
+  /// Known GenUI component names for wrapper-format detection.
+  static const _knownComponents = {
+    'MoodCheckCard',
+    'InformationCard',
+    'Trailhead',
+    'InsightCard',
+    'ActivityTimeline',
+    'AnalysisResultCard',
+    'ActionCard',
+    'AskForSupportAction',
+    'Column',
+  };
 
-    // Handle: `ComponentName`: {...}  or  ComponentName: {...}
-    final labeledMatch = RegExp(
-      r'^`?[A-Za-z]+`?\s*:\s*(\{.*)',
-    ).firstMatch(trimmed);
-    if (labeledMatch != null) {
-      final jsonPart = labeledMatch.group(1);
-      if (jsonPart != null && jsonPart.startsWith('{')) return jsonPart;
+  /// Extracts ALL component calls from a decoded JSON map.
+  ///
+  /// Handles three layouts that the LLM may produce:
+  ///
+  /// 1. **Flat single**: `{"name":"MoodCheckCard","arguments":{...}}`
+  ///    → returns one entry.
+  ///
+  /// 2. **Single wrapper**: `{"MoodCheckCard":{"name":"MoodCheckCard","arguments":{...}}}`
+  ///    → returns one entry.
+  ///
+  /// 3. **Multi-component wrapper** (the common case from the logs):
+  ///    `{"InformationCard":{...}, "Trailhead":{...}}`
+  ///    → returns TWO entries, one per component.
+  ///
+  /// Returns an empty list if no recognisable component is found.
+  static List<Map<String, dynamic>> _extractComponentCalls(
+    Map<String, dynamic> decoded,
+  ) {
+    // ── Case 1: Standard flat format {"name":"X","arguments":{...}} ──────
+    if (decoded.containsKey('name')) {
+      final name = decoded['name'] as String? ?? '';
+      if (name.isNotEmpty && _knownComponents.contains(name)) {
+        return [decoded];
+      }
     }
 
-    return null;
+    // ── Cases 2 & 3: Wrapper format — iterate ALL known-component keys ────
+    final List<Map<String, dynamic>> calls = [];
+    for (final key in decoded.keys) {
+      if (!_knownComponents.contains(key)) continue;
+      final inner = decoded[key];
+      if (inner is! Map<String, dynamic>) continue;
+
+      if (inner.containsKey('name')) {
+        // Inner object already has the flat format
+        calls.add(inner);
+      } else {
+        // Synthesise the flat format from the wrapper key
+        calls.add({
+          'name': key,
+          'arguments': inner['arguments'] ?? inner,
+        });
+      }
+    }
+    return calls;
   }
 
   /// Private helper to repair common trailing bracket/brace omissions in LLM-generated JSON
@@ -112,40 +153,35 @@ abstract class FallbackUiFactory {
     return text;
   }
 
-  /// Parses raw JSON components embedded directly inside plain-text lines
+  /// Parses raw JSON components embedded directly inside the response text.
+  /// Supports both single-line and multi-line (pretty-printed) JSON blocks.
   static List<A2uiMessage> parseTextComponents({
     required String text,
     required String language,
     required String surfaceId,
   }) {
-    final List<String> lines = text.split('\n');
     final List<Map<String, dynamic>> parsedCalls = [];
     bool hasMoodCheckCard = false;
 
-    // 1. Decode and analyze calls from lines
-    for (final line in lines) {
-      final trimmed = line.trim();
-      final String? jsonRaw = _extractJsonFromLine(trimmed);
-      if (jsonRaw != null) {
-        final repaired = _tryRepairJson(jsonRaw);
-        try {
-          final decoded = jsonDecode(repaired);
-          if (decoded is Map<String, dynamic> && decoded.containsKey('name')) {
-            final String name = decoded['name'] as String? ?? '';
-            final Map<String, dynamic> arguments = decoded['arguments'] as Map<String, dynamic>? ?? const {};
+    // 1. Extract all top-level JSON objects from the full text
+    for (final jsonRaw in _extractAllJsonObjects(text)) {
+      final repaired = _tryRepairJson(jsonRaw);
+      try {
+        final decoded = jsonDecode(repaired);
+        if (decoded is Map<String, dynamic>) {
+          // Each JSON object may contain MULTIPLE component keys
+          for (final call in _extractComponentCalls(decoded)) {
+            final String name = call['name'] as String? ?? '';
+            final Map<String, dynamic> arguments =
+                call['arguments'] as Map<String, dynamic>? ?? const {};
             if (name.isNotEmpty) {
-              parsedCalls.add({
-                'name': name,
-                'arguments': arguments,
-              });
-              if (name == 'MoodCheckCard') {
-                hasMoodCheckCard = true;
-              }
+              parsedCalls.add({'name': name, 'arguments': arguments});
+              if (name == 'MoodCheckCard') hasMoodCheckCard = true;
             }
           }
-        } catch (_) {
-          // Ignore invalid JSON lines
         }
+      } catch (_) {
+        // Ignore invalid JSON blocks
       }
     }
 
@@ -163,31 +199,33 @@ abstract class FallbackUiFactory {
     for (int i = 0; i < parsedCalls.length; i++) {
       final call = parsedCalls[i];
       final String name = call['name'] as String;
-      final Map<String, dynamic> arguments = call['arguments'] as Map<String, dynamic>;
+      final Map<String, dynamic> arguments =
+          call['arguments'] as Map<String, dynamic>;
       final String id = 'injected_${name.toLowerCase()}_$i';
 
       components.add(Component.fromJson({
         'id': id,
-        'component': {
-          name: arguments
-        }
+        'component': {name: arguments},
       }));
       childIds.add(id);
     }
 
-    debugPrint('[FallbackUiFactory] Parsed ${components.length} embedded JSON components from text.');
+    debugPrint(
+      '[FallbackUiFactory] Parsed ${components.length} embedded JSON components from text.',
+    );
 
     // Inject Column layout wrapping all discovered components
-    components.insert(0, Component.fromJson({
-      'id': 'injected_root_column',
-      'component': {
-        'Column': {
-          'children': {
-            'explicitList': childIds,
-          }
-        }
-      }
-    }));
+    components.insert(
+      0,
+      Component.fromJson({
+        'id': 'injected_root_column',
+        'component': {
+          'Column': {
+            'children': {'explicitList': childIds},
+          },
+        },
+      }),
+    );
 
     return [
       SurfaceUpdate(surfaceId: surfaceId, components: components),
@@ -199,30 +237,56 @@ abstract class FallbackUiFactory {
     ];
   }
 
-  /// Strips raw embedded JSON component lines from the response text
+  /// Strips raw embedded JSON component blocks from the response text.
+  /// Handles both single-line and multi-line (pretty-printed) JSON blocks.
   static String cleanJsonCallsFromText(String text) {
-    final List<String> lines = text.split('\n');
-    final List<String> cleanLines = [];
+    // Remove every top-level JSON object that represents a known component.
+    String result = text;
+    for (final jsonRaw in _extractAllJsonObjects(text)) {
+      final repaired = _tryRepairJson(jsonRaw);
+      try {
+        final decoded = jsonDecode(repaired);
+        if (decoded is Map<String, dynamic> &&
+            _extractComponentCalls(decoded).isNotEmpty) {
+          result = result.replaceFirst(jsonRaw, '');
+        }
+      } catch (_) {}
+    }
+    return result.trim();
+  }
 
-    for (final line in lines) {
-      final trimmed = line.trim();
-      bool isJsonCall = false;
-      final String? jsonRaw = _extractJsonFromLine(trimmed);
-      if (jsonRaw != null) {
-        final repaired = _tryRepairJson(jsonRaw);
-        try {
-          final decoded = jsonDecode(repaired);
-          if (decoded is Map<String, dynamic> && decoded.containsKey('name')) {
-            isJsonCall = true;
+  /// Scans [text] and returns every top-level `{...}` JSON object found,
+  /// using brace-counting so that multi-line blocks are captured in full.
+  static List<String> _extractAllJsonObjects(String text) {
+    final List<String> results = [];
+    int i = 0;
+    while (i < text.length) {
+      if (text[i] == '{') {
+        // Walk forward counting braces
+        int depth = 0;
+        bool inQuote = false;
+        int start = i;
+        for (int j = i; j < text.length; j++) {
+          final ch = text[j];
+          if (ch == '"' && (j == 0 || text[j - 1] != '\\')) {
+            inQuote = !inQuote;
           }
-        } catch (_) {}
-      }
-
-      if (!isJsonCall) {
-        cleanLines.add(line);
+          if (!inQuote) {
+            if (ch == '{') depth++;
+            if (ch == '}') depth--;
+          }
+          if (depth == 0) {
+            results.add(text.substring(start, j + 1));
+            i = j + 1;
+            break;
+          }
+        }
+        if (depth != 0) break; // unterminated — stop
+      } else {
+        i++;
       }
     }
-    return cleanLines.join('\n').trim();
+    return results;
   }
 
   //  Intent detection & suggestions extractor 
@@ -624,8 +688,10 @@ abstract class FallbackUiFactory {
       Component.fromJson({
         'id': 'fallback_trailhead',
         'component': {
-          'Topics': topics,
-          'action': {'name': 'select_topic', 'context': []},
+          'Trailhead': {
+            'topics': topics,
+            'action': {'name': 'select_topic', 'context': []},
+          },
         },
       }),
     ];

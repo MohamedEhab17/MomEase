@@ -148,7 +148,9 @@ class BackendContentGenerator implements ContentGenerator {
             response.data as Map<String, dynamic>,
           );
         } catch (e, stackTrace) {
-          debugPrint('[Chatbot Network] Malformed or truncated JSON structure in response: $e');
+          debugPrint(
+            '[Chatbot Network] Malformed or truncated JSON structure in response: $e',
+          );
           debugPrint(stackTrace.toString());
           _emitErrorRecoveryUi('Invalid response structure from server.');
           return;
@@ -214,6 +216,24 @@ class BackendContentGenerator implements ContentGenerator {
     // Generate a unique surfaceId for this response sequence to isolate scroll history
     final String responseSurfaceId = 'chatbot_${UuidGenerator.generateV4()}';
 
+    // 🔍 DIAGNOSTIC BLOCK — full response dump
+    debugPrint('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    debugPrint('[DIAG] locale=$locale  hasUiPayload=$hasUiPayload');
+    debugPrint('[DIAG] replyText.length=${replyText.length}');
+    debugPrint('[DIAG] replyText RAW >>>');
+    debugPrint(replyText);
+    debugPrint('[DIAG] replyText RAW <<<');
+    if (hasUiPayload) {
+      debugPrint('[DIAG] uiPayload.calls.count=${uiPayload.calls.length}');
+      for (int i = 0; i < uiPayload.calls.length; i++) {
+        final c = uiPayload.calls[i];
+        debugPrint(
+          '[DIAG] call[$i] name=${c.name}  args=${jsonEncode(c.arguments)}',
+        );
+      }
+    }
+    debugPrint('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
     if (hasUiPayload) {
       debugPrint('[Chatbot Processing] UI payload detected.');
       final int payloadHash = _hashPayload(uiPayload.calls);
@@ -221,8 +241,13 @@ class BackendContentGenerator implements ContentGenerator {
       if (!_renderedPayloadHashes.contains(payloadHash)) {
         _renderedPayloadHashes.add(payloadHash);
         msgs = GenUiResponseParser.parse(uiPayload, responseSurfaceId);
+        debugPrint(
+          '[DIAG] GenUiResponseParser produced ${msgs.length} messages.',
+        );
       } else {
-        debugPrint('[Chatbot Processing] Duplicate payload hash — skipping render.');
+        debugPrint(
+          '[Chatbot Processing] Duplicate payload hash — skipping render.',
+        );
       }
     }
 
@@ -235,6 +260,9 @@ class BackendContentGenerator implements ContentGenerator {
       // Render the clean text bubble alongside the UI widgets if present
       if (replyText.isNotEmpty) {
         final String cleanedReplyText = FallbackUiFactory.cleanText(replyText);
+        debugPrint(
+          '[DIAG] cleanedReplyText (UI path)="${cleanedReplyText.trim()}"',
+        );
         if (cleanedReplyText.isNotEmpty) {
           _textController.add(cleanedReplyText);
         }
@@ -242,46 +270,77 @@ class BackendContentGenerator implements ContentGenerator {
     } else {
       // Emit Text only (and its fallback dynamic suggestions)
       if (replyText.isNotEmpty) {
-        debugPrint('[Chatbot Processing] Emitting Text and dynamic suggestions.');
-
-        // 1. Detect if the text contains embedded JSON components (e.g. from a simple backend)
-        final List<A2uiMessage> embeddedFallback = FallbackUiFactory.parseTextComponents(
-          text: replyText,
-          language: locale,
-          surfaceId: responseSurfaceId,
+        debugPrint(
+          '[Chatbot Processing] Emitting Text and dynamic suggestions.',
         );
 
+        // 1. Detect if the text contains embedded JSON components (e.g. from a simple backend)
+        final List<A2uiMessage> embeddedFallback =
+            FallbackUiFactory.parseTextComponents(
+              text: replyText,
+              language: locale,
+              surfaceId: responseSurfaceId,
+            );
+
+        debugPrint('[DIAG] embeddedFallback.count=${embeddedFallback.length}');
+
         if (embeddedFallback.isNotEmpty) {
-          debugPrint('[Chatbot Processing] Dynamic embedded JSON components detected.');
-          
+          debugPrint(
+            '[Chatbot Processing] Dynamic embedded JSON components detected.',
+          );
+
           // Clean the raw JSON blocks from the response text
-          final String cleanedJsonReply = FallbackUiFactory.cleanJsonCallsFromText(replyText);
-          final String cleanedText = FallbackUiFactory.cleanText(cleanedJsonReply);
+          final String cleanedJsonReply =
+              FallbackUiFactory.cleanJsonCallsFromText(replyText);
+          final String cleanedText = FallbackUiFactory.cleanText(
+            cleanedJsonReply,
+          );
+          debugPrint(
+            '[DIAG] cleanedText after JSON strip="${cleanedText.trim()}"',
+          );
 
           _enqueue(embeddedFallback);
-          
+
           if (cleanedText.isNotEmpty) {
             _textController.add(cleanedText);
           }
         } else {
           // Standard text and suggestions flow
           // 1. Dynamic intent detection
-          final String? detectedIntent = FallbackUiFactory.detectIntent(text, replyText);
+          final String? detectedIntent = FallbackUiFactory.detectIntent(
+            text,
+            replyText,
+          );
+          debugPrint('[DIAG] detectedIntent=$detectedIntent');
 
           // 2. Extract suggestions from response text if present
-          final List<String> parsedSuggestions = FallbackUiFactory.extractSuggestions(replyText);
+          final List<String> parsedSuggestions =
+              FallbackUiFactory.extractSuggestions(replyText);
+          debugPrint(
+            '[DIAG] parsedSuggestions.count=${parsedSuggestions.length}  values=$parsedSuggestions',
+          );
 
           // 3. Clean the response text from the suggestions block to avoid duplication
-          final String cleanedReplyText = FallbackUiFactory.cleanText(replyText);
+          final String cleanedReplyText = FallbackUiFactory.cleanText(
+            replyText,
+          );
+          debugPrint(
+            '[DIAG] cleanedReplyText (fallback path)="${cleanedReplyText.trim()}"',
+          );
 
           final List<A2uiMessage> fallback = FallbackUiFactory.create(
             text: cleanedReplyText,
             language: locale,
             intent: detectedIntent,
             surfaceId: responseSurfaceId,
-            showCard: false, // Do not show duplicate pink card for normal text replies
-            customSuggestions: parsedSuggestions.isNotEmpty ? parsedSuggestions : null,
+            showCard:
+                false, // Do not show duplicate pink card for normal text replies
+            customSuggestions: parsedSuggestions.isNotEmpty
+                ? parsedSuggestions
+                : null,
           );
+
+          debugPrint('[DIAG] fallback.count=${fallback.length}');
 
           if (fallback.isNotEmpty) {
             _enqueue(fallback);
@@ -290,6 +349,8 @@ class BackendContentGenerator implements ContentGenerator {
           // Emit the clean text bubble
           _textController.add(cleanedReplyText);
         }
+      } else {
+        debugPrint('[DIAG] ⚠️  replyText is EMPTY — nothing to emit.');
       }
     }
   }
@@ -305,7 +366,8 @@ class BackendContentGenerator implements ContentGenerator {
       text: body,
       language: locale,
       surfaceId: 'chatbot',
-      showCard: true, // For error recovery, we DO want to show a standalone card!
+      showCard:
+          true, // For error recovery, we DO want to show a standalone card!
     );
 
     if (recovery.isNotEmpty) {
@@ -335,9 +397,13 @@ class BackendContentGenerator implements ContentGenerator {
       final msg = batch[i];
       _a2uiController.add(msg);
       if (msg is SurfaceUpdate) {
-        debugPrint('[GENUI FLOW] SurfaceUpdate emitted with ${msg.components.length} components');
+        debugPrint(
+          '[GENUI FLOW] SurfaceUpdate emitted with ${msg.components.length} components',
+        );
       } else if (msg is BeginRendering) {
-        debugPrint('[GENUI FLOW] BeginRendering emitted for root "${msg.root}"');
+        debugPrint(
+          '[GENUI FLOW] BeginRendering emitted for root "${msg.root}"',
+        );
       } else {
         debugPrint('[Chatbot Queue] Dispatched: ${msg.runtimeType}');
       }
@@ -407,7 +473,9 @@ Reply text and JSON 'uiPayload':
 - `AskForSupportAction`: {"name":"AskForSupportAction","arguments":{"title":{"literalString":"T"},"action":{"name":"A"}}}
 Rules:
 - Greeting: Reply text & MoodCheckCard.
-- Mood logged: NO MoodCheckCard. Give advice (InformationCard) & options (Trailhead).
+- For all other messages (excluding greeting): You MUST always append a dynamic `Trailhead` component at the end of your response containing exactly 3 context-relevant, highly-specific follow-up questions tailored to your current response. Make the choices brief and natural. Do NOT use generic choices or repeat the user's current query.
+  Example format to append:
+  {"Trailhead": {"topics": [{"literalString": "سؤال متابعة مخصص 1 🍼"}, {"literalString": "سؤال متابعة مخصص 2 😴"}, {"literalString": "سؤال متابعة مخصص 3 ✨"}], "action": {"name": "select_topic", "context": []}}}
 - If tired, offer fatigue/rest advice, NOT recovery.]
 ''';
   }
