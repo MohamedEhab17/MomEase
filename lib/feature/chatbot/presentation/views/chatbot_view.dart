@@ -19,10 +19,22 @@ class ChatbotView extends StatefulWidget {
 }
 
 class _ChatbotViewState extends State<ChatbotView> {
+  double _previousViewInsetsBottom = 0;
+
   @override
   Widget build(BuildContext context) {
     final cubit = _cubit;
     final repository = cubit.repository;
+
+    final double currentViewInsetsBottom = MediaQuery.of(context).viewInsets.bottom;
+    if (currentViewInsetsBottom > _previousViewInsetsBottom && currentViewInsetsBottom > 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollToBottom();
+        Future.delayed(const Duration(milliseconds: 100), _scrollToBottom);
+        Future.delayed(const Duration(milliseconds: 250), _scrollToBottom);
+      });
+    }
+    _previousViewInsetsBottom = currentViewInsetsBottom;
 
     return BlocListener<ChatbotCubit, ChatbotState>(
       listener: (context, state) {
@@ -66,13 +78,11 @@ class _ChatbotViewState extends State<ChatbotView> {
                   return ValueListenableBuilder<bool>(
                     valueListenable: repository.isProcessing,
                     builder: (context, isProcessing, _) {
+                      final double bottomPadding = MediaQuery.of(context).viewInsets.bottom > 0
+                          ? (MediaQuery.of(context).viewInsets.bottom + 85.h)
+                          : (kBottomNavigationBarHeight + 50.h);
                       return Padding(
-                        padding: MediaQuery.of(context).viewInsets.bottom == 0
-                            ? (MediaQuery.of(context).viewInsets.bottom +
-                                      kBottomNavigationBarHeight +
-                                      50.h)
-                                  .bottomPadding
-                            : kBottomNavigationBarHeight.bottomPadding,
+                        padding: bottomPadding.bottomPadding,
                         child: ChatMessagesList(
                           messages: displayMessages,
                           isProcessing: isProcessing,

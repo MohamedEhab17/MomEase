@@ -13,6 +13,8 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Container(
       decoration: BoxDecoration(
         color: context.ext.colors.lightBackground,
@@ -64,7 +66,8 @@ class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 Positioned(
                   bottom: 0,
-                  right: 0,
+                  right: isRtl ? null : 0,
+                  left: isRtl ? 0 : null,
                   child: Container(
                     width: 11.w,
                     height: 11.w,
