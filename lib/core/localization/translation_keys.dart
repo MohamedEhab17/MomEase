@@ -12,6 +12,7 @@ class TK {
   static const authPasswordUpdated = 'auth.password_updated';
   static const authVerifyEmail = 'auth.verify_email';
   static const authResendCode = 'auth.resend_code';
+  static const authContinueWithGoogle = 'auth.continue_with_google';
 
   // Login Screen
   static const authLoginWelcomeFirst = 'auth.login_screen.welcome_first';

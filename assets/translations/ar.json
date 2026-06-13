@@ -4,6 +4,7 @@
     "version": "إصدار MomEase 1.0.0"
   },
   "auth": {
+    "continue_with_google": "المتابعة باستخدام جوجل",
     "login": "سجّلي الدخول وكمّلي رحلتك!",
     "forgot_password": "نسيتِ كلمة المرور؟",
     "create_password": "إنشاء كلمة مرور جديدة",

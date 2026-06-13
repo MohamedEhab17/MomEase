@@ -4,6 +4,7 @@
     "version": "MomEase Version 1.0.0"
   },
   "auth": {
+    "continue_with_google": "Continue with Google",
     "login": "Login to continue your journey!",
     "forgot_password": "Forgot Password?",
     "create_password": "Create New Password",
