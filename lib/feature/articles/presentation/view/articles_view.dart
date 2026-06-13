@@ -70,7 +70,7 @@ class _ArticlesViewState extends State<ArticlesView> {
                         width: 20.w,
                         height: 20.h,
                         colorFilter: ColorFilter.mode(
-                          context.ext.colors.greyPrimary,
+                          Colors.grey[600]!,
                           BlendMode.srcIn,
                         ),
                       ),

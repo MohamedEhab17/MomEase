@@ -159,13 +159,13 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
               maxLength: widget.maxLength,
               obscureText: obscureText,
               obscuringCharacter: widget.obscuringCharacter ?? '*',
-              cursorColor: context.ext.colors.primaryDark,
               keyboardType: widget.keyboardType,
               enabled: widget.enabled,
               textInputAction: widget.action ?? TextInputAction.next,
               focusNode: widget.focusNode,
               autofillHints: widget.autoFillHint?.toList(),
               autovalidateMode: AutovalidateMode.onUserInteraction,
+              cursorColor: context.colors.primary,
               textAlign: widget.isMobile != null
                   ? TextAlign.left
                   : TextAlign.start,
@@ -174,42 +174,48 @@ class _TextFormFieldHelperState extends State<TextFormFieldHelper> {
                   : _textDirection,
               readOnly: widget.isReadOnly ?? false,
               textAlignVertical: TextAlignVertical.center,
-              style: context.text.titleSmall!,
+              style: context.text.titleSmall!.copyWith(
+                color: Colors.black,
+              ),
               decoration: InputDecoration(
-                fillColor: widget.fillColor ?? context.ext.colors.primaryTint,
+                fillColor: Colors.white,
                 filled: true,
                 hintText: widget.hint,
-                hintStyle:
-                    widget.hintStyle ??
-                    context.text.bodyLarge!.copyWith(fontWeight: FontWeight.w400),
+                hintStyle: (widget.hintStyle ??
+                        context.text.bodyLarge!.copyWith(fontWeight: FontWeight.w400))
+                    .copyWith(
+                  color: Colors.grey[600],
+                ),
                 errorMaxLines: 4,
                 errorStyle: const TextStyle(color: Colors.red),
                 prefixIcon: widget.prefixIcon,
+                prefixIconColor: Colors.grey[600],
                 prefix: widget.prefix,
                 suffixIcon: widget.isPassword
                     ? IconButton(
                         onPressed: _toggleObscureText,
                         icon: Icon(
                           obscureText ? Icons.visibility_off : Icons.visibility,
-                          color: context.ext.colors.lightTextDisabled,
+                          color: Colors.grey[600],
                         ),
                       )
                     : widget.suffixWidget,
+                suffixIconColor: Colors.grey[600],
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 19,
                 ),
                 border: outlineInputBorder(
-                  color: widget.borderColor ?? context.ext.colors.primaryLighter,
+                  color: widget.borderColor ?? context.colors.primary,
                   width: 1,
                 ),
                 enabledBorder: outlineInputBorder(
-                  color: widget.borderColor ?? context.ext.colors.primaryLighter,
+                  color: widget.borderColor ?? context.colors.primary,
                   width: 1,
                 ),
                 focusedBorder: outlineInputBorder(
                   color: widget.borderColor ?? context.ext.colors.primaryDark,
-                  width: 1,
+                  width: 1.5,
                 ),
                 errorBorder: outlineInputBorder(color: Colors.red, width: 1),
                 focusedErrorBorder: outlineInputBorder(

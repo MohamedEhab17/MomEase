@@ -95,7 +95,7 @@ class _ArticleSearchViewState extends State<ArticleSearchView> {
                   child: SvgPicture.asset(
                     AppIcons.iconsSearch,
                     colorFilter: ColorFilter.mode(
-                      context.ext.colors.greyPrimary,
+                      Colors.grey[600]!,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -104,7 +104,7 @@ class _ArticleSearchViewState extends State<ArticleSearchView> {
                     ? IconButton(
                         icon: Icon(
                           Icons.close,
-                          color: context.ext.colors.greyPrimary,
+                          color: Colors.grey[600]!,
                         ),
                         onPressed: () {
                           setState(() {
