@@ -74,11 +74,13 @@
       "code_resent_title": "تم إعادة إرسال الكود"
     },
     "change_password_screen": {
-       "change_password_title" : "تغيير كلمة المرور",
+       "change_password" : "تغيير كلمة المرور",
         "instructions": "لازم كلمة المرور الجديدة تكون مختلفة عن القديمة",
         "current_password_hint": "كلمة المرور الحالية",
         "new_password_hint": "كلمة المرور الجديدة",
-        "confirm_new_password_hint": "تأكيد كلمة المرور الجديدة" 
+        "confirm_new_password_hint": "تأكيد كلمة المرور الجديدة",
+        "update_button": "تحديث كلمة المرور",
+        "updating_button": "جاري التحديث..."
     }
 
   },
@@ -361,7 +363,9 @@
     "pastel_pink": "وردي هادئ",
     "load_error": "عذراً، فشل تحميل بيانات الملف الشخصي",
     "delete_photo_title": "حذف الصورة؟",
-    "delete_photo_content": "هل أنتِ متأكدة من رغبتك في حذف صورتك الشخصية؟"
+    "delete_photo_content": "هل أنتِ متأكدة من رغبتك في حذف صورتك الشخصية؟",
+    "update_profile_button": "تحديث الحساب",
+    "updating_profile_button": "جاري التحديث..."
   },
   "onboarding": {
     "baby_name_title": "اسم طفلك إيه؟",

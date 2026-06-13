@@ -52,7 +52,10 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       create: (context) => getIt<ManageProfileCubit>(),
       child: Scaffold(
         backgroundColor: context.theme.scaffoldBackgroundColor,
-        appBar: FeaturesHeader(title: context.trContext(TK.drawerSecurity)),
+        appBar: FeaturesHeader(
+          title: context.trContext(TK.drawerSecurity),
+          showChatbotIcon: false,
+        ),
     
 
         body: BlocListener<ManageProfileCubit, ManageProfileState>(
@@ -169,8 +172,8 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
         return CustomElevatedButton(
           minimumSize: Size(double.infinity, 52.h),
           text: state is ManageProfileLoading
-              ? "Updating..."
-              : "update",
+              ? context.trContext(TK.authChangePasswordUpdatingBtn)
+              : context.trContext(TK.authChangePasswordUpdateBtn),
           onPressed: state is ManageProfileLoading
               ? null
               : () {

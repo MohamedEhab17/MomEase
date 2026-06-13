@@ -14,11 +14,13 @@ class FeaturesHeader extends StatelessWidget implements PreferredSizeWidget {
     this.onPressed,
     /// If provided, replaces the default Luna icon in the trailing slot.
     this.trailingAction,
+    this.showChatbotIcon = true,
   });
 
   final String title;
   final void Function()? onPressed;
   final Widget? trailingAction;
+  final bool showChatbotIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class FeaturesHeader extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         if (trailingAction != null)
           trailingAction!
-        else
+        else if (showChatbotIcon)
           IconButton(
             onPressed: () => context.push(AppRoutesPaths.chatbot),
             icon: Container(

@@ -50,18 +50,27 @@ class TK {
       'auth.forget_password_screen.instructions';
   static const authForgetEmailHint = 'auth.forget_password_screen.email_hint';
   static const authForgetSendCode = 'auth.forget_password_screen.send_code';
-  static const authForgetCodeSentTitle = 'auth.forget_password_screen.code_sent_title';
-  static const authForgetCodeSentMessage = 'auth.forget_password_screen.code_sent_message';
+  static const authForgetCodeSentTitle =
+      'auth.forget_password_screen.code_sent_title';
+  static const authForgetCodeSentMessage =
+      'auth.forget_password_screen.code_sent_message';
 
   // Reset Password Screen
-  static const authResetAppBarTitle = 'auth.reset_password_screen.app_bar_title';
-  static const authResetInstructions = 'auth.reset_password_screen.instructions';
+  static const authResetAppBarTitle =
+      'auth.reset_password_screen.app_bar_title';
+  static const authResetInstructions =
+      'auth.reset_password_screen.instructions';
   static const authResetButton = 'auth.reset_password_screen.reset_button';
-  static const authResetNewPasswordHint = 'auth.reset_password_screen.new_password_hint';
-  static const authResetConfirmPasswordHint = 'auth.reset_password_screen.confirm_password_hint';
-  static const authResetVerificationCode = 'auth.reset_password_screen.verification_code';
-  static const authResetSuccessTitle = 'auth.reset_password_screen.reset_success_title';
-  static const authResetCodeResentTitle = 'auth.reset_password_screen.code_resent_title';
+  static const authResetNewPasswordHint =
+      'auth.reset_password_screen.new_password_hint';
+  static const authResetConfirmPasswordHint =
+      'auth.reset_password_screen.confirm_password_hint';
+  static const authResetVerificationCode =
+      'auth.reset_password_screen.verification_code';
+  static const authResetSuccessTitle =
+      'auth.reset_password_screen.reset_success_title';
+  static const authResetCodeResentTitle =
+      'auth.reset_password_screen.code_resent_title';
 
   // Create Password Screen
   static const authCreatePwdInstructions =
@@ -105,6 +114,10 @@ class TK {
       'auth.change_password_screen.current_password_hint';
   static const authConfirmNewPassword =
       'auth.change_password_screen.confirm_new_password_hint';
+  static const authChangePasswordUpdateBtn =
+      'auth.change_password_screen.update_button';
+  static const authChangePasswordUpdatingBtn =
+      'auth.change_password_screen.updating_button';
 
   // 🔹 Articles
   static const articlesTitle = 'articles.title';
@@ -414,6 +427,8 @@ class TK {
   static const profileLoadError = 'profile.load_error';
   static const profileDeletePhotoTitle = 'profile.delete_photo_title';
   static const profileDeletePhotoContent = 'profile.delete_photo_content';
+  static const profileUpdateProfileBtn = 'profile.update_profile_button';
+  static const profileUpdatingProfileBtn = 'profile.updating_profile_button';
 
   // 🔹 Drawer
   static const drawerBabyTracking = 'drawer.baby_tracking';

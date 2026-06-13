@@ -81,6 +81,7 @@ class _ManageProfileViewState extends State<ManageProfileView> {
       child: Scaffold(
         appBar: FeaturesHeader(
           title: context.trContext(TK.drawerManageProfile),
+          showChatbotIcon: false,
         ),
         backgroundColor: context.theme.scaffoldBackgroundColor,
         body: MultiBlocListener(
@@ -210,8 +211,8 @@ class _ManageProfileViewState extends State<ManageProfileView> {
           minimumSize: Size(double.infinity, 52.h),
 
           text: manageState is ManageProfileLoading
-              ? "Updating..."
-              : "Update Profile",
+              ? context.trContext(TK.profileUpdatingProfileBtn)
+              : context.trContext(TK.profileUpdateProfileBtn),
           onPressed: manageState is ManageProfileLoading
               ? null
               : () {
