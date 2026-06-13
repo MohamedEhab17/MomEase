@@ -11,6 +11,9 @@ import 'package:new_mama/core/extensions/theme_ex.dart';
 import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
 import 'package:new_mama/feature/community/data/models/reply_model.dart';
 import 'package:new_mama/feature/community/presentation/view_model/comments_cubit.dart';
+import 'package:new_mama/core/di/injection.dart';
+import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart';
+import 'package:new_mama/feature/profile/presentation/view_model/profile_state.dart';
 
 class ReplyItem extends StatefulWidget {
   final ReplyModel reply;
@@ -35,12 +38,6 @@ class ReplyItem extends StatefulWidget {
 class _ReplyItemState extends State<ReplyItem> {
   bool _isTextExpanded = false;
 
-  String? get _resolvedPhoto {
-    final p = widget.reply.userPhoto;
-    if (p == null || p.isEmpty) return null;
-    return p.startsWith('http') ? p : 'http://momease.runasp.net$p';
-  }
-
   @override
   Widget build(BuildContext context) {
     final initials = widget.reply.userName
@@ -51,7 +48,6 @@ class _ReplyItemState extends State<ReplyItem> {
         .take(2)
         .join()
         .toUpperCase();
-    final photo = _resolvedPhoto;
     final bool isArabicText = widget.reply.text.isArabic;
     final textLength = widget.reply.text.length;
     final bool shouldShowReadMore = textLength > 150 && !_isTextExpanded;
@@ -65,22 +61,36 @@ class _ReplyItemState extends State<ReplyItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Avatar
-            CircleAvatar(
-              radius: 16.r,
-              backgroundColor: context.ext.colors.primaryLighter.withAlpha(102),
-              backgroundImage: photo != null
-                  ? CachedNetworkImageProvider(photo)
-                  : null,
-              child: photo == null
-                  ? Text(
-                      initials,
-                      style: TextStyle(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w700,
-                        color: context.ext.colors.primaryDark,
-                      ),
-                    )
-                  : null,
+            BlocBuilder<ProfileCubit, ProfileState>(
+              bloc: getIt<ProfileCubit>(),
+              builder: (context, profileState) {
+                final myPhoto = profileState.profile?.profilePictureUrl;
+                final photoUrl = widget.reply.isMyReply ? myPhoto : widget.reply.userPhoto;
+                
+                final resolvedPhoto = (photoUrl == null || photoUrl.isEmpty)
+                    ? null
+                    : photoUrl.startsWith('http')
+                        ? photoUrl
+                        : 'http://momease.runasp.net$photoUrl';
+
+                return CircleAvatar(
+                  radius: 16.r,
+                  backgroundColor: context.ext.colors.primaryLighter.withAlpha(102),
+                  backgroundImage: resolvedPhoto != null
+                      ? CachedNetworkImageProvider(resolvedPhoto)
+                      : null,
+                  child: resolvedPhoto == null
+                      ? Text(
+                          initials,
+                          style: TextStyle(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w700,
+                            color: context.ext.colors.primaryDark,
+                          ),
+                        )
+                      : null,
+                );
+              },
             ),
             8.width,
             Expanded(

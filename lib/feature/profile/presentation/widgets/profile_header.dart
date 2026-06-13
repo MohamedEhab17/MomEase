@@ -11,13 +11,20 @@ import 'package:new_mama/core/widgets/custom_network_image.dart';
 import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
 import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart';
 import 'package:new_mama/feature/profile/presentation/view_model/profile_state.dart';
+import 'package:new_mama/core/helper/app_toast.dart';
+import 'package:new_mama/core/di/injection.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocConsumer<ProfileCubit, ProfileState>(
+      listener: (context, state) {
+        if (state.errorMessage != null) {
+          AppToast.error(context, message: state.errorMessage!);
+        }
+      },
       builder: (context, state) {
         final profile = state.profile;
         if (profile == null) return const SizedBox.shrink();
@@ -63,39 +70,42 @@ class ProfileHeader extends StatelessWidget {
                       child: ClipOval(
                         child: CustomNetworkImage(
                           imageUrl: profile.profilePictureUrl ?? '',
-                          width: 92.r,
-                          height: 92.r,
+                          width: 130.r,
+                          height: 130.r,
                           placeholderWidget: (context, url) => Container(
                             color: context.ext.colors.greyExtraLight,
                             child: Icon(
                               Icons.person,
-                              size: 50.r,
+                              size: 75.r,
                               color: context.colors.primary.withAlpha(100),
                             ),
                           ),
-                          errorWidget: (context, url, error) => Icon(
-                            Icons.person,
-                            size: 50.r,
-                            color: context.colors.primary,
+                          errorWidget: (context, url, error) => Container(
+                            color: context.ext.colors.greyExtraLight,
+                            child: Icon(
+                              Icons.person,
+                              size: 75.r,
+                              color: context.colors.primary,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                   PositionedDirectional(
-                    bottom: 0,
-                    end: 0,
+                    bottom: -2.r,
+                    end: -2.r,
                     child: GestureDetector(
                       onTap: () => _pickAndUploadPhoto(context),
                       child: Container(
-                        padding: const EdgeInsets.all(4),
+                        padding: EdgeInsets.all(6.r),
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.camera_alt,
-                          size: 16,
+                          size: 20.r,
                           color: context.colors.primary,
                         ),
                       ),
@@ -172,9 +182,32 @@ class ProfileHeader extends StatelessWidget {
   }
 
   Future<void> _pickAndUploadPhoto(BuildContext context) async {
-    final File? image = await ImagePickerHelper.pickFromGallery();
-    if (image != null && context.mounted) {
-      context.read<ProfileCubit>().uploadPhoto(image.path);
+    debugPrint('[ProfileHeader] _pickAndUploadPhoto started');
+    try {
+      final File? image = await ImagePickerHelper.pickFromGallery();
+      if (image == null) {
+        debugPrint('[ProfileHeader] image picking returned null');
+        if (context.mounted) {
+          AppToast.warning(
+            context,
+            message: context.isAr ? 'لم يتم اختيار صورة' : 'No image selected',
+          );
+        }
+        return;
+      }
+      debugPrint('[ProfileHeader] image selected: ${image.path}, context.mounted: ${context.mounted}');
+      // Use getIt directly to bypass widget context unmounting issues after picking activity closes
+      getIt<ProfileCubit>().uploadPhoto(image.path);
+    } catch (e) {
+      debugPrint('[ProfileHeader] Error during image picking: $e');
+      if (context.mounted) {
+        AppToast.error(
+          context,
+          message: context.isAr
+              ? 'حدث خطأ أثناء اختيار الصورة: $e'
+              : 'Error picking image: $e',
+        );
+      }
     }
   }
 
@@ -187,8 +220,9 @@ class ProfileHeader extends StatelessWidget {
       ),
     );
 
-    if (confirmed == true && context.mounted) {
-      context.read<ProfileCubit>().deletePhoto();
+    debugPrint('[ProfileHeader] _confirmDeletePhoto dialog response: $confirmed');
+    if (confirmed == true) {
+      getIt<ProfileCubit>().deletePhoto();
     }
   }
 }

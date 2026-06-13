@@ -20,6 +20,9 @@ import 'package:new_mama/feature/community/presentation/view_model/comments_cubi
 import 'package:new_mama/feature/community/presentation/view_model/community_cubit.dart';
 import 'package:new_mama/feature/community/presentation/widgets/comment_components/reply_item.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/reaction_picker.dart';
+import 'package:new_mama/core/di/injection.dart';
+import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart';
+import 'package:new_mama/feature/profile/presentation/view_model/profile_state.dart';
 
 class CommentItem extends StatefulWidget {
   final CommentModel comment;
@@ -140,12 +143,6 @@ class _CommentItemState extends State<CommentItem> {
     });
   }
 
-  String? get _resolvedPhoto {
-    final p = widget.comment.userPhoto;
-    if (p == null || p.isEmpty) return null;
-    return p.startsWith('http') ? p : 'http://momease.runasp.net$p';
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -186,18 +183,31 @@ class _CommentItemState extends State<CommentItem> {
         .take(2)
         .join()
         .toUpperCase();
-    final photo = _resolvedPhoto;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CircleAvatar(
-          radius: 20.r,
-          backgroundColor: context.ext.colors.primaryLighter.withAlpha(102),
-          backgroundImage: photo != null ? CachedNetworkImageProvider(photo) : null,
-          child: photo == null
-              ? Text(initials, style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700, color: context.ext.colors.primaryDark))
-              : null,
+        BlocBuilder<ProfileCubit, ProfileState>(
+          bloc: getIt<ProfileCubit>(),
+          builder: (context, profileState) {
+            final myPhoto = profileState.profile?.profilePictureUrl;
+            final photoUrl = widget.comment.isMyComment ? myPhoto : widget.comment.userPhoto;
+            
+            final resolvedPhoto = (photoUrl == null || photoUrl.isEmpty)
+                ? null
+                : photoUrl.startsWith('http')
+                    ? photoUrl
+                    : 'http://momease.runasp.net$photoUrl';
+
+            return CircleAvatar(
+              radius: 20.r,
+              backgroundColor: context.ext.colors.primaryLighter.withAlpha(102),
+              backgroundImage: resolvedPhoto != null ? CachedNetworkImageProvider(resolvedPhoto) : null,
+              child: resolvedPhoto == null
+                  ? Text(initials, style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700, color: context.ext.colors.primaryDark))
+                  : null,
+            );
+          },
         ),
         8.width,
         Expanded(

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../core/base/safe_cubit.dart';
 import '../../domain/entity/mother_profile.dart';
@@ -46,7 +47,7 @@ class ProfileCubit extends SafeCubit<ProfileState> {
   }) async {
     if (state.profile == null) return;
 
-    safeEmit(state.copyWith(status: ProfileStatus.updating));
+    safeEmit(state.copyWith(status: ProfileStatus.updating, clearError: true));
 
     final updatedEntity = state.profile!.copyWith(
       isFirstTimeMother: isFirstTimeMother,
@@ -65,26 +66,33 @@ class ProfileCubit extends SafeCubit<ProfileState> {
       (updatedProfile) => safeEmit(state.copyWith(
         status: ProfileStatus.loaded,
         profile: updatedProfile,
+        clearError: true,
       )),
     );
   }
 
   Future<void> uploadPhoto(String filePath) async {
-    safeEmit(state.copyWith(status: ProfileStatus.uploadingPhoto));
+    debugPrint('[ProfileCubit] uploadPhoto started for path: $filePath');
+    safeEmit(state.copyWith(status: ProfileStatus.uploadingPhoto, clearError: true));
 
     final result = await _uploadPhotoUseCase(filePath);
 
     result.fold(
-      (failure) => safeEmit(state.copyWith(
-        status: ProfileStatus.loaded,
-        errorMessage: failure.message,
-      )),
+      (failure) {
+        debugPrint('[ProfileCubit] uploadPhoto failed: ${failure.message}');
+        safeEmit(state.copyWith(
+          status: ProfileStatus.loaded,
+          errorMessage: failure.message,
+        ));
+      },
       (photoUrl) {
+        debugPrint('[ProfileCubit] uploadPhoto succeeded, photoUrl: $photoUrl');
         if (state.profile != null) {
           final updatedProfile = state.profile!.copyWith(profilePictureUrl: photoUrl);
           safeEmit(state.copyWith(
             status: ProfileStatus.loaded,
             profile: updatedProfile,
+            clearError: true,
           ));
         }
       },
@@ -92,21 +100,27 @@ class ProfileCubit extends SafeCubit<ProfileState> {
   }
 
   Future<void> deletePhoto() async {
-    safeEmit(state.copyWith(status: ProfileStatus.deletingPhoto));
+    debugPrint('[ProfileCubit] deletePhoto started');
+    safeEmit(state.copyWith(status: ProfileStatus.deletingPhoto, clearError: true));
 
     final result = await _deletePhotoUseCase();
 
     result.fold(
-      (failure) => safeEmit(state.copyWith(
-        status: ProfileStatus.loaded,
-        errorMessage: failure.message,
-      )),
+      (failure) {
+        debugPrint('[ProfileCubit] deletePhoto failed: ${failure.message}');
+        safeEmit(state.copyWith(
+          status: ProfileStatus.loaded,
+          errorMessage: failure.message,
+        ));
+      },
       (_) {
+        debugPrint('[ProfileCubit] deletePhoto succeeded');
         if (state.profile != null) {
           final updatedProfile = state.profile!.copyWith(profilePictureUrl: null, clearPhoto: true);
           safeEmit(state.copyWith(
             status: ProfileStatus.loaded,
             profile: updatedProfile,
+            clearError: true,
           ));
         }
       },

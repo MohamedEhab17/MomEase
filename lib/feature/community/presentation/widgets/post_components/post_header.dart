@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
@@ -9,6 +11,8 @@ import 'package:new_mama/core/widgets/custom_overlay_menu.dart';
 import 'package:new_mama/feature/community/data/models/post_model.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/post_action_handler.dart';
 import 'package:new_mama/core/extensions/date_time_ex.dart';
+import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart';
+import 'package:new_mama/feature/profile/presentation/view_model/profile_state.dart';
 
 class PostHeader extends StatelessWidget {
   final PostModel post;
@@ -20,23 +24,31 @@ class PostHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ClipOval(
-          child: CustomNetworkImage(
-            imageUrl: post.userPhoto == null
-                ? ''
-                : post.userPhoto!.startsWith('http')
-                    ? post.userPhoto!
-                    : 'http://momease.runasp.net${post.userPhoto!}',
-            width: 50.r,
-            height: 50.r,
-            fit: BoxFit.cover,
-            errorWidget: (context, url, error) => Container(
-              width: 50.r,
-              height: 50.r,
-              color: context.ext.colors.greyExtraLight,
-              child: Icon(Icons.person, color: context.colors.primary, size: 25.r),
-            ),
-          ),
+        BlocBuilder<ProfileCubit, ProfileState>(
+          bloc: getIt<ProfileCubit>(),
+          builder: (context, profileState) {
+            final myPhoto = profileState.profile?.profilePictureUrl;
+            final photoUrl = post.isMyPost ? myPhoto : post.userPhoto;
+
+            return ClipOval(
+              child: CustomNetworkImage(
+                imageUrl: photoUrl == null
+                    ? ''
+                    : photoUrl.startsWith('http')
+                        ? photoUrl
+                        : 'http://momease.runasp.net$photoUrl',
+                width: 50.r,
+                height: 50.r,
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => Container(
+                  width: 50.r,
+                  height: 50.r,
+                  color: context.ext.colors.greyExtraLight,
+                  child: Icon(Icons.person, color: context.colors.primary, size: 25.r),
+                ),
+              ),
+            );
+          },
         ),
         7.width,
         Expanded(

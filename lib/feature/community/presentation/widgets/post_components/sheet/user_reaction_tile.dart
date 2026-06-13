@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_mama/core/extensions/localization_ex.dart';
 import 'package:new_mama/core/extensions/sized_box_ex.dart';
 import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/di/injection.dart';
 import 'package:new_mama/feature/community/data/models/reaction_model.dart';
 import 'package:new_mama/feature/community/presentation/widgets/post_components/reaction_picker.dart';
+import 'package:new_mama/feature/profile/presentation/view_model/profile_cubit.dart';
+import 'package:new_mama/feature/profile/presentation/view_model/profile_state.dart';
 
 class UserReactionTile extends StatelessWidget {
   final ReactionModel reaction;
   const UserReactionTile({super.key, required this.reaction});
 
-  String? get _resolvedPhotoUrl {
-    final photo = reaction.userPhoto;
-    if (photo == null || photo.isEmpty) return null;
-    return photo.startsWith('http') ? photo : 'http://momease.runasp.net$photo';
-  }
-
   @override
   Widget build(BuildContext context) {
     final config = ReactionConfig.byType(reaction.reactionType);
-    final resolvedPhoto = _resolvedPhotoUrl;
     final trimmedName = reaction.userName.trim();
     final initials = trimmedName.isNotEmpty
         ? trimmedName
@@ -39,24 +36,39 @@ class UserReactionTile extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              CircleAvatar(
-                radius: 22.r,
-                backgroundColor: config?.color.withAlpha(38) ??
-                    context.ext.colors.primaryLighter.withAlpha(102),
-                backgroundImage: resolvedPhoto != null
-                    ? CachedNetworkImageProvider(resolvedPhoto)
-                    : null,
-                child: resolvedPhoto == null
-                    ? Text(
-                        initials.toUpperCase(),
-                        style: TextStyle(
-                          color:
-                              config?.color ?? context.ext.colors.primaryDark,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13.sp,
-                        ),
-                      )
-                    : null,
+              BlocBuilder<ProfileCubit, ProfileState>(
+                bloc: getIt<ProfileCubit>(),
+                builder: (context, profileState) {
+                  final myProfile = profileState.profile;
+                  final isMyReaction = myProfile != null && myProfile.userId == reaction.userId;
+                  final photoUrl = isMyReaction ? myProfile.profilePictureUrl : reaction.userPhoto;
+                  
+                  final resolvedPhoto = (photoUrl == null || photoUrl.isEmpty)
+                      ? null
+                      : photoUrl.startsWith('http')
+                          ? photoUrl
+                          : 'http://momease.runasp.net$photoUrl';
+
+                  return CircleAvatar(
+                    radius: 22.r,
+                    backgroundColor: config?.color.withAlpha(38) ??
+                        context.ext.colors.primaryLighter.withAlpha(102),
+                    backgroundImage: resolvedPhoto != null
+                        ? CachedNetworkImageProvider(resolvedPhoto)
+                        : null,
+                    child: resolvedPhoto == null
+                        ? Text(
+                            initials.toUpperCase(),
+                            style: TextStyle(
+                              color:
+                                  config?.color ?? context.ext.colors.primaryDark,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 13.sp,
+                            ),
+                          )
+                        : null,
+                  );
+                },
               ),
               // Small reaction badge at bottom-right
               if (config != null)
