@@ -37,6 +37,7 @@ class TimePickerField extends StatelessWidget {
             onSurface: context.colors.onSurface,
           ),
           timePickerTheme: TimePickerThemeData(
+            backgroundColor: context.theme.cardColor,
             dayPeriodColor: WidgetStateColor.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
                 return context.ext.colors.primaryDark;

@@ -124,7 +124,7 @@ class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
       child: Container(
         padding: 20.vPadding,
         decoration: BoxDecoration(
-          color: context.colors.surface,
+          color: context.theme.cardColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: context.ext.colors.primaryLight),
           boxShadow: [
@@ -136,9 +136,9 @@ class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
           ],
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: .min,
+          mainAxisAlignment: .start,
+          crossAxisAlignment: .start,
           spacing: 20,
           children: widget.items.map((item) => _menuItem(item)).toList(),
         ),
@@ -156,16 +156,14 @@ class _CustomOverlayMenuState<T> extends State<CustomOverlayMenu<T>>
         padding: 12.hPadding,
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: .start,
+          crossAxisAlignment: .center,
           spacing: 12,
           children: [
             Icon(item.icon, size: 20, color: context.colors.onSurface),
             Text(
               item.text,
-              style: context.text.titleLarge!.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: context.text.titleLarge!.copyWith(fontWeight: .w600),
               softWrap: false,
             ),
           ],

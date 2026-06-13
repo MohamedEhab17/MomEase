@@ -22,7 +22,7 @@ class PostHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: .start,
       children: [
         BlocBuilder<ProfileCubit, ProfileState>(
           bloc: getIt<ProfileCubit>(),
@@ -53,19 +53,19 @@ class PostHeader extends StatelessWidget {
         7.width,
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: .start,
             children: [
               Text(
                 post.userName,
                 style: context.text.titleSmall!.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: .w700,
                   color: context.colors.onSurface,
                 ),
               ),
               Text(
                 post.createdAt.toRelativeTime(context),
                 style: context.text.bodyMedium!.copyWith(
-                  fontWeight: FontWeight.w400,
+                  fontWeight: .w400,
                   color: context.ext.colors.lightTextDisabled,
                 ),
               ),
@@ -102,8 +102,8 @@ class PostHeader extends StatelessWidget {
           builder: (context, showMenu) => IconButton(
             icon: Icon(
               Icons.more_vert,
-              size: 24,
-              color: Theme.of(context).colorScheme.onSurface,
+              size: 24.sp,
+              color: context.colors.onSurface,
             ),
             onPressed: showMenu,
           ),
