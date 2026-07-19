@@ -1,5 +1,5 @@
 class Api {
-  static const String baseUrl = 'http://momease.runasp.net/api/';
+  static const String baseUrl = '';
 
   // Auth endpoints
   static const String login = 'Auth/login';
