@@ -1,7 +1,9 @@
+import 'package:new_mama/core/constants/secret_keys.dart';
+
 /// Configuration constants for the chatbot
 class ChatbotConfig {
   /// Google Generative AI API Key
-  static const String apiKey = 'AIzaSyBPk-cARwd0vbMo04el7vIeLrQBt9pAoso';
+  static const String apiKey = SecretKeys.geminiApiKey;
 
   /// Model name to use
   static const String modelName = 'models/gemini-2.5-flash-lite';
