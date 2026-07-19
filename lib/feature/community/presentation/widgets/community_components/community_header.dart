@@ -1,0 +1,58 @@
+import 'package:animate_to/animate_to.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
+import 'package:new_mama/core/routers/app_router_paths.dart';
+import 'package:new_mama/core/utils/app_icons.dart';
+import 'package:new_mama/core/utils/svg_color_mapper.dart';
+import 'package:new_mama/core/widgets/circle_icon_button.dart';
+
+class CommunityHeader extends StatelessWidget {
+  const CommunityHeader({super.key, required this.controller});
+  final AnimateToController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(bottom: 20),
+      child: Row(
+        children: [
+          Text(context.trContext(TK.communityTitle), style: context.text.displaySmall!),
+
+          const Spacer(),
+
+          CircleIconButton(
+            icon: Icons.add,
+            onTap: () {
+              context.push(AppRoutesPaths.createPostCommunityView);
+            },
+          ),
+
+          const SizedBox(width: 12),
+
+          GestureDetector(
+            child: AnimateTo(
+              controller: controller,
+              child: SvgPicture.asset(
+                AppIcons.iconsFilledSave,
+                height: 24.h,
+                width: 16.w,
+                colorMapper: AppSvgColorMapper(
+                  from: Color(0xffFF3381),
+                  to: context.ext.colors.primaryDark,
+                ),
+              ),
+            ),
+            onTap: () {
+              context.push(AppRoutesPaths.savedPostsView);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

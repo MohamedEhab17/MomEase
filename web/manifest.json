@@ -1,6 +1,6 @@
 {
-    "name": "new_mama",
-    "short_name": "new_mama",
+    "name": "MomEase",
+    "short_name": "MomEase",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

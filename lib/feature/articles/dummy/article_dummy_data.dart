@@ -1,0 +1,40 @@
+import '../domain/entities/article.dart';
+
+final List<Article> dummyArticles = [
+  Article(
+    articleId: 1,
+    title: 'Breastfeeding Basics: Getting Started',
+    imageUrl: 'https://images.unsplash.com/photo-1587318795507-9e134a93c47e?w=800',
+    shortDescription: 'Breastfeeding provides optimal nutrition and numerous health benefits for both baby and mother...',
+    categoryName: 'Feeding & Nutrition',
+    isSaved: false,
+    categoryId: 1,
+    readingTimeMinutes: 5,
+    content: 'Full content about breastfeeding basics...',
+    publishedDate: '2024-03-20',
+  ),
+  Article(
+    articleId: 2,
+    title: 'Sleep Training 101',
+    imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800',
+    shortDescription: 'Discover the most effective methods to help your baby sleep through the night...',
+    categoryName: 'Sleep & Routine',
+    isSaved: true,
+    categoryId: 2,
+    readingTimeMinutes: 8,
+    content: 'Full content about sleep training...',
+    publishedDate: '2024-03-18',
+  ),
+  Article(
+    articleId: 3,
+    title: 'Postpartum Self-Care',
+    imageUrl: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=800',
+    shortDescription: 'Taking care of yourself is just as important as taking care of your new baby...',
+    categoryName: 'Mother\'s Health',
+    isSaved: false,
+    categoryId: 3,
+    readingTimeMinutes: 6,
+    content: 'Full content about postpartum self-care...',
+    publishedDate: '2024-03-15',
+  ),
+];

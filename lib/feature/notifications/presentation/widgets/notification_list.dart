@@ -1,0 +1,148 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_mama/core/extensions/localization_ex.dart';
+import 'package:new_mama/core/extensions/sized_box_ex.dart';
+import 'package:new_mama/core/extensions/theme_ex.dart';
+import 'package:new_mama/core/localization/translation_keys.dart';
+import 'package:new_mama/feature/notifications/domain/entities/notification_entity.dart';
+import 'package:new_mama/core/utils/notification_router.dart';
+import 'package:new_mama/core/widgets/delete_confirmation_dialog.dart';
+import 'package:new_mama/core/widgets/custom_elevated_button.dart';
+import '../view_model/notification_cubit.dart';
+import '../view_model/notification_state.dart';
+import 'empty_notifications.dart';
+import 'notification_item.dart';
+import 'notification_skeleton.dart';
+
+class NotificationList extends StatefulWidget {
+  const NotificationList({super.key});
+
+  @override
+  State<NotificationList> createState() => _NotificationListState();
+}
+
+class _NotificationListState extends State<NotificationList> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.9) {
+      // Pagination logic can be added here
+    }
+  }
+
+  void _handleNotificationSelection(BuildContext context, NotificationEntity notification) {
+    // 1. Mark as read in Cubit/state
+    context.read<NotificationCubit>().markAsRead(notification.notificationId);
+
+    // 2. Route dynamically using NotificationRouter
+    NotificationRouter.navigate(
+      context,
+      actionUrl: notification.actionUrl,
+      type: notification.type,
+      relatedEntityId: notification.relatedEntityId,
+      title: notification.title,
+      body: notification.body,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NotificationCubit, NotificationState>(
+      builder: (context, state) {
+        if (state.status == NotificationStatus.initial ||
+            (state.status == NotificationStatus.loading &&
+                state.notifications.isEmpty)) {
+          return const NotificationSkeleton();
+        }
+
+        if (state.status == NotificationStatus.failure &&
+            state.notifications.isEmpty) {
+          return Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline_rounded,
+                    size: 80.r,
+                    color: context.colors.error,
+                  ),
+                  16.h.height,
+                  Text(
+                    state.errorMessage ?? context.trContext(TK.toastError),
+                    style: context.text.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: context.colors.onSurface,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  24.h.height,
+                  CustomElevatedButton(
+                    text: context.trContext(TK.commonRetry),
+                    onPressed: () =>
+                        context.read<NotificationCubit>().getNotifications(),
+                    backgroundColor: context.ext.colors.primaryDark,
+                    minimumSize: Size(160.w, 45.h),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        if (state.notifications.isEmpty &&
+            state.status == NotificationStatus.success) {
+          return const EmptyNotifications();
+        }
+
+        return RefreshIndicator(
+          onRefresh: () =>
+              context.read<NotificationCubit>().getNotifications(),
+          color: context.ext.colors.primaryDark,
+          child: ListView.separated(
+            controller: _scrollController,
+            padding: EdgeInsetsDirectional.only(bottom: 20.h, top: 4.h),
+            itemCount: state.notifications.length,
+            separatorBuilder: (context, index) => 16.h.height,
+            itemBuilder: (context, index) {
+              final notification = state.notifications[index];
+              return NotificationItem(
+                notification: notification,
+                onTap: () => _handleNotificationSelection(context, notification),
+                onDelete: () {
+                  showDialog<bool>(
+                    context: context,
+                    builder: (dialogCtx) => DeleteConfirmationDialog(
+                      title: context.trContext(TK.notificationsDeleteTitle),
+                      content: context.trContext(TK.notificationsDeleteContent),
+                    ),
+                  ).then((confirm) {
+                    if (confirm == true && context.mounted) {
+                      context.read<NotificationCubit>().deleteNotification(notification.notificationId);
+                    }
+                  });
+                },
+                onViewPost: () => _handleNotificationSelection(context, notification),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
